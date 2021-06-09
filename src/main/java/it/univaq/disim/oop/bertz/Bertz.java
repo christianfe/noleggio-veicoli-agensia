@@ -1,9 +1,9 @@
 package it.univaq.disim.oop.bertz;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class Bertz extends Application {
@@ -14,13 +14,11 @@ public class Bertz extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		String javaVersion = System.getProperty("java.version");
-        String javafxVersion = System.getProperty("javafx.version");
-        Label l = new Label("Hello, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ". ciao" );
-        Scene scene = new Scene(new StackPane(l), 640, 480);
-        stage.setScene(scene);
-        stage.show();
-		
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/login.fxml"));
+			Parent loginWindow = loader.load();
+			Scene scene= new Scene(loginWindow);
+			stage.setScene(scene);
+			stage.show();
 	}
 
 }
