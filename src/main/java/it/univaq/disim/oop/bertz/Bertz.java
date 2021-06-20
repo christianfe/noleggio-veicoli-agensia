@@ -14,11 +14,7 @@ public class Bertz extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/login.fxml"));
-			Parent loginWindow = loader.load();
-			Scene scene= new Scene(loginWindow);
-			stage.setScene(scene);
-			stage.show();
+			
 	}
 
 }
