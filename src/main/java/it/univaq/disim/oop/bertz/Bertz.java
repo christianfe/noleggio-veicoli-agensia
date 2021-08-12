@@ -1,9 +1,7 @@
 package it.univaq.disim.oop.bertz;
 
+import it.univaq.disim.oop.bertz.view.ViewDispatcher;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Bertz extends Application {
@@ -14,7 +12,8 @@ public class Bertz extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-			
+		 ViewDispatcher dispatcher = ViewDispatcher.getInstance();
+        dispatcher.loginView(stage);
 	}
 
 }

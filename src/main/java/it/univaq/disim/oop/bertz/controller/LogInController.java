@@ -3,6 +3,7 @@ package it.univaq.disim.oop.bertz.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import it.univaq.disim.oop.bertz.view.ViewDispatcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,20 +20,29 @@ public class LogInController implements Initializable{
 	@FXML
 	private Button logInButton;
 	@FXML
-	private Label labelError; 
+	private Label labelError;
+	@FXML
+	private Button buttonSignup;
 	
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		logInButton.disableProperty().bind(usernameField.textProperty().isEmpty().or(passwordField.textProperty().isEmpty()));
+		//logInButton.disableProperty().bind(usernameField.textProperty().isEmpty().or(passwordField.textProperty().isEmpty()));
 	}
 	
 	@FXML
 	private void logInTry(ActionEvent e) {
-		if (!usernameField.getText().equals("test") || !passwordField.getText().equals("test"))
-			labelError.setText("Sei un down");
-		else labelError.setText("Sei poco un down");
+		if (!usernameField.getText().equals("") || !passwordField.getText().equals(""))
+			labelError.setText("Username e/o password errati!");
+		else {
+			ViewDispatcher dispatcher = ViewDispatcher.getInstance();
+			dispatcher.loggedIn();
+		};
 	}
 	
-	
+	@FXML
+	private void signup(ActionEvent e) {
+		ViewDispatcher dispatcher = ViewDispatcher.getInstance();
+		dispatcher.signup();
+	}
 }
