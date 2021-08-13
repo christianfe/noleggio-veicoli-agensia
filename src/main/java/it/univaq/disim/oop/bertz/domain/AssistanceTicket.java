@@ -10,6 +10,9 @@ public class AssistanceTicket {
 	private LocalDate startDate;
 	private LocalDate endDate;
 
+	private Veicle sostituteVeicle;
+	private Contract contract;
+
 	public TicketState getState() {
 		return state;
 	}
