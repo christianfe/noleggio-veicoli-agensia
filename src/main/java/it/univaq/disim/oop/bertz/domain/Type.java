@@ -1,11 +1,16 @@
 package it.univaq.disim.oop.bertz.domain;
 
-public class Types {
+import java.util.HashSet;
+import java.util.Set;
+
+public class Type {
 
 	private String name;
 	private double priceForKm;
 	private double priceForDay;
 	private Integer id;
+
+	private Set<Veicle> veicles = new HashSet<Veicle>();
 
 	public Integer getId() {
 		return id;

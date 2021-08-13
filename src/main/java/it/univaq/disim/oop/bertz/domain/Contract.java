@@ -10,6 +10,12 @@ public class Contract {
 	private int endKm;
 	private ContractType type;
 	private Integer id;
+	private boolean paid;
+
+	private Feedback feedback;
+	private AssistanceTicket assistance;
+	private Customer customer;
+	private Veicle veicle;
 
 	public Integer getId() {
 		return id;
@@ -21,6 +27,14 @@ public class Contract {
 
 	public LocalDate getStart() {
 		return start;
+	}
+
+	public boolean isPaid() {
+		return paid;
+	}
+
+	public void setPaid(boolean paid) {
+		this.paid = paid;
 	}
 
 	public void setStart(LocalDate start) {
@@ -58,6 +72,5 @@ public class Contract {
 	public void setType(ContractType type) {
 		this.type = type;
 	}
-
 
 }

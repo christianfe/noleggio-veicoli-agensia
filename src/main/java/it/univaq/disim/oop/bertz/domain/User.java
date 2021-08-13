@@ -6,7 +6,7 @@ public class User {
 	private String username;
 	private String password;
 	private String name;
-	
+
 	public Integer getId() {
 		return id;
 	}
@@ -30,7 +30,6 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
 
 	public String getName() {
 		return name;

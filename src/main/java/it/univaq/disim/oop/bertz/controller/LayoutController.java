@@ -2,6 +2,9 @@ package it.univaq.disim.oop.bertz.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import it.univaq.disim.oop.bertz.domain.Admin;
+import it.univaq.disim.oop.bertz.domain.User;
 import it.univaq.disim.oop.bertz.view.MenuElement;
 
 import it.univaq.disim.oop.bertz.view.ViewDispatcher;
@@ -14,7 +17,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 
-public class LayoutController implements Initializable {
+public class LayoutController implements Initializable, DataInitializable<User> {
 	
 	private static final MenuElement MENU_HOME[] ={ new MenuElement("Home", "home"), new MenuElement("Automezzi", ""), new MenuElement("Noleggi", ""), new MenuElement("Manutenzioni", "")};
 	private static final MenuElement MENU_ADMIN =  new MenuElement("Utenti", "user");
@@ -23,6 +26,8 @@ public class LayoutController implements Initializable {
 	private VBox menuBar;
 	
 	private ViewDispatcher dispatcher;
+	
+	private User user;
 
 	public void initialize(URL location, ResourceBundle resources) {
 		this.dispatcher = ViewDispatcher.getInstance();
@@ -35,6 +40,18 @@ public class LayoutController implements Initializable {
 		}
 	}
 	
+	@Override
+	public void initializeData(User user) {
+		this.user = user;
+		for (MenuElement menu : MENU_HOME) {
+			menuBar.getChildren().add(createButton(menu));
+		}
+		menuBar.getChildren().add(new Separator());
+		if (user instanceof Admin)
+			menuBar.getChildren().addAll(createButton(MENU_ADMIN));
+		
+	}
+	
 	private Button createButton(MenuElement viewItem) {
 		Button button = new Button(viewItem.getNome());
 		button.setStyle("-fx-background-color: yellow; -fx-font-size: 14;");
@@ -42,7 +59,7 @@ public class LayoutController implements Initializable {
 		button.setPrefHeight(10);
 		button.setPrefWidth(180);
 		button.setOnAction((ActionEvent event) -> {
-			dispatcher.renderView(viewItem.getVista());
+			dispatcher.renderView(viewItem.getVista(), user);
 		});
 		return button;
 	}
