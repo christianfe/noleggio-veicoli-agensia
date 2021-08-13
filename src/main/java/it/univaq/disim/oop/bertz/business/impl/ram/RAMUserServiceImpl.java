@@ -26,7 +26,7 @@ public class RAMUserServiceImpl implements UserService {
 			user.setPassword(password);
 			user.setName("Admin");
 			return user;
-		} else if ("Staff".equalsIgnoreCase(username)) {
+		} else if ("staff".equalsIgnoreCase(username)) {
 			Staff user = new Staff();
 			user.setUsername(username);
 			user.setPassword(password);

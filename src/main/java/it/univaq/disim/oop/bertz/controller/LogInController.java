@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import it.univaq.disim.oop.bertz.business.BusinessException;
 import it.univaq.disim.oop.bertz.business.UserNotFoundException;
 import it.univaq.disim.oop.bertz.business.UserService;
+import it.univaq.disim.oop.bertz.business.impl.ram.RAMUserServiceImpl;
 import it.univaq.disim.oop.bertz.domain.User;
 import it.univaq.disim.oop.bertz.view.ViewDispatcher;
 import javafx.event.ActionEvent;
@@ -16,7 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-public class LogInController implements Initializable {
+public class LogInController implements Initializable, DataInitializable<Object> {
 	@FXML
 	private TextField usernameField;
 	@FXML
@@ -33,6 +34,7 @@ public class LogInController implements Initializable {
 	private ViewDispatcher dispatcher;
 
 	public LogInController() {
+		userService = new RAMUserServiceImpl();
 		this.dispatcher = ViewDispatcher.getInstance();
 	}
 

@@ -31,24 +31,19 @@ public class LayoutController implements Initializable, DataInitializable<User> 
 
 	public void initialize(URL location, ResourceBundle resources) {
 		this.dispatcher = ViewDispatcher.getInstance();
-		
-		menuBar.getChildren().add(new Separator());
-		for (MenuElement menu : MENU_HOME) {
-			/*for (int i = 0; i < MENU_HOME.lenght; i++)
-				menu -> MENU_HOME[i]*/
-			menuBar.getChildren().add(createButton(menu));
-		}
 	}
 	
 	@Override
 	public void initializeData(User user) {
 		this.user = user;
+		if (user instanceof Admin)
+			menuBar.getChildren().addAll(createButton(MENU_ADMIN));
+		//menuBar.getChildren().add(new Separator());
 		for (MenuElement menu : MENU_HOME) {
 			menuBar.getChildren().add(createButton(menu));
 		}
-		menuBar.getChildren().add(new Separator());
-		if (user instanceof Admin)
-			menuBar.getChildren().addAll(createButton(MENU_ADMIN));
+		
+		
 		
 	}
 	
