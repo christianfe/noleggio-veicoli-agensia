@@ -3,7 +3,6 @@ package it.univaq.disim.oop.bertz.domain;
 public class Types {
 
 	private String name;
-	private License licenseRequired;
 	private double priceForKm;
 	private double priceForDay;
 	private Integer id;
@@ -22,14 +21,6 @@ public class Types {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public License getLicenseRequired() {
-		return licenseRequired;
-	}
-
-	public void setLicenseRequired(License licenseRequired) {
-		this.licenseRequired = licenseRequired;
 	}
 
 	public double getPriceForKm() {

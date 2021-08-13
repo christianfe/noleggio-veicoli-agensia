@@ -9,7 +9,6 @@ public class Contract {
 	private int startKm;
 	private int endKm;
 	private ContractType type;
-	private ContractState state;
 	private Integer id;
 
 	public Integer getId() {
@@ -60,12 +59,5 @@ public class Contract {
 		this.type = type;
 	}
 
-	public ContractState getState() {
-		return state;
-	}
-
-	public void setState(ContractState state) {
-		this.state = state;
-	}
 
 }

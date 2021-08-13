@@ -8,6 +8,8 @@ public class Feedback {
 	private Integer id;
 	private String body;
 	private int valutation;
+	
+	
 	public LocalDate getDate() {
 		return date;
 	}

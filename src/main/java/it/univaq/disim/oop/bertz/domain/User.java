@@ -2,14 +2,11 @@ package it.univaq.disim.oop.bertz.domain;
 
 public class User {
 
+	private Integer id;
 	private String username;
 	private String password;
-	private String mail;
 	private String name;
-	private String taxCode;
-	private String phone;
-	private Integer id;
-
+	
 	public Integer getId() {
 		return id;
 	}
@@ -34,13 +31,6 @@ public class User {
 		this.password = password;
 	}
 
-	public String getMail() {
-		return mail;
-	}
-
-	public void setMail(String mail) {
-		this.mail = mail;
-	}
 
 	public String getName() {
 		return name;
@@ -48,22 +38,6 @@ public class User {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getTaxCode() {
-		return taxCode;
-	}
-
-	public void setTaxCode(String taxCode) {
-		this.taxCode = taxCode;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
 	}
 
 }
