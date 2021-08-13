@@ -24,9 +24,11 @@ public class LogInController implements Initializable{
 	@FXML
 	private Button buttonSignup;
 	
+	private ViewDispatcher dispatcher;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		this.dispatcher = ViewDispatcher.getInstance();
 		//logInButton.disableProperty().bind(usernameField.textProperty().isEmpty().or(passwordField.textProperty().isEmpty()));
 	}
 	
@@ -35,14 +37,12 @@ public class LogInController implements Initializable{
 		if (!usernameField.getText().equals("") || !passwordField.getText().equals(""))
 			labelError.setText("Username e/o password errati!");
 		else {
-			ViewDispatcher dispatcher = ViewDispatcher.getInstance();
-			dispatcher.loggedIn();
+			this.dispatcher.loggedIn();
 		};
 	}
 	
 	@FXML
 	private void signup(ActionEvent e) {
-		ViewDispatcher dispatcher = ViewDispatcher.getInstance();
-		dispatcher.signup();
+		this.dispatcher.signup();
 	}
 }
