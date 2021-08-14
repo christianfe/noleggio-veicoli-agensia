@@ -12,7 +12,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Separator;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
@@ -36,12 +35,11 @@ public class LayoutController implements Initializable, DataInitializable<User> 
 	@Override
 	public void initializeData(User user) {
 		this.user = user;
+		//menuBar.getChildren().add(new Separator());
+		for (MenuElement menu : MENU_HOME)
+			menuBar.getChildren().add(createButton(menu));
 		if (user instanceof Admin)
 			menuBar.getChildren().addAll(createButton(MENU_ADMIN));
-		//menuBar.getChildren().add(new Separator());
-		for (MenuElement menu : MENU_HOME) {
-			menuBar.getChildren().add(createButton(menu));
-		}
 		
 		
 		
