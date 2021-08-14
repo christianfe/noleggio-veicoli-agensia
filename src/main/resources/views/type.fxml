@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="223.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univaq.disim.oop.bertz.controller.TypeController">
+   <children>
+      <Label fx:id="titleLabel" alignment="TOP_CENTER" text="Tipologie di veicoli">
+         <font>
+            <Font size="21.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="10.0" left="10.0" top="10.0" />
+         </VBox.margin>
+      </Label>
+      <TableView fx:id="typesTable" prefHeight="200.0" prefWidth="200.0">
+        <columns>
+          <TableColumn fx:id="nameColumn" prefWidth="166.0" text="Nome" />
+          <TableColumn fx:id="hoursColumn" prefWidth="171.0" text="Tariffa Oraria" />
+            <TableColumn fx:id="kmColumn" prefWidth="170.0" text="Tariffa Chilometrica" />
+            <TableColumn fx:id="actionColumn" prefWidth="92.0" text="Azioni" />
+        </columns>
+      </TableView>
+   </children>
+</VBox>
