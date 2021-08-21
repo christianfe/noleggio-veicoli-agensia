@@ -109,7 +109,9 @@ public class ViewDispatcher {
 	}
 
 	 public void loggedIn(User utente) {
-			try {
+	
+		 
+		 try {
 				View<User> layoutView = loadView("layout");
 				DataInitializable<User> layoutController = layoutView.getController();
 				layoutController.initializeData(utente);
@@ -124,5 +126,7 @@ public class ViewDispatcher {
 				renderError(e);
 			
 			}
+	 	
+	 
 	 }
 }

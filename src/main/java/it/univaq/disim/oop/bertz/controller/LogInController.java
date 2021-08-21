@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 
 public class LogInController implements Initializable, DataInitializable<Object> {
 	@FXML
@@ -28,6 +29,8 @@ public class LogInController implements Initializable, DataInitializable<Object>
 	private Label labelError;
 	@FXML
 	private Button buttonSignup;
+	@FXML
+	private AnchorPane LogInStage;
 
 	private UserService userService;
 
@@ -40,6 +43,9 @@ public class LogInController implements Initializable, DataInitializable<Object>
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
+		LogInStage.setStyle("-fx-background-color: #f1f1f1");
+		
 		logInButton.disableProperty()
 				.bind(usernameField.textProperty().isEmpty().or(passwordField.textProperty().isEmpty()));
 	}

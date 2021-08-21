@@ -4,14 +4,29 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane id="Bertz" fx:id="LogInStage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="533.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univaq.disim.oop.bertz.controller.LogInController">
    <children>
-      <TextField fx:id="usernameField" layoutX="314.0" layoutY="303.0" promptText="Username" />
-      <PasswordField fx:id="passwordField" layoutX="315.0" layoutY="348.0" promptText="Password" />
-      <Button fx:id="logInButton" layoutX="348.0" layoutY="411.0" mnemonicParsing="false" onAction="#logInTry" prefHeight="25.0" prefWidth="81.0" text="Login" />
-      <Label fx:id="labelError" layoutX="376.0" layoutY="267.0" />
-      <Button fx:id="buttonSignup" layoutX="356.0" layoutY="453.0" mnemonicParsing="false" onAction="#signup" text="Registrati" />
+      <TextField fx:id="usernameField" layoutX="312.0" layoutY="301.0" promptText="Username" />
+      <PasswordField fx:id="passwordField" layoutX="312.0" layoutY="336.0" promptText="Password" />
+      <Button fx:id="logInButton" layoutX="304.0" layoutY="385.0" mnemonicParsing="false" onAction="#logInTry" prefHeight="25.0" prefWidth="81.0" text="Login" />
+      <Label fx:id="labelError" layoutX="383.0" layoutY="250.0" prefHeight="17.0" prefWidth="0.0" />
+      <Button fx:id="buttonSignup" layoutX="393.0" layoutY="385.0" mnemonicParsing="false" onAction="#signup" prefHeight="25.0" prefWidth="81.0" text="Registrati" />
+      <ImageView fitHeight="135.0" fitWidth="304.0" layoutX="237.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@sprinter_furgone2.png" />
+         </image>
+      </ImageView>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffdc50" height="39.0" layoutY="494.0" stroke="BLACK" strokeLineCap="BUTT" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="0.0" width="777.0" />
+      <Label layoutX="212.0" layoutY="506.0" text="UNIVAQ 2021 - Laboratorio di programmazione ad oggetti" textAlignment="CENTER" textFill="#2c2c2c">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
