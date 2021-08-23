@@ -10,11 +10,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="398.0" prefWidth="678.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univaq.disim.oop.bertz.controller.UserController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="446.0" prefWidth="778.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univaq.disim.oop.bertz.controller.UserController">
    <children>
-      <Label fx:id="titleLabel" alignment="CENTER" prefHeight="45.0" prefWidth="663.0" text="Manutenzioni">
+      <Label fx:id="titleLabel" alignment="CENTER" prefHeight="34.0" prefWidth="805.0" text="Utenti">
          <font>
-            <Font size="23.0" />
+            <Font size="18.0" />
          </font>
          <padding>
             <Insets left="10.0" />
@@ -27,11 +27,11 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Separator orientation="VERTICAL" prefHeight="28.0" prefWidth="527.0" />
+            <Separator centerShape="false" orientation="VERTICAL" prefHeight="38.0" prefWidth="633.0" style="-fx-opacity: 0;" valignment="BASELINE" />
             <Button mnemonicParsing="false" text="Aggiungi" />
          </children>
       </HBox>
-      <TableView fx:id="staffTable" prefHeight="148.0" prefWidth="544.0">
+      <TableView fx:id="staffTable" prefHeight="148.0" prefWidth="758.0">
         <columns>
           <TableColumn fx:id="idStaffColumn" prefWidth="84.5" text="id" />
           <TableColumn fx:id="usernameStaffColumn" prefWidth="132.0" text="username" />
@@ -42,15 +42,21 @@
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
-      </TableView>
-      <Label text="Clienti">
          <VBox.margin>
-            <Insets top="20.0" />
+            <Insets bottom="30.0" />
          </VBox.margin>
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
+      </TableView>
+      <HBox prefHeight="48.0" prefWidth="658.0">
+         <children>
+            <Label prefHeight="20.0" prefWidth="51.0" text="Clienti">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Separator centerShape="false" orientation="VERTICAL" prefHeight="38.0" prefWidth="641.0" style="-fx-opacity: 0;" valignment="BASELINE" />
+            <Button mnemonicParsing="false" text="Aggiungi" />
+         </children>
+      </HBox>
       <TableView fx:id="customerTable" minHeight="-Infinity" minWidth="-Infinity" prefHeight="148.0" prefWidth="558.0">
          <columns>
             <TableColumn fx:id="idCustomersColumn" prefWidth="84.5" text="id" />

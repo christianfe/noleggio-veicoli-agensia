@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="233.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univaq.disim.oop.bertz.controller.MaintenanceController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="220.0" prefWidth="778.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univaq.disim.oop.bertz.controller.MaintenanceController">
    <children>
-      <Label fx:id="titleLabel" prefHeight="67.0" prefWidth="584.0" text="Manutenzioni">
+      <Label fx:id="titleLabel" alignment="CENTER" prefHeight="47.0" prefWidth="778.0" text="Manutenzioni">
          <font>
             <Font size="18.0" />
          </font>

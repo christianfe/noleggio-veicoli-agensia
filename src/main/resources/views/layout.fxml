@@ -32,7 +32,7 @@
                </HBox.margin>
             </Label>
             <Separator orientation="VERTICAL" prefHeight="63.0" prefWidth="764.0" valignment="BASELINE" />
-            <ImageView fitHeight="35.0" fitWidth="35.0" onMouseClicked="#logoutAction" pickOnBounds="true" preserveRatio="true" smooth="false" style="-fx-cursor: pointer;">
+            <ImageView fitHeight="35.0" fitWidth="35.0" onMouseClicked="#logoutAction" pickOnBounds="true" preserveRatio="true" smooth="false" style="-fx-cursor: hand;">
                <image>
                   <Image url="@logout2.png" />
                </image>
@@ -44,9 +44,12 @@
       </HBox>
    </top>
    <left>
-      <VBox fx:id="menuBar" prefHeight="578.0" prefWidth="183.0" style="-fx-background-color: #FFD817;" BorderPane.alignment="CENTER" />
+      <VBox fx:id="menuBar" prefHeight="578.0" prefWidth="183.0" style="-fx-background-color: #FFD817;" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets top="20.0" />
+         </padding></VBox>
    </left>
    <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fafafa;" BorderPane.alignment="CENTER" />
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="BOTTOM_CENTER" />
    </center>
 </BorderPane>

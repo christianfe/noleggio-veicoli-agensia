@@ -46,8 +46,11 @@ public class LayoutController implements Initializable, DataInitializable<User> 
 	}
 	
 	private Button createButton(MenuElement viewItem) {
+		
+		menuBar.setSpacing(12);
+		
 		Button button = new Button(viewItem.getNome());
-		button.setStyle("-fx-background-color: #FFD817; -fx-font-size: 14; -fx-margin-top: 30px;");
+		button.setStyle("-fx-background-color: #FFD817; -fx-font-size: 16;  -fx-cursor: hand;");
 		button.setTextFill(Paint.valueOf("black"));
 		button.setPrefHeight(10);
 		button.setPrefWidth(180);

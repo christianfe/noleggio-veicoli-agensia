@@ -65,6 +65,7 @@ public class ViewDispatcher {
 			DataInitializable<T> controller = view.getController();
 			controller.initializeData(data);
 			layout.setCenter(view.getView());
+			
 		} catch (ViewException e) {
 			renderError(e);
 		}
