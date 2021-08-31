@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="Bertz" fx:id="LogInStage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="533.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univaq.disim.oop.bertz.controller.LogInController">
+<AnchorPane id="Bertz" fx:id="LogInStage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="533.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univaq.disim.oop.bhertz.controller.LogInController">
    <children>
       <TextField fx:id="usernameField" layoutX="312.0" layoutY="301.0" promptText="Username" />
       <PasswordField fx:id="passwordField" layoutX="312.0" layoutY="336.0" promptText="Password" />

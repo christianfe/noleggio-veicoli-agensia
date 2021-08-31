@@ -39,7 +39,7 @@
 				<artifactId>javafx-maven-plugin</artifactId>
 				<version>0.0.6</version>
 				<configuration>
-					<mainClass>it.univaq.disim.oop.bertz.Bertz</mainClass>
+					<mainClass>it.univaq.disim.oop.bhertz.Bhertz</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
