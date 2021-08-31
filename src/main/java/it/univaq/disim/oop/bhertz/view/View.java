@@ -27,7 +27,5 @@ public class View<T> {
 	public void setController(DataInitializable<T> controller) {
 		this.controller = controller;
 	}
-	
-	
 
 }
