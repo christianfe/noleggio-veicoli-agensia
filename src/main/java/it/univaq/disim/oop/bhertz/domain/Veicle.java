@@ -62,5 +62,20 @@ public class Veicle {
 	public void setConsumption(double consumption) {
 		this.consumption = consumption;
 	}
+	
+	public Type getType() {
+		return type;
+	}
 
+	public void setType(Type type) {
+		this.type = type;
+	}
+
+	public Set<Contract> getContracts() {
+		return contracts;
+	}
+
+	public void setContracts(Set<Contract> contracts) {
+		this.contracts = contracts;
+	}
 }

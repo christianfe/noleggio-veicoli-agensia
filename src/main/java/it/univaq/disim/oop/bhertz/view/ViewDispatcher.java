@@ -85,9 +85,6 @@ public class ViewDispatcher {
 			stage.setScene(scene);
 		} catch (ViewException e) {
 			renderError(e);
-
 		}
-
-
 	}
 }

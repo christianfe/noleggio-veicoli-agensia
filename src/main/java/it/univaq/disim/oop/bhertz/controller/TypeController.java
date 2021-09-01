@@ -23,7 +23,7 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class TypeController implements Initializable, DataInitializable<User>{
+public class TypeController implements Initializable, DataInitializable<User> {
 	@FXML
 	private Label titleLabel;
 	@FXML
@@ -38,8 +38,8 @@ public class TypeController implements Initializable, DataInitializable<User>{
 	private TableColumn<Type, Button> actionColumn;
 
 	private ViewDispatcher dispatcher;
-	private TypesService typesService ;
 
+	private TypesService typesService;
 
 	public TypeController() {
 		dispatcher = ViewDispatcher.getInstance();
@@ -55,19 +55,20 @@ public class TypeController implements Initializable, DataInitializable<User>{
 		actionColumn.setStyle("-fx-alignment: CENTER;");
 		actionColumn.setCellValueFactory((CellDataFeatures<Type, Button> param) -> {
 			final Button veicleButton = new Button("Seleziona");
+
 			veicleButton.setOnAction((ActionEvent event) -> {
-				//dispatcher.renderView("appelli", param.getValue());
+				dispatcher.renderView("veicles", param.getValue());
 			});
 			return new SimpleObjectProperty<Button>(veicleButton);
 		});
 	}
 
 	@Override
-	public void initializeData(User user){
+	public void initializeData(User user) {
 		try {
 			List<Type> types = typesService.getAllTypes();
-			ObservableList<Type> insegnamentiData = FXCollections.observableArrayList(types);
-			typesTable.setItems(insegnamentiData);
+			ObservableList<Type> typesData = FXCollections.observableArrayList(types);
+			typesTable.setItems(typesData);
 		} catch (BusinessException e) {
 			dispatcher.renderError(e);
 		}
