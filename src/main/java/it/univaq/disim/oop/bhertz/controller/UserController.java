@@ -5,7 +5,6 @@ import java.util.ResourceBundle;
 
 import it.univaq.disim.oop.bhertz.domain.Admin;
 import it.univaq.disim.oop.bhertz.domain.Type;
-import it.univaq.disim.oop.bhertz.domain.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

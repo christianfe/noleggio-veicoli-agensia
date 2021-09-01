@@ -1,12 +1,18 @@
 package it.univaq.disim.oop.bhertz.controller;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import it.univaq.disim.oop.bhertz.business.BusinessException;
+import it.univaq.disim.oop.bhertz.business.TypesService;
+import it.univaq.disim.oop.bhertz.business.impl.ram.RAMTypesServiceImpl;
 import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.User;
+import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -31,26 +37,39 @@ public class TypeController implements Initializable, DataInitializable<User>{
 	@FXML
 	private TableColumn<Type, Button> actionColumn;
 
+	private ViewDispatcher dispatcher;
+	private TypesService typesService ;
+
+
+	public TypeController() {
+		dispatcher = ViewDispatcher.getInstance();
+		typesService = new RAMTypesServiceImpl();
+	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		nameColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));
+		nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 		hoursColumn.setCellValueFactory(new PropertyValueFactory<>("priceForDay"));
 		kmColumn.setCellValueFactory(new PropertyValueFactory<>("priceForKm"));
-			
-		
+
 		actionColumn.setStyle("-fx-alignment: CENTER;");
 		actionColumn.setCellValueFactory((CellDataFeatures<Type, Button> param) -> {
-			final Button veicleButton = new Button("Appelli");
+			final Button veicleButton = new Button("Seleziona");
 			veicleButton.setOnAction((ActionEvent event) -> {
 				//dispatcher.renderView("appelli", param.getValue());
 			});
 			return new SimpleObjectProperty<Button>(veicleButton);
 		});
 	}
-	
+
 	@Override
 	public void initializeData(User user){
-		titleLabel.setText("Noleggi in corso " + user.getName());
+		try {
+			List<Type> types = typesService.getAllTypes();
+			ObservableList<Type> insegnamentiData = FXCollections.observableArrayList(types);
+			typesTable.setItems(insegnamentiData);
+		} catch (BusinessException e) {
+			dispatcher.renderError(e);
+		}
 	}
 }

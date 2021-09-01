@@ -81,6 +81,7 @@ public class ViewDispatcher {
 			layout = (BorderPane) layoutView.getView();
 			renderView("home", utente);
 			Scene scene = new Scene(layout);
+			scene.getStylesheets().add(getClass().getResource(RESOURCE_BASE + "style.css").toExternalForm());
 			stage.setScene(scene);
 		} catch (ViewException e) {
 			renderError(e);
