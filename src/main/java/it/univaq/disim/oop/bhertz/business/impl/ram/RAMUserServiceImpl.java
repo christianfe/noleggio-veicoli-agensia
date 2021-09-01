@@ -1,5 +1,10 @@
 package it.univaq.disim.oop.bhertz.business.impl.ram;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.UserNotFoundException;
 import it.univaq.disim.oop.bhertz.business.UserService;
@@ -17,29 +22,48 @@ public class RAMUserServiceImpl implements UserService {
 	 * this.corsoDiLaureaService = corsoDiLaureaService; }
 	 * 
 	 */
+	private Map<Integer, User> users = new HashMap<>();
+
+	public RAMUserServiceImpl() {
+		User admin = new Admin(1,"Administrator", "admin", "admin");
+		users.put(admin.getId(), admin);
+		User staff = new Staff(2,"Operatore", "staff", "staff");
+		users.put(staff.getId(), staff);
+		User mrossi = new Staff(4,"Rossi Mario", "mrossi", "mrossi");
+		users.put(mrossi.getId(), mrossi);
+		User user = new Customer(3, "Cliente", "user", "user");
+		users.put(user.getId(), user);
+		User user1 = new Customer(5, "Cliente1", "user1", "user1");
+		users.put(user1.getId(), user1);
+		User user2 = new Customer(6, "Cliente2", "user2", "user2");
+		users.put(user2.getId(), user2);
+	}
 
 	@Override
 	public User authenticate(String username, String password) throws BusinessException {
-		if ("admin".equalsIgnoreCase(username)) {
-			Admin user = new Admin();
-			user.setUsername(username);
-			user.setPassword(password);
-			user.setName("Admin");
-			return user;
-		} else if ("staff".equalsIgnoreCase(username)) {
-			Staff user = new Staff();
-			user.setUsername(username);
-			user.setPassword(password);
-			user.setName("Operatore");
-			return user;
-		} else if ("customer".equalsIgnoreCase(username)) {
-			Customer user = new Customer();
-			user.setUsername(username);
-			user.setPassword(password);
-			user.setName("Cliente");
-			return user;
+		
+		for (User u : users.values()) {
+		//	if (u.getUsername().equalsIgnoreCase(username) && u.getPassword().equalsIgnoreCase(password))
+				return u;
 		}
 		throw new UserNotFoundException();
+ 
 	}
 
+	@Override
+	public User getusersByID(int id) throws BusinessException {
+		users.get(id);
+		return null;
+	}
+
+	@Override
+	public List<User> getUserByRole(int r) throws BusinessException {
+		List<User> result = new ArrayList<>();
+
+		for (User u : users.values())
+			if (u.getRole() == r)
+				result.add(u);
+		return result;
+	}
+	
 }

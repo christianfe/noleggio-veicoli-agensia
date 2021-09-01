@@ -65,7 +65,7 @@ public class LogInController implements Initializable, DataInitializable<Object>
 	public void initialize(URL location, ResourceBundle resources) {
 
 		LogInStage.setStyle("-fx-background-color: #f1f1f1");
-		logInButton.disableProperty().bind(usernameField.textProperty().isEmpty().or(passwordField.textProperty().isEmpty()));
+		//logInButton.disableProperty().bind(usernameField.textProperty().isEmpty().or(passwordField.textProperty().isEmpty()));
 		registerButton.disableProperty().bind(newUsernameField.textProperty().isEmpty().or(newNameField.textProperty().isEmpty().or(NewPasswordField.textProperty().isEmpty().or(NewPasswordRepeatField.textProperty().isEmpty()))));
 	}
 

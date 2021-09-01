@@ -36,7 +36,6 @@
           <TableColumn fx:id="idStaffColumn" prefWidth="84.5" text="id" />
           <TableColumn fx:id="usernameStaffColumn" prefWidth="132.0" text="username" />
             <TableColumn fx:id="nameStaffColumn" prefWidth="110.0" text="nome" />
-            <TableColumn fx:id="telStaffColumn" minWidth="0.0" prefWidth="102.0" text="telefono" />
             <TableColumn fx:id="actionStaffColumn" prefWidth="75.0" text="azioni" />
         </columns>
          <columnResizePolicy>
@@ -62,7 +61,6 @@
             <TableColumn fx:id="idCustomersColumn" prefWidth="84.5" text="id" />
             <TableColumn fx:id="usernameCustomersColumn" prefWidth="132.0" text="username" />
             <TableColumn fx:id="nameCustomersColumn" prefWidth="110.0" text="nome" />
-            <TableColumn fx:id="telCustomersColumn" minWidth="0.0" prefWidth="102.0" text="telefono" />
             <TableColumn fx:id="actionCustomersColumn" prefWidth="75.0" text="azioni" />
          </columns>
          <VBox.margin>

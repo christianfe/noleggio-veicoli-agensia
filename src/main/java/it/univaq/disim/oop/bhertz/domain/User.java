@@ -1,11 +1,20 @@
 package it.univaq.disim.oop.bhertz.domain;
 
-public class User {
+public abstract class User {
 
 	private Integer id;
 	private String username;
 	private String password;
 	private String name;
+	
+	public User(int id, String name, String username, String pass) {
+		this.id = id;
+		this.name = name;
+		this.username = username;
+		this.password = pass;
+	}
+	
+	public abstract int getRole();
 
 	public Integer getId() {
 		return id;

@@ -39,7 +39,6 @@ public class LayoutController implements Initializable, DataInitializable<User> 
 			menuBar.getChildren().add(createButton(menu));
 		if (user instanceof Admin)
 			menuBar.getChildren().addAll(createButton(MENU_ADMIN));
-		
 	}
 	
 	private Button createButton(MenuElement viewItem) {

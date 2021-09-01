@@ -14,6 +14,7 @@ import it.univaq.disim.oop.bhertz.domain.Veicle;
 import it.univaq.disim.oop.bhertz.domain.VeicleState;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -58,10 +59,16 @@ public class VeiclesController implements Initializable, DataInitializable<Type>
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		modelColumn.setCellValueFactory(new PropertyValueFactory<>("model"));
-		consumiColumn.setCellValueFactory(new PropertyValueFactory<>("consumption"));
-		kmColumn.setCellValueFactory(new PropertyValueFactory<>("km"));
+		consumiColumn.setCellValueFactory((CellDataFeatures<Veicle, String> param) -> {
+			return new SimpleStringProperty(param.getValue().getConsumption() + " km/l");
+		});
+		kmColumn.setCellValueFactory((CellDataFeatures<Veicle, String> param) -> {
+			return new SimpleStringProperty(param.getValue().getKm() + " km");
+		});
 		stateColumn.setCellValueFactory(new PropertyValueFactory<>("state"));
 
+		
+		
 		actionColumn.setStyle("-fx-alignment: CENTER;");
 		actionColumn.setCellValueFactory((CellDataFeatures<Veicle, Button> param) -> {
 			final Button veicleButton = new Button("Seleziona");

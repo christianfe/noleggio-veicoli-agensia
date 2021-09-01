@@ -9,8 +9,10 @@ import it.univaq.disim.oop.bhertz.business.TypesService;
 import it.univaq.disim.oop.bhertz.business.impl.ram.RAMTypesServiceImpl;
 import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.User;
+import it.univaq.disim.oop.bhertz.domain.Veicle;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -49,8 +51,12 @@ public class TypeController implements Initializable, DataInitializable<User> {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-		hoursColumn.setCellValueFactory(new PropertyValueFactory<>("priceForDay"));
-		kmColumn.setCellValueFactory(new PropertyValueFactory<>("priceForKm"));
+		hoursColumn.setCellValueFactory((CellDataFeatures<Type, String> param) -> {
+			return new SimpleStringProperty(param.getValue().getPriceForDay()+ " €/h");
+		});
+		kmColumn.setCellValueFactory((CellDataFeatures<Type, String> param) -> {
+			return new SimpleStringProperty(param.getValue().getPriceForKm()+ " €/km");
+		});
 
 		actionColumn.setStyle("-fx-alignment: CENTER;");
 		actionColumn.setCellValueFactory((CellDataFeatures<Type, Button> param) -> {
