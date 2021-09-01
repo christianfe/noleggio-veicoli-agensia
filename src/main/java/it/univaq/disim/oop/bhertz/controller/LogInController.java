@@ -50,7 +50,7 @@ public class LogInController implements Initializable, DataInitializable<Object>
 	private Pane registerPane;
 	@FXML
 	private AnchorPane LogInStage;
-	
+
 
 	private UserService userService;
 
@@ -63,11 +63,10 @@ public class LogInController implements Initializable, DataInitializable<Object>
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+
 		LogInStage.setStyle("-fx-background-color: #f1f1f1");
-		
-		logInButton.disableProperty()
-				.bind(usernameField.textProperty().isEmpty().or(passwordField.textProperty().isEmpty()));
+		logInButton.disableProperty().bind(usernameField.textProperty().isEmpty().or(passwordField.textProperty().isEmpty()));
+		registerButton.disableProperty().bind(newUsernameField.textProperty().isEmpty().or(newNameField.textProperty().isEmpty().or(NewPasswordField.textProperty().isEmpty().or(NewPasswordRepeatField.textProperty().isEmpty()))));
 	}
 
 	@FXML
@@ -80,20 +79,14 @@ public class LogInController implements Initializable, DataInitializable<Object>
 		} catch (BusinessException e) {
 			dispatcher.renderError(e);
 		}
-		/*
-		 * if (!usernameField.getText().equals("") ||
-		 * !passwordField.getText().equals(""))
-		 * labelError.setText("Username e/o password errati!"); else {
-		 * this.dispatcher.loggedIn(); }
-		 */
 	}
 
 	@FXML
 	private void signup(ActionEvent e) {
-		if (!NewPasswordField.textProperty().equals(NewPasswordRepeatField.textProperty()))
+		if (!NewPasswordField.getText().equals(NewPasswordRepeatField.getText()))
 			labelErrorSignup.setText("Le password immesse sono diverse!");
 	}
-	
+
 	@FXML
 	private void switchView(ActionEvent e) {
 		registerPane.setVisible(loginPane.isVisible());
