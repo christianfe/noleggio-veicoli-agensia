@@ -105,9 +105,6 @@ public class ViewDispatcher {
 		}
 	}
 
-	public void signup(){
-		System.out.println("CALMA, prima o poi arriverà");
-	}
 
 	 public void loggedIn(User utente) {
 	

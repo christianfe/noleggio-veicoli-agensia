@@ -17,20 +17,40 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 
 public class LogInController implements Initializable, DataInitializable<Object> {
 	@FXML
 	private TextField usernameField;
 	@FXML
+	private TextField newUsernameField;
+	@FXML
+	private TextField newNameField;
+	@FXML
 	private PasswordField passwordField;
+	@FXML
+	private PasswordField NewPasswordField;
+	@FXML
+	private PasswordField NewPasswordRepeatField;
 	@FXML
 	private Button logInButton;
 	@FXML
-	private Label labelError;
+	private Label labelErrorSignup;
+	@FXML
+	private Label labelErrorLogin;
 	@FXML
 	private Button buttonSignup;
 	@FXML
+	private Button registerButton;
+	@FXML
+	private Button backSignup;
+	@FXML
+	private Pane loginPane;
+	@FXML
+	private Pane registerPane;
+	@FXML
 	private AnchorPane LogInStage;
+	
 
 	private UserService userService;
 
@@ -56,7 +76,7 @@ public class LogInController implements Initializable, DataInitializable<Object>
 			User user = userService.authenticate(usernameField.getText(), passwordField.getText());
 			dispatcher.loggedIn(user);
 		} catch (UserNotFoundException e) {
-			labelError.setText("Username e/o password errati!");
+			labelErrorLogin.setText("Username e/o password errati!");
 		} catch (BusinessException e) {
 			dispatcher.renderError(e);
 		}
@@ -70,6 +90,15 @@ public class LogInController implements Initializable, DataInitializable<Object>
 
 	@FXML
 	private void signup(ActionEvent e) {
-		this.dispatcher.signup();
+		if (!NewPasswordField.textProperty().equals(NewPasswordRepeatField.textProperty()))
+			labelErrorSignup.setText("Le password immesse sono diverse!");
+	}
+	
+	@FXML
+	private void switchView(ActionEvent e) {
+		registerPane.setVisible(loginPane.isVisible());
+		loginPane.setVisible(!loginPane.isVisible());
+		labelErrorSignup.setText("");
+		labelErrorLogin.setText("");
 	}
 }

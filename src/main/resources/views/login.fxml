@@ -7,26 +7,52 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="Bertz" fx:id="LogInStage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="533.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univaq.disim.oop.bhertz.controller.LogInController">
    <children>
-      <TextField fx:id="usernameField" layoutX="312.0" layoutY="301.0" promptText="Username" />
-      <PasswordField fx:id="passwordField" layoutX="312.0" layoutY="336.0" promptText="Password" />
-      <Button fx:id="logInButton" layoutX="304.0" layoutY="385.0" mnemonicParsing="false" onAction="#logInTry" prefHeight="25.0" prefWidth="81.0" text="Login" />
-      <Label fx:id="labelError" layoutX="383.0" layoutY="250.0" prefHeight="17.0" prefWidth="0.0" />
-      <Button fx:id="buttonSignup" layoutX="393.0" layoutY="385.0" mnemonicParsing="false" onAction="#signup" prefHeight="25.0" prefWidth="81.0" text="Registrati" />
-      <ImageView fitHeight="135.0" fitWidth="304.0" layoutX="237.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="236.0" fitWidth="406.0" layoutX="9.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@sprinter_furgone2.png" />
          </image>
       </ImageView>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffdc50" height="39.0" layoutY="494.0" stroke="BLACK" strokeLineCap="BUTT" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="0.0" width="777.0" />
-      <Label layoutX="212.0" layoutY="506.0" text="UNIVAQ 2021 - Laboratorio di programmazione ad oggetti" textAlignment="CENTER" textFill="#2c2c2c">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffdc50" height="39.0" layoutY="496.0" stroke="BLACK" strokeLineCap="BUTT" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="0.0" width="777.0" />
+      <Label alignment="CENTER" layoutX="181.0" layoutY="508.0" text="UNIVAQ - A.A 2020/21 - Laboratorio di programmazione ad oggetti" textAlignment="CENTER" textFill="#2c2c2c">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </Label>
+      <Pane fx:id="loginPane" layoutX="490.0" layoutY="143.0" prefHeight="215.0" prefWidth="247.0">
+         <children>
+            <TextField fx:id="usernameField" alignment="CENTER" layoutX="24.0" layoutY="69.0" prefHeight="25.0" prefWidth="200.0" promptText="Username" />
+            <PasswordField fx:id="passwordField" alignment="CENTER" layoutX="24.0" layoutY="106.0" prefHeight="25.0" prefWidth="200.0" promptText="Password" />
+            <Button fx:id="logInButton" layoutX="128.0" layoutY="144.0" mnemonicParsing="false" onAction="#logInTry" prefHeight="25.0" prefWidth="96.0" text="Login" />
+            <Button fx:id="buttonSignup" layoutX="24.0" layoutY="144.0" mnemonicParsing="false" onAction="#switchView" prefHeight="25.0" prefWidth="96.0" text="Registrati" />
+            <Label fx:id="labelErrorLogin" alignment="CENTER" layoutX="24.0" layoutY="184.0" prefHeight="17.0" prefWidth="200.0" textFill="RED" />
+            <Label alignment="CENTER" layoutX="24.0" layoutY="14.0" prefHeight="30.0" prefWidth="200.0" text="Login Utente">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="registerPane" layoutX="490.0" layoutY="143.0" prefHeight="243.0" prefWidth="247.0" visible="false">
+         <children>
+            <TextField fx:id="newNameField" alignment="CENTER" layoutX="23.0" layoutY="46.0" prefHeight="25.0" prefWidth="200.0" promptText="Cognome e Nome" />
+            <TextField fx:id="newUsernameField" alignment="CENTER" layoutX="24.0" layoutY="77.0" prefHeight="25.0" prefWidth="200.0" promptText="Username" />
+            <PasswordField fx:id="NewPasswordField" alignment="CENTER" layoutX="23.0" layoutY="110.0" prefHeight="25.0" prefWidth="200.0" promptText="Password" />
+            <PasswordField fx:id="NewPasswordRepeatField" alignment="CENTER" layoutX="24.0" layoutY="146.0" prefHeight="25.0" prefWidth="200.0" promptText="Ripeti Password" />
+            <Button fx:id="registerButton" layoutX="128.0" layoutY="180.0" mnemonicParsing="false" onAction="#signup" prefHeight="25.0" prefWidth="96.0" text="Registrati" />
+            <Button fx:id="backButton" layoutX="23.0" layoutY="180.0" mnemonicParsing="false" onAction="#switchView" prefHeight="25.0" prefWidth="96.0" text="Annulla" />
+            <Label alignment="CENTER" layoutX="23.0" layoutY="6.0" prefHeight="30.0" prefWidth="200.0" text="Registrazione Utente">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="labelErrorSignup" alignment="CENTER" layoutX="23.0" layoutY="212.0" prefHeight="17.0" prefWidth="200.0" textFill="RED" />
+         </children>
+      </Pane>
    </children>
 </AnchorPane>
