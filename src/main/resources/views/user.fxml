@@ -28,10 +28,10 @@
                </font>
             </Label>
             <Separator centerShape="false" orientation="VERTICAL" prefHeight="38.0" prefWidth="633.0" style="-fx-opacity: 0;" valignment="BASELINE" />
-            <Button mnemonicParsing="false" text="Aggiungi" />
+            <Button fx:id="addOperatorButton" mnemonicParsing="false" onAction="#addOperatorAction" text="Aggiungi" />
          </children>
       </HBox>
-      <TableView fx:id="staffTable" prefHeight="148.0" prefWidth="758.0">
+      <TableView fx:id="staffTable" prefHeight="213.0" prefWidth="758.0">
         <columns>
           <TableColumn fx:id="idStaffColumn" prefWidth="84.5" text="id" />
           <TableColumn fx:id="usernameStaffColumn" prefWidth="132.0" text="username" />
@@ -45,18 +45,16 @@
             <Insets bottom="30.0" />
          </VBox.margin>
       </TableView>
-      <HBox prefHeight="48.0" prefWidth="658.0">
+      <HBox prefHeight="47.0" prefWidth="758.0">
          <children>
             <Label prefHeight="20.0" prefWidth="51.0" text="Clienti">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Separator centerShape="false" orientation="VERTICAL" prefHeight="38.0" prefWidth="641.0" style="-fx-opacity: 0;" valignment="BASELINE" />
-            <Button mnemonicParsing="false" text="Aggiungi" />
          </children>
       </HBox>
-      <TableView fx:id="customerTable" minHeight="-Infinity" minWidth="-Infinity" prefHeight="148.0" prefWidth="558.0">
+      <TableView fx:id="customerTable" minHeight="-Infinity" minWidth="-Infinity" prefHeight="241.0" prefWidth="758.0">
          <columns>
             <TableColumn fx:id="idCustomersColumn" prefWidth="84.5" text="id" />
             <TableColumn fx:id="usernameCustomersColumn" prefWidth="132.0" text="username" />

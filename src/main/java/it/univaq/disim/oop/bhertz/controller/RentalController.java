@@ -73,22 +73,14 @@ public class RentalController implements Initializable, DataInitializable<User>{
 			return new SimpleStringProperty(param.getValue().getStart().toString().substring(5) + " / " + param.getValue().getEnd().toString().substring(5));
 		});
 	
-		//paymentColumn.setCellValueFactory(new PropertyValueFactory<>("paid")); 
 		paymentColumn.setStyle("-fx-alignment: CENTER;");
 		paymentColumn.setCellValueFactory((CellDataFeatures<Contract, String> param) -> {
-			/*String Answer;
-			if (param.getValue().isPaid())
-				Answer = "si";
-			else Answer = "no";*/
 			return new SimpleStringProperty(param.getValue().isPaid() ? "SI":"NO");
 		});
-		
-		
-		
+
 		actionColumn.setStyle("-fx-alignment: CENTER;");
 		actionColumn.setCellValueFactory((CellDataFeatures<Contract, Button> param) -> {
 			final Button rentalButton = new Button("Bottone");
-
 			rentalButton.setOnAction((ActionEvent event) -> {
 				//dispatcher.renderView("veicles", param.getValue());
 				System.out.println("bravo, ci sei riuscito");
@@ -96,7 +88,6 @@ public class RentalController implements Initializable, DataInitializable<User>{
 			return new SimpleObjectProperty<Button>(rentalButton);
 		});
 	}
-	
 	
 	@Override
 	public void initializeData(User user) {

@@ -25,7 +25,7 @@ public class RAMTypesServiceImpl implements TypesService{
 		Type moto = new Type();
 		moto.setName("Moto");
 		moto.setId(2);
-		moto.setPriceForDay(20);
+		moto.setPriceForDay(21);
 		moto.setPriceForKm(0.25);
 		types.put(moto.getId(), moto);
 	}

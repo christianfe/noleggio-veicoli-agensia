@@ -99,11 +99,10 @@ public class UserController implements Initializable, DataInitializable<Object>{
 		} catch (BusinessException e) {
 			dispatcher.renderError(e);
 		}
-
 	}
 
-	public void addStaffUser (ActionEvent event) {
-		
+	public void addOperatorAction (ActionEvent event) {
+		dispatcher.renderView("addUser", null);
 	}
 	
 }
