@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.TypesService;
 import it.univaq.disim.oop.bhertz.business.impl.ram.RAMTypesServiceImpl;
+import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
@@ -23,6 +24,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
@@ -41,17 +43,22 @@ public class TypeController implements Initializable, DataInitializable<User> {
 	@FXML
 	private TableColumn<Type, String> kmColumn;
 	@FXML
-	private TableColumn<Type, Button> actionColumn;
+	private TableColumn<Type, MenuButton> actionColumn;
 
 	private ViewDispatcher dispatcher;
 
 	private TypesService typesService;
-	private ContextMenu menu;
+	private User user;
+
+	private MenuButton localMenuButton;
+	private MenuItem menuView;
+	private MenuItem menuEdit;
+	private MenuItem menuDelete;
 
 	public TypeController() {
-		menu = new ContextMenu();
 		dispatcher = ViewDispatcher.getInstance();
-		typesService = new RAMTypesServiceImpl();
+		typesService = new RAMTypesServiceImpl();	
+
 	}
 
 	@Override
@@ -65,21 +72,24 @@ public class TypeController implements Initializable, DataInitializable<User> {
 		});
 
 		actionColumn.setStyle("-fx-alignment: CENTER;");
-		actionColumn.setCellValueFactory((CellDataFeatures<Type, Button> param) -> {
-			final Button button = new Button("Seleziona");
-			button.setOnAction((ActionEvent event) -> {
-					
-					try {
-						Robot robot = new Robot();
-						robot.mousePress(InputEvent.BUTTON3_DOWN_MASK);
-						robot.mouseRelease(InputEvent.BUTTON3_DOWN_MASK);
-					} catch (AWTException e) {
-						e.printStackTrace();
-					}
+		actionColumn.setCellValueFactory((CellDataFeatures<Type, MenuButton> param) -> {
+			localMenuButton = new MenuButton("Menu");
+
+			menuView = new MenuItem("Visualizza Veicoli");
+			menuEdit = new MenuItem("Modifica Tipologia");
+			menuDelete = new MenuItem("Elimina Tipologia");
+			localMenuButton.getItems().add(menuView);
+			if (this.user.getRole() == 0) {
+				localMenuButton.getItems().add(menuEdit);
+				localMenuButton.getItems().add(menuDelete);
+			}
+			
+
+			menuView.setOnAction((ActionEvent event) -> {
+				dispatcher.renderView("veicles", param.getValue());
 			});
-			return new SimpleObjectProperty<Button>(button);
-		});
-	}
+			return new SimpleObjectProperty<MenuButton>(localMenuButton);
+		});	}
 
 	@Override
 	public void initializeData(User user) {
@@ -90,6 +100,9 @@ public class TypeController implements Initializable, DataInitializable<User> {
 		} catch (BusinessException e) {
 			dispatcher.renderError(e);
 		}
+		this.user = user;
+
+		/*
 		MenuItem menuView = new MenuItem("Visualizza Veicoli");
 		MenuItem menuEdit = new MenuItem("Modifica Tipologia");
 		MenuItem menuDelete = new MenuItem("Elimina Tipologia");
@@ -97,11 +110,11 @@ public class TypeController implements Initializable, DataInitializable<User> {
 		    Object param = typesTable.getSelectionModel().getSelectedItem();
 		    dispatcher.renderView("veicles", param);
 		});
-		menu.getItems().add(menuView);
+		localMenuButton.getItems().add(menuView);
 		if (user.getRole() == 0) {
 			menu.getItems().add(menuEdit);
 			menu.getItems().add(menuDelete);
 		}
-		typesTable.setContextMenu(menu);
+		typesTable.setContextMenu(menu);*/
 	}
 }
