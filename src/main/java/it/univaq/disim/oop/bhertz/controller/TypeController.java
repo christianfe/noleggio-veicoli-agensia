@@ -78,7 +78,6 @@ public class TypeController implements Initializable, DataInitializable<User> {
 				localMenuButton.getItems().add(menuEdit);
 				localMenuButton.getItems().add(menuDelete);
 			}
-			
 
 			menuView.setOnAction((ActionEvent event) -> {
 				dispatcher.renderView("veicles", param.getValue());
@@ -88,6 +87,7 @@ public class TypeController implements Initializable, DataInitializable<User> {
 
 	@Override
 	public void initializeData(User user) {
+		this.user = user;
 		try {
 			List<Type> types = typesService.getAllTypes();
 			ObservableList<Type> typesData = FXCollections.observableArrayList(types);
@@ -95,6 +95,6 @@ public class TypeController implements Initializable, DataInitializable<User> {
 		} catch (BusinessException e) {
 			dispatcher.renderError(e);
 		}
-		this.user = user;
+	
 	}
 }
