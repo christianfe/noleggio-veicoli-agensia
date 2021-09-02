@@ -45,9 +45,9 @@ public class TypeController implements Initializable, DataInitializable<User> {
 	private TypesService typesService;
 	private User user;
 
-		public TypeController() {
+	public TypeController() {
 		dispatcher = ViewDispatcher.getInstance();
-		typesService = new RAMTypesServiceImpl();	
+		typesService = new RAMTypesServiceImpl();
 
 	}
 
@@ -64,7 +64,7 @@ public class TypeController implements Initializable, DataInitializable<User> {
 
 		actionColumn.setStyle("-fx-alignment: CENTER;");
 		actionColumn.setCellValueFactory((CellDataFeatures<Type, MenuButton> param) -> {
-			MenuButton localMenuButton= new MenuButton("Menu");
+			MenuButton localMenuButton = new MenuButton("Menu");
 
 			MenuItem menuView = new MenuItem("Visualizza Veicoli");
 			MenuItem menuEdit = new MenuItem("Modifica Tipologia");
@@ -78,8 +78,16 @@ public class TypeController implements Initializable, DataInitializable<User> {
 			menuView.setOnAction((ActionEvent event) -> {
 				dispatcher.renderView("veicles", new ObjectsCollector(user, param.getValue()));
 			});
+			menuEdit.setOnAction((ActionEvent event) -> {
+
+			});
+			menuDelete.setOnAction((ActionEvent event) -> {
+
+			});
+
 			return new SimpleObjectProperty<MenuButton>(localMenuButton);
-		});	}
+		});
+	}
 
 	@Override
 	public void initializeData(User user) {

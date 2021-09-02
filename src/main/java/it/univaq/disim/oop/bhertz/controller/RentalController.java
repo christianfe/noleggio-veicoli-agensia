@@ -88,10 +88,10 @@ public class RentalController implements Initializable, DataInitializable<User>{
 
 		actionColumn.setStyle("-fx-alignment: CENTER;");
 		actionColumn.setCellValueFactory((CellDataFeatures<Contract, MenuButton> param) -> {
-			final MenuButton localMenuButton = new MenuButton("Menu");
+			MenuButton localMenuButton = new MenuButton("Menu");
 			
-			final MenuItem richiestaAssistenza = new MenuItem("Richiedi Assistenza");
-			final MenuItem gestioneRiconsegna = new MenuItem("Gestisci Riconsegna");
+			MenuItem richiestaAssistenza = new MenuItem("Richiedi Assistenza");
+			MenuItem gestioneRiconsegna = new MenuItem("Gestisci Riconsegna");
 			
 			richiestaAssistenza.setOnAction((ActionEvent event) -> {
 				System.out.println("richiesta assistenza");
@@ -110,11 +110,6 @@ public class RentalController implements Initializable, DataInitializable<User>{
 			
 			return new SimpleObjectProperty<MenuButton>(localMenuButton);
 		});
-		
-		
-		
-		
-		
 		
 	}
 	

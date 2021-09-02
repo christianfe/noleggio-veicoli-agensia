@@ -40,6 +40,13 @@ public class RAMMaintenanceServiceImpl implements MaintenanceService{
 		t2.setContract(contractService.getContractByID(2));
 		t2.setId(2);
 		tickets.put(t2.getId(), t2);
+		
+		AssistanceTicket t3 = new AssistanceTicket();
+		t3.setDescription("cambio olio");
+		t3.setState(TicketState.ENDED);
+		t3.setContract(contractService.getContractByID(3));
+		t3.setId(3);
+		tickets.put(t3.getId(), t3);
 	}
 	
 	

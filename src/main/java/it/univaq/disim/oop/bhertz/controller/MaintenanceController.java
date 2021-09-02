@@ -20,6 +20,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
@@ -38,11 +40,11 @@ public class MaintenanceController implements Initializable, DataInitializable<U
 	@FXML
 	private TableColumn<AssistanceTicket, TicketState> stateColumn;
 	@FXML
-	private TableColumn<AssistanceTicket, Button> actionColumn;
-	
+	private TableColumn<AssistanceTicket, MenuButton> actionColumn;
+
 	private ViewDispatcher dispatcher;
 	private MaintenanceService maintenanceService;
-	
+
 	public MaintenanceController() {
 		dispatcher = ViewDispatcher.getInstance();
 		try {
@@ -51,8 +53,7 @@ public class MaintenanceController implements Initializable, DataInitializable<U
 			dispatcher.renderError(e);
 		}
 	}
-	
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		userColumn.setCellValueFactory((CellDataFeatures<AssistanceTicket, String> param) -> {
@@ -62,21 +63,37 @@ public class MaintenanceController implements Initializable, DataInitializable<U
 			return new SimpleStringProperty(param.getValue().getContract().getVeicle().getModel());
 		});
 		stateColumn.setCellValueFactory(new PropertyValueFactory<>("state"));
-		actionColumn.setStyle("-fx-alignment: CENTER;");
-		actionColumn.setCellValueFactory((CellDataFeatures<AssistanceTicket, Button> param) -> {
-			final Button button = new Button("Seleziona");
 
-			button.setOnAction((ActionEvent event) -> {
-				//dispatcher.renderView("veicles", param.getValue());
-			});
-			return new SimpleObjectProperty<Button>(button);
+		actionColumn.setStyle("-fx-alignment: CENTER;");
+		actionColumn.setCellValueFactory((CellDataFeatures<AssistanceTicket, MenuButton> param) -> {
+			MenuButton localMenuButton= new MenuButton("Menu");
+
+			MenuItem menuChangeStatus = new MenuItem();
+			MenuItem menuNewVeicle = new MenuItem("Veicolo Sostitutivo");
+
+			if (param.getValue().getState() == TicketState.ENDED) {
+				menuChangeStatus.setDisable(true);
+				menuChangeStatus.setText("Ticket Risolto");
+			}
+			else menuChangeStatus.setText((param.getValue().getState() == TicketState.REQUIRED) ? "Imposta come IN LAVORAZIONE" : "Imposta come RISOLTO");
+
+			localMenuButton.getItems().add(menuChangeStatus);
+			localMenuButton.getItems().add(menuNewVeicle);
+
+			menuChangeStatus.setOnAction((ActionEvent event) -> {});
+			menuNewVeicle.setOnAction((ActionEvent event) -> {});
+
+			return new SimpleObjectProperty<MenuButton>(localMenuButton);
 		});
 	}
-	
+
 	@Override
 	public void initializeData(User user) {
 		if (user.getRole() == 2)
 			userColumn.setVisible(false);
+		
+		if (user.getRole() != 1)
+			actionColumn.setVisible(false);
 
 		try {
 			List<AssistanceTicket> tickets = (user.getRole() == 2 ? maintenanceService.getTicketByUser(user) : maintenanceService.getAllTickets());

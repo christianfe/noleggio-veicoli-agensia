@@ -18,8 +18,7 @@ public class Contract {
 	private User customer;
 	
 	public Contract() {
-		this.setState(ContractState.ACTIVE
-				);
+		this.setState(ContractState.ACTIVE);
 	}
 	
 	public Feedback getFeedback() {
