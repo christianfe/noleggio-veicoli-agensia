@@ -13,6 +13,22 @@ public class AssistanceTicket {
 	private Veicle sostituteVeicle;
 	private Contract contract;
 
+	public Veicle getSostituteVeicle() {
+		return sostituteVeicle;
+	}
+
+	public void setSostituteVeicle(Veicle sostituteVeicle) {
+		this.sostituteVeicle = sostituteVeicle;
+	}
+
+	public Contract getContract() {
+		return contract;
+	}
+
+	public void setContract(Contract contract) {
+		this.contract = contract;
+	}
+
 	public TicketState getState() {
 		return state;
 	}
@@ -52,5 +68,6 @@ public class AssistanceTicket {
 	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
+
 
 }
