@@ -52,6 +52,7 @@ public class RentalController implements Initializable, DataInitializable<User>{
 	
 	private ContractService rentalService;
 	private ContextMenu menu = new ContextMenu();
+	private User user;
 	
 	public RentalController() throws BusinessException {
 		dispatcher = ViewDispatcher.getInstance();
@@ -86,27 +87,9 @@ public class RentalController implements Initializable, DataInitializable<User>{
 		});
 
 		actionColumn.setStyle("-fx-alignment: CENTER;");
-		/*
-		actionColumn.setCellValueFactory((CellDataFeatures<Contract, Button> param) -> {
-			final Button button = new Button();
-			button.setOnAction((ActionEvent event) -> {
-				//dispatcher.renderView("veicles", param.getValue());
-				try {
-					Robot robot = new Robot();
-					robot.mousePress(InputEvent.BUTTON3_DOWN_MASK);
-					robot.mouseRelease(InputEvent.BUTTON3_DOWN_MASK);
-				} catch (AWTException e) {
-					dispatcher.renderError(e);
-				}
-				 
-			});
-			return new SimpleObjectProperty<Button>(button);
-		});
-		*/
-		
-
 		actionColumn.setCellValueFactory((CellDataFeatures<Contract, MenuButton> param) -> {
 			final MenuButton localMenuButton = new MenuButton("Menu");
+			
 			final MenuItem richiestaAssistenza = new MenuItem("Richiedi Assistenza");
 			final MenuItem gestioneRiconsegna = new MenuItem("Gestisci Riconsegna");
 			
@@ -118,11 +101,14 @@ public class RentalController implements Initializable, DataInitializable<User>{
 				System.out.println("gestione Riconsegna");
 			});
 			
+			if (this.user.getRole() == 2)
+				localMenuButton.getItems().add(richiestaAssistenza);
+			else if (this.user.getRole() == 1)
+				localMenuButton.getItems().add(gestioneRiconsegna);
 			
-			localMenuButton.getItems().add(richiestaAssistenza);
-			localMenuButton.getItems().add(gestioneRiconsegna);
 			return new SimpleObjectProperty<MenuButton>(localMenuButton);
 		});
+		
 		
 		
 		
@@ -160,7 +146,7 @@ public class RentalController implements Initializable, DataInitializable<User>{
 		*/
 		
 		
-		
+		this.user = user;
 		
 		try {
 			List<Contract> contract = (user.getRole() == 2 ? rentalService.getContractsByUser(user) : rentalService.getAllContracts());
