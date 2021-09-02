@@ -18,7 +18,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
@@ -100,6 +102,19 @@ public class RentalController implements Initializable, DataInitializable<User>{
 		} catch (BusinessException e) {
 			dispatcher.renderError(e);
 		}
+		
+		
+		MenuItem mi1 = new MenuItem("Menu item 1");
+		mi1.setOnAction((ActionEvent event) -> {
+		    System.out.println("Menu item 1");
+		    Object item = rentalTable.getSelectionModel().getSelectedItem();
+		    System.out.println("Selected item: " + item);
+		});
+
+		ContextMenu menu = new ContextMenu();
+		menu.getItems().add(mi1);
+		rentalTable.setContextMenu(menu);
+		
 	}
 
 }
