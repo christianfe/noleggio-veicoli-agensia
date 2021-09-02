@@ -105,6 +105,8 @@ public class RentalController implements Initializable, DataInitializable<User>{
 				localMenuButton.getItems().add(richiestaAssistenza);
 			else if (this.user.getRole() == 1)
 				localMenuButton.getItems().add(gestioneRiconsegna);
+			else if (this.user.getRole() == 0)
+				actionColumn.setVisible(false);
 			
 			return new SimpleObjectProperty<MenuButton>(localMenuButton);
 		});
