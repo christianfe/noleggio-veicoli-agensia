@@ -12,6 +12,7 @@ import it.univaq.disim.oop.bhertz.business.RentalService;
 import it.univaq.disim.oop.bhertz.business.UserService;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
 import it.univaq.disim.oop.bhertz.domain.Contract;
+import it.univaq.disim.oop.bhertz.domain.ContractState;
 import it.univaq.disim.oop.bhertz.domain.ContractType;
 import it.univaq.disim.oop.bhertz.domain.Customer;
 
@@ -34,6 +35,7 @@ public class RAMRentalServiceImpl implements RentalService  {
 		contract1.setEnd(LocalDate.of(2014, Month.SEPTEMBER, 20) );
 		contract1.setPaid(false);
 		contract1.setId(1);
+		contract1.setState(ContractState.MAINTENANCE);
 		contracts.put(contract1.getId(), contract1);
 
 		Contract contract2 = new Contract();

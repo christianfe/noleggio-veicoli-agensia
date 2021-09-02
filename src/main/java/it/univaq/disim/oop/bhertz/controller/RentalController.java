@@ -8,6 +8,7 @@ import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.RentalService;
 import it.univaq.disim.oop.bhertz.business.impl.ram.RAMRentalServiceImpl;
 import it.univaq.disim.oop.bhertz.domain.Contract;
+import it.univaq.disim.oop.bhertz.domain.ContractState;
 import it.univaq.disim.oop.bhertz.domain.ContractType;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
@@ -38,7 +39,7 @@ public class RentalController implements Initializable, DataInitializable<User>{
 	@FXML
 	private TableColumn<Contract, String> periodColumn;
 	@FXML
-	private TableColumn<Contract, ContractType> stateColumn;
+	private TableColumn<Contract, String> stateColumn;
 	@FXML
 	private TableColumn<Contract, String> paymentColumn;
 	@FXML
@@ -64,8 +65,15 @@ public class RentalController implements Initializable, DataInitializable<User>{
 			return new SimpleStringProperty(param.getValue().getVeicle().getModel() + " - " + param.getValue().getVeicle().getPlate());
 		});
 		
+		stateColumn.setStyle("-fx-alignment: CENTER;");
+		stateColumn.setCellValueFactory((CellDataFeatures<Contract, String> param) -> {
+			return new SimpleStringProperty(param.getValue().getStateString());
+		});
+		
+		
+		periodColumn.setStyle("-fx-alignment: CENTER;");
 		periodColumn.setCellValueFactory((CellDataFeatures<Contract, String> param) -> {
-			return new SimpleStringProperty(param.getValue().getStart().toString());
+			return new SimpleStringProperty(param.getValue().getStart().toString().substring(5) + " / " + param.getValue().getEnd().toString().substring(5));
 		});
 	
 		paymentColumn.setCellValueFactory(new PropertyValueFactory<>("paid")); 

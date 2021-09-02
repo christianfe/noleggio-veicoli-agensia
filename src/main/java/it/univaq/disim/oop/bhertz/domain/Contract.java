@@ -9,12 +9,17 @@ public class Contract {
 	private int startKm;
 	private int endKm;
 	private ContractType type;
+	private ContractState state;
 	private Integer id;
 	private boolean paid;
 
 	private Feedback feedback;
 	private AssistanceTicket assistance;
 	private User customer;
+	
+	public Contract() {
+		this.setState(ContractState.ACTIVE);
+	}
 	
 	public Feedback getFeedback() {
 		return feedback;
@@ -104,6 +109,28 @@ public class Contract {
 
 	public void setVeicle(Veicle veicle) {
 		this.veicle = veicle;
+	}
+
+	public String getStateString() {
+		String stateString = null;
+		
+		if (state == ContractState.ACTIVE )
+			stateString = "attivo";
+		else if (state == ContractState.ENDED )
+			stateString = "chiuso";
+		else if (state == ContractState.MAINTENANCE )
+			stateString = "manutenzione";
+		
+		
+		return stateString;
+	}
+	
+	public ContractType getContractType() {
+		return this.type;
+	}
+	
+	public void setState(ContractState state) {
+		this.state = state;
 	}
 
 }
