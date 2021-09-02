@@ -14,4 +14,6 @@ public interface UserService {
 
 	void setUser(User user) throws BusinessException;
 	
+	void addUser(User user) throws BusinessException;
+	
 }

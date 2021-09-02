@@ -41,24 +41,23 @@ public class RAMUserServiceImpl implements UserService {
 
 	@Override
 	public User authenticate(String username, String password) throws BusinessException {
-		
+
 		for (User u : users.values())
 			if (u.getUsername().equalsIgnoreCase(username) /*&& u.getPassword().equalsIgnoreCase(password)*/)
 				return u;
 		throw new UserNotFoundException();
- 
+
 	}
 
 	@Override
 	public User getusersByID(int id) throws BusinessException {
-		
+
 		return users.get(id);
 	}
 
 	@Override
 	public List<User> getUserByRole(int r) throws BusinessException {
 		List<User> result = new ArrayList<>();
-
 		for (User u : users.values())
 			if (u.getRole() == r)
 				result.add(u);
@@ -68,5 +67,14 @@ public class RAMUserServiceImpl implements UserService {
 	@Override
 	public void setUser(User user) throws BusinessException {
 		this.users.put(user.getId(), user);
+	}
+
+	@Override
+	public void addUser(User user) throws BusinessException {
+		Integer max = 0;
+		for (User u : users.values())
+			max = (max > u.getId())? max : u.getId();
+		user.setId(max + 1);
+		setUser(user);
 	}
 }

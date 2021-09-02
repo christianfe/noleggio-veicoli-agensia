@@ -7,6 +7,7 @@ import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.UserNotFoundException;
 import it.univaq.disim.oop.bhertz.business.UserService;
 import it.univaq.disim.oop.bhertz.business.impl.ram.RAMUserServiceImpl;
+import it.univaq.disim.oop.bhertz.domain.Customer;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import javafx.event.ActionEvent;
@@ -85,6 +86,15 @@ public class LogInController implements Initializable, DataInitializable<Object>
 	private void signup(ActionEvent e) {
 		if (!NewPasswordField.getText().equals(NewPasswordRepeatField.getText()))
 			labelErrorSignup.setText("Le password immesse sono diverse!");
+		else {
+			UserService userService = new RAMUserServiceImpl();
+			try {
+				userService.addUser(new Customer(0, newNameField.getText(), newUsernameField.getText(), NewPasswordField.getText()));
+			} catch (BusinessException e1) {
+				e1.printStackTrace();
+			}
+			switchView(null);
+		}
 	}
 
 	@FXML
