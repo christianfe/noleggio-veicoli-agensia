@@ -104,8 +104,33 @@ public class RentalController implements Initializable, DataInitializable<User>{
 	
 	@Override
 	public void initializeData(User user) {
-		if (user.getRole() == 2)
+		switch (user.getRole()) {
+		case 2:
 			userColumn.setVisible(false);
+			MenuItem richiediAssistenza = new MenuItem("Richiedi assistenza");
+			richiediAssistenza.setOnAction((ActionEvent event) -> {
+			    System.out.println("richiesta assistenza");  
+			});
+			menu.getItems().add(richiediAssistenza);
+		break;
+		case 1:
+			MenuItem gestioneRiconsegna = new MenuItem("Gestione riconsegna");
+			gestioneRiconsegna.setOnAction((ActionEvent event) -> {
+			    System.out.println("riconsegna gestita");  
+			});
+			menu.getItems().add(gestioneRiconsegna);
+		break;
+		case 0:
+			actionColumn.setVisible(false);
+			
+		break;
+		} 
+		
+		rentalTable.setContextMenu(menu);
+		
+		
+		
+		
 		try {
 			List<Contract> contract = (user.getRole() == 2 ? rentalService.getContractsByUser(user) : rentalService.getAllContracts());
 			ObservableList<Contract> contractData = FXCollections.observableArrayList(contract);
@@ -115,18 +140,20 @@ public class RentalController implements Initializable, DataInitializable<User>{
 		}
 		
 		
+		/*
 		MenuItem mi1 = new MenuItem("Menu item 1");
 		MenuItem mi2 = new MenuItem("Menu item 2");
 		mi1.setOnAction((ActionEvent event) -> {
 		    System.out.println("Menu item 1");
 		    Object param = rentalTable.getSelectionModel().getSelectedItem();
+		    param = null;
 		    System.out.println("Selected item: " + param);
 		});
 
 		menu.getItems().add(mi1);
 		menu.getItems().add(mi2);
 		rentalTable.setContextMenu(menu);
-		
+		*/
 	}
 
 }

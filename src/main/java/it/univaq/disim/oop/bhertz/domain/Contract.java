@@ -18,7 +18,8 @@ public class Contract {
 	private User customer;
 	
 	public Contract() {
-		this.setState(ContractState.ACTIVE);
+		this.setState(ContractState.ACTIVE
+				);
 	}
 	
 	public Feedback getFeedback() {
@@ -120,6 +121,8 @@ public class Contract {
 			stateString = "chiuso";
 		else if (state == ContractState.MAINTENANCE )
 			stateString = "manutenzione";
+		else if (state == ContractState.BOOKED )
+			stateString = "prenotato";
 		
 		
 		return stateString;
