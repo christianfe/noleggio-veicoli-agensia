@@ -1,5 +1,8 @@
 package it.univaq.disim.oop.bhertz.controller;
 
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.InputEvent;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -18,7 +21,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
@@ -41,8 +46,10 @@ public class TypeController implements Initializable, DataInitializable<User> {
 	private ViewDispatcher dispatcher;
 
 	private TypesService typesService;
+	private ContextMenu menu;
 
 	public TypeController() {
+		menu = new ContextMenu();
 		dispatcher = ViewDispatcher.getInstance();
 		typesService = new RAMTypesServiceImpl();
 	}
@@ -59,12 +66,18 @@ public class TypeController implements Initializable, DataInitializable<User> {
 
 		actionColumn.setStyle("-fx-alignment: CENTER;");
 		actionColumn.setCellValueFactory((CellDataFeatures<Type, Button> param) -> {
-			final Button veicleButton = new Button("Seleziona");
-
-			veicleButton.setOnAction((ActionEvent event) -> {
-				dispatcher.renderView("veicles", param.getValue());
+			final Button button = new Button("Seleziona");
+			button.setOnAction((ActionEvent event) -> {
+					
+					try {
+						Robot robot = new Robot();
+						robot.mousePress(InputEvent.BUTTON3_DOWN_MASK);
+						robot.mouseRelease(InputEvent.BUTTON3_DOWN_MASK);
+					} catch (AWTException e) {
+						e.printStackTrace();
+					}
 			});
-			return new SimpleObjectProperty<Button>(veicleButton);
+			return new SimpleObjectProperty<Button>(button);
 		});
 	}
 
@@ -77,5 +90,18 @@ public class TypeController implements Initializable, DataInitializable<User> {
 		} catch (BusinessException e) {
 			dispatcher.renderError(e);
 		}
+		MenuItem menuView = new MenuItem("Visualizza Veicoli");
+		MenuItem menuEdit = new MenuItem("Modifica Tipologia");
+		MenuItem menuDelete = new MenuItem("Elimina Tipologia");
+		menuView.setOnAction((ActionEvent event) -> {
+		    Object param = typesTable.getSelectionModel().getSelectedItem();
+		    dispatcher.renderView("veicles", param);
+		});
+		menu.getItems().add(menuView);
+		if (user.getRole() == 0) {
+			menu.getItems().add(menuEdit);
+			menu.getItems().add(menuDelete);
+		}
+		typesTable.setContextMenu(menu);
 	}
 }

@@ -94,7 +94,7 @@ public class RentalController implements Initializable, DataInitializable<User>{
 					robot.mousePress(InputEvent.BUTTON3_DOWN_MASK);
 					robot.mouseRelease(InputEvent.BUTTON3_DOWN_MASK);
 				} catch (AWTException e) {
-					e.printStackTrace();
+					dispatcher.renderError(e);
 				}
 				 
 			});

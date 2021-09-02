@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="Bertz" fx:id="LogInStage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="228.0" prefWidth="239.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univaq.disim.oop.bhertz.controller.addOperatorController">
+<AnchorPane id="Bertz" fx:id="LogInStage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="243.0" prefWidth="239.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univaq.disim.oop.bhertz.controller.addOperatorController">
    <children>
       <Pane fx:id="registerPane" layoutX="-4.0" layoutY="2.0" prefHeight="255.0" prefWidth="252.0">
          <children>
@@ -16,8 +16,7 @@
             <TextField fx:id="newUsernameField" alignment="CENTER" layoutX="24.0" layoutY="77.0" prefHeight="25.0" prefWidth="200.0" promptText="Username" />
             <PasswordField fx:id="NewPasswordField" alignment="CENTER" layoutX="23.0" layoutY="110.0" prefHeight="25.0" prefWidth="200.0" promptText="Password" />
             <PasswordField fx:id="NewPasswordRepeatField" alignment="CENTER" layoutX="24.0" layoutY="146.0" prefHeight="25.0" prefWidth="200.0" promptText="Ripeti Password" />
-            <Button fx:id="registerButton" layoutX="128.0" layoutY="180.0" mnemonicParsing="false" onAction="#signup" prefHeight="25.0" prefWidth="96.0" text="Registrati" />
-            <Button fx:id="backButton" layoutX="23.0" layoutY="180.0" mnemonicParsing="false" onAction="#switchView" prefHeight="25.0" prefWidth="96.0" text="Annulla" />
+            <Button fx:id="registerButton" layoutX="24.0" layoutY="180.0" mnemonicParsing="false" onAction="#signup" prefHeight="25.0" prefWidth="200.0" text="Registrati" />
             <Label alignment="CENTER" layoutX="23.0" layoutY="6.0" prefHeight="30.0" prefWidth="200.0" text="Registrazione Utente">
                <font>
                   <Font size="20.0" />
