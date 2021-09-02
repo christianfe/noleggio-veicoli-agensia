@@ -108,8 +108,8 @@ public class RentalController implements Initializable, DataInitializable<User>{
 		MenuItem mi2 = new MenuItem("Menu item 2");
 		mi1.setOnAction((ActionEvent event) -> {
 		    System.out.println("Menu item 1");
-		    Object item = rentalTable.getSelectionModel().getSelectedItem();
-		    System.out.println("Selected item: " + item);
+		    Object param = rentalTable.getSelectionModel().getSelectedItem();
+		    System.out.println("Selected item: " + param);
 		});
 
 		ContextMenu menu = new ContextMenu();
