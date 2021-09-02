@@ -1,5 +1,8 @@
 package it.univaq.disim.oop.bhertz.controller;
 
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.InputEvent;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -47,6 +50,7 @@ public class RentalController implements Initializable, DataInitializable<User>{
 	private ViewDispatcher dispatcher;
 	
 	private ContractService rentalService;
+	private ContextMenu menu = new ContextMenu();
 	
 	public RentalController() throws BusinessException {
 		dispatcher = ViewDispatcher.getInstance();
@@ -82,12 +86,19 @@ public class RentalController implements Initializable, DataInitializable<User>{
 
 		actionColumn.setStyle("-fx-alignment: CENTER;");
 		actionColumn.setCellValueFactory((CellDataFeatures<Contract, Button> param) -> {
-			final Button rentalButton = new Button("Bottone");
-			rentalButton.setOnAction((ActionEvent event) -> {
+			final Button button = new Button();
+			button.setOnAction((ActionEvent event) -> {
 				//dispatcher.renderView("veicles", param.getValue());
-				System.out.println("bravo, ci sei riuscito");
+				try {
+					Robot robot = new Robot();
+					robot.mousePress(InputEvent.BUTTON3_DOWN_MASK);
+					robot.mouseRelease(InputEvent.BUTTON3_DOWN_MASK);
+				} catch (AWTException e) {
+					e.printStackTrace();
+				}
+				 
 			});
-			return new SimpleObjectProperty<Button>(rentalButton);
+			return new SimpleObjectProperty<Button>(button);
 		});
 	}
 	
@@ -112,7 +123,6 @@ public class RentalController implements Initializable, DataInitializable<User>{
 		    System.out.println("Selected item: " + param);
 		});
 
-		ContextMenu menu = new ContextMenu();
 		menu.getItems().add(mi1);
 		menu.getItems().add(mi2);
 		rentalTable.setContextMenu(menu);
