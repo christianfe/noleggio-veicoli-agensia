@@ -6,12 +6,12 @@ import java.util.ResourceBundle;
 
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
-import it.univaq.disim.oop.bhertz.business.impl.ram.RAMTypesServiceImpl;
 import it.univaq.disim.oop.bhertz.business.impl.ram.RAMVeicleserviceImpl;
 import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
 import it.univaq.disim.oop.bhertz.domain.VeicleState;
+import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -20,14 +20,15 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class VeiclesController implements Initializable, DataInitializable<Type>{
+public class VeiclesController implements Initializable, DataInitializable<ObjectsCollector>{
 
 	@FXML
 	private Label titleLabel;
@@ -42,10 +43,11 @@ public class VeiclesController implements Initializable, DataInitializable<Type>
 	@FXML
 	private TableColumn<Veicle, VeicleState> stateColumn;
 	@FXML
-	private TableColumn<Veicle, Button> actionColumn;
+	private TableColumn<Veicle, MenuButton> actionColumn;
 
 	private ViewDispatcher dispatcher;
 	private VeiclesService veiclesService; 
+	private User user;
 
 	public VeiclesController(){
 		dispatcher = ViewDispatcher.getInstance();
@@ -67,23 +69,33 @@ public class VeiclesController implements Initializable, DataInitializable<Type>
 		});
 		stateColumn.setCellValueFactory(new PropertyValueFactory<>("state"));
 
-		
-		
-		actionColumn.setStyle("-fx-alignment: CENTER;");
-		actionColumn.setCellValueFactory((CellDataFeatures<Veicle, Button> param) -> {
-			final Button veicleButton = new Button("Seleziona");
-			veicleButton.setOnAction((ActionEvent event) -> {
-			//	dispatcher.renderView("veicles", param.getValue());
-			});
-			return new SimpleObjectProperty<Button>(veicleButton);
-		});
+		actionColumn.setCellValueFactory((CellDataFeatures<Veicle, MenuButton> param) -> {
+			MenuButton localMenuButton= new MenuButton("Menu");
 
+			MenuItem menuRent = new MenuItem("Noleggia Veicolo");
+			MenuItem menuEdit = new MenuItem("Modifica Tipologia");
+			MenuItem menuDelete = new MenuItem("Elimina Tipologia");
+			if (this.user.getRole() == 2) localMenuButton.getItems().add(menuRent);
+			else {
+				localMenuButton.getItems().add(menuEdit);
+				localMenuButton.getItems().add(menuDelete);
+			}
+
+			menuRent.setOnAction((ActionEvent event) -> {
+				dispatcher.renderView("veicles", param.getValue());
+			});
+			return new SimpleObjectProperty<MenuButton>(localMenuButton);
+		});
 	}
-	
+
+
 	@Override
-	public void initializeData(Type t){
+	public void initializeData(ObjectsCollector objColl){
+		this.user = (User) objColl.getObjectA();
+		if (user.getRole() == 1)
+			actionColumn.setVisible(false);
 		try {
-			List<Veicle> veicleList = veiclesService.getVeiclesByType(t);
+			List<Veicle> veicleList = veiclesService.getVeiclesByType((Type)objColl.getObjectB());
 			ObservableList<Veicle> veiclesData = FXCollections.observableArrayList(veicleList);
 			veiclesTable.setItems(veiclesData);
 		} catch (BusinessException e) {

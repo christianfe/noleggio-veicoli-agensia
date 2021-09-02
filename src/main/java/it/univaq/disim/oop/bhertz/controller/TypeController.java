@@ -4,13 +4,12 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import com.sun.glass.ui.Menu;
-
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.TypesService;
 import it.univaq.disim.oop.bhertz.business.impl.ram.RAMTypesServiceImpl;
 import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.User;
+import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -77,7 +76,7 @@ public class TypeController implements Initializable, DataInitializable<User> {
 			}
 
 			menuView.setOnAction((ActionEvent event) -> {
-				dispatcher.renderView("veicles", param.getValue());
+				dispatcher.renderView("veicles", new ObjectsCollector(user, param.getValue()));
 			});
 			return new SimpleObjectProperty<MenuButton>(localMenuButton);
 		});	}
