@@ -42,10 +42,9 @@ public class RAMUserServiceImpl implements UserService {
 	@Override
 	public User authenticate(String username, String password) throws BusinessException {
 		
-		for (User u : users.values()) {
-		//	if (u.getUsername().equalsIgnoreCase(username) && u.getPassword().equalsIgnoreCase(password))
+		for (User u : users.values())
+			if (u.getUsername().equalsIgnoreCase(username) /*&& u.getPassword().equalsIgnoreCase(password)*/)
 				return u;
-		}
 		throw new UserNotFoundException();
  
 	}

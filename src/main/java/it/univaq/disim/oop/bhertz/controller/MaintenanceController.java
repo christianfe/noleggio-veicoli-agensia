@@ -8,6 +8,7 @@ import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.MaintenanceService;
 import it.univaq.disim.oop.bhertz.business.impl.ram.RAMMaintenanceServiceImpl;
 import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
+import it.univaq.disim.oop.bhertz.domain.TicketState;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import javafx.beans.property.SimpleObjectProperty;
@@ -22,6 +23,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class MaintenanceController implements Initializable, DataInitializable<User>{
 
@@ -34,7 +36,7 @@ public class MaintenanceController implements Initializable, DataInitializable<U
 	@FXML
 	private TableColumn<AssistanceTicket, String> veicleColumn;
 	@FXML
-	private TableColumn<AssistanceTicket, String> stateColumn;
+	private TableColumn<AssistanceTicket, TicketState> stateColumn;
 	@FXML
 	private TableColumn<AssistanceTicket, Button> actionColumn;
 	
@@ -59,9 +61,7 @@ public class MaintenanceController implements Initializable, DataInitializable<U
 		veicleColumn.setCellValueFactory((CellDataFeatures<AssistanceTicket, String> param) -> {
 			return new SimpleStringProperty(param.getValue().getContract().getVeicle().getModel());
 		});
-		/*stateColumn.setCellValueFactory((CellDataFeatures<AssistanceTicket, String> param) -> {
-			return new SimpleStringProperty(param.getValue().getContract());
-		});*/
+		stateColumn.setCellValueFactory(new PropertyValueFactory<>("state"));
 		actionColumn.setStyle("-fx-alignment: CENTER;");
 		actionColumn.setCellValueFactory((CellDataFeatures<AssistanceTicket, Button> param) -> {
 			final Button button = new Button("Seleziona");

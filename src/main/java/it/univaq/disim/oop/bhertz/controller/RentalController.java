@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import it.univaq.disim.oop.bhertz.business.BusinessException;
-import it.univaq.disim.oop.bhertz.business.RentalService;
-import it.univaq.disim.oop.bhertz.business.impl.ram.RAMRentalServiceImpl;
+import it.univaq.disim.oop.bhertz.business.ContractService;
+import it.univaq.disim.oop.bhertz.business.impl.ram.RAMContractServiceImpl;
 import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.ContractState;
 import it.univaq.disim.oop.bhertz.domain.ContractType;
@@ -47,11 +47,11 @@ public class RentalController implements Initializable, DataInitializable<User>{
 	
 	private ViewDispatcher dispatcher;
 	
-	private RentalService rentalService;
+	private ContractService rentalService;
 	
 	public RentalController() throws BusinessException {
 		dispatcher = ViewDispatcher.getInstance();
-		rentalService = new RAMRentalServiceImpl();
+		rentalService = new RAMContractServiceImpl();
 	}
 	
 	@Override

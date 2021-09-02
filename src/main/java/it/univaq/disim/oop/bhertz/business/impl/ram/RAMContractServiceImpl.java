@@ -8,27 +8,27 @@ import java.util.List;
 import java.util.Map;
 
 import it.univaq.disim.oop.bhertz.business.BusinessException;
-import it.univaq.disim.oop.bhertz.business.RentalService;
+import it.univaq.disim.oop.bhertz.business.ContractService;
 import it.univaq.disim.oop.bhertz.business.UserService;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
+import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
 import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.ContractState;
-import it.univaq.disim.oop.bhertz.domain.ContractType;
-import it.univaq.disim.oop.bhertz.domain.Customer;
+import it.univaq.disim.oop.bhertz.domain.User;
 
-public class RAMRentalServiceImpl implements RentalService  {
+public class RAMContractServiceImpl implements ContractService  {
 
 	private Map<Integer, Contract> contracts = new HashMap<>();
 	private VeiclesService veicleService;
 	private UserService userService;
 
 
-	public RAMRentalServiceImpl() throws BusinessException {
+	public RAMContractServiceImpl() throws BusinessException {
 		this.veicleService = new RAMVeicleserviceImpl();
 		this.userService = new RAMUserServiceImpl();
 
 		Contract contract1 = new Contract();
-		contract1.setCustomer(userService.getusersByID(2));
+		contract1.setCustomer(userService.getusersByID(5));
 		//contract1.setCustomer(new Customer(1, "gigio", "cacca", "pupù"));
 		contract1.setVeicle(veicleService.getVeicleByID(1));
 		contract1.setStart( LocalDate.of(2014, Month.SEPTEMBER, 10) );
@@ -69,7 +69,13 @@ public class RAMRentalServiceImpl implements RentalService  {
 	public Contract getContractByID(int id) throws BusinessException {
 		return contracts.get(id);
 	}
-	
-	//TODO public List<Contract> getContractByClient(User user){}
 
+	@Override
+	public List<Contract> getContractsByUser(User user) throws BusinessException {
+		List<Contract> result = new ArrayList<>();
+		for (Contract c : contracts.values())
+			if (c.getCustomer().getId() == user.getId())
+				result.add(c);
+		return result;
+	}	
 }
