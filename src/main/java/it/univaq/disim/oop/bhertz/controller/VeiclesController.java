@@ -68,7 +68,8 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 			return new SimpleStringProperty(param.getValue().getKm() + " km");
 		});
 		stateColumn.setCellValueFactory(new PropertyValueFactory<>("state"));
-
+		
+		actionColumn.setStyle("-fx-alignment: CENTER;");
 		actionColumn.setCellValueFactory((CellDataFeatures<Veicle, MenuButton> param) -> {
 			MenuButton localMenuButton= new MenuButton("Menu");
 
@@ -82,8 +83,10 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 			}
 
 			menuRent.setOnAction((ActionEvent event) -> {
-				dispatcher.renderView("veicles", param.getValue());
+				dispatcher.renderView("startRent", new ObjectsCollector(user, param.getValue()));
 			});
+			
+					
 			return new SimpleObjectProperty<MenuButton>(localMenuButton);
 		});
 	}
