@@ -76,7 +76,17 @@ public class RentalController implements Initializable, DataInitializable<User>{
 			return new SimpleStringProperty(param.getValue().getStart().toString().substring(5) + " / " + param.getValue().getEnd().toString().substring(5));
 		});
 	
-		paymentColumn.setCellValueFactory(new PropertyValueFactory<>("paid")); 
+		//paymentColumn.setCellValueFactory(new PropertyValueFactory<>("paid")); 
+		paymentColumn.setStyle("-fx-alignment: CENTER;");
+		paymentColumn.setCellValueFactory((CellDataFeatures<Contract, String> param) -> {
+			String Answer;
+			if (param.getValue().isPaid())
+				Answer = "si";
+			else Answer = "no";
+			return new SimpleStringProperty(Answer);
+		});
+		
+		
 		
 		actionColumn.setStyle("-fx-alignment: CENTER;");
 		actionColumn.setCellValueFactory((CellDataFeatures<Contract, Button> param) -> {
