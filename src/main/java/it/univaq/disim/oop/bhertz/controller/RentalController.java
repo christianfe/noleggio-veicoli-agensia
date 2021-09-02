@@ -8,8 +8,6 @@ import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.ContractService;
 import it.univaq.disim.oop.bhertz.business.impl.ram.RAMContractServiceImpl;
 import it.univaq.disim.oop.bhertz.domain.Contract;
-import it.univaq.disim.oop.bhertz.domain.ContractState;
-import it.univaq.disim.oop.bhertz.domain.ContractType;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import javafx.beans.property.SimpleObjectProperty;
@@ -24,7 +22,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 public class RentalController implements Initializable, DataInitializable<User>{
 
