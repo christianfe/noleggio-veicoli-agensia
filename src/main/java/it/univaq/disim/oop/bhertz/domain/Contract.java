@@ -14,7 +14,24 @@ public class Contract {
 
 	private Feedback feedback;
 	private AssistanceTicket assistance;
-	private Customer customer;
+	private User customer;
+	
+	public Feedback getFeedback() {
+		return feedback;
+	}
+
+	public void setFeedback(Feedback feedback) {
+		this.feedback = feedback;
+	}
+
+	public AssistanceTicket getAssistance() {
+		return assistance;
+	}
+
+	public void setAssistance(AssistanceTicket assistance) {
+		this.assistance = assistance;
+	}
+
 	private Veicle veicle;
 
 	public Integer getId() {
@@ -71,6 +88,22 @@ public class Contract {
 
 	public void setType(ContractType type) {
 		this.type = type;
+	}
+
+	public User getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(User customer) {
+		this.customer = customer;
+	}
+
+	public Veicle getVeicle() {
+		return veicle;
+	}
+
+	public void setVeicle(Veicle veicle) {
+		this.veicle = veicle;
 	}
 
 }

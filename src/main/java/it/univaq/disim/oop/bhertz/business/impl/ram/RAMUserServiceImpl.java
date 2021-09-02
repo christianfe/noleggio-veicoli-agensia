@@ -52,8 +52,8 @@ public class RAMUserServiceImpl implements UserService {
 
 	@Override
 	public User getusersByID(int id) throws BusinessException {
-		users.get(id);
-		return null;
+		
+		return users.get(id);
 	}
 
 	@Override
