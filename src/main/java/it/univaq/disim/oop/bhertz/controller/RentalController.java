@@ -1,8 +1,5 @@
 package it.univaq.disim.oop.bhertz.controller;
 
-import java.awt.AWTException;
-import java.awt.Robot;
-import java.awt.event.InputEvent;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -20,8 +17,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -47,40 +42,39 @@ public class RentalController implements Initializable, DataInitializable<User>{
 	private TableColumn<Contract, String> paymentColumn;
 	@FXML
 	private TableColumn<Contract, MenuButton> actionColumn;
-	
+
 	private ViewDispatcher dispatcher;
-	
+
 	private ContractService rentalService;
-	private ContextMenu menu = new ContextMenu();
 	private User user;
-	
+
 	public RentalController() throws BusinessException {
 		dispatcher = ViewDispatcher.getInstance();
 		rentalService = new RAMContractServiceImpl();
 	}
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-	
+
 		userColumn.setCellValueFactory((CellDataFeatures<Contract, String> param) -> {
 			return new SimpleStringProperty(param.getValue().getCustomer().getName());
 		});
-		
+
 		veicleColumn.setCellValueFactory((CellDataFeatures<Contract, String> param) -> {
 			return new SimpleStringProperty(param.getValue().getVeicle().getModel() + " - " + param.getValue().getVeicle().getPlate());
 		});
-		
+
 		stateColumn.setStyle("-fx-alignment: CENTER;");
 		stateColumn.setCellValueFactory((CellDataFeatures<Contract, String> param) -> {
 			return new SimpleStringProperty(param.getValue().getStateString());
 		});
-		
-		
+
+
 		periodColumn.setStyle("-fx-alignment: CENTER;");
 		periodColumn.setCellValueFactory((CellDataFeatures<Contract, String> param) -> {
 			return new SimpleStringProperty(param.getValue().getStart().toString().substring(5) + " / " + param.getValue().getEnd().toString().substring(5));
 		});
-	
+
 		paymentColumn.setStyle("-fx-alignment: CENTER;");
 		paymentColumn.setCellValueFactory((CellDataFeatures<Contract, String> param) -> {
 			return new SimpleStringProperty(param.getValue().isPaid() ? "SI":"NO");
@@ -89,62 +83,39 @@ public class RentalController implements Initializable, DataInitializable<User>{
 		actionColumn.setStyle("-fx-alignment: CENTER;");
 		actionColumn.setCellValueFactory((CellDataFeatures<Contract, MenuButton> param) -> {
 			MenuButton localMenuButton = new MenuButton("Menu");
+
+			MenuItem menuRichiestaAssistenza = new MenuItem("Richiedi Assistenza");
+			MenuItem menuGestioneRiconsegna = new MenuItem("Gestisci Riconsegna");
+			MenuItem menuPagato	= new MenuItem();
+
+			menuPagato.setText(param.getValue().isPaid() ? "Imposta Non Pagato" : "Imposta Pagato");
 			
-			MenuItem richiestaAssistenza = new MenuItem("Richiedi Assistenza");
-			MenuItem gestioneRiconsegna = new MenuItem("Gestisci Riconsegna");
-			
-			richiestaAssistenza.setOnAction((ActionEvent event) -> {
-				System.out.println("richiesta assistenza");
-			});
-			
-			gestioneRiconsegna.setOnAction((ActionEvent event) -> {
-				System.out.println("gestione Riconsegna");
+			menuRichiestaAssistenza.setOnAction((ActionEvent event) -> {});
+
+			menuGestioneRiconsegna.setOnAction((ActionEvent event) -> {});
+
+			menuPagato.setOnAction((ActionEvent event) -> {
+				//TODO deve aggiornare la vista oltre che dB
+				param.getValue().setPaid(!param.getValue().isPaid());
 			});
 			
 			if (this.user.getRole() == 2)
-				localMenuButton.getItems().add(richiestaAssistenza);
-			else if (this.user.getRole() == 1)
-				localMenuButton.getItems().add(gestioneRiconsegna);
-			else if (this.user.getRole() == 0)
+				localMenuButton.getItems().add(menuRichiestaAssistenza);
+			else if (this.user.getRole() == 1) {
+				localMenuButton.getItems().add(menuGestioneRiconsegna);
+				localMenuButton.getItems().add(menuPagato);
+			}else if (this.user.getRole() == 0)
 				actionColumn.setVisible(false);
-			
+
 			return new SimpleObjectProperty<MenuButton>(localMenuButton);
 		});
-		
+
 	}
-	
+
 	@Override
 	public void initializeData(User user) {
-		
-		/*
-		switch (user.getRole()) {
-		case 2:
-			userColumn.setVisible(false);
-			MenuItem richiediAssistenza = new MenuItem("Richiedi assistenza");
-			richiediAssistenza.setOnAction((ActionEvent event) -> {
-			    System.out.println("richiesta assistenza");  
-			});
-			menu.getItems().add(richiediAssistenza);
-		break;
-		case 1:
-			MenuItem gestioneRiconsegna = new MenuItem("Gestione riconsegna");
-			gestioneRiconsegna.setOnAction((ActionEvent event) -> {
-			    System.out.println("riconsegna gestita");  
-			});
-			menu.getItems().add(gestioneRiconsegna);
-		break;
-		case 0:
-			actionColumn.setVisible(false);
-			
-		break;
-		} 
-		
-		rentalTable.setContextMenu(menu);
-		*/
-		
-		
 		this.user = user;
-		
+
 		try {
 			List<Contract> contract = (user.getRole() == 2 ? rentalService.getContractsByUser(user) : rentalService.getAllContracts());
 			ObservableList<Contract> contractData = FXCollections.observableArrayList(contract);
@@ -152,22 +123,6 @@ public class RentalController implements Initializable, DataInitializable<User>{
 		} catch (BusinessException e) {
 			dispatcher.renderError(e);
 		}
-		
-		
-		/*
-		MenuItem mi1 = new MenuItem("Menu item 1");
-		MenuItem mi2 = new MenuItem("Menu item 2");
-		mi1.setOnAction((ActionEvent event) -> {
-		    System.out.println("Menu item 1");
-		    Object param = rentalTable.getSelectionModel().getSelectedItem();
-		    param = null;
-		    System.out.println("Selected item: " + param);
-		});
-
-		menu.getItems().add(mi1);
-		menu.getItems().add(mi2);
-		rentalTable.setContextMenu(menu);
-		*/
 	}
 
 }

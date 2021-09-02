@@ -13,16 +13,16 @@ import it.univaq.disim.oop.bhertz.domain.Veicle;
 import it.univaq.disim.oop.bhertz.domain.VeicleState;
 
 public class RAMVeicleserviceImpl implements VeiclesService {
-	
+
 	private Map<Integer, Veicle> veicles = new HashMap<>();
 	private TypesService typeService;
 
 	public RAMVeicleserviceImpl() throws BusinessException {
 		this.typeService = new RAMTypesServiceImpl();
-		
+
 		Type auto = typeService.getTypeByID(1);
 		Type moto = typeService.getTypeByID(2);
-		
+
 		Veicle panda = new Veicle();
 		panda.setId(1);
 		panda.setModel("Fiat Panda");
@@ -63,7 +63,7 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 		aprilia.setState(VeicleState.MAINTENANCE);
 		aprilia.setConsumption(12);
 		aprilia.setType(moto);
-		
+
 		veicles.put(panda.getId(), panda);
 		veicles.put(punto.getId(), punto);
 		veicles.put(fiesta.getId(), fiesta);
@@ -98,5 +98,5 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 	public void setVeicle(Veicle veicle) throws BusinessException {
 		this.veicles.put(veicle.getId(), veicle);
 	}
-	
+
 }
