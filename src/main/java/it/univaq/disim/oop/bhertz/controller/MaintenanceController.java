@@ -74,9 +74,12 @@ public class MaintenanceController implements Initializable, DataInitializable<U
 	}
 	
 	@Override
-	public void initializeData(User t) {
+	public void initializeData(User user) {
+		if (user.getRole() == 2)
+			userColumn.setVisible(false);
+
 		try {
-			List<AssistanceTicket> tickets = maintenanceService.getAllTickets();
+			List<AssistanceTicket> tickets = (user.getRole() == 2 ? maintenanceService.getTicketByUser(user) : maintenanceService.getAllTickets());
 			ObservableList<AssistanceTicket> ticketsData = FXCollections.observableArrayList(tickets);
 			maintenanceTable.setItems(ticketsData);
 		} catch (BusinessException e) {

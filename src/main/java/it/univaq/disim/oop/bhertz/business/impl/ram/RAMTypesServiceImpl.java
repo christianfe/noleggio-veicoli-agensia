@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import it.univaq.disim.oop.bhertz.business.BusinessException;
+import it.univaq.disim.oop.bhertz.business.TypeNotEmptyException;
 import it.univaq.disim.oop.bhertz.business.TypesService;
 import it.univaq.disim.oop.bhertz.domain.Type;
 
@@ -27,8 +28,6 @@ public class RAMTypesServiceImpl implements TypesService{
 		moto.setPriceForDay(20);
 		moto.setPriceForKm(0.25);
 		types.put(moto.getId(), moto);
-		
-		
 	}
 	
 	@Override
@@ -40,5 +39,19 @@ public class RAMTypesServiceImpl implements TypesService{
 	public Type getTypeByID(int id) throws BusinessException {
 		return types.get(id);
 	}
+
+	@Override
+	public void deleteType(Integer id) throws BusinessException, TypeNotEmptyException {
+		TypesService typeService = new RAMTypesServiceImpl();
+		Type t = typeService.getTypeByID(id);
+		if (!t.getVeicles().isEmpty()) throw new TypeNotEmptyException();
+		else types.remove(id);
+	}
+
+	@Override
+	public void setType(Type type) throws BusinessException {
+		types.put(type.getId(), type);
+	}
+
 
 }

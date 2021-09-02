@@ -17,7 +17,7 @@
             <Insets left="10.0" />
          </padding>
       </Label>
-      <TableView fx:id="maintenanceTable" prefHeight="148.0" prefWidth="580.0">
+      <TableView fx:id="maintenanceTable" prefHeight="508.0" prefWidth="758.0">
         <columns>
           <TableColumn fx:id="userColumn" prefWidth="84.5" text="utente" />
           <TableColumn fx:id="veicleColumn" prefWidth="132.0" text="veicolo" />

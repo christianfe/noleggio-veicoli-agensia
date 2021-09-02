@@ -64,5 +64,9 @@ public class RAMUserServiceImpl implements UserService {
 				result.add(u);
 		return result;
 	}
-	
+
+	@Override
+	public void setUser(User user) throws BusinessException {
+		this.users.put(user.getId(), user);
+	}
 }

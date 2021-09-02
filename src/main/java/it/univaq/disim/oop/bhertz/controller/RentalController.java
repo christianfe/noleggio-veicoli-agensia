@@ -76,11 +76,11 @@ public class RentalController implements Initializable, DataInitializable<User>{
 		//paymentColumn.setCellValueFactory(new PropertyValueFactory<>("paid")); 
 		paymentColumn.setStyle("-fx-alignment: CENTER;");
 		paymentColumn.setCellValueFactory((CellDataFeatures<Contract, String> param) -> {
-			String Answer;
+			/*String Answer;
 			if (param.getValue().isPaid())
 				Answer = "si";
-			else Answer = "no";
-			return new SimpleStringProperty(Answer);
+			else Answer = "no";*/
+			return new SimpleStringProperty(param.getValue().isPaid() ? "SI":"NO");
 		});
 		
 		
@@ -100,8 +100,10 @@ public class RentalController implements Initializable, DataInitializable<User>{
 	
 	@Override
 	public void initializeData(User user) {
+		if (user.getRole() == 2)
+			userColumn.setVisible(false);
 		try {
-			List<Contract> contract = rentalService.getAllContracts();
+			List<Contract> contract = (user.getRole() == 2 ? rentalService.getContractsByUser(user) : rentalService.getAllContracts());
 			ObservableList<Contract> contractData = FXCollections.observableArrayList(contract);
 			rentalTable.setItems(contractData);
 		} catch (BusinessException e) {

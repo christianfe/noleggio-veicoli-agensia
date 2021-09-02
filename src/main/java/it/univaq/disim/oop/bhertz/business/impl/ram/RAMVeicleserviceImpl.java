@@ -74,17 +74,29 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 	@Override
 	public List<Veicle> getVeiclesByType(Type t) throws BusinessException {
 		List<Veicle> result = new ArrayList<>();
-		
 		for (Veicle v : veicles.values())
 			if (v.getType().getId() == t.getId())
 				result.add(v);
-		
 		return result;
 	}
 
 	@Override
 	public Veicle getVeicleByID(int id) throws BusinessException {
 		return veicles.get(id);
+	}
+
+	@Override
+	public List<Veicle> getVeiclesByState(VeicleState state) throws BusinessException {
+		List<Veicle> result = new ArrayList<>();
+		for (Veicle v : veicles.values())
+			if (v.getState() == state)
+				result.add(v);
+		return result;
+	}
+
+	@Override
+	public void setVeicle(Veicle veicle) throws BusinessException {
+		this.veicles.put(veicle.getId(), veicle);
 	}
 	
 }

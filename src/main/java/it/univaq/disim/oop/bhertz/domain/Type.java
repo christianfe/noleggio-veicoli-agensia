@@ -5,6 +5,8 @@ import java.util.Set;
 
 public class Type {
 
+
+
 	private String name;
 	private double priceForKm;
 	private double priceForDay;
@@ -44,4 +46,11 @@ public class Type {
 		this.priceForDay = priceForDay;
 	}
 
+	public Set<Veicle> getVeicles() {
+		return veicles;
+	}
+
+	public void setVeicles(Set<Veicle> veicles) {
+		this.veicles = veicles;
+	}
 }

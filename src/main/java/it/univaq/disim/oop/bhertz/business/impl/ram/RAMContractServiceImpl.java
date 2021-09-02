@@ -29,7 +29,6 @@ public class RAMContractServiceImpl implements ContractService  {
 
 		Contract contract1 = new Contract();
 		contract1.setCustomer(userService.getusersByID(5));
-		//contract1.setCustomer(new Customer(1, "gigio", "cacca", "pupù"));
 		contract1.setVeicle(veicleService.getVeicleByID(1));
 		contract1.setStart( LocalDate.of(2014, Month.SEPTEMBER, 10) );
 		contract1.setEnd(LocalDate.of(2014, Month.SEPTEMBER, 20) );
@@ -40,7 +39,6 @@ public class RAMContractServiceImpl implements ContractService  {
 
 		Contract contract2 = new Contract();
 		contract2.setCustomer(userService.getusersByID(3));
-		//contract1.setCustomer(new Customer(1, "gigio", "cacca", "pupù"));
 		contract2.setVeicle(veicleService.getVeicleByID(2));
 		contract2.setStart( LocalDate.of(2014, Month.SEPTEMBER, 10) );
 		contract2.setEnd(LocalDate.of(2014, Month.SEPTEMBER, 20) );
@@ -50,7 +48,6 @@ public class RAMContractServiceImpl implements ContractService  {
 
 		Contract contract3 = new Contract();
 		contract3.setCustomer(userService.getusersByID(3));
-		//contract1.setCustomer(new Customer(1, "gigio", "cacca", "pupù"));
 		contract3.setVeicle(veicleService.getVeicleByID(4));
 		contract3.setStart( LocalDate.of(2014, Month.SEPTEMBER, 12) );
 		contract3.setEnd(LocalDate.of(2014, Month.SEPTEMBER, 13) );
