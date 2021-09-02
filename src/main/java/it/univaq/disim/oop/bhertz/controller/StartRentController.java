@@ -1,6 +1,7 @@
 package it.univaq.disim.oop.bhertz.controller;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import it.univaq.disim.oop.bhertz.domain.User;
@@ -13,9 +14,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 
-public class StartRentController implements Initializable, DataInitializable<ObjectsCollector>{
+public class StartRentController implements Initializable, DataInitializable<ObjectsCollector> {
 
 	@FXML
 	private Label titleLabel;
@@ -35,7 +35,6 @@ public class StartRentController implements Initializable, DataInitializable<Obj
 	private User user;
 	private Veicle veicle;
 
-
 	public StartRentController() {
 	}
 
@@ -45,28 +44,49 @@ public class StartRentController implements Initializable, DataInitializable<Obj
 	}
 
 	@Override
-	public void initializeData(ObjectsCollector objectsCollector){
-		this.user = (User) objectsCollector.getObjectA();
-		this.veicle= (Veicle) objectsCollector.getObjectB();
-		
+	public void initializeData(ObjectsCollector objectsCollector) {
+
+		ObjectsCollector<User, Veicle> ArgumentsData = objectsCollector;
+		this.user = ArgumentsData.getObjectA();
+		this.veicle = ArgumentsData.getObjectB();
+
+		titleLabel.setText(titleLabel.getText() + ": " + ArgumentsData.getObjectB().getModel() + " - "
+				+ ArgumentsData.getObjectB().getPlate());
+		titleLabel.setStyle(" -fx-font-size: 15; -fx-alignment: LEFT;");
+
+		// dateEndField.disableProperty().bind(dateStart)
+
 		dailyCheckBox.setText(veicle.getType().getPriceForDay() + " €/day");
 		kmCheckBox.setText(veicle.getType().getPriceForKm() + " €/km");
 	}
 
 	@FXML
-	public void dailyCheckAction(ActionEvent e){
-		if (dailyCheckBox.isSelected()) kmCheckBox.setSelected(false);
+	public void dailyCheckAction(ActionEvent e) {
+		if (dailyCheckBox.isSelected())
+			kmCheckBox.setSelected(false);
 	}
 
 	@FXML
-	public void kmCheckAction(ActionEvent e){
-		if (kmCheckBox.isSelected()) dailyCheckBox.setSelected(false);
+	public void kmCheckAction(ActionEvent e) {
+		if (kmCheckBox.isSelected())
+			dailyCheckBox.setSelected(false);
 	}
 
 	@FXML
-	public void startContractAction(ActionEvent e){
+	public void startContractAction(ActionEvent e) throws NullPointerException {
 		if (!dailyCheckBox.isSelected() && !kmCheckBox.isSelected())
 			labelError.setText("Selezionare una tipologia di contratto");
+		try {
+			if (dateStartField.getValue().isAfter(dateEndField.getValue()))
+					labelError.setText("Macchine del tempo non disponibili");
+			}
+		catch (NullPointerException E) {
+			labelError.setText("Seleziona un periodo valido");
+		}
+		
+		
+		
+		
 	}
 
 }

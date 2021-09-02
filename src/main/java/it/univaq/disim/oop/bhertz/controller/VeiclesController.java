@@ -83,7 +83,7 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 			}
 
 			menuRent.setOnAction((ActionEvent event) -> {
-				dispatcher.renderView("startRent", new ObjectsCollector(user, param.getValue()));
+				dispatcher.renderView("startRent", new ObjectsCollector<User, Veicle>(user, param.getValue()));
 			});
 			
 					
@@ -94,6 +94,9 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 
 	@Override
 	public void initializeData(ObjectsCollector objColl){
+		
+		ObjectsCollector<User, Type> ArgumentsData = objColl;
+		titleLabel.setText(titleLabel.getText() + " " +  ArgumentsData.getObjectB().getName() );
 		this.user = (User) objColl.getObjectA();
 		if (user.getRole() == 1)
 			actionColumn.setVisible(false);

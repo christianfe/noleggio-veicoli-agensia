@@ -1,29 +1,29 @@
 package it.univaq.disim.oop.bhertz.view;
 
-public class ObjectsCollector {
-	private Object objectA;
-	private Object objectB;
+public class ObjectsCollector <A, B> {
+	private A objectA;
+	private B objectB;
 	
 	public ObjectsCollector() {}
 	
-	public ObjectsCollector(Object a, Object b) {
+	public ObjectsCollector(A a, B b) {
 		this.objectA = a;
 		this.objectB = b;
 	}
 
-	public Object getObjectA() {
+	public A getObjectA() {
 		return objectA;
 	}
 
-	public void setObjectA(Object objectA) {
+	public void setObjectA(A objectA) {
 		this.objectA = objectA;
 	}
 
-	public Object getObjectB() {
+	public B getObjectB() {
 		return objectB;
 	}
 
-	public void setObjectB(Object objectB) {
+	public void setObjectB(B objectB) {
 		this.objectB = objectB;
 	}
 	

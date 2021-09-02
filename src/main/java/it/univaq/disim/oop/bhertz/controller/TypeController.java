@@ -76,7 +76,7 @@ public class TypeController implements Initializable, DataInitializable<User> {
 			}
 
 			menuView.setOnAction((ActionEvent event) -> {
-				dispatcher.renderView("veicles", new ObjectsCollector(user, param.getValue()));
+				dispatcher.renderView("veicles", new ObjectsCollector<User, Type>(user, param.getValue()));
 			});
 			menuEdit.setOnAction((ActionEvent event) -> {
 
