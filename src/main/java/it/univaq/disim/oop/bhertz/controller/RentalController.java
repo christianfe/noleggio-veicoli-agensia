@@ -23,6 +23,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
@@ -45,7 +46,7 @@ public class RentalController implements Initializable, DataInitializable<User>{
 	@FXML
 	private TableColumn<Contract, String> paymentColumn;
 	@FXML
-	private TableColumn<Contract, Button> actionColumn;
+	private TableColumn<Contract, MenuButton> actionColumn;
 	
 	private ViewDispatcher dispatcher;
 	
@@ -85,6 +86,7 @@ public class RentalController implements Initializable, DataInitializable<User>{
 		});
 
 		actionColumn.setStyle("-fx-alignment: CENTER;");
+		/*
 		actionColumn.setCellValueFactory((CellDataFeatures<Contract, Button> param) -> {
 			final Button button = new Button();
 			button.setOnAction((ActionEvent event) -> {
@@ -100,10 +102,38 @@ public class RentalController implements Initializable, DataInitializable<User>{
 			});
 			return new SimpleObjectProperty<Button>(button);
 		});
+		*/
+		
+
+		actionColumn.setCellValueFactory((CellDataFeatures<Contract, MenuButton> param) -> {
+			final MenuButton localMenuButton = new MenuButton("Menu");
+			final MenuItem richiestaAssistenza = new MenuItem("Richiedi Assistenza");
+			final MenuItem gestioneRiconsegna = new MenuItem("Gestisci Riconsegna");
+			
+			richiestaAssistenza.setOnAction((ActionEvent event) -> {
+				System.out.println("richiesta assistenza");
+			});
+			
+			gestioneRiconsegna.setOnAction((ActionEvent event) -> {
+				System.out.println("gestione Riconsegna");
+			});
+			
+			
+			localMenuButton.getItems().add(richiestaAssistenza);
+			localMenuButton.getItems().add(gestioneRiconsegna);
+			return new SimpleObjectProperty<MenuButton>(localMenuButton);
+		});
+		
+		
+		
+		
+		
 	}
 	
 	@Override
 	public void initializeData(User user) {
+		
+		/*
 		switch (user.getRole()) {
 		case 2:
 			userColumn.setVisible(false);
@@ -127,6 +157,7 @@ public class RentalController implements Initializable, DataInitializable<User>{
 		} 
 		
 		rentalTable.setContextMenu(menu);
+		*/
 		
 		
 		
