@@ -4,6 +4,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import com.sun.glass.ui.Menu;
+
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.TypesService;
 import it.univaq.disim.oop.bhertz.business.impl.ram.RAMTypesServiceImpl;
@@ -44,12 +46,7 @@ public class TypeController implements Initializable, DataInitializable<User> {
 	private TypesService typesService;
 	private User user;
 
-	private MenuButton localMenuButton;
-	private MenuItem menuView;
-	private MenuItem menuEdit;
-	private MenuItem menuDelete;
-
-	public TypeController() {
+		public TypeController() {
 		dispatcher = ViewDispatcher.getInstance();
 		typesService = new RAMTypesServiceImpl();	
 
@@ -68,11 +65,11 @@ public class TypeController implements Initializable, DataInitializable<User> {
 
 		actionColumn.setStyle("-fx-alignment: CENTER;");
 		actionColumn.setCellValueFactory((CellDataFeatures<Type, MenuButton> param) -> {
-			localMenuButton = new MenuButton("Menu");
+			MenuButton localMenuButton= new MenuButton("Menu");
 
-			menuView = new MenuItem("Visualizza Veicoli");
-			menuEdit = new MenuItem("Modifica Tipologia");
-			menuDelete = new MenuItem("Elimina Tipologia");
+			MenuItem menuView = new MenuItem("Visualizza Veicoli");
+			MenuItem menuEdit = new MenuItem("Modifica Tipologia");
+			MenuItem menuDelete = new MenuItem("Elimina Tipologia");
 			localMenuButton.getItems().add(menuView);
 			if (this.user.getRole() == 0) {
 				localMenuButton.getItems().add(menuEdit);
@@ -95,6 +92,5 @@ public class TypeController implements Initializable, DataInitializable<User> {
 		} catch (BusinessException e) {
 			dispatcher.renderError(e);
 		}
-	
 	}
 }
