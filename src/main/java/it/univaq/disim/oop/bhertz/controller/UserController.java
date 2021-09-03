@@ -4,10 +4,14 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.swing.JOptionPane;
+
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.UserService;
+import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.User;
+import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -17,6 +21,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
@@ -31,24 +37,20 @@ public class UserController implements Initializable, DataInitializable<Object>{
 	@FXML
 	private TableView<User> staffTable;
 	@FXML
-	private TableColumn<User, String> idStaffColumn;
-	@FXML
 	private TableColumn<User, String> usernameStaffColumn;
 	@FXML
 	private TableColumn<User, String> nameStaffColumn;
 	@FXML
-	private TableColumn<User, Button> actionStaffColumn;
+	private TableColumn<User, MenuButton> actionStaffColumn;
 	
 	@FXML
 	private TableView<User> customerTable;
-	@FXML
-	private TableColumn<User, String> idCustomersColumn;
 	@FXML
 	private TableColumn<User, String> usernameCustomersColumn;
 	@FXML
 	private TableColumn<User, String> nameCustomersColumn;
 	@FXML
-	private TableColumn<User, Button> actionCustomersColumn;
+	private TableColumn<User, MenuButton> actionCustomersColumn;
 	
 	private ViewDispatcher dispatcher;
 	private UserService userServices;
@@ -60,30 +62,58 @@ public class UserController implements Initializable, DataInitializable<Object>{
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		idStaffColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 		usernameStaffColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
 		nameStaffColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+
 		actionStaffColumn.setStyle("-fx-alignment: CENTER;");
-		actionStaffColumn.setCellValueFactory((CellDataFeatures<User, Button> param) -> {
-			final Button userButton = new Button("Elimina");
-			userButton.setOnAction((ActionEvent event) -> {
-				//dispatcher.renderView("appelli", param.getValue());
+		actionStaffColumn.setCellValueFactory((CellDataFeatures<User, MenuButton> param) -> {
+			MenuButton localMenuButton = new MenuButton("Menu");
+
+			MenuItem menuEdit = new MenuItem("Modifica Utente");
+			MenuItem menuDelete = new MenuItem("Elimina Utente");
+			
+			localMenuButton.getItems().add(menuEdit);
+			localMenuButton.getItems().add(menuDelete);
+
+			menuEdit.setOnAction((ActionEvent event) -> {
+				dispatcher.renderView("userEditor",  new ObjectsCollector<User, User>(null, param.getValue()));
 			});
-			return new SimpleObjectProperty<Button>(userButton);
+			
+			menuDelete.setOnAction((ActionEvent event) -> {
+				if (JOptionPane.showConfirmDialog(null, "Confermi di voler eliminare l'utente selezionato?", "Eliminare l'utente?", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE) == 0) {
+					userServices.deleteUser(param.getValue().getId());
+					dispatcher.renderView("user", null);
+				}
+			});
+
+			return new SimpleObjectProperty<MenuButton>(localMenuButton);
 		});
 
-		idCustomersColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 		usernameCustomersColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
 		nameCustomersColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 		actionCustomersColumn.setStyle("-fx-alignment: CENTER;");
-		actionCustomersColumn.setCellValueFactory((CellDataFeatures<User, Button> param) -> {
-			final Button userButton = new Button("Elimina");
-			userButton.setOnAction((ActionEvent event) -> {
-				//dispatcher.renderView("appelli", param.getValue());
+		actionCustomersColumn.setCellValueFactory((CellDataFeatures<User, MenuButton> param) -> {
+			MenuButton localMenuButton = new MenuButton("Menu");
+
+			MenuItem menuEdit = new MenuItem("Modifica Utente");
+			MenuItem menuDelete = new MenuItem("Elimina Utente");
+			
+			localMenuButton.getItems().add(menuEdit);
+			localMenuButton.getItems().add(menuDelete);
+
+			menuEdit.setOnAction((ActionEvent event) -> {
+				dispatcher.renderView("userEditor",  new ObjectsCollector<User, User>(null, param.getValue()));
 			});
-			return new SimpleObjectProperty<Button>(userButton);
-		});
-	}
+			
+			menuDelete.setOnAction((ActionEvent event) -> {
+				if (JOptionPane.showConfirmDialog(null, "Confermi di voler eliminare l'utente selezionato?", "Eliminare l'utente?", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE) == 0) {
+					userServices.deleteUser(param.getValue().getId());
+					dispatcher.renderView("user", null);
+				}
+			});
+
+			return new SimpleObjectProperty<MenuButton>(localMenuButton);
+		});	}
 	
 	@Override
 	public void initializeData(Object o) {
@@ -101,7 +131,7 @@ public class UserController implements Initializable, DataInitializable<Object>{
 	}
 
 	public void addOperatorAction (ActionEvent event) {
-		dispatcher.renderView("addUser", null);
+		dispatcher.renderView("userEditor", new ObjectsCollector<User, User>(null, null));
 	}
 	
 }

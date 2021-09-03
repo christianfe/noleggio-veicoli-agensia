@@ -12,8 +12,14 @@ public interface UserService {
 
 	List<User> getUserByRole(int r) throws BusinessException;
 
-	void setUser(User user) throws BusinessException;
+	void setUser(Integer id, String name, String username, String password);
 	
-	void addUser(User user) throws BusinessException;
+	void addUser(User user);
+	
+	void deleteUser(Integer id);
+	
+	boolean isUsernameSet(String username);
+	
+	boolean isUsernameSet(Integer currentUserId, String username);
 	
 }
