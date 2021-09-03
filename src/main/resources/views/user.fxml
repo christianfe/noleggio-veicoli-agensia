@@ -33,7 +33,6 @@
       </HBox>
       <TableView fx:id="staffTable" prefHeight="213.0" prefWidth="758.0">
         <columns>
-          <TableColumn fx:id="idStaffColumn" prefWidth="84.5" text="id" />
           <TableColumn fx:id="usernameStaffColumn" prefWidth="132.0" text="username" />
             <TableColumn fx:id="nameStaffColumn" prefWidth="110.0" text="nome" />
             <TableColumn fx:id="actionStaffColumn" prefWidth="75.0" text="azioni" />
@@ -56,7 +55,6 @@
       </HBox>
       <TableView fx:id="customerTable" minHeight="-Infinity" minWidth="-Infinity" prefHeight="241.0" prefWidth="758.0">
          <columns>
-            <TableColumn fx:id="idCustomersColumn" prefWidth="84.5" text="id" />
             <TableColumn fx:id="usernameCustomersColumn" prefWidth="132.0" text="username" />
             <TableColumn fx:id="nameCustomersColumn" prefWidth="110.0" text="nome" />
             <TableColumn fx:id="actionCustomersColumn" prefWidth="75.0" text="azioni" />

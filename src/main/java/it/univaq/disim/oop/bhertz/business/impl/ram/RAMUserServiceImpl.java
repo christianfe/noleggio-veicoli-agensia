@@ -15,13 +15,6 @@ import it.univaq.disim.oop.bhertz.domain.User;
 
 public class RAMUserServiceImpl implements UserService {
 
-	/*
-	 * private CorsoDiLaureaService corsoDiLaureaService;
-	 * 
-	 * public RAMUtenteServiceImpl(CorsoDiLaureaService corsoDiLaureaService) {
-	 * this.corsoDiLaureaService = corsoDiLaureaService; }
-	 * 
-	 */
 	private Map<Integer, User> users = new HashMap<>();
 
 	public RAMUserServiceImpl() {
@@ -65,16 +58,42 @@ public class RAMUserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void setUser(User user) throws BusinessException {
-		this.users.put(user.getId(), user);
+	public void setUser(Integer id, String name, String username, String password){
+		User u = users.get(id);
+		u.setName(name);
+		u.setUsername(username);
+		u.setPassword(password);
+		this.users.put(id, u);
 	}
 
 	@Override
-	public void addUser(User user) throws BusinessException {
+	public void addUser(User user){
 		Integer max = 0;
 		for (User u : users.values())
 			max = (max > u.getId())? max : u.getId();
 		user.setId(max + 1);
-		setUser(user);
+		this.users.put(user.getId(), user);
+	}
+
+	@Override
+	public boolean isUsernameSet(String username){
+		for (User u : users.values())
+			if (u.getUsername().equals(username))
+				return true;
+		return false;
+	}
+
+	@Override
+	public void deleteUser(Integer id) {
+		users.remove(id);
+	}
+
+	@Override
+	public boolean isUsernameSet(Integer currentUserId, String username) {
+		for (User u : users.values()) {
+			if (u.getId() == currentUserId) continue;
+			if (u.getUsername().equals(username)) return true;
+		}
+		return false;
 	}
 }

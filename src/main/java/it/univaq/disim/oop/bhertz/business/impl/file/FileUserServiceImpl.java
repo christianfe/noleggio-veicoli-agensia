@@ -70,12 +70,34 @@ public class FileUserServiceImpl implements UserService {
 		return null;
 	}
 
+	
 	@Override
-	public void setUser(User user) throws BusinessException {
+	public void addUser(User user){
 	}
 
 	@Override
-	public void addUser(User user) throws BusinessException {
+	public boolean isUsernameSet(String username){
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void deleteUser(Integer id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setUser(Integer id, String name, String username, String password) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+	@Override
+	public boolean isUsernameSet(Integer currentUserId, String username) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
