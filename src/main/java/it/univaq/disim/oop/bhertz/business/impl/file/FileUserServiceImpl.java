@@ -62,26 +62,20 @@ public class FileUserServiceImpl implements UserService {
 
 	@Override
 	public User getusersByID(int id) throws BusinessException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<User> getUserByRole(int r) throws BusinessException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void setUser(User user) throws BusinessException {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void addUser(User user) throws BusinessException {
-		// TODO Auto-generated method stub
-
 	}
 
 }

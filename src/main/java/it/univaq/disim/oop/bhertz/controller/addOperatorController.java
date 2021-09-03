@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.UserService;
-import it.univaq.disim.oop.bhertz.domain.Customer;
+import it.univaq.disim.oop.bhertz.domain.Staff;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,7 +49,7 @@ public class addOperatorController implements Initializable, DataInitializable<O
 		else {
 			UserService userService = BhertzBusinessFactory.getInstance().getUserService();
 			try {
-				userService.addUser(new Customer(0, newNameField.getText(), newUsernameField.getText(), NewPasswordField.getText()));
+				userService.addUser(new Staff(0, newNameField.getText(), newUsernameField.getText(), NewPasswordField.getText()));
 			} catch (BusinessException e1) {
 				dispatcher.renderError(e1);
 			}
