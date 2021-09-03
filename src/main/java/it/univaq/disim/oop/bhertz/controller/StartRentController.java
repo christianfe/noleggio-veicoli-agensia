@@ -64,10 +64,11 @@ public class StartRentController implements Initializable, DataInitializable<Obj
 				+ ArgumentsData.getObjectB().getPlate());
 		titleLabel.setStyle(" -fx-font-size: 15; -fx-alignment: LEFT;");
 
-		// dateEndField.disableProperty().bind(dateStart)
+		String priceForDay = String.format("%.02f", veicle.getType().getPriceForDay());
+		String PriceForKm = String.format("%.02f", veicle.getType().getPriceForKm());
 
-		dailyCheckBox.setText(veicle.getType().getPriceForDay() + " €/day");
-		kmCheckBox.setText(veicle.getType().getPriceForKm() + " €/km");
+		dailyCheckBox.setText(priceForDay + " €/day");
+		kmCheckBox.setText(PriceForKm + " €/km");
 	}
 
 	@FXML
@@ -92,7 +93,7 @@ public class StartRentController implements Initializable, DataInitializable<Obj
 				labelError.setText("Macchine del tempo non disponibili");
 			else {
 				ContractService contractService = factory.getContractService();
-				
+
 				Contract newContract = new Contract();
 				newContract.setVeicle(veicle);
 				newContract.setCustomer(user);
@@ -103,16 +104,13 @@ public class StartRentController implements Initializable, DataInitializable<Obj
 					newContract.setType(ContractType.TIME);
 				else if (kmCheckBox.isSelected())
 					newContract.setType(ContractType.KM);
-				
+
 				veicle.setState(VeicleState.BUSY);
-				
+
 				contractService.addContract(newContract);
 				labelError.setText(null);
 				dispatcher.renderView("veicles", new ObjectsCollector<User, Type>(user, veicle.getType()));
 
-				
-				
-				
 			}
 		} catch (NullPointerException E) {
 			labelError.setText("Seleziona un periodo valido");
