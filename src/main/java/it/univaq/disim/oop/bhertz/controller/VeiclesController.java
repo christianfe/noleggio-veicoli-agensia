@@ -13,6 +13,7 @@ import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
 import it.univaq.disim.oop.bhertz.domain.VeicleState;
+import it.univaq.disim.oop.bhertz.view.BigObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import javafx.beans.property.SimpleObjectProperty;
@@ -30,7 +31,7 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class VeiclesController implements Initializable, DataInitializable<ObjectsCollector> {
+public class VeiclesController implements Initializable, DataInitializable<ObjectsCollector<User, Type>> {
 
 	@FXML
 	private Label titleLabel;
@@ -108,7 +109,7 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 	}
 
 	@Override
-	public void initializeData(ObjectsCollector objectsCollector) {
+	public void initializeData(ObjectsCollector<User, Type> objectsCollector) {
 		this.argumentsData = objectsCollector;
 		titleLabel.setText(titleLabel.getText() + " " + argumentsData.getObjectB().getName());
 		this.user = (User) objectsCollector.getObjectA();
@@ -121,5 +122,10 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 		} catch (BusinessException e) {
 			dispatcher.renderError(e);
 		}
+	}
+	
+	@FXML
+	private void addVeicleAction(ActionEvent e) {
+		dispatcher.renderView("veicleEdit", new BigObjectsCollector<User, Veicle, Type>(argumentsData.getObjectA(), null, argumentsData.getObjectB()));
 	}
 }

@@ -15,6 +15,19 @@ public class Veicle {
 	private Type type;
 	private Set<Contract> contracts = new HashSet<Contract>();
 
+	public Veicle() {}
+
+	public Veicle(Integer id, Type type, String model, String plate, int km, double consuption) {
+		this.state = VeicleState.FREE;
+		this.setId(id);;
+		this.setType(type);
+		this.setModel(model);
+		this.setPlate(plate);
+		this.setKm(km);
+		this.setConsumption(consuption);
+	}
+
+	
 	public Integer getId() {
 		return id;
 	}

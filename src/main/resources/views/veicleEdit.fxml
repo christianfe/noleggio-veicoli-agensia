@@ -8,9 +8,9 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="789.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="package it.univaq.disim.oop.bhertz.controller.VeicleEditController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="789.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univaq.disim.oop.bhertz.controller.VeicleEditController">
    <children>
-      <Label alignment="CENTER" layoutX="258.0" layoutY="35.0" prefHeight="46.0" prefWidth="273.0" text="Aggiungi Veicolo">
+      <Label fx:id="labelTitle" alignment="CENTER" layoutX="258.0" layoutY="35.0" prefHeight="46.0" prefWidth="273.0" text="Aggiungi Veicolo">
          <font>
             <Font size="26.0" />
          </font>
@@ -26,7 +26,7 @@
             <Insets right="8.0" />
          </padding>
       </Label>
-      <TextField fx:id="plateField" layoutX="393.0" layoutY="149.0" />
+      <TextField fx:id="plateField" layoutX="395.0" layoutY="149.0" />
       <Label alignment="CENTER_RIGHT" layoutX="248.0" layoutY="188.0" prefHeight="17.0" prefWidth="145.0" text="Chilometri" textAlignment="CENTER">
          <padding>
             <Insets right="8.0" />

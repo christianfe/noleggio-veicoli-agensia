@@ -10,10 +10,10 @@ public abstract class User {
 	public User() {}
 	
 	public User(int id, String name, String username, String pass) {
-		this.id = id;
-		this.name = name;
-		this.username = username;
-		this.password = pass;
+		this.setId(id);
+		this.setName(name);
+		this.setUsername(username);
+		this.setPassword(pass);
 	}
 
 	public abstract int getRole();
