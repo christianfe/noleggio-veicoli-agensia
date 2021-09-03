@@ -14,4 +14,6 @@ public interface ContractService {
 	List<Contract> getContractsByUser(User user) throws BusinessException;
 	
 	void addContract(Contract contract);
+	
+	void setPaid(Integer id, boolean value);
 }

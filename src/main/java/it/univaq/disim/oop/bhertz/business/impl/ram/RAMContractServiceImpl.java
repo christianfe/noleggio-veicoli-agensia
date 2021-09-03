@@ -11,7 +11,6 @@ import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.ContractService;
 import it.univaq.disim.oop.bhertz.business.UserService;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
-import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
 import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.ContractState;
 import it.univaq.disim.oop.bhertz.domain.User;
@@ -78,6 +77,14 @@ public class RAMContractServiceImpl implements ContractService  {
 
 	@Override
 	public void addContract(Contract contract) {
+		contract.setId(counter);
 		contracts.put(counter++, contract);
+	}
+
+	@Override
+	public void setPaid(Integer id, boolean value) {
+		Contract c = contracts.get(id);
+		c.setPaid(value);
+		contracts.put(id, c);
 	}	
 }

@@ -33,4 +33,10 @@ public class FileContractServiceImpl implements ContractService {
 		
 	}
 
+	@Override
+	public void setPaid(Integer id, boolean value) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

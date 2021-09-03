@@ -50,14 +50,12 @@ public class RentalController implements Initializable, DataInitializable<User> 
 
 	private ViewDispatcher dispatcher;
 
-	private BhertzBusinessFactory factory;
-	private ContractService rentalService;
+	private ContractService contractService;
 	private User user;
 
 	public RentalController() throws BusinessException {
 		dispatcher = ViewDispatcher.getInstance();
-		factory = BhertzBusinessFactory.getInstance();
-		rentalService = factory.getContractService();
+		contractService = BhertzBusinessFactory.getInstance().getContractService();
 	}
 
 	@Override
@@ -106,7 +104,7 @@ public class RentalController implements Initializable, DataInitializable<User> 
 				ticket.setContract(assistanceContract);
 				ticket.setStartDate(LocalDate.now());
 				assistanceContract.getVeicle().setState(VeicleState.MAINTENANCE);
-				MaintenanceService maintenanceService = factory.getMaintenanceService();
+				MaintenanceService maintenanceService = BhertzBusinessFactory.getInstance().getMaintenanceService();
 				maintenanceService.addTicket(ticket);
 				assistanceContract.setAssistance(ticket);
 				dispatcher.renderView("rental", user);
@@ -117,8 +115,9 @@ public class RentalController implements Initializable, DataInitializable<User> 
 			});
 
 			menuPagato.setOnAction((ActionEvent event) -> {
-				// TODO deve aggiornare la vista oltre che dB
-				param.getValue().setPaid(!param.getValue().isPaid());
+				//param.getValue().setPaid(!param.getValue().isPaid());
+				contractService.setPaid(param.getValue().getId(), !param.getValue().isPaid());
+				dispatcher.renderView("rental", this.user);
 			});
 
 			if (this.user.getRole() == 2) {
@@ -142,8 +141,8 @@ public class RentalController implements Initializable, DataInitializable<User> 
 		this.user = user;
 
 		try {
-			List<Contract> contract = (user.getRole() == 2 ? rentalService.getContractsByUser(user)
-					: rentalService.getAllContracts());
+			List<Contract> contract = (user.getRole() == 2 ? contractService.getContractsByUser(user)
+					: contractService.getAllContracts());
 			ObservableList<Contract> contractData = FXCollections.observableArrayList(contract);
 			rentalTable.setItems(contractData);
 		} catch (BusinessException e) {
