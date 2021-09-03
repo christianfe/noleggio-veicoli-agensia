@@ -7,10 +7,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="789.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univaq.disim.oop.bhertz.controller.VeicleEditController">
    <children>
-      <Label fx:id="labelTitle" alignment="CENTER" layoutX="258.0" layoutY="35.0" prefHeight="46.0" prefWidth="273.0" text="Aggiungi Veicolo">
+      <Label fx:id="labelTitle" alignment="CENTER" layoutX="126.0" layoutY="36.0" prefHeight="46.0" prefWidth="538.0" text="Aggiungi Veicolo">
          <font>
             <Font size="26.0" />
          </font>
@@ -20,25 +19,25 @@
             <Insets right="8.0" />
          </padding>
       </Label>
-      <TextField fx:id="modelField" layoutX="395.0" layoutY="115.0" />
+      <TextField fx:id="modelField" layoutX="395.0" layoutY="115.0" promptText="Modello Veicolo" />
       <Label alignment="CENTER_RIGHT" layoutX="248.0" layoutY="153.0" prefHeight="17.0" prefWidth="145.0" text="Targa" textAlignment="CENTER">
          <padding>
             <Insets right="8.0" />
          </padding>
       </Label>
-      <TextField fx:id="plateField" layoutX="395.0" layoutY="149.0" />
+      <TextField fx:id="plateField" layoutX="395.0" layoutY="149.0" promptText="Targa Veicolo" />
       <Label alignment="CENTER_RIGHT" layoutX="248.0" layoutY="188.0" prefHeight="17.0" prefWidth="145.0" text="Chilometri" textAlignment="CENTER">
          <padding>
             <Insets right="8.0" />
          </padding>
       </Label>
-      <TextField fx:id="kmField" layoutX="393.0" layoutY="184.0" />
+      <TextField fx:id="kmField" layoutX="393.0" layoutY="184.0" promptText="Chilometri Veicolo" />
       <Label alignment="CENTER_RIGHT" layoutX="246.0" layoutY="223.0" prefHeight="17.0" prefWidth="145.0" text="Consumo (km/l)" textAlignment="CENTER">
          <padding>
             <Insets right="8.0" />
          </padding>
       </Label>
-      <TextField fx:id="consuptionField" layoutX="391.0" layoutY="219.0" />
+      <TextField fx:id="consuptionField" layoutX="391.0" layoutY="219.0" promptText="Conumo Veicolo" />
       <Button fx:id="saveButton" layoutX="369.0" layoutY="270.0" mnemonicParsing="false" onAction="#saveAction" text="Salva" />
    </children>
 </AnchorPane>

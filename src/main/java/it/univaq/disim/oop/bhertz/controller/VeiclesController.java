@@ -51,7 +51,7 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 	private ViewDispatcher dispatcher;
 	private VeiclesService veiclesService;
 	private User user;
-	private ObjectsCollector<User, Type> argumentsData;
+	private ObjectsCollector<User, Type> objectsCollector;
 
 	public VeiclesController() {
 		dispatcher = ViewDispatcher.getInstance();
@@ -60,7 +60,9 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		modelColumn.setCellValueFactory(new PropertyValueFactory<>("model"));
+		modelColumn.setCellValueFactory((CellDataFeatures<Veicle, String> param) -> {
+			return new SimpleStringProperty(param.getValue().getModel() + " - " + param.getValue().getPlate());
+		});
 		consumiColumn.setCellValueFactory((CellDataFeatures<Veicle, String> param) -> {
 			return new SimpleStringProperty(param.getValue().getConsumption() + " km/l");
 		});
@@ -93,14 +95,17 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 
 			menuDelete.setOnAction((ActionEvent event) -> {
 				if (param.getValue().getState() != VeicleState.FREE)
-					JOptionPane.showMessageDialog(null, "Impostare il veicolo come libero prima di eliminarlo", "Errore", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "E' possibile modificare solo veicoli Liberi", "Errore", JOptionPane.ERROR_MESSAGE);
 				else if (JOptionPane.showConfirmDialog(null, "Confermi di voler eliminare il Veicolo selezionato e tutti i contratti associati?", "Eliminare l'utente?", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE) == 0) {
 					veiclesService.deleteVeicle(param.getValue().getId());
-					dispatcher.renderView("veicles", argumentsData);
+					dispatcher.renderView("veicles", objectsCollector);
 				}
 			});
 			
 			menuEdit.setOnAction((ActionEvent event) -> {
+				if (param.getValue().getState() != VeicleState.FREE)
+					JOptionPane.showMessageDialog(null, "E' possibile eliminare solo veicoli Liberi", "Errore", JOptionPane.ERROR_MESSAGE);
+				else dispatcher.renderView("veicleEdit", new BigObjectsCollector<User, Veicle, Type>(objectsCollector.getObjectA(), param.getValue(), objectsCollector.getObjectB()));
 			});
 
 			
@@ -110,8 +115,8 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 
 	@Override
 	public void initializeData(ObjectsCollector<User, Type> objectsCollector) {
-		this.argumentsData = objectsCollector;
-		titleLabel.setText(titleLabel.getText() + " " + argumentsData.getObjectB().getName());
+		this.objectsCollector = objectsCollector;
+		titleLabel.setText(titleLabel.getText() + " " + objectsCollector.getObjectB().getName());
 		this.user = (User) objectsCollector.getObjectA();
 		if (user.getRole() == 1)
 			actionColumn.setVisible(false);
@@ -126,6 +131,6 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 	
 	@FXML
 	private void addVeicleAction(ActionEvent e) {
-		dispatcher.renderView("veicleEdit", new BigObjectsCollector<User, Veicle, Type>(argumentsData.getObjectA(), null, argumentsData.getObjectB()));
+		dispatcher.renderView("veicleEdit", new BigObjectsCollector<User, Veicle, Type>(objectsCollector.getObjectA(), null, objectsCollector.getObjectB()));
 	}
 }
