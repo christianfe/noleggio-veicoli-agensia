@@ -11,7 +11,7 @@ import it.univaq.disim.oop.bhertz.domain.VeicleState;
 public class FileVeicleserviceImpl implements VeiclesService {
 
 	@Override
-	public Veicle getVeicleByID(int id) throws BusinessException {
+	public Veicle getVeicleByID(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -29,9 +29,23 @@ public class FileVeicleserviceImpl implements VeiclesService {
 	}
 
 	@Override
-	public void setVeicle(Veicle veicle) throws BusinessException {
+	public void setVeicle(Integer id, Integer typeId, String model, String plate, VeicleState veicleState, int km,
+			double consuption) {
 		// TODO Auto-generated method stub
-
+		
 	}
+
+	@Override
+	public void addVeicle(Veicle veicle) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteVeicle(Integer id) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

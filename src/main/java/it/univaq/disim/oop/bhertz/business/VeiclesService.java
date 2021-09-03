@@ -8,12 +8,16 @@ import it.univaq.disim.oop.bhertz.domain.VeicleState;
 
 public interface VeiclesService {
 
-	Veicle getVeicleByID(int id) throws BusinessException;
+	Veicle getVeicleByID(int id);
 
 	List<Veicle> getVeiclesByType(Type t) throws BusinessException;
 	
 	List<Veicle> getVeiclesByState(VeicleState state) throws BusinessException;
 	
-	void setVeicle(Veicle veicle) throws BusinessException;
+	void setVeicle(Integer id, Integer typeId, String model, String plate, VeicleState veicleState, int km, double consuption);
+	
+	void addVeicle(Veicle veicle);
+	
+	void deleteVeicle(Integer id);
 	
 }

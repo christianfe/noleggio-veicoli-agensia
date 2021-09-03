@@ -9,6 +9,7 @@ import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.TypesService;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
 import it.univaq.disim.oop.bhertz.domain.Type;
+import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
 import it.univaq.disim.oop.bhertz.domain.VeicleState;
 
@@ -81,7 +82,7 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 	}
 
 	@Override
-	public Veicle getVeicleByID(int id) throws BusinessException {
+	public Veicle getVeicleByID(int id) {
 		return veicles.get(id);
 	}
 
@@ -95,8 +96,30 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 	}
 
 	@Override
-	public void setVeicle(Veicle veicle) throws BusinessException {
+	public void setVeicle(Integer id, Integer typeId, String model, String plate, VeicleState veicleState, int km,
+			double consuption) {
+		Veicle v = veicles.get(id);
+		v.setModel(model);
+		v.setConsumption(consuption);
+		v.setKm(km);
+		v.setPlate(plate);
+		v.setType(typeService.getTypeByID(typeId));
+		v.setState(veicleState);
+		this.veicles.put(id, v);
+	}
+
+	@Override
+	public void addVeicle(Veicle veicle) {
+		Integer max = 0;
+		for (Veicle v : veicles.values())
+			max = (max > v.getId())? max : v.getId();
+		veicle.setId(max + 1);
 		this.veicles.put(veicle.getId(), veicle);
+	}
+
+	@Override
+	public void deleteVeicle(Integer id) {
+		veicles.remove(id);
 	}
 
 }

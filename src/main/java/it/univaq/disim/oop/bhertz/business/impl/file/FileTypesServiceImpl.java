@@ -16,19 +16,19 @@ public class FileTypesServiceImpl implements TypesService {
 	}
 
 	@Override
-	public Type getTypeByID(int id) throws BusinessException {
+	public Type getTypeByID(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void deleteType(Integer id) throws BusinessException, TypeNotEmptyException {
+	public void deleteType(Integer id) throws  TypeNotEmptyException {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void setType(Type type) throws BusinessException {
+	public void setType(Type type){
 		// TODO Auto-generated method stub
 
 	}

@@ -23,3 +23,4 @@ public interface UserService {
 	boolean isUsernameSet(Integer currentUserId, String username);
 	
 }
+	

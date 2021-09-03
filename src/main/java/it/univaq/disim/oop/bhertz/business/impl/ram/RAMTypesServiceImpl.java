@@ -36,12 +36,12 @@ public class RAMTypesServiceImpl implements TypesService{
 	}
 
 	@Override
-	public Type getTypeByID(int id) throws BusinessException {
+	public Type getTypeByID(int id){
 		return types.get(id);
 	}
 
 	@Override
-	public void deleteType(Integer id) throws BusinessException, TypeNotEmptyException {
+	public void deleteType(Integer id) throws TypeNotEmptyException {
 		TypesService typeService = new RAMTypesServiceImpl();
 		Type t = typeService.getTypeByID(id);
 		if (!t.getVeicles().isEmpty()) throw new TypeNotEmptyException();
@@ -49,7 +49,7 @@ public class RAMTypesServiceImpl implements TypesService{
 	}
 
 	@Override
-	public void setType(Type type) throws BusinessException {
+	public void setType(Type type){
 		types.put(type.getId(), type);
 	}
 

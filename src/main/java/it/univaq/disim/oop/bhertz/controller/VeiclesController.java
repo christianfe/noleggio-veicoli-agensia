@@ -4,6 +4,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.swing.JOptionPane;
+
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
@@ -48,6 +50,7 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 	private ViewDispatcher dispatcher;
 	private VeiclesService veiclesService;
 	private User user;
+	private ObjectsCollector<User, Type> argumentsData;
 
 	public VeiclesController() {
 		dispatcher = ViewDispatcher.getInstance();
@@ -70,8 +73,8 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 			MenuButton localMenuButton = new MenuButton("Menu");
 
 			MenuItem menuRent = new MenuItem("Noleggia Veicolo");
-			MenuItem menuEdit = new MenuItem("Modifica Tipologia");
-			MenuItem menuDelete = new MenuItem("Elimina Tipologia");
+			MenuItem menuEdit = new MenuItem("Modifica Veicolo");
+			MenuItem menuDelete = new MenuItem("Elimina Veicolo");
 			if (this.user.getRole() == 2) {
 
 				if (param.getValue().getState() == VeicleState.FREE)
@@ -87,20 +90,32 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 				dispatcher.renderView("startRent", new ObjectsCollector<User, Veicle>(user, param.getValue()));
 			});
 
+			menuDelete.setOnAction((ActionEvent event) -> {
+				if (param.getValue().getState() != VeicleState.FREE)
+					JOptionPane.showMessageDialog(null, "Impostare il veicolo come libero prima di eliminarlo", "Errore", JOptionPane.ERROR_MESSAGE);
+				else if (JOptionPane.showConfirmDialog(null, "Confermi di voler eliminare il Veicolo selezionato e tutti i contratti associati?", "Eliminare l'utente?", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE) == 0) {
+					veiclesService.deleteVeicle(param.getValue().getId());
+					dispatcher.renderView("veicles", argumentsData);
+				}
+			});
+			
+			menuEdit.setOnAction((ActionEvent event) -> {
+			});
+
+			
 			return new SimpleObjectProperty<MenuButton>(localMenuButton);
 		});
 	}
 
 	@Override
-	public void initializeData(ObjectsCollector objColl) {
-
-		ObjectsCollector<User, Type> ArgumentsData = objColl;
-		titleLabel.setText(titleLabel.getText() + " " + ArgumentsData.getObjectB().getName());
-		this.user = (User) objColl.getObjectA();
+	public void initializeData(ObjectsCollector objectsCollector) {
+		this.argumentsData = objectsCollector;
+		titleLabel.setText(titleLabel.getText() + " " + argumentsData.getObjectB().getName());
+		this.user = (User) objectsCollector.getObjectA();
 		if (user.getRole() == 1)
 			actionColumn.setVisible(false);
 		try {
-			List<Veicle> veicleList = veiclesService.getVeiclesByType((Type) objColl.getObjectB());
+			List<Veicle> veicleList = veiclesService.getVeiclesByType((Type) objectsCollector.getObjectB());
 			ObservableList<Veicle> veiclesData = FXCollections.observableArrayList(veicleList);
 			veiclesTable.setItems(veiclesData);
 		} catch (BusinessException e) {
