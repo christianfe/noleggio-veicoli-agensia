@@ -4,9 +4,9 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.MaintenanceService;
-import it.univaq.disim.oop.bhertz.business.impl.ram.RAMMaintenanceServiceImpl;
 import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
 import it.univaq.disim.oop.bhertz.domain.TicketState;
 import it.univaq.disim.oop.bhertz.domain.User;
@@ -18,7 +18,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -47,11 +46,7 @@ public class MaintenanceController implements Initializable, DataInitializable<U
 
 	public MaintenanceController() {
 		dispatcher = ViewDispatcher.getInstance();
-		try {
-			maintenanceService = new RAMMaintenanceServiceImpl();
-		} catch (BusinessException e) {
-			dispatcher.renderError(e);
-		}
+		maintenanceService = BhertzBusinessFactory.getInstance().getMaintenanceService();
 	}
 
 	@Override

@@ -4,9 +4,9 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.TypesService;
-import it.univaq.disim.oop.bhertz.business.impl.ram.RAMTypesServiceImpl;
 import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
@@ -47,7 +47,7 @@ public class TypeController implements Initializable, DataInitializable<User> {
 
 	public TypeController() {
 		dispatcher = ViewDispatcher.getInstance();
-		typesService = new RAMTypesServiceImpl();
+		typesService = BhertzBusinessFactory.getInstance().getTypesService();
 
 	}
 

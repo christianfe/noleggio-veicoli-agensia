@@ -4,9 +4,9 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.ContractService;
-import it.univaq.disim.oop.bhertz.business.impl.ram.RAMContractServiceImpl;
 import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
@@ -50,7 +50,7 @@ public class RentalController implements Initializable, DataInitializable<User>{
 
 	public RentalController() throws BusinessException {
 		dispatcher = ViewDispatcher.getInstance();
-		rentalService = new RAMContractServiceImpl();
+		rentalService = BhertzBusinessFactory.getInstance().getContractService();
 	}
 
 	@Override

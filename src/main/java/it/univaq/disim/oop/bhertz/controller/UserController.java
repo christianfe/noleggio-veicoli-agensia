@@ -4,10 +4,9 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-
+import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.UserService;
-import it.univaq.disim.oop.bhertz.business.impl.ram.RAMUserServiceImpl;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import javafx.beans.property.SimpleObjectProperty;
@@ -56,7 +55,7 @@ public class UserController implements Initializable, DataInitializable<Object>{
 	
 	public UserController() {
 		dispatcher = ViewDispatcher.getInstance();
-		userServices = new RAMUserServiceImpl();
+		userServices = BhertzBusinessFactory.getInstance().getUserService();
 	}
 	
 	@Override

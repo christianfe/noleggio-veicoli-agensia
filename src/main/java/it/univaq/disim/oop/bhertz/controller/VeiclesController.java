@@ -4,9 +4,9 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
-import it.univaq.disim.oop.bhertz.business.impl.ram.RAMVeicleserviceImpl;
 import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
@@ -51,11 +51,7 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 
 	public VeiclesController(){
 		dispatcher = ViewDispatcher.getInstance();
-		try {
-			veiclesService = new RAMVeicleserviceImpl();
-		} catch (BusinessException e) {
-			dispatcher.renderError(e);
-		}
+		veiclesService = BhertzBusinessFactory.getInstance().getVeiclesService();
 	}
 
 	@Override

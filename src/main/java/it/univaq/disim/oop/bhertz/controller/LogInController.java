@@ -3,10 +3,10 @@ package it.univaq.disim.oop.bhertz.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.UserNotFoundException;
 import it.univaq.disim.oop.bhertz.business.UserService;
-import it.univaq.disim.oop.bhertz.business.impl.ram.RAMUserServiceImpl;
 import it.univaq.disim.oop.bhertz.domain.Customer;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
@@ -58,7 +58,7 @@ public class LogInController implements Initializable, DataInitializable<Object>
 	private ViewDispatcher dispatcher;
 
 	public LogInController() {
-		userService = new RAMUserServiceImpl();
+		userService = BhertzBusinessFactory.getInstance().getUserService();
 		this.dispatcher = ViewDispatcher.getInstance();
 	}
 
@@ -87,7 +87,7 @@ public class LogInController implements Initializable, DataInitializable<Object>
 		if (!NewPasswordField.getText().equals(NewPasswordRepeatField.getText()))
 			labelErrorSignup.setText("Le password immesse sono diverse!");
 		else {
-			UserService userService = new RAMUserServiceImpl();
+			UserService userService = BhertzBusinessFactory.getInstance().getUserService();
 			try {
 				userService.addUser(new Customer(0, newNameField.getText(), newUsernameField.getText(), NewPasswordField.getText()));
 			} catch (BusinessException e1) {
