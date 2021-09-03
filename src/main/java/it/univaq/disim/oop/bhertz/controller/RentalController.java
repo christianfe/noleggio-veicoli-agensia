@@ -13,6 +13,7 @@ import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
 import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.TicketState;
 import it.univaq.disim.oop.bhertz.domain.User;
+import it.univaq.disim.oop.bhertz.domain.VeicleState;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -104,8 +105,11 @@ public class RentalController implements Initializable, DataInitializable<User> 
 				ticket.setState(TicketState.REQUIRED);
 				ticket.setContract(assistanceContract);
 				ticket.setStartDate(LocalDate.now());
+				assistanceContract.getVeicle().setState(VeicleState.MAINTENANCE);
 				MaintenanceService maintenanceService = factory.getMaintenanceService();
 				maintenanceService.addTicket(ticket);
+				assistanceContract.setAssistance(ticket);
+				dispatcher.renderView("rental", user);
 
 			});
 
@@ -117,9 +121,12 @@ public class RentalController implements Initializable, DataInitializable<User> 
 				param.getValue().setPaid(!param.getValue().isPaid());
 			});
 
-			if (this.user.getRole() == 2)
-				localMenuButton.getItems().add(menuRichiestaAssistenza);
-			else if (this.user.getRole() == 1) {
+			if (this.user.getRole() == 2) {
+				if (param.getValue().getVeicle().getState() == VeicleState.MAINTENANCE)
+					localMenuButton.setVisible(false);
+				else 
+					localMenuButton.getItems().add(menuRichiestaAssistenza);
+			} else if (this.user.getRole() == 1) {
 				localMenuButton.getItems().add(menuGestioneRiconsegna);
 				localMenuButton.getItems().add(menuPagato);
 			} else if (this.user.getRole() == 0)
