@@ -5,8 +5,6 @@ import java.util.Set;
 
 public class Type {
 
-
-
 	private String name;
 	private double priceForKm;
 	private double priceForDay;
@@ -14,6 +12,15 @@ public class Type {
 
 	private Set<Veicle> veicles = new HashSet<Veicle>();
 
+	public Type() {}
+	
+	public Type(Integer id, String name, double priceForKm, double priceForDay) {
+		this.setId(id);
+		this.setName(name);
+		this.setPriceForDay(priceForDay);
+		this.setPriceForKm(priceForKm);
+	}
+	
 	public Integer getId() {
 		return id;
 	}

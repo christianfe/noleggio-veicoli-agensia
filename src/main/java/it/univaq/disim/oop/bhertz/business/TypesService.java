@@ -9,9 +9,11 @@ public interface TypesService {
 
 	Type getTypeByID(int id);
 	
-	void deleteType(Integer id) throws TypeNotEmptyException;
+	void deleteType(Integer id) throws TypeNotEmptyException, BusinessException;
 	
-	void setType(Type type);
+	void setType(Integer id, String name, double priceForKm, double priceForDay);
+	
+	void addType(Type type);
 
 }
 

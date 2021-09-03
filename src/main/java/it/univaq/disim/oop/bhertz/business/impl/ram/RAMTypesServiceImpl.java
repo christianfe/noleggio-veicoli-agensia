@@ -5,9 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.TypeNotEmptyException;
 import it.univaq.disim.oop.bhertz.business.TypesService;
+import it.univaq.disim.oop.bhertz.business.VeiclesService;
 import it.univaq.disim.oop.bhertz.domain.Type;
 
 public class RAMTypesServiceImpl implements TypesService{
@@ -41,17 +43,32 @@ public class RAMTypesServiceImpl implements TypesService{
 	}
 
 	@Override
-	public void deleteType(Integer id) throws TypeNotEmptyException {
-		TypesService typeService = new RAMTypesServiceImpl();
-		Type t = typeService.getTypeByID(id);
-		if (!t.getVeicles().isEmpty()) throw new TypeNotEmptyException();
+	public void deleteType(Integer id) throws BusinessException, TypeNotEmptyException{
+		VeiclesService veiclesService = BhertzBusinessFactory.getInstance().getVeiclesService();
+		Type t = types.get(id);
+		if (!veiclesService.getVeiclesByType(t).isEmpty()) throw new TypeNotEmptyException();
 		else types.remove(id);
 	}
 
+
 	@Override
-	public void setType(Type type){
-		types.put(type.getId(), type);
+	public void addType(Type type) {
+		Integer max = 0;
+		for (Type t : types.values())
+			max = (max > t.getId())? max : t.getId();
+		type.setId(max + 1);
+		this.types.put(type.getId(), type);
 	}
+
+	@Override
+	public void setType(Integer id, String name, double priceForKm, double priceForDay) {
+		Type t = types.get(id);
+		t.setName(name);
+		t.setPriceForDay(priceForDay);
+		t.setPriceForKm(priceForKm);
+		this.types.put(id, t);
+	}
+
 
 
 }

@@ -4,8 +4,11 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.swing.JOptionPane;
+
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
+import it.univaq.disim.oop.bhertz.business.TypeNotEmptyException;
 import it.univaq.disim.oop.bhertz.business.TypesService;
 import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.User;
@@ -18,6 +21,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -39,6 +43,8 @@ public class TypeController implements Initializable, DataInitializable<User> {
 	private TableColumn<Type, String> kmColumn;
 	@FXML
 	private TableColumn<Type, MenuButton> actionColumn;
+	@FXML
+	private Button addTypeButton;
 
 	private ViewDispatcher dispatcher;
 
@@ -79,10 +85,19 @@ public class TypeController implements Initializable, DataInitializable<User> {
 				dispatcher.renderView("veicles", new ObjectsCollector<User, Type>(user, param.getValue()));
 			});
 			menuEdit.setOnAction((ActionEvent event) -> {
-
+				dispatcher.renderView("typeEdit", new ObjectsCollector<User, Type>(this.user, param.getValue()));
 			});
 			menuDelete.setOnAction((ActionEvent event) -> {
-
+				if (JOptionPane.showConfirmDialog(null, "Confermi di voler eliminare la tipologia selezionata?", "Eliminare?", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE) == 0) {
+					try {
+						typesService.deleteType(param.getValue().getId());
+					} catch (TypeNotEmptyException e) {
+						JOptionPane.showMessageDialog(null, "Prima di poter eliminare una tipologia devono essere eliminati tutti i veicoli associati", "Errore", JOptionPane.ERROR_MESSAGE);
+					} catch (BusinessException e) {
+						e.printStackTrace();
+					}
+					dispatcher.renderView("type", this.user);
+				}
 			});
 
 			return new SimpleObjectProperty<MenuButton>(localMenuButton);
@@ -99,5 +114,10 @@ public class TypeController implements Initializable, DataInitializable<User> {
 		} catch (BusinessException e) {
 			dispatcher.renderError(e);
 		}
+	}
+	
+	@FXML
+	private void addTypeAction(ActionEvent e) {
+		this.dispatcher.renderView("typeEdit", new ObjectsCollector<User, Type>(this.user, null));
 	}
 }

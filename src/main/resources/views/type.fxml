@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="578.0" prefWidth="778.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univaq.disim.oop.bhertz.controller.TypeController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="578.0" prefWidth="778.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univaq.disim.oop.bhertz.controller.TypeController">
    <children>
-      <Label fx:id="titleLabel" alignment="TOP_CENTER" prefWidth="778.0" text="Tipologie di veicoli">
+      <Label fx:id="titleLabel" alignment="TOP_LEFT" prefWidth="778.0" text="Tipologie di veicoli">
          <font>
             <Font size="18.0" />
          </font>
@@ -17,6 +18,11 @@
             <Insets bottom="10.0" top="10.0" />
          </VBox.margin>
       </Label>
+      <Button fx:id="addTypeButton" mnemonicParsing="false" onAction="#addTypeAction" text="Aggiungi Tipologia">
+         <VBox.margin>
+            <Insets bottom="10.0" top="10.0" />
+         </VBox.margin>
+      </Button>
       <TableView fx:id="typesTable" prefHeight="172.0" prefWidth="647.0">
         <columns>
           <TableColumn fx:id="nameColumn" prefWidth="166.0" text="Nome" />

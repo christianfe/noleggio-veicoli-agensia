@@ -96,7 +96,7 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 			menuDelete.setOnAction((ActionEvent event) -> {
 				if (param.getValue().getState() != VeicleState.FREE)
 					JOptionPane.showMessageDialog(null, "E' possibile modificare solo veicoli Liberi", "Errore", JOptionPane.ERROR_MESSAGE);
-				else if (JOptionPane.showConfirmDialog(null, "Confermi di voler eliminare il Veicolo selezionato e tutti i contratti associati?", "Eliminare l'utente?", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE) == 0) {
+				else if (JOptionPane.showConfirmDialog(null, "Confermi di voler eliminare il Veicolo selezionato e tutti i contratti associati?", "Eliminare?", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE) == 0) {
 					veiclesService.deleteVeicle(param.getValue().getId());
 					dispatcher.renderView("veicles", objectsCollector);
 				}

@@ -28,9 +28,15 @@ public class FileTypesServiceImpl implements TypesService {
 	}
 
 	@Override
-	public void setType(Type type){
+	public void setType(Integer id, String name, double priceForKm, double priceForDay) {
 		// TODO Auto-generated method stub
+		
+	}
 
+	@Override
+	public void addType(Type type) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
