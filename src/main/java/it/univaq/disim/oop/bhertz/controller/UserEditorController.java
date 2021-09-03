@@ -3,6 +3,8 @@ package it.univaq.disim.oop.bhertz.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javax.swing.JOptionPane;
+
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.UserService;
@@ -63,7 +65,6 @@ public class UserEditorController implements Initializable, DataInitializable<Ob
 			newPasswordField.setText(userToEdit.getPassword());
 			newPasswordRepeatField.setText(userToEdit.getPassword());
 		}
-
 	}
 
 	@FXML
@@ -78,9 +79,10 @@ public class UserEditorController implements Initializable, DataInitializable<Ob
 			if (creatingNewOperator) userServices.addUser(new Staff(0, newNameField.getText(), newUsernameField.getText(), newPasswordField.getText()));
 			else userServices.setUser(userToEdit.getId(), newNameField.getText(), newUsernameField.getText(), newPasswordField.getText());
 
-			dispatcher.renderView("user", null);
-
+			if (userEditing != null && userToEdit != null && userEditing.getId() == userToEdit.getId()) {
+				JOptionPane.showMessageDialog(null, "Dati aggiornati con successo!");
+				dispatcher.renderView("home", userEditing);
+			} else dispatcher.renderView("user", null);
 		}
-
 	}
 }

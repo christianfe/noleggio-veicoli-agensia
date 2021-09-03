@@ -50,6 +50,6 @@
          </padding></VBox>
    </left>
    <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="BOTTOM_CENTER" />
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="TOP_LEFT" />
    </center>
 </BorderPane>

@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import it.univaq.disim.oop.bhertz.domain.Admin;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.view.MenuElement;
+import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,7 +18,7 @@ import javafx.scene.paint.Paint;
 
 public class LayoutController implements Initializable, DataInitializable<User> {
 	
-	private static final MenuElement MENU_HOME[] ={ new MenuElement("Home", "home"), new MenuElement("Automezzi", "type"), new MenuElement("Noleggi", "rental"), new MenuElement("Manutenzioni", "maintenance")};
+	private static final MenuElement MENU_HOME[] ={ new MenuElement("Home", "home"), new MenuElement("Automezzi", "type"), new MenuElement("Noleggi", "rental"), new MenuElement("Manutenzioni", "maintenance"), new MenuElement("Profilo", "userEditor")};
 	private static final MenuElement MENU_ADMIN =  new MenuElement("Utenti", "user");
 	
 	@FXML
@@ -51,7 +52,8 @@ public class LayoutController implements Initializable, DataInitializable<User> 
 		button.setPrefHeight(10);
 		button.setPrefWidth(180);
 		button.setOnAction((ActionEvent event) -> {
-			dispatcher.renderView(viewItem.getVista(), user);
+			if (button.getText().equals(MENU_HOME[4].getNome())) dispatcher.renderView(viewItem.getVista(), new ObjectsCollector<User, User>(user, user));
+			else dispatcher.renderView(viewItem.getVista(), user);
 		});
 		return button;
 	}
