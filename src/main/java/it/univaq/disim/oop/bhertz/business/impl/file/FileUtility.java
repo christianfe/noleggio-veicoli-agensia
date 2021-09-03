@@ -8,7 +8,7 @@ import java.util.List;
 
 public class FileUtility {
 
-	public static final String SEPARATORE_COLONNA = ";";
+	public static final String COLUMN_SEPARATOR = ";";
 
 	public static final String[] trim(String[] s) {
 		for (int i = 0; i < s.length; i++)
@@ -25,7 +25,7 @@ public class FileUtility {
 			result.setCount(count);
 			String line = null;
 			while ((line = in.readLine()) != null)
-				rows.add(trim(line.split(SEPARATORE_COLONNA)));
+				rows.add(trim(line.split(COLUMN_SEPARATOR)));
 			result.setRows(rows);
 		}
 		

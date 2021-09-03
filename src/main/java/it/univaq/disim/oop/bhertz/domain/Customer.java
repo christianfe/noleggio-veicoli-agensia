@@ -5,6 +5,9 @@ public class Customer extends User {
 		super(id, name, username, pass);
 	}
 
+	public Customer() {
+	}
+
 	public int getRole() {
 		return 2;
 	}

@@ -4,6 +4,8 @@ public class Admin extends User {
 	public Admin(int id, String name, String username, String pass) {
 		super(id, name, username, pass);
 	}
+	public Admin() {
+	}
 
 	public int getRole() {
 		return 0;
