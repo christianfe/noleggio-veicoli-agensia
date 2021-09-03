@@ -27,4 +27,10 @@ public class FileContractServiceImpl implements ContractService {
 		return null;
 	}
 
+	@Override
+	public void addContract(Contract contract) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

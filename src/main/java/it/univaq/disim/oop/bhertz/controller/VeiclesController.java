@@ -28,7 +28,7 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class VeiclesController implements Initializable, DataInitializable<ObjectsCollector>{
+public class VeiclesController implements Initializable, DataInitializable<ObjectsCollector> {
 
 	@FXML
 	private Label titleLabel;
@@ -46,10 +46,10 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 	private TableColumn<Veicle, MenuButton> actionColumn;
 
 	private ViewDispatcher dispatcher;
-	private VeiclesService veiclesService; 
+	private VeiclesService veiclesService;
 	private User user;
 
-	public VeiclesController(){
+	public VeiclesController() {
 		dispatcher = ViewDispatcher.getInstance();
 		veiclesService = BhertzBusinessFactory.getInstance().getVeiclesService();
 	}
@@ -64,16 +64,21 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 			return new SimpleStringProperty(param.getValue().getKm() + " km");
 		});
 		stateColumn.setCellValueFactory(new PropertyValueFactory<>("state"));
-		
+
 		actionColumn.setStyle("-fx-alignment: CENTER;");
 		actionColumn.setCellValueFactory((CellDataFeatures<Veicle, MenuButton> param) -> {
-			MenuButton localMenuButton= new MenuButton("Menu");
+			MenuButton localMenuButton = new MenuButton("Menu");
 
 			MenuItem menuRent = new MenuItem("Noleggia Veicolo");
 			MenuItem menuEdit = new MenuItem("Modifica Tipologia");
 			MenuItem menuDelete = new MenuItem("Elimina Tipologia");
-			if (this.user.getRole() == 2) localMenuButton.getItems().add(menuRent);
-			else {
+			if (this.user.getRole() == 2) {
+
+				if (param.getValue().getState() == VeicleState.FREE)
+					localMenuButton.getItems().add(menuRent);
+				else localMenuButton.setVisible(false);
+
+			} else {
 				localMenuButton.getItems().add(menuEdit);
 				localMenuButton.getItems().add(menuDelete);
 			}
@@ -81,23 +86,21 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 			menuRent.setOnAction((ActionEvent event) -> {
 				dispatcher.renderView("startRent", new ObjectsCollector<User, Veicle>(user, param.getValue()));
 			});
-			
-					
+
 			return new SimpleObjectProperty<MenuButton>(localMenuButton);
 		});
 	}
 
-
 	@Override
-	public void initializeData(ObjectsCollector objColl){
-		
+	public void initializeData(ObjectsCollector objColl) {
+
 		ObjectsCollector<User, Type> ArgumentsData = objColl;
-		titleLabel.setText(titleLabel.getText() + " " +  ArgumentsData.getObjectB().getName() );
+		titleLabel.setText(titleLabel.getText() + " " + ArgumentsData.getObjectB().getName());
 		this.user = (User) objColl.getObjectA();
 		if (user.getRole() == 1)
 			actionColumn.setVisible(false);
 		try {
-			List<Veicle> veicleList = veiclesService.getVeiclesByType((Type)objColl.getObjectB());
+			List<Veicle> veicleList = veiclesService.getVeiclesByType((Type) objColl.getObjectB());
 			ObservableList<Veicle> veiclesData = FXCollections.observableArrayList(veicleList);
 			veiclesTable.setItems(veiclesData);
 		} catch (BusinessException e) {

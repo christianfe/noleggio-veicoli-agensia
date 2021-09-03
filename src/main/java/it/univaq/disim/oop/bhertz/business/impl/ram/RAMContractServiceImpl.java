@@ -21,7 +21,7 @@ public class RAMContractServiceImpl implements ContractService  {
 	private Map<Integer, Contract> contracts = new HashMap<>();
 	private VeiclesService veicleService;
 	private UserService userService;
-
+	private int counter = 1;
 
 	public RAMContractServiceImpl() throws BusinessException {
 		this.veicleService = new RAMVeicleserviceImpl();
@@ -33,7 +33,7 @@ public class RAMContractServiceImpl implements ContractService  {
 		contract1.setStart( LocalDate.of(2014, Month.SEPTEMBER, 10) );
 		contract1.setEnd(LocalDate.of(2014, Month.SEPTEMBER, 20) );
 		contract1.setPaid(false);
-		contract1.setId(1);
+		contract1.setId(counter++);
 		contract1.setState(ContractState.MAINTENANCE);
 		contracts.put(contract1.getId(), contract1);
 
@@ -43,7 +43,7 @@ public class RAMContractServiceImpl implements ContractService  {
 		contract2.setStart( LocalDate.of(2014, Month.SEPTEMBER, 10) );
 		contract2.setEnd(LocalDate.of(2014, Month.SEPTEMBER, 20) );
 		contract2.setPaid(true);
-		contract2.setId(2);
+		contract2.setId(counter++);
 		contracts.put(contract2.getId(), contract2);
 
 		Contract contract3 = new Contract();
@@ -52,7 +52,7 @@ public class RAMContractServiceImpl implements ContractService  {
 		contract3.setStart( LocalDate.of(2014, Month.SEPTEMBER, 12) );
 		contract3.setEnd(LocalDate.of(2014, Month.SEPTEMBER, 13) );
 		contract3.setPaid(true);
-		contract3.setId(3);
+		contract3.setId(counter++);
 		contracts.put(contract3.getId(), contract3);
 
 	}
@@ -74,5 +74,10 @@ public class RAMContractServiceImpl implements ContractService  {
 			if (c.getCustomer().getId() == user.getId())
 				result.add(c);
 		return result;
+	}
+
+	@Override
+	public void addContract(Contract contract) {
+		contracts.put(counter++, contract);
 	}	
 }

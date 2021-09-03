@@ -4,9 +4,16 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
+import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
+import it.univaq.disim.oop.bhertz.business.ContractService;
+import it.univaq.disim.oop.bhertz.domain.Contract;
+import it.univaq.disim.oop.bhertz.domain.ContractType;
+import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
+import it.univaq.disim.oop.bhertz.domain.VeicleState;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
+import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -34,13 +41,16 @@ public class StartRentController implements Initializable, DataInitializable<Obj
 
 	private User user;
 	private Veicle veicle;
+	private BhertzBusinessFactory factory;
+	private ViewDispatcher dispatcher;
 
 	public StartRentController() {
+		this.dispatcher = dispatcher.getInstance();
+		factory = BhertzBusinessFactory.getInstance();
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
 	}
 
 	@Override
@@ -74,19 +84,41 @@ public class StartRentController implements Initializable, DataInitializable<Obj
 
 	@FXML
 	public void startContractAction(ActionEvent e) throws NullPointerException {
-		if (!dailyCheckBox.isSelected() && !kmCheckBox.isSelected())
-			labelError.setText("Selezionare una tipologia di contratto");
+
 		try {
-			if (dateStartField.getValue().isAfter(dateEndField.getValue()))
-					labelError.setText("Macchine del tempo non disponibili");
+			if (!dailyCheckBox.isSelected() && !kmCheckBox.isSelected())
+				labelError.setText("Selezionare una tipologia di contratto");
+			else if (dateStartField.getValue().isAfter(dateEndField.getValue()))
+				labelError.setText("Macchine del tempo non disponibili");
+			else {
+				ContractService contractService = factory.getContractService();
+				
+				Contract newContract = new Contract();
+				newContract.setVeicle(veicle);
+				newContract.setCustomer(user);
+				newContract.setStartKm(veicle.getKm());
+				newContract.setStart(dateStartField.getValue());
+				newContract.setEnd(dateEndField.getValue());
+				if (dailyCheckBox.isSelected())
+					newContract.setType(ContractType.TIME);
+				else if (kmCheckBox.isSelected())
+					newContract.setType(ContractType.KM);
+				
+				veicle.setState(VeicleState.BUSY);
+				
+				contractService.addContract(newContract);
+				labelError.setText(null);
+				dispatcher.renderView("veicles", new ObjectsCollector<User, Type>(user, veicle.getType()));
+
+				
+				
+				
 			}
-		catch (NullPointerException E) {
+		} catch (NullPointerException E) {
 			labelError.setText("Seleziona un periodo valido");
+
 		}
-		
-		
-		
-		
+
 	}
 
 }
