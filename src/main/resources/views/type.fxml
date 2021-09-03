@@ -20,7 +20,7 @@
       <TableView fx:id="typesTable" prefHeight="172.0" prefWidth="647.0">
         <columns>
           <TableColumn fx:id="nameColumn" prefWidth="166.0" text="Nome" />
-          <TableColumn fx:id="hoursColumn" prefWidth="171.0" text="Tariffa Oraria" />
+          <TableColumn fx:id="dayColumn" prefWidth="171.0" text="Tariffa Oraria" />
             <TableColumn fx:id="kmColumn" prefWidth="170.0" text="Tariffa Chilometrica" />
             <TableColumn fx:id="actionColumn" prefWidth="92.0" text="Azioni" />
         </columns>

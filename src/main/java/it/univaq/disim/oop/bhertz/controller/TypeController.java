@@ -34,7 +34,7 @@ public class TypeController implements Initializable, DataInitializable<User> {
 	@FXML
 	private TableColumn<Type, String> nameColumn;
 	@FXML
-	private TableColumn<Type, String> hoursColumn;
+	private TableColumn<Type, String> dayColumn;
 	@FXML
 	private TableColumn<Type, String> kmColumn;
 	@FXML
@@ -54,7 +54,7 @@ public class TypeController implements Initializable, DataInitializable<User> {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-		hoursColumn.setCellValueFactory((CellDataFeatures<Type, String> param) -> {
+		dayColumn.setCellValueFactory((CellDataFeatures<Type, String> param) -> {
 			return new SimpleStringProperty(param.getValue().getPriceForDay() + " €/h");
 		});
 

@@ -115,13 +115,13 @@ public class Contract {
 		String stateString = null;
 		
 		if (state == ContractState.ACTIVE )
-			stateString = "attivo";
+			stateString = "Attivo";
 		else if (state == ContractState.ENDED )
-			stateString = "chiuso";
+			stateString = "Chiuso";
 		else if (state == ContractState.MAINTENANCE )
-			stateString = "manutenzione";
+			stateString = "Manutenzione";
 		else if (state == ContractState.BOOKED )
-			stateString = "prenotato";
+			stateString = "Prenotato";
 		
 		
 		return stateString;
