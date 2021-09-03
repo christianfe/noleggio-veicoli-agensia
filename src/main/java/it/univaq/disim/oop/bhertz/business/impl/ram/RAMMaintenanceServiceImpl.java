@@ -20,6 +20,7 @@ public class RAMMaintenanceServiceImpl implements MaintenanceService{
 	private ViewDispatcher dispatcher;
 	private ContractService contractService;
 	private VeiclesService veicleService;
+	private int counter = 1;
 	
 	public RAMMaintenanceServiceImpl() throws BusinessException {
 		dispatcher =  ViewDispatcher.getInstance();
@@ -31,21 +32,21 @@ public class RAMMaintenanceServiceImpl implements MaintenanceService{
 		t1.setState(TicketState.WORKING);
 		t1.setContract(contractService.getContractByID(1));
 		t1.setSostituteVeicle(veicleService.getVeicleByID(3));
-		t1.setId(1);
+		t1.setId(counter++);
 		tickets.put(t1.getId(), t1);
 		
 		AssistanceTicket t2 = new AssistanceTicket();
 		t2.setDescription("graffio");
 		t2.setState(TicketState.REQUIRED);
 		t2.setContract(contractService.getContractByID(2));
-		t2.setId(2);
+		t2.setId(counter++);
 		tickets.put(t2.getId(), t2);
 		
 		AssistanceTicket t3 = new AssistanceTicket();
 		t3.setDescription("cambio olio");
 		t3.setState(TicketState.ENDED);
 		t3.setContract(contractService.getContractByID(3));
-		t3.setId(3);
+		t3.setId(counter++);
 		tickets.put(t3.getId(), t3);
 	}
 	
@@ -67,6 +68,13 @@ public class RAMMaintenanceServiceImpl implements MaintenanceService{
 			if (v.getContract().getCustomer().getId() == user.getId())
 				result.add(v);
 		return result;
+	}
+
+
+	@Override
+	public void addTicket(AssistanceTicket ticket) {
+		tickets.put(counter++, ticket);
+		
 	}
 
 }

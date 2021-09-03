@@ -12,4 +12,6 @@ public interface MaintenanceService {
 	AssistanceTicket getTicketByID(int id) throws BusinessException;
 	
 	List<AssistanceTicket> getTicketByUser(User user) throws BusinessException;
+	
+	void addTicket (AssistanceTicket ticket);
 }

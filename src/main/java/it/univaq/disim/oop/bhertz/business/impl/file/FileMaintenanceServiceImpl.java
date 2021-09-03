@@ -27,4 +27,10 @@ public class FileMaintenanceServiceImpl implements MaintenanceService {
 		return null;
 	}
 
+	@Override
+	public void addTicket(AssistanceTicket ticket) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -1,13 +1,17 @@
 package it.univaq.disim.oop.bhertz.controller;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.ContractService;
+import it.univaq.disim.oop.bhertz.business.MaintenanceService;
+import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
 import it.univaq.disim.oop.bhertz.domain.Contract;
+import it.univaq.disim.oop.bhertz.domain.TicketState;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import javafx.beans.property.SimpleObjectProperty;
@@ -24,7 +28,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 
-public class RentalController implements Initializable, DataInitializable<User>{
+public class RentalController implements Initializable, DataInitializable<User> {
 
 	@FXML
 	private Label titleLabel;
@@ -45,12 +49,14 @@ public class RentalController implements Initializable, DataInitializable<User>{
 
 	private ViewDispatcher dispatcher;
 
+	private BhertzBusinessFactory factory;
 	private ContractService rentalService;
 	private User user;
 
 	public RentalController() throws BusinessException {
 		dispatcher = ViewDispatcher.getInstance();
-		rentalService = BhertzBusinessFactory.getInstance().getContractService();
+		factory = BhertzBusinessFactory.getInstance();
+		rentalService = factory.getContractService();
 	}
 
 	@Override
@@ -61,7 +67,8 @@ public class RentalController implements Initializable, DataInitializable<User>{
 		});
 
 		veicleColumn.setCellValueFactory((CellDataFeatures<Contract, String> param) -> {
-			return new SimpleStringProperty(param.getValue().getVeicle().getModel() + " - " + param.getValue().getVeicle().getPlate());
+			return new SimpleStringProperty(
+					param.getValue().getVeicle().getModel() + " - " + param.getValue().getVeicle().getPlate());
 		});
 
 		stateColumn.setStyle("-fx-alignment: CENTER;");
@@ -69,15 +76,15 @@ public class RentalController implements Initializable, DataInitializable<User>{
 			return new SimpleStringProperty(param.getValue().getStateString());
 		});
 
-
 		periodColumn.setStyle("-fx-alignment: CENTER;");
 		periodColumn.setCellValueFactory((CellDataFeatures<Contract, String> param) -> {
-			return new SimpleStringProperty(param.getValue().getStart().toString().substring(5) + " / " + param.getValue().getEnd().toString().substring(5));
+			return new SimpleStringProperty(param.getValue().getStart().toString().substring(5) + " / "
+					+ param.getValue().getEnd().toString().substring(5));
 		});
 
 		paymentColumn.setStyle("-fx-alignment: CENTER;");
 		paymentColumn.setCellValueFactory((CellDataFeatures<Contract, String> param) -> {
-			return new SimpleStringProperty(param.getValue().isPaid() ? "SI":"NO");
+			return new SimpleStringProperty(param.getValue().isPaid() ? "SI" : "NO");
 		});
 
 		actionColumn.setStyle("-fx-alignment: CENTER;");
@@ -86,25 +93,36 @@ public class RentalController implements Initializable, DataInitializable<User>{
 
 			MenuItem menuRichiestaAssistenza = new MenuItem("Richiedi Assistenza");
 			MenuItem menuGestioneRiconsegna = new MenuItem("Gestisci Riconsegna");
-			MenuItem menuPagato	= new MenuItem();
+			MenuItem menuPagato = new MenuItem();
 
 			menuPagato.setText(param.getValue().isPaid() ? "Imposta Non Pagato" : "Imposta Pagato");
-			
-			menuRichiestaAssistenza.setOnAction((ActionEvent event) -> {});
 
-			menuGestioneRiconsegna.setOnAction((ActionEvent event) -> {});
+			menuRichiestaAssistenza.setOnAction((ActionEvent event) -> {
+
+				Contract assistanceContract = param.getValue();
+				AssistanceTicket ticket = new AssistanceTicket();
+				ticket.setState(TicketState.REQUIRED);
+				ticket.setContract(assistanceContract);
+				ticket.setStartDate(LocalDate.now());
+				MaintenanceService maintenanceService = factory.getMaintenanceService();
+				maintenanceService.addTicket(ticket);
+
+			});
+
+			menuGestioneRiconsegna.setOnAction((ActionEvent event) -> {
+			});
 
 			menuPagato.setOnAction((ActionEvent event) -> {
-				//TODO deve aggiornare la vista oltre che dB
+				// TODO deve aggiornare la vista oltre che dB
 				param.getValue().setPaid(!param.getValue().isPaid());
 			});
-			
+
 			if (this.user.getRole() == 2)
 				localMenuButton.getItems().add(menuRichiestaAssistenza);
 			else if (this.user.getRole() == 1) {
 				localMenuButton.getItems().add(menuGestioneRiconsegna);
 				localMenuButton.getItems().add(menuPagato);
-			}else if (this.user.getRole() == 0)
+			} else if (this.user.getRole() == 0)
 				actionColumn.setVisible(false);
 
 			return new SimpleObjectProperty<MenuButton>(localMenuButton);
@@ -117,7 +135,8 @@ public class RentalController implements Initializable, DataInitializable<User>{
 		this.user = user;
 
 		try {
-			List<Contract> contract = (user.getRole() == 2 ? rentalService.getContractsByUser(user) : rentalService.getAllContracts());
+			List<Contract> contract = (user.getRole() == 2 ? rentalService.getContractsByUser(user)
+					: rentalService.getAllContracts());
 			ObservableList<Contract> contractData = FXCollections.observableArrayList(contract);
 			rentalTable.setItems(contractData);
 		} catch (BusinessException e) {
