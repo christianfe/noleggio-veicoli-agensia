@@ -14,4 +14,13 @@ public class ViewUtility {
 						field.setText(oldValue);
 			});
 	}
+
+	protected void setOnlyNumberField(TextField... fields) {
+		for (TextField field : fields)
+			field.textProperty().addListener((observable, oldValue, newValue) -> {
+				char c = newValue.charAt(newValue.length() - 1);
+				if (c < '0' || c > '9')
+					field.setText(oldValue);
+			});
+	}
 }

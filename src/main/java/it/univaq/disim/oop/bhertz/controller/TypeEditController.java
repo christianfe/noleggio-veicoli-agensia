@@ -45,6 +45,7 @@ public class TypeEditController extends ViewUtility implements Initializable, Da
 	public void initialize(URL location, ResourceBundle resources) {
 		saveButton.disableProperty().bind(nameField.textProperty().isEmpty().or(priceForDayField.textProperty().isEmpty().or(priceForKmField.textProperty().isEmpty())));
 		super.addForbiddenCharCheck(nameField, priceForDayField, priceForKmField);
+		super.setOnlyNumberField(priceForDayField, priceForKmField);
 	}
 	
 	@Override

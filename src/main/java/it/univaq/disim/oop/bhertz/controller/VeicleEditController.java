@@ -53,6 +53,7 @@ public class VeicleEditController extends ViewUtility implements Initializable, 
 	public void initialize(URL location, ResourceBundle resources) {
 		saveButton.disableProperty().bind(modelField.textProperty().isEmpty().or(plateField.textProperty().isEmpty().or(kmField.textProperty().isEmpty().or(consuptionField.textProperty().isEmpty().or(fuelField.textProperty().isEmpty())))));
 		super.addForbiddenCharCheck(modelField, plateField, kmField, consuptionField, fuelField);
+		super.setOnlyNumberField(kmField, consuptionField);
 	}
 
 	@Override
