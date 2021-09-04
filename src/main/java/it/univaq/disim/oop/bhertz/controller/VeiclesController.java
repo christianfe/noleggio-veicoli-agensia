@@ -122,7 +122,10 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 			});
 			
 			menuQuotation.setOnAction((ActionEvent event) -> {
-				dispatcher.renderView("quotation", param.getValue());
+				ObjectsCollector<User, Veicle> collector = new ObjectsCollector<>();
+				collector.setObjectA(user);
+				collector.setObjectB(param.getValue());
+				dispatcher.renderView("quotation", collector);
 			});
 			
 

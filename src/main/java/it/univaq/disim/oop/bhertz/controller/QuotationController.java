@@ -2,22 +2,21 @@ package it.univaq.disim.oop.bhertz.controller;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 
-import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.User;
+import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
+import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.beans.binding.Bindings;
 
-public class QuotationController implements Initializable, DataInitializable<Veicle> {
+public class QuotationController implements Initializable, DataInitializable<ObjectsCollector<User, Veicle>> {
 
 	@FXML
 	private Label titleQuotation;
@@ -35,16 +34,22 @@ public class QuotationController implements Initializable, DataInitializable<Vei
 	private Label kmQuotationLabel;
 
 	private Veicle veicle;
+	private ViewDispatcher dispatcher;
+	private User user;
+
+	public QuotationController() {
+		this.dispatcher = ViewDispatcher.getInstance();
+	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void initializeData(Veicle veicle) {
-		this.veicle = veicle;
+	public void initializeData(ObjectsCollector<User, Veicle> collector) {
+		this.user = collector.getObjectA();
+		this.veicle = collector.getObjectB();
 		titleQuotation.setText(titleQuotation.getText() + " per: " + veicle.getModel());
 		// sliderPositionLabel.textProperty().bind(Bindings.format("%.2f",
 		// kmSlider.valueProperty()));
@@ -81,4 +86,8 @@ public class QuotationController implements Initializable, DataInitializable<Vei
 		kmQuotationLabel.setText(String.format("%.02f", priceQuotation));
 	}
 
+	@FXML
+	public void exitAction() {
+		dispatcher.renderView("veicles", new ObjectsCollector<User, Type>(user, veicle.getType()) );
+	}
 }

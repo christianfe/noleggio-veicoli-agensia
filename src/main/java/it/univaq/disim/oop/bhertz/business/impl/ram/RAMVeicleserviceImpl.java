@@ -99,18 +99,6 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 		return result;
 	}
 
-	@Override
-	public void setVeicle(Integer id, Integer typeId, String model, String plate, VeicleState veicleState, int km,
-			double consuption) {
-		Veicle v = veicles.get(id);
-		v.setModel(model);
-		v.setConsumption(consuption);
-		v.setKm(km);
-		v.setPlate(plate);
-		v.setType(typeService.getTypeByID(typeId));
-		v.setState(veicleState);
-		this.veicles.put(id, v);
-	}
 
 	@Override
 	public void addVeicle(Veicle veicle) {
@@ -124,6 +112,21 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 	@Override
 	public void deleteVeicle(Integer id) {
 		veicles.remove(id);
+	}
+
+	@Override
+	public void setVeicle(Integer id, Integer typeId, String model, String plate, VeicleState veicleState, int km,
+			double consuption, String fuel) {
+
+		Veicle v = veicles.get(id);
+		v.setModel(model);
+		v.setConsumption(consuption);
+		v.setKm(km);
+		v.setPlate(plate);
+		v.setType(typeService.getTypeByID(typeId));
+		v.setState(veicleState);
+		v.setFuel(fuel);
+		this.veicles.put(id, v);		
 	}
 
 }
