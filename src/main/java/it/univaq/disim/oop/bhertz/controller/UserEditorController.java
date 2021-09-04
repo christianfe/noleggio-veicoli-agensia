@@ -53,7 +53,7 @@ public class UserEditorController extends ViewUtility implements Initializable, 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		registerButton.disableProperty().bind(newUsernameField.textProperty().isEmpty().or(newNameField.textProperty().isEmpty().or(newPasswordField.textProperty().isEmpty().or(newPasswordRepeatField.textProperty().isEmpty()))));
-		super.addCheckListener(newNameField, newPasswordField, newPasswordRepeatField, newUsernameField);
+		super.addForbiddenCharCheck(newNameField, newPasswordField, newPasswordRepeatField, newUsernameField);
 	}
 
 	@Override

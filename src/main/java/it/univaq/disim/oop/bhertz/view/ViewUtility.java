@@ -4,12 +4,14 @@ import javafx.scene.control.TextField;
 
 public class ViewUtility {
 
-	protected static CharSequence FORBIDDEN_CHARS = ";";
+	protected static final String[] FORBIDDEN_INPUT = { ";" };
 
-	protected void addCheckListener(TextField... fields) {
+	protected void addForbiddenCharCheck(TextField... fields) {
 		for (TextField field : fields)
 			field.textProperty().addListener((observable, oldValue, newValue) -> {
-				if (newValue.contains(FORBIDDEN_CHARS)) field.setText(oldValue);
+				for (String s : FORBIDDEN_INPUT)
+					if (newValue.contains(s))
+						field.setText(oldValue);
 			});
 	}
 }

@@ -69,7 +69,7 @@ public class LogInController extends ViewUtility implements Initializable, DataI
 		LogInStage.setStyle("-fx-background-color: #f1f1f1");
 		//TODO logInButton.disableProperty().bind(usernameField.textProperty().isEmpty().or(passwordField.textProperty().isEmpty()));
 		registerButton.disableProperty().bind(newUsernameField.textProperty().isEmpty().or(newNameField.textProperty().isEmpty().or(NewPasswordField.textProperty().isEmpty().or(NewPasswordRepeatField.textProperty().isEmpty()))));
-		super.addCheckListener(usernameField, passwordField, newUsernameField, newNameField, NewPasswordField, NewPasswordRepeatField);
+		super.addForbiddenCharCheck(usernameField, passwordField, newUsernameField, newNameField, NewPasswordField, NewPasswordRepeatField);
 	}
 
 	@FXML

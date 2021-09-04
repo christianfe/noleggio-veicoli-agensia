@@ -1,7 +1,5 @@
 package it.univaq.disim.oop.bhertz.domain;
 
-import java.util.Set;
-
 public class Type {
 
 	private String name;
