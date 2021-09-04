@@ -79,7 +79,6 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 	@Override
 	public List<Veicle> getVeiclesByType(Type t) throws BusinessException {
 		List<Veicle> result = new ArrayList<>();
-		System.out.println(veicles);
 		for (Veicle v : veicles.values()) {
 			if (v.getType().getId() == t.getId())
 				result.add(v);

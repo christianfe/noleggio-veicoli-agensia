@@ -21,3 +21,4 @@ public interface VeiclesService {
 	void deleteVeicle(Integer id);
 	
 }
+	
