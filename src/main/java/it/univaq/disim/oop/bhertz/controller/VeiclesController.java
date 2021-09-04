@@ -33,7 +33,8 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class VeiclesController extends ViewUtility implements Initializable, DataInitializable<ObjectsCollector<User, Type>> {
+public class VeiclesController extends ViewUtility
+		implements Initializable, DataInitializable<ObjectsCollector<User, Type>> {
 
 	@FXML
 	private Label titleLabel;
@@ -68,7 +69,8 @@ public class VeiclesController extends ViewUtility implements Initializable, Dat
 	public void initialize(URL location, ResourceBundle resources) {
 		modelColumn.setCellValueFactory((CellDataFeatures<Veicle, String> param) -> {
 			return new SimpleStringProperty(param.getValue().getModel() + " - " + param.getValue().getPlate());
-			//return new SimpleStringProperty(param.getValue().getId() + " - " + param.getValue().getType().getId());
+			// return new SimpleStringProperty(param.getValue().getId() + " - " +
+			// param.getValue().getType().getId());
 		});
 		consumiColumn.setCellValueFactory((CellDataFeatures<Veicle, String> param) -> {
 			return new SimpleStringProperty(param.getValue().getConsumption() + " km/l");
@@ -87,16 +89,28 @@ public class VeiclesController extends ViewUtility implements Initializable, Dat
 			MenuItem menuQuotation = new MenuItem("Calcola Preventivo");
 			MenuItem menuEdit = new MenuItem("Modifica Veicolo");
 			MenuItem menuDelete = new MenuItem("Elimina Veicolo");
-			if (this.user.getRole() == 2) {
+			MenuItem menuFeedback = new MenuItem("visualizza Feedback");
+
+			switch (this.user.getRole()) {
+			case 2:
 				localMenuButton.getItems().add(menuRent);
 				localMenuButton.getItems().add(menuQuotation);
-			} else {
+				break;
+			case 0:
 				localMenuButton.getItems().add(menuEdit);
 				localMenuButton.getItems().add(menuDelete);
+				break;
+
 			}
+
+			localMenuButton.getItems().add(menuFeedback);
 
 			menuRent.setOnAction((ActionEvent event) -> {
 				dispatcher.renderView("startRent", new ObjectsCollector<User, Veicle>(user, param.getValue()));
+			});
+
+			menuFeedback.setOnAction((ActionEvent event) -> {
+				dispatcher.renderView("feedback", new ObjectsCollector<User, Veicle>(user, param.getValue()));
 			});
 
 			menuDelete.setOnAction((ActionEvent event) -> {
@@ -127,11 +141,9 @@ public class VeiclesController extends ViewUtility implements Initializable, Dat
 				dispatcher.renderView("quotation", collector);
 			});
 
-
 			return new SimpleObjectProperty<MenuButton>(localMenuButton);
 
 		});
-
 
 	}
 
@@ -143,7 +155,6 @@ public class VeiclesController extends ViewUtility implements Initializable, Dat
 
 		switch (user.getRole()) {
 		case 1:
-			actionColumn.setVisible(false);
 			addVeicleButton.setVisible(false);
 			break;
 		case 2:

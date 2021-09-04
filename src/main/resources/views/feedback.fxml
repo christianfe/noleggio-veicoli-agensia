@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="578.0" prefWidth="778.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univaq.disim.oop.bhertz.controller.FeedbackController">
+   <children>
+      <TableView fx:id="feedbackTable" layoutX="36.0" layoutY="68.0" prefHeight="476.0" prefWidth="707.0">
+        <columns>
+          <TableColumn fx:id="userColumn" prefWidth="76.0" text="utente" />
+            <TableColumn fx:id="valutationColumn" prefWidth="87.0" text="valutazione" />
+          <TableColumn fx:id="descriptionColumn" prefWidth="543.0" text="descrizione" />
+        </columns>
+      </TableView>
+      <Label fx:id="titleLabel" layoutX="36.0" layoutY="32.0" text="Valutazioni del veicolo:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Button fx:id="exitButton" layoutX="677.0" layoutY="35.0" mnemonicParsing="false" onAction="#exitFeedback" prefHeight="25.0" prefWidth="63.0" text="esci" />
+   </children>
+</AnchorPane>

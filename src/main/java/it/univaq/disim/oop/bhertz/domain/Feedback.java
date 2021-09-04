@@ -9,6 +9,10 @@ public class Feedback {
 	private String body;
 	private int valutation;
 	private Contract contract;
+	
+	public Feedback() {
+		date = LocalDate.now();
+	}
 
 	public LocalDate getDate() {
 		return date;
@@ -41,6 +45,14 @@ public class Feedback {
 	public void setValutation(int valutation) {
 		// deve essere tra 1 e 5
 		this.valutation = valutation;
+	}
+
+	public Contract getContract() {
+		return contract;
+	}
+
+	public void setContract(Contract contract) {
+		this.contract = contract;
 	}
 
 }

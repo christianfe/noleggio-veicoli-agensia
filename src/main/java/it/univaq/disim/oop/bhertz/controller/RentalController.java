@@ -11,9 +11,11 @@ import it.univaq.disim.oop.bhertz.business.ContractService;
 import it.univaq.disim.oop.bhertz.business.MaintenanceService;
 import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
 import it.univaq.disim.oop.bhertz.domain.Contract;
+import it.univaq.disim.oop.bhertz.domain.ContractState;
 import it.univaq.disim.oop.bhertz.domain.TicketState;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.domain.VeicleState;
+import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import it.univaq.disim.oop.bhertz.view.ViewUtility;
 import javafx.beans.property.SimpleObjectProperty;
@@ -117,6 +119,9 @@ public class RentalController extends ViewUtility implements Initializable, Data
 			});
 
 			menuFeedback.setOnAction((ActionEvent event) -> {
+
+				dispatcher.renderView("createFeedback", new ObjectsCollector<User, Contract>(user, param.getValue()));
+
 			});
 
 			menuPagato.setOnAction((ActionEvent event) -> {
@@ -130,7 +135,10 @@ public class RentalController extends ViewUtility implements Initializable, Data
 					localMenuButton.setVisible(false);
 				else
 					localMenuButton.getItems().add(menuRichiestaAssistenza);
-				localMenuButton.getItems().add(menuFeedback);
+
+				if (param.getValue().getState() == ContractState.ENDED)
+					localMenuButton.getItems().add(menuFeedback);
+
 			} else if (this.user.getRole() == 1) {
 				localMenuButton.getItems().add(menuGestioneRiconsegna);
 				localMenuButton.getItems().add(menuPagato);

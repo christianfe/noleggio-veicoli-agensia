@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
@@ -8,14 +9,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="578.0" prefWidth="778.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="578.0" prefWidth="778.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univaq.disim.oop.bhertz.controller.CreateFeedbackController">
    <children>
-      <Label alignment="CENTER" layoutX="8.0" layoutY="66.0" prefHeight="26.0" prefWidth="763.0" text="Lascia un feedback" textAlignment="CENTER">
+      <Label fx:id="titleFeedback" alignment="CENTER" layoutX="8.0" layoutY="66.0" prefHeight="26.0" prefWidth="763.0" text="Lascia un feedback" textAlignment="CENTER">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Slider blockIncrement="1.0" layoutX="431.0" layoutY="231.0" majorTickUnit="5.0" max="5.0" min="1.0" minorTickCount="4" prefHeight="14.0" prefWidth="187.0" showTickMarks="true" value="3.0" />
+      <Slider fx:id="sliderFeedback" blockIncrement="1.0" layoutX="431.0" layoutY="231.0" majorTickUnit="5.0" max="5.0" min="1.0" minorTickCount="4" prefHeight="14.0" prefWidth="187.0" showTickMarks="true" snapToTicks="true" value="3.0" />
       <Label layoutX="175.0" layoutY="228.0" text="Quanto sei soddisfatto?">
          <font>
             <Font size="15.0" />
@@ -41,6 +42,8 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <TextField layoutX="219.0" layoutY="346.0" prefHeight="30.0" prefWidth="342.0" promptText="Descrizione" />
+      <TextField fx:id="descriptionFeedback" layoutX="219.0" layoutY="346.0" prefHeight="30.0" prefWidth="342.0" promptText="Descrizione" />
+      <Button fx:id="confirmFeedback" layoutX="291.0" layoutY="442.0" mnemonicParsing="false" onAction="#createFeedback" prefHeight="36.0" prefWidth="94.0" text="invia" />
+      <Button fx:id="noFeedback" layoutX="393.0" layoutY="442.0" mnemonicParsing="false" onAction="#exitFeedback" prefHeight="36.0" prefWidth="94.0" text="esci" />
    </children>
 </AnchorPane>

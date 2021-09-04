@@ -43,6 +43,7 @@ public class RAMContractServiceImpl implements ContractService  {
 		contract2.setEnd(LocalDate.of(2014, Month.SEPTEMBER, 20) );
 		contract2.setPaid(true);
 		contract2.setId(counter++);
+		contract1.setState(ContractState.ENDED);
 		contracts.put(contract2.getId(), contract2);
 
 		Contract contract3 = new Contract();

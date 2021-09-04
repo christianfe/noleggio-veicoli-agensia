@@ -4,6 +4,7 @@ import java.io.File;
 
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.ContractService;
+import it.univaq.disim.oop.bhertz.business.FeedbackService;
 import it.univaq.disim.oop.bhertz.business.MaintenanceService;
 import it.univaq.disim.oop.bhertz.business.TypesService;
 import it.univaq.disim.oop.bhertz.business.UserService;
@@ -15,6 +16,7 @@ public class FileBusinessFactoryImpl extends BhertzBusinessFactory {
 	private TypesService typeService;
 	private VeiclesService veicleService;
 	private MaintenanceService maintenanceService;
+	private FeedbackService feedbackService;
 	
 	private static final String REPOSITORY_BASE = "src" + File.separator + "main" + File.separator + "resources"
 			+ File.separator + "data";
@@ -30,6 +32,7 @@ public class FileBusinessFactoryImpl extends BhertzBusinessFactory {
 		typeService = new FileTypesServiceImpl();
 		veicleService = new FileVeicleserviceImpl();
 		maintenanceService = new FileMaintenanceServiceImpl();
+		feedbackService = new FileFeedbackServiceImpl();
 	}
 	
 	@Override
@@ -55,6 +58,12 @@ public class FileBusinessFactoryImpl extends BhertzBusinessFactory {
 	@Override
 	public VeiclesService getVeiclesService() {
 		return veicleService;
+	}
+
+	@Override
+	public FeedbackService getFeedbackService() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -127,12 +127,19 @@ public class Contract {
 		return stateString;
 	}
 	
+
+	
 	public ContractType getContractType() {
 		return this.type;
 	}
 	
 	public void setState(ContractState state) {
 		this.state = state;
+	}
+	
+	public ContractState getState() {
+		return state;
+		
 	}
 
 }

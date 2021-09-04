@@ -18,5 +18,7 @@ public abstract class BhertzBusinessFactory {
 	public abstract TypesService getTypesService();
 	public abstract UserService getUserService();
 	public abstract VeiclesService getVeiclesService();
+	public abstract FeedbackService getFeedbackService();
+
 	
 }
