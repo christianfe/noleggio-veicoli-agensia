@@ -9,6 +9,8 @@ import javax.swing.JOptionPane;
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.UserService;
+import it.univaq.disim.oop.bhertz.domain.Customer;
+import it.univaq.disim.oop.bhertz.domain.Staff;
 import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
@@ -131,7 +133,13 @@ public class UserController implements Initializable, DataInitializable<Object>{
 	}
 
 	public void addOperatorAction (ActionEvent event) {
-		dispatcher.renderView("userEditor", new ObjectsCollector<User, User>(null, null));
+		dispatcher.renderView("userEditor", new ObjectsCollector<User, User>(null, new Staff()));
 	}
+	
+	public void addUserAction (ActionEvent event) {
+		dispatcher.renderView("userEditor", new ObjectsCollector<User, User>(null, new Customer()));
+	}
+	
+	
 	
 }

@@ -16,19 +16,20 @@ import it.univaq.disim.oop.bhertz.domain.User;
 public class RAMUserServiceImpl implements UserService {
 
 	private Map<Integer, User> users = new HashMap<>();
+	private int counter = 1; 
 
 	public RAMUserServiceImpl() {
-		User admin = new Admin(1,"Administrator", "admin", "admin");
+		User admin = new Admin(counter++,"Administrator", "admin", "admin");
 		users.put(admin.getId(), admin);
-		User staff = new Staff(2,"Operatore", "staff", "staff");
+		User staff = new Staff(counter++,"Operatore", "staff", "staff");
 		users.put(staff.getId(), staff);
-		User mrossi = new Staff(4,"Rossi Mario", "mrossi", "mrossi");
+		User mrossi = new Staff(counter++,"Rossi Mario", "mrossi", "mrossi");
 		users.put(mrossi.getId(), mrossi);
-		User user = new Customer(3, "Cliente", "user", "user");
+		User user = new Customer(counter++, "Cliente", "user", "user");
 		users.put(user.getId(), user);
-		User user1 = new Customer(5, "Cliente1", "user1", "user1");
+		User user1 = new Customer(counter++, "Cliente1", "user1", "user1");
 		users.put(user1.getId(), user1);
-		User user2 = new Customer(6, "Cliente2", "user2", "user2");
+		User user2 = new Customer(counter++, "Cliente2", "user2", "user2");
 		users.put(user2.getId(), user2);
 	}
 
@@ -68,10 +69,13 @@ public class RAMUserServiceImpl implements UserService {
 
 	@Override
 	public void addUser(User user){
+		/*
 		Integer max = 0;
 		for (User u : users.values())
 			max = (max > u.getId())? max : u.getId();
 		user.setId(max + 1);
+		*/
+		user.setId(counter++);
 		this.users.put(user.getId(), user);
 	}
 
