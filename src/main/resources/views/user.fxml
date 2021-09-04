@@ -51,6 +51,8 @@
                   <Font size="14.0" />
                </font>
             </Label>
+            <Separator centerShape="false" orientation="VERTICAL" prefHeight="38.0" prefWidth="633.0" style="-fx-opacity: 0;" valignment="BASELINE" />
+            <Button fx:id="addUserButton" mnemonicParsing="false" onAction="#addUserAction" text="Aggiungi" />
          </children>
       </HBox>
       <TableView fx:id="customerTable" minHeight="-Infinity" minWidth="-Infinity" prefHeight="241.0" prefWidth="758.0">
