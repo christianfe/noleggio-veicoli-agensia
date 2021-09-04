@@ -17,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
@@ -52,7 +53,7 @@ public class LogInController implements Initializable, DataInitializable<Object>
 	@FXML
 	private AnchorPane LogInStage;
 
-
+	private static CharSequence FORBIDDEN_CHAR = ";";
 	private UserService userService;
 
 	private ViewDispatcher dispatcher;
@@ -68,10 +69,13 @@ public class LogInController implements Initializable, DataInitializable<Object>
 		LogInStage.setStyle("-fx-background-color: #f1f1f1");
 		//logInButton.disableProperty().bind(usernameField.textProperty().isEmpty().or(passwordField.textProperty().isEmpty()));
 		registerButton.disableProperty().bind(newUsernameField.textProperty().isEmpty().or(newNameField.textProperty().isEmpty().or(NewPasswordField.textProperty().isEmpty().or(NewPasswordRepeatField.textProperty().isEmpty()))));
+		usernameField.textProperty().addListener((observable, oldValue, newValue) -> {
+		    if (newValue.contains(FORBIDDEN_CHAR)) usernameField.setText(oldValue);
+		});
 	}
 
 	@FXML
-	private void logInTry(ActionEvent event) {
+	public void logInTry(ActionEvent event) {
 		try {
 			User user = userService.authenticate(usernameField.getText(), passwordField.getText());
 			dispatcher.loggedIn(user);
@@ -83,7 +87,7 @@ public class LogInController implements Initializable, DataInitializable<Object>
 	}
 
 	@FXML
-	private void signup(ActionEvent e) {
+	public void signup(ActionEvent e) {
 		if (userService.isUsernameSet(newUsernameField.getText()))
 			labelErrorSignup.setText("Username non disponibile!");
 		else if (!NewPasswordField.getText().equals(NewPasswordRepeatField.getText()))
@@ -96,10 +100,18 @@ public class LogInController implements Initializable, DataInitializable<Object>
 	}
 
 	@FXML
-	private void switchView(ActionEvent e) {
+	public void switchView(ActionEvent e) {
 		registerPane.setVisible(loginPane.isVisible());
 		loginPane.setVisible(!loginPane.isVisible());
 		labelErrorSignup.setText("");
 		labelErrorLogin.setText("");
 	}
+	
+	/*@FXML
+	public void checkInputAction(KeyEvent e) {
+		char c = e.getCharacter().charAt(0);
+		if (c == 'a') e.consume();
+		System.out.println(c);
+		
+	}*/
 }
