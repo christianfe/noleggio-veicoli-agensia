@@ -1,5 +1,6 @@
 package it.univaq.disim.oop.bhertz.domain;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,6 +12,7 @@ public class Veicle {
 	private int km;
 	private double consumption;
 	private Integer id;
+	private String fuel;
 
 	private Type type;
 	private Set<Contract> contracts = new HashSet<Contract>();
@@ -91,4 +93,15 @@ public class Veicle {
 	public void setContracts(Set<Contract> contracts) {
 		this.contracts = contracts;
 	}
+
+	public String getFuel() {
+		return fuel;
+	}
+
+	public void setFuel(String fuel) {
+		this.fuel = fuel;
+	}
+	
+	
+	
 }

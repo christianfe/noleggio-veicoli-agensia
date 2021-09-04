@@ -31,6 +31,7 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 		panda.setState(VeicleState.FREE);
 		panda.setConsumption(12);
 		panda.setType(auto);
+		panda.setFuel("gpl");
 		Veicle punto = new Veicle();
 		punto.setId(2);
 		punto.setModel("Fiat Punto");
@@ -39,6 +40,7 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 		punto.setState(VeicleState.FREE);
 		punto.setConsumption(12);
 		punto.setType(auto);
+		punto.setFuel("gasolio");
 		Veicle fiesta = new Veicle();
 		fiesta.setId(3);
 		fiesta.setModel("Ford Fiesta");
@@ -47,6 +49,7 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 		fiesta.setState(VeicleState.BUSY);
 		fiesta.setConsumption(12);
 		fiesta.setType(auto);
+		fiesta.setFuel("gpl");
 		Veicle malaguti = new Veicle();
 		malaguti.setId(4);
 		malaguti.setModel("Vasca da Bagno");
@@ -55,6 +58,7 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 		malaguti.setState(VeicleState.FREE);
 		malaguti.setConsumption(12);
 		malaguti.setType(moto);
+		malaguti.setFuel("benzina");
 		Veicle aprilia = new Veicle();
 		aprilia.setId(5);
 		aprilia.setModel("Aprilia RS");
@@ -62,6 +66,7 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 		aprilia.setPlate("AA000AA");
 		aprilia.setState(VeicleState.MAINTENANCE);
 		aprilia.setConsumption(12);
+		aprilia.setFuel("bestemmie");
 		aprilia.setType(moto);
 
 		veicles.put(panda.getId(), panda);

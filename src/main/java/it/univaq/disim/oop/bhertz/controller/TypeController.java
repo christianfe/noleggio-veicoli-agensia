@@ -107,6 +107,10 @@ public class TypeController implements Initializable, DataInitializable<User> {
 	@Override
 	public void initializeData(User user) {
 		this.user = user;
+		
+		if (user.getRole() == 2 || user.getRole()== 1)
+			addTypeButton.setVisible(false);
+		
 		try {
 			List<Type> types = typesService.getAllTypes();
 			ObservableList<Type> typesData = FXCollections.observableArrayList(types);

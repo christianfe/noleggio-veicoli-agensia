@@ -23,6 +23,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -47,6 +48,10 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 	private TableColumn<Veicle, VeicleState> stateColumn;
 	@FXML
 	private TableColumn<Veicle, MenuButton> actionColumn;
+	@FXML
+	private Button addVeicleButton;
+	@FXML
+	private TableColumn<Veicle, String> fuelColumn;
 
 	private ViewDispatcher dispatcher;
 	private VeiclesService veiclesService;
@@ -70,20 +75,22 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 			return new SimpleStringProperty(param.getValue().getKm() + " km");
 		});
 		stateColumn.setCellValueFactory(new PropertyValueFactory<>("state"));
+		fuelColumn.setCellValueFactory(new PropertyValueFactory<>("fuel"));
 
 		actionColumn.setStyle("-fx-alignment: CENTER;");
 		actionColumn.setCellValueFactory((CellDataFeatures<Veicle, MenuButton> param) -> {
 			MenuButton localMenuButton = new MenuButton("Menu");
-
+			
 			MenuItem menuRent = new MenuItem("Noleggia Veicolo");
+			MenuItem menuQuotation = new MenuItem("Calcola Preventivo");
 			MenuItem menuEdit = new MenuItem("Modifica Veicolo");
 			MenuItem menuDelete = new MenuItem("Elimina Veicolo");
 			if (this.user.getRole() == 2) {
 
 				if (param.getValue().getState() == VeicleState.FREE)
 					localMenuButton.getItems().add(menuRent);
-				else localMenuButton.setVisible(false);
-
+					localMenuButton.getItems().add(menuQuotation);
+				
 			} else {
 				localMenuButton.getItems().add(menuEdit);
 				localMenuButton.getItems().add(menuDelete);
@@ -95,31 +102,52 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 
 			menuDelete.setOnAction((ActionEvent event) -> {
 				if (param.getValue().getState() != VeicleState.FREE)
-					JOptionPane.showMessageDialog(null, "E' possibile modificare solo veicoli Liberi", "Errore", JOptionPane.ERROR_MESSAGE);
-				else if (JOptionPane.showConfirmDialog(null, "Confermi di voler eliminare il Veicolo selezionato e tutti i contratti associati?", "Eliminare?", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE) == 0) {
+					JOptionPane.showMessageDialog(null, "E' possibile modificare solo veicoli Liberi", "Errore",
+							JOptionPane.ERROR_MESSAGE);
+				else if (JOptionPane.showConfirmDialog(null,
+						"Confermi di voler eliminare il Veicolo selezionato e tutti i contratti associati?",
+						"Eliminare?", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE) == 0) {
 					veiclesService.deleteVeicle(param.getValue().getId());
 					dispatcher.renderView("veicles", objectsCollector);
 				}
 			});
-			
+
 			menuEdit.setOnAction((ActionEvent event) -> {
 				if (param.getValue().getState() != VeicleState.FREE)
-					JOptionPane.showMessageDialog(null, "E' possibile eliminare solo veicoli Liberi", "Errore", JOptionPane.ERROR_MESSAGE);
-				else dispatcher.renderView("veicleEdit", new BigObjectsCollector<User, Veicle, Type>(objectsCollector.getObjectA(), param.getValue(), objectsCollector.getObjectB()));
+					JOptionPane.showMessageDialog(null, "E' possibile eliminare solo veicoli Liberi", "Errore",
+							JOptionPane.ERROR_MESSAGE);
+				else
+					dispatcher.renderView("veicleEdit", new BigObjectsCollector<User, Veicle, Type>(
+							objectsCollector.getObjectA(), param.getValue(), objectsCollector.getObjectB()));
 			});
-
 			
+			menuQuotation.setOnAction((ActionEvent event) -> {
+				dispatcher.renderView("quotation", param.getValue());
+			});
+			
+
 			return new SimpleObjectProperty<MenuButton>(localMenuButton);
+				
 		});
+
+		
 	}
 
 	@Override
 	public void initializeData(ObjectsCollector<User, Type> objectsCollector) {
 		this.objectsCollector = objectsCollector;
 		titleLabel.setText(titleLabel.getText() + " " + objectsCollector.getObjectB().getName());
-		this.user = (User) objectsCollector.getObjectA();
-		if (user.getRole() == 1)
+		this.user = objectsCollector.getObjectA();
+
+		switch (user.getRole()) {
+		case 1:
 			actionColumn.setVisible(false);
+			addVeicleButton.setVisible(false);
+			break;
+		case 2:
+			addVeicleButton.setVisible(false);
+		}
+
 		try {
 			List<Veicle> veicleList = veiclesService.getVeiclesByType((Type) objectsCollector.getObjectB());
 			ObservableList<Veicle> veiclesData = FXCollections.observableArrayList(veicleList);
@@ -128,9 +156,10 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 			dispatcher.renderError(e);
 		}
 	}
-	
+
 	@FXML
 	private void addVeicleAction(ActionEvent e) {
-		dispatcher.renderView("veicleEdit", new BigObjectsCollector<User, Veicle, Type>(objectsCollector.getObjectA(), null, objectsCollector.getObjectB()));
+		dispatcher.renderView("veicleEdit", new BigObjectsCollector<User, Veicle, Type>(objectsCollector.getObjectA(),
+				null, objectsCollector.getObjectB()));
 	}
 }

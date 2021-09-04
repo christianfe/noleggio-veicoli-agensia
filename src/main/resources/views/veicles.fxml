@@ -23,6 +23,7 @@
       <TableView fx:id="veiclesTable" prefHeight="511.0" prefWidth="758.0">
         <columns>
           <TableColumn fx:id="modelColumn" prefWidth="166.0" text="Modello" />
+            <TableColumn fx:id="fuelColumn" prefWidth="75.0" text="Alimentazione" />
             <TableColumn fx:id="consumiColumn" prefWidth="170.0" text="Consumi" />
             <TableColumn fx:id="kmColumn" prefWidth="92.0" text="Chilometri" />
           <TableColumn fx:id="stateColumn" prefWidth="171.0" text="Stato" />

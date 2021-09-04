@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.DatePicker?>
@@ -7,21 +8,27 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="686.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univaq.disim.oop.bhertz.controller.StartRentController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="578.0" prefWidth="778.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univaq.disim.oop.bhertz.controller.StartRentController">
    <children>
-      <Button fx:id="confirmButton" layoutX="290.0" layoutY="284.0" mnemonicParsing="false" onAction="#startContractAction" prefHeight="41.0" prefWidth="107.0" text="Inizia Noleggio" />
-      <Label fx:id="titleLabel" alignment="CENTER" layoutX="212.0" layoutY="31.0" text="Contratto di Noleggio">
+      <Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="8.0" layoutY="89.0" prefHeight="31.0" prefWidth="762.0" text="Contratto di Noleggio" textAlignment="CENTER">
          <font>
-            <Font size="27.0" />
+            <Font size="21.0" />
          </font>
       </Label>
-      <CheckBox fx:id="dailyCheckBox" layoutX="270.0" layoutY="221.0" mnemonicParsing="false" onAction="#dailyCheckAction" text="€/day" />
-      <CheckBox fx:id="kmCheckBox" layoutX="368.0" layoutY="221.0" mnemonicParsing="false" onAction="#kmCheckAction" text="€/km" />
-      <Label alignment="CENTER" layoutX="298.0" layoutY="181.0" text="Tipo di contratto" />
-      <DatePicker fx:id="dateStartField" layoutX="149.0" layoutY="116.0" promptText="gg/mm/aaaa" />
-      <DatePicker fx:id="dateEndField" layoutX="369.0" layoutY="116.0" promptText="gg/mm/aaaa" />
-      <Label layoutX="196.0" layoutY="92.0" text="Inizio Noleggio" />
-      <Label layoutX="419.0" layoutY="92.0" text="Fine Noleggio" />
-      <Label fx:id="labelError" layoutX="211.0" layoutY="359.0" prefHeight="17.0" prefWidth="263.0" textAlignment="CENTER" textFill="RED" />
+      <CheckBox fx:id="dailyCheckBox" layoutX="313.0" layoutY="291.0" mnemonicParsing="false" onAction="#dailyCheckAction" text="€/day" />
+      <CheckBox fx:id="kmCheckBox" layoutX="411.0" layoutY="291.0" mnemonicParsing="false" onAction="#kmCheckAction" text="€/km" />
+      <Label alignment="CENTER" layoutX="341.0" layoutY="251.0" text="Tipo di contratto" />
+      <DatePicker fx:id="dateStartField" layoutX="192.0" layoutY="186.0" onAction="#checkDate" promptText="gg/mm/aaaa" />
+      <DatePicker fx:id="dateEndField" layoutX="412.0" layoutY="186.0" promptText="gg/mm/aaaa" />
+      <Label layoutX="239.0" layoutY="162.0" text="Inizio Noleggio" />
+      <Label layoutX="462.0" layoutY="162.0" text="Fine Noleggio" />
+      <Label fx:id="labelError" layoutX="8.0" layoutY="450.0" prefHeight="17.0" prefWidth="762.0" textAlignment="CENTER" textFill="#ff4242">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Button fx:id="confirmButton" layoutX="330.0" layoutY="348.0" mnemonicParsing="false" onAction="#startContractAction" prefHeight="41.0" prefWidth="119.0" text="Inizia Noleggio" />
    </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
 </AnchorPane>

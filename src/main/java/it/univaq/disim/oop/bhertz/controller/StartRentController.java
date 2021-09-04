@@ -38,6 +38,8 @@ public class StartRentController implements Initializable, DataInitializable<Obj
 	private Button confirmButton;
 	@FXML
 	private Label labelError;
+	
+
 
 	private User user;
 	private Veicle veicle;
@@ -62,7 +64,7 @@ public class StartRentController implements Initializable, DataInitializable<Obj
 
 		titleLabel.setText(titleLabel.getText() + ": " + ArgumentsData.getObjectB().getModel() + " - "
 				+ ArgumentsData.getObjectB().getPlate());
-		titleLabel.setStyle(" -fx-font-size: 15; -fx-alignment: LEFT;");
+		labelError.setStyle(" -fx-alignment: CENTER;");
 
 		String priceForDay = String.format("%.02f", veicle.getType().getPriceForDay());
 		String PriceForKm = String.format("%.02f", veicle.getType().getPriceForKm());
@@ -93,11 +95,12 @@ public class StartRentController implements Initializable, DataInitializable<Obj
 				labelError.setText("Macchine del tempo non disponibili");
 			else {
 				ContractService contractService = factory.getContractService();
-
+				
 				Contract newContract = new Contract();
 				newContract.setVeicle(veicle);
 				newContract.setCustomer(user);
 				newContract.setStartKm(veicle.getKm());
+				
 				newContract.setStart(dateStartField.getValue());
 				newContract.setEnd(dateEndField.getValue());
 				if (dailyCheckBox.isSelected())
@@ -116,7 +119,16 @@ public class StartRentController implements Initializable, DataInitializable<Obj
 			labelError.setText("Seleziona un periodo valido");
 
 		}
+		
 
+	}
+	
+	
+	@FXML 
+	public void checkDate(ActionEvent e) {
+		if (dateStartField.getValue().isBefore(LocalDate.now()))
+			dateStartField.setValue(LocalDate.now());
+		//controlla che non venga inserita una data di inizio noleggio precedente a quella odierna
 	}
 
 }
