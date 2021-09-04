@@ -12,6 +12,7 @@ import it.univaq.disim.oop.bhertz.domain.VeicleState;
 import it.univaq.disim.oop.bhertz.view.BigObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
+import it.univaq.disim.oop.bhertz.view.ViewUtility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,7 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class VeicleEditController implements Initializable, DataInitializable<BigObjectsCollector<User, Veicle, Type>> {
+public class VeicleEditController extends ViewUtility implements Initializable, DataInitializable<BigObjectsCollector<User, Veicle, Type>> {
 
 	@FXML
 	private Label labelTitle;
@@ -45,12 +46,14 @@ public class VeicleEditController implements Initializable, DataInitializable<Bi
 	public VeicleEditController() {
 		dispatcher = ViewDispatcher.getInstance();
 		veiclesService = BhertzBusinessFactory.getInstance().getVeiclesService();
+		
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		saveButton.disableProperty().bind(modelField.textProperty().isEmpty().or(plateField.textProperty().isEmpty()
 				.or(kmField.textProperty().isEmpty().or(consuptionField.textProperty().isEmpty().or(fuelField.textProperty().isEmpty())))));
+		super.addCheckListener(modelField, plateField, kmField, consuptionField, fuelField);
 	}
 
 	@Override

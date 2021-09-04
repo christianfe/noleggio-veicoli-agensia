@@ -12,6 +12,7 @@ import it.univaq.disim.oop.bhertz.domain.Staff;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
+import it.univaq.disim.oop.bhertz.view.ViewUtility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,7 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-public class UserEditorController implements Initializable, DataInitializable<ObjectsCollector<User, User>> {
+public class UserEditorController extends ViewUtility implements Initializable, DataInitializable<ObjectsCollector<User, User>> {
 
 	@FXML
 	private Label labelErrorSignup;
@@ -46,13 +47,13 @@ public class UserEditorController implements Initializable, DataInitializable<Ob
 	public UserEditorController() {
 		this.dispatcher = ViewDispatcher.getInstance();
 		userServices = BhertzBusinessFactory.getInstance().getUserService();
+		
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		registerButton.disableProperty().bind(newUsernameField.textProperty().isEmpty().or(newNameField.textProperty()
-				.isEmpty()
-				.or(newPasswordField.textProperty().isEmpty().or(newPasswordRepeatField.textProperty().isEmpty()))));
+		registerButton.disableProperty().bind(newUsernameField.textProperty().isEmpty().or(newNameField.textProperty().isEmpty().or(newPasswordField.textProperty().isEmpty().or(newPasswordRepeatField.textProperty().isEmpty()))));
+		super.addCheckListener(newNameField, newPasswordField, newPasswordRepeatField, newUsernameField);
 	}
 
 	@Override

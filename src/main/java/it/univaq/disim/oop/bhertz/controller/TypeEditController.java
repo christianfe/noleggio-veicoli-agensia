@@ -9,6 +9,7 @@ import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
+import it.univaq.disim.oop.bhertz.view.ViewUtility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,7 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class TypeEditController implements Initializable, DataInitializable<ObjectsCollector<User, Type>> {
+public class TypeEditController extends ViewUtility implements Initializable, DataInitializable<ObjectsCollector<User, Type>> {
 
 	@FXML
 	private Label labelTitle;
@@ -43,6 +44,7 @@ public class TypeEditController implements Initializable, DataInitializable<Obje
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		saveButton.disableProperty().bind(nameField.textProperty().isEmpty().or(priceForDayField.textProperty().isEmpty().or(priceForKmField.textProperty().isEmpty())));
+		super.addCheckListener(nameField, priceForDayField, priceForKmField);
 	}
 	
 	@Override

@@ -14,6 +14,7 @@ import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
+import it.univaq.disim.oop.bhertz.view.ViewUtility;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -30,7 +31,7 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class TypeController implements Initializable, DataInitializable<User> {
+public class TypeController extends ViewUtility implements Initializable, DataInitializable<User> {
 	@FXML
 	private Label titleLabel;
 	@FXML
@@ -54,7 +55,6 @@ public class TypeController implements Initializable, DataInitializable<User> {
 	public TypeController() {
 		dispatcher = ViewDispatcher.getInstance();
 		typesService = BhertzBusinessFactory.getInstance().getTypesService();
-
 	}
 
 	@Override

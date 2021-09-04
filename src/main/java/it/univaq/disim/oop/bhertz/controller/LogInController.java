@@ -10,6 +10,7 @@ import it.univaq.disim.oop.bhertz.business.UserService;
 import it.univaq.disim.oop.bhertz.domain.Customer;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
+import it.univaq.disim.oop.bhertz.view.ViewUtility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,7 +22,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
-public class LogInController implements Initializable, DataInitializable<Object> {
+public class LogInController extends ViewUtility implements Initializable, DataInitializable<Object> {
 	@FXML
 	private TextField usernameField;
 	@FXML
@@ -53,7 +54,6 @@ public class LogInController implements Initializable, DataInitializable<Object>
 	@FXML
 	private AnchorPane LogInStage;
 
-	private static CharSequence FORBIDDEN_CHAR = ";";
 	private UserService userService;
 
 	private ViewDispatcher dispatcher;
@@ -67,11 +67,9 @@ public class LogInController implements Initializable, DataInitializable<Object>
 	public void initialize(URL location, ResourceBundle resources) {
 
 		LogInStage.setStyle("-fx-background-color: #f1f1f1");
-		//logInButton.disableProperty().bind(usernameField.textProperty().isEmpty().or(passwordField.textProperty().isEmpty()));
+		//TODO logInButton.disableProperty().bind(usernameField.textProperty().isEmpty().or(passwordField.textProperty().isEmpty()));
 		registerButton.disableProperty().bind(newUsernameField.textProperty().isEmpty().or(newNameField.textProperty().isEmpty().or(NewPasswordField.textProperty().isEmpty().or(NewPasswordRepeatField.textProperty().isEmpty()))));
-		usernameField.textProperty().addListener((observable, oldValue, newValue) -> {
-		    if (newValue.contains(FORBIDDEN_CHAR)) usernameField.setText(oldValue);
-		});
+		super.addCheckListener(usernameField, passwordField, newUsernameField, newNameField, NewPasswordField, NewPasswordRepeatField);
 	}
 
 	@FXML
@@ -107,11 +105,4 @@ public class LogInController implements Initializable, DataInitializable<Object>
 		labelErrorLogin.setText("");
 	}
 	
-	/*@FXML
-	public void checkInputAction(KeyEvent e) {
-		char c = e.getCharacter().charAt(0);
-		if (c == 'a') e.consume();
-		System.out.println(c);
-		
-	}*/
 }

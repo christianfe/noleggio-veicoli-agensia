@@ -14,6 +14,7 @@ import it.univaq.disim.oop.bhertz.domain.Veicle;
 import it.univaq.disim.oop.bhertz.domain.VeicleState;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
+import it.univaq.disim.oop.bhertz.view.ViewUtility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,7 +23,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 
-public class StartRentController implements Initializable, DataInitializable<ObjectsCollector> {
+public class StartRentController extends ViewUtility implements Initializable, DataInitializable<ObjectsCollector> {
 
 	@FXML
 	private Label titleLabel;

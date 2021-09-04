@@ -16,6 +16,7 @@ import it.univaq.disim.oop.bhertz.domain.VeicleState;
 import it.univaq.disim.oop.bhertz.view.BigObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
+import it.univaq.disim.oop.bhertz.view.ViewUtility;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -32,7 +33,7 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class VeiclesController implements Initializable, DataInitializable<ObjectsCollector<User, Type>> {
+public class VeiclesController extends ViewUtility implements Initializable, DataInitializable<ObjectsCollector<User, Type>> {
 
 	@FXML
 	private Label titleLabel;
