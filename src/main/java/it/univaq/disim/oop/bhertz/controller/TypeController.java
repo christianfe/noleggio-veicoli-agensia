@@ -59,7 +59,7 @@ public class TypeController implements Initializable, DataInitializable<User> {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		nameColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+		nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 		dayColumn.setCellValueFactory((CellDataFeatures<Type, String> param) -> {
 			return new SimpleStringProperty(param.getValue().getPriceForDay() + " €/h");
 		});

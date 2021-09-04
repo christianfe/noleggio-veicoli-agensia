@@ -29,8 +29,7 @@ public class FileVeicleserviceImpl implements VeiclesService {
 	}
 
 	@Override
-	public void setVeicle(Integer id, Integer typeId, String model, String plate, VeicleState veicleState, int km,
-			double consuption, String fuel
+	public void setVeicle(Integer id, String model,  int km, double consuption, String fuel
 			) {
 		// TODO Auto-generated method stub
 		

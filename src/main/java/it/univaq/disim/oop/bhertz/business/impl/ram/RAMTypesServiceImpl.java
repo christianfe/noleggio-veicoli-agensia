@@ -35,6 +35,7 @@ public class RAMTypesServiceImpl implements TypesService{
 	@Override
 	public List<Type> getAllTypes() throws BusinessException {
 		return new ArrayList<>(types.values());
+		
 	}
 
 	@Override
@@ -53,22 +54,23 @@ public class RAMTypesServiceImpl implements TypesService{
 
 	@Override
 	public void addType(Type type) {
+		System.out.println(types);
 		Integer max = 0;
 		for (Type t : types.values())
 			max = (max > t.getId())? max : t.getId();
 		type.setId(max + 1);
 		this.types.put(type.getId(), type);
+		System.out.println(types);
 	}
 
 	@Override
 	public void setType(Integer id, String name, double priceForKm, double priceForDay) {
+		System.out.println(types);
 		Type t = types.get(id);
 		t.setName(name);
 		t.setPriceForDay(priceForDay);
 		t.setPriceForKm(priceForKm);
 		this.types.put(id, t);
+		System.out.println(types);
 	}
-
-
-
 }

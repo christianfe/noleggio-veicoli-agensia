@@ -14,7 +14,7 @@ public interface VeiclesService {
 	
 	List<Veicle> getVeiclesByState(VeicleState state) throws BusinessException;
 	
-	void setVeicle(Integer id, Integer typeId, String model, String plate, VeicleState veicleState, int km, double consuption,String fuel);
+	void setVeicle(Integer id, String model, int km, double consuption,String fuel);
 	
 	void addVeicle(Veicle veicle);
 	

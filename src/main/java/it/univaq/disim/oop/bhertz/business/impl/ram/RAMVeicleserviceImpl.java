@@ -79,13 +79,8 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 	@Override
 	public List<Veicle> getVeiclesByType(Type t) throws BusinessException {
 		List<Veicle> result = new ArrayList<>();
+		System.out.println(veicles);
 		for (Veicle v : veicles.values()) {
-			System.out.print(v.getType().getId());
-			System.out.print(" - ");
-			System.out.print(t.getId());
-			System.out.print(" -- ");
-			System.out.println(v.getType());
-			
 			if (v.getType().getId() == t.getId())
 				result.add(v);
 		}
@@ -121,14 +116,11 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 	}
 
 	@Override
-	public void setVeicle(Integer id, Integer typeId, String model, String plate, VeicleState veicleState, int km, double consuption, String fuel) {
+	public void setVeicle(Integer id, String model, int km, double consuption, String fuel) {
 		Veicle v = veicles.get(id);
 		v.setModel(model);
 		v.setConsumption(consuption);
 		v.setKm(km);
-		v.setPlate(plate);
-		v.setType(typeService.getTypeByID(typeId));
-		v.setState(veicleState);
 		v.setFuel(fuel);
 		this.veicles.put(id, v);		
 	}

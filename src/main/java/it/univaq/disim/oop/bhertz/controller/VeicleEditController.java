@@ -73,7 +73,7 @@ public class VeicleEditController implements Initializable, DataInitializable<Bi
 		if (this.creatingNewVeicle)
 			veiclesService.addVeicle(new Veicle(0, objectsCollector.getObjectC(), modelField.getText(), plateField.getText(), Integer.parseInt(kmField.getText()), Double.parseDouble(consuptionField.getText()), fuelField.getText() ));
 		else
-			veiclesService.setVeicle(objectsCollector.getObjectB().getId(),objectsCollector.getObjectB().getType().getId(), modelField.getText(), plateField.getText(),VeicleState.FREE, Integer.parseInt(kmField.getText()), Double.parseDouble(consuptionField.getText()), fuelField.getText());
+			veiclesService.setVeicle(objectsCollector.getObjectB().getId(), modelField.getText(), Integer.parseInt(kmField.getText()), Double.parseDouble(consuptionField.getText()), fuelField.getText());
 		dispatcher.renderView("veicles", new ObjectsCollector<User, Type>(objectsCollector.getObjectA(), objectsCollector.getObjectC()));
 	}
 

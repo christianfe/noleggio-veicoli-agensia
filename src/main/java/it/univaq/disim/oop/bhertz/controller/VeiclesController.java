@@ -66,8 +66,8 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		modelColumn.setCellValueFactory((CellDataFeatures<Veicle, String> param) -> {
-			//return new SimpleStringProperty(param.getValue().getModel() + " - " + param.getValue().getPlate());
-			return new SimpleStringProperty(param.getValue().getId() + " - " + param.getValue().getType().getId());
+			return new SimpleStringProperty(param.getValue().getModel() + " - " + param.getValue().getPlate());
+			//return new SimpleStringProperty(param.getValue().getId() + " - " + param.getValue().getType().getId());
 		});
 		consumiColumn.setCellValueFactory((CellDataFeatures<Veicle, String> param) -> {
 			return new SimpleStringProperty(param.getValue().getConsumption() + " km/l");
@@ -150,12 +150,7 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 		}
 
 		try {
-			List<Veicle> veicleList = veiclesService.getVeiclesByType(objectsCollector.getObjectB());
-			for (Veicle v : veicleList) {
-				System.out.print(v.getType().getId());
-				System.out.print(" -- ");
-				System.out.println(v.getType());
-				}
+			List<Veicle> veicleList = this.veiclesService.getVeiclesByType(objectsCollector.getObjectB());
 			ObservableList<Veicle> veiclesData = FXCollections.observableArrayList(veicleList);
 			veiclesTable.setItems(veiclesData);
 		} catch (BusinessException e) {
