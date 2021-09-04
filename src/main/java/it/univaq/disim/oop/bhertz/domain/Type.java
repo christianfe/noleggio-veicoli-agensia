@@ -1,6 +1,5 @@
 package it.univaq.disim.oop.bhertz.domain;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class Type {
@@ -10,7 +9,6 @@ public class Type {
 	private double priceForDay;
 	private Integer id;
 
-	private Set<Veicle> veicles = new HashSet<Veicle>();
 
 	public Type() {}
 	
@@ -53,11 +51,4 @@ public class Type {
 		this.priceForDay = priceForDay;
 	}
 
-	public Set<Veicle> getVeicles() {
-		return veicles;
-	}
-
-	public void setVeicles(Set<Veicle> veicles) {
-		this.veicles = veicles;
-	}
 }

@@ -38,12 +38,12 @@
          </padding>
       </Label>
       <TextField fx:id="consuptionField" layoutX="395.0" layoutY="219.0" promptText="Conumo Veicolo" />
-      <Button fx:id="saveButton" layoutX="369.0" layoutY="298.0" mnemonicParsing="false" onAction="#saveAction" text="Salva" />
       <Label alignment="CENTER_RIGHT" layoutX="248.0" layoutY="255.0" prefHeight="17.0" prefWidth="145.0" text="Tipo di alimentazione" textAlignment="CENTER">
          <padding>
             <Insets right="8.0" />
          </padding>
       </Label>
       <TextField fx:id="fuelField" layoutX="395.0" layoutY="251.0" promptText="Alimentazione" />
+      <Button fx:id="saveButton" layoutX="369.0" layoutY="298.0" mnemonicParsing="false" onAction="#saveAction" text="Salva" />
    </children>
 </AnchorPane>

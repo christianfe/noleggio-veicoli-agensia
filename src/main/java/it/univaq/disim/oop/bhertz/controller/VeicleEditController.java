@@ -35,7 +35,7 @@ public class VeicleEditController implements Initializable, DataInitializable<Bi
 	private TextField fuelField;
 	@FXML
 	private Button saveButton;
-	
+
 
 	private ViewDispatcher dispatcher;
 	private VeiclesService veiclesService;
@@ -50,7 +50,7 @@ public class VeicleEditController implements Initializable, DataInitializable<Bi
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		saveButton.disableProperty().bind(modelField.textProperty().isEmpty().or(plateField.textProperty().isEmpty()
-				.or(kmField.textProperty().isEmpty().or(consuptionField.textProperty().isEmpty()))));
+				.or(kmField.textProperty().isEmpty().or(consuptionField.textProperty().isEmpty().or(fuelField.textProperty().isEmpty())))));
 	}
 
 	@Override
@@ -71,17 +71,10 @@ public class VeicleEditController implements Initializable, DataInitializable<Bi
 	@FXML
 	public void saveAction(ActionEvent e) {
 		if (this.creatingNewVeicle)
-			veiclesService
-					.addVeicle(new Veicle(0, objectsCollector.getObjectC(), modelField.getText(), plateField.getText(),
-							Integer.parseInt(kmField.getText()), Double.parseDouble(consuptionField.getText()), fuelField.getText() ));
+			veiclesService.addVeicle(new Veicle(0, objectsCollector.getObjectC(), modelField.getText(), plateField.getText(), Integer.parseInt(kmField.getText()), Double.parseDouble(consuptionField.getText()), fuelField.getText() ));
 		else
-			veiclesService.setVeicle(objectsCollector.getObjectB().getId(),
-					objectsCollector.getObjectB().getType().getId(), modelField.getText(), plateField.getText(),
-					VeicleState.FREE, Integer.parseInt(kmField.getText()),
-					Double.parseDouble(consuptionField.getText()) , fuelField.getText());
-
-		dispatcher.renderView("veicles",
-				new ObjectsCollector<User, Type>(objectsCollector.getObjectA(), objectsCollector.getObjectC()));
+			veiclesService.setVeicle(objectsCollector.getObjectB().getId(),objectsCollector.getObjectB().getType().getId(), modelField.getText(), plateField.getText(),VeicleState.FREE, Integer.parseInt(kmField.getText()), Double.parseDouble(consuptionField.getText()), fuelField.getText());
+		dispatcher.renderView("veicles", new ObjectsCollector<User, Type>(objectsCollector.getObjectA(), objectsCollector.getObjectC()));
 	}
 
 }

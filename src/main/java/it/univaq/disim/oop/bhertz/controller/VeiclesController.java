@@ -66,7 +66,8 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		modelColumn.setCellValueFactory((CellDataFeatures<Veicle, String> param) -> {
-			return new SimpleStringProperty(param.getValue().getModel() + " - " + param.getValue().getPlate());
+			//return new SimpleStringProperty(param.getValue().getModel() + " - " + param.getValue().getPlate());
+			return new SimpleStringProperty(param.getValue().getId() + " - " + param.getValue().getType().getId());
 		});
 		consumiColumn.setCellValueFactory((CellDataFeatures<Veicle, String> param) -> {
 			return new SimpleStringProperty(param.getValue().getConsumption() + " km/l");
@@ -80,17 +81,14 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 		actionColumn.setStyle("-fx-alignment: CENTER;");
 		actionColumn.setCellValueFactory((CellDataFeatures<Veicle, MenuButton> param) -> {
 			MenuButton localMenuButton = new MenuButton("Menu");
-			
+
 			MenuItem menuRent = new MenuItem("Noleggia Veicolo");
 			MenuItem menuQuotation = new MenuItem("Calcola Preventivo");
 			MenuItem menuEdit = new MenuItem("Modifica Veicolo");
 			MenuItem menuDelete = new MenuItem("Elimina Veicolo");
 			if (this.user.getRole() == 2) {
-
-				if (param.getValue().getState() == VeicleState.FREE)
-					localMenuButton.getItems().add(menuRent);
-					localMenuButton.getItems().add(menuQuotation);
-				
+				localMenuButton.getItems().add(menuRent);
+				localMenuButton.getItems().add(menuQuotation);
 			} else {
 				localMenuButton.getItems().add(menuEdit);
 				localMenuButton.getItems().add(menuDelete);
@@ -120,20 +118,20 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 					dispatcher.renderView("veicleEdit", new BigObjectsCollector<User, Veicle, Type>(
 							objectsCollector.getObjectA(), param.getValue(), objectsCollector.getObjectB()));
 			});
-			
+
 			menuQuotation.setOnAction((ActionEvent event) -> {
 				ObjectsCollector<User, Veicle> collector = new ObjectsCollector<>();
 				collector.setObjectA(user);
 				collector.setObjectB(param.getValue());
 				dispatcher.renderView("quotation", collector);
 			});
-			
+
 
 			return new SimpleObjectProperty<MenuButton>(localMenuButton);
-				
+
 		});
 
-		
+
 	}
 
 	@Override
@@ -152,7 +150,12 @@ public class VeiclesController implements Initializable, DataInitializable<Objec
 		}
 
 		try {
-			List<Veicle> veicleList = veiclesService.getVeiclesByType((Type) objectsCollector.getObjectB());
+			List<Veicle> veicleList = veiclesService.getVeiclesByType(objectsCollector.getObjectB());
+			for (Veicle v : veicleList) {
+				System.out.print(v.getType().getId());
+				System.out.print(" -- ");
+				System.out.println(v.getType());
+				}
 			ObservableList<Veicle> veiclesData = FXCollections.observableArrayList(veicleList);
 			veiclesTable.setItems(veiclesData);
 		} catch (BusinessException e) {
