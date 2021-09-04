@@ -92,6 +92,7 @@ public class RentalController extends ViewUtility implements Initializable, Data
 			MenuButton localMenuButton = new MenuButton("Menu");
 
 			MenuItem menuRichiestaAssistenza = new MenuItem("Richiedi Assistenza");
+			MenuItem menuFeedback = new MenuItem("Lascia un Feedback");
 			MenuItem menuGestioneRiconsegna = new MenuItem("Gestisci Riconsegna");
 			MenuItem menuPagato = new MenuItem();
 
@@ -115,8 +116,11 @@ public class RentalController extends ViewUtility implements Initializable, Data
 			menuGestioneRiconsegna.setOnAction((ActionEvent event) -> {
 			});
 
+			menuFeedback.setOnAction((ActionEvent event) -> {
+			});
+
 			menuPagato.setOnAction((ActionEvent event) -> {
-				//param.getValue().setPaid(!param.getValue().isPaid());
+				// param.getValue().setPaid(!param.getValue().isPaid());
 				contractService.setPaid(param.getValue().getId(), !param.getValue().isPaid());
 				dispatcher.renderView("rental", this.user);
 			});
@@ -124,8 +128,9 @@ public class RentalController extends ViewUtility implements Initializable, Data
 			if (this.user.getRole() == 2) {
 				if (param.getValue().getVeicle().getState() == VeicleState.MAINTENANCE)
 					localMenuButton.setVisible(false);
-				else 
+				else
 					localMenuButton.getItems().add(menuRichiestaAssistenza);
+				localMenuButton.getItems().add(menuFeedback);
 			} else if (this.user.getRole() == 1) {
 				localMenuButton.getItems().add(menuGestioneRiconsegna);
 				localMenuButton.getItems().add(menuPagato);

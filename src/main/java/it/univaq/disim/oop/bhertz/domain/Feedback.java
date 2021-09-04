@@ -8,7 +8,6 @@ public class Feedback {
 	private Integer id;
 	private String body;
 	private int valutation;
-
 	private Contract contract;
 
 	public LocalDate getDate() {
