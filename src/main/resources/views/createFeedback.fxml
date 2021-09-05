@@ -13,7 +13,7 @@
    <children>
       <Label fx:id="titleFeedback" alignment="CENTER" layoutX="8.0" layoutY="66.0" prefHeight="26.0" prefWidth="763.0" text="Lascia un feedback" textAlignment="CENTER">
          <font>
-            <Font size="20.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <Slider fx:id="sliderFeedback" blockIncrement="1.0" layoutX="431.0" layoutY="231.0" majorTickUnit="5.0" max="5.0" min="1.0" minorTickCount="4" prefHeight="14.0" prefWidth="187.0" showTickMarks="true" snapToTicks="true" value="3.0" />
@@ -37,13 +37,13 @@
             <Image url="@normal.png" />
          </image>
       </ImageView>
-      <Label alignment="CENTER" layoutX="8.0" layoutY="311.0" prefHeight="26.0" prefWidth="763.0" text="descrivi la tua esperienza" textAlignment="CENTER">
+      <Label alignment="CENTER" layoutX="8.0" layoutY="311.0" prefHeight="26.0" prefWidth="763.0" text="Descrivi la tua esperienza" textAlignment="CENTER">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
       <TextField fx:id="descriptionFeedback" layoutX="219.0" layoutY="346.0" prefHeight="30.0" prefWidth="342.0" promptText="Descrizione" />
-      <Button fx:id="confirmFeedback" layoutX="291.0" layoutY="442.0" mnemonicParsing="false" onAction="#createFeedback" prefHeight="36.0" prefWidth="94.0" text="invia" />
-      <Button fx:id="noFeedback" layoutX="393.0" layoutY="442.0" mnemonicParsing="false" onAction="#exitFeedback" prefHeight="36.0" prefWidth="94.0" text="esci" />
+      <Button fx:id="confirmFeedback" layoutX="291.0" layoutY="442.0" mnemonicParsing="false" onAction="#createFeedback" prefHeight="36.0" prefWidth="94.0" text="Invia" />
+      <Button fx:id="noFeedback" layoutX="393.0" layoutY="442.0" mnemonicParsing="false" onAction="#exitFeedback" prefHeight="36.0" prefWidth="94.0" text="Annulla" />
    </children>
 </AnchorPane>

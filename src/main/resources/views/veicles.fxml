@@ -12,7 +12,7 @@
    <children>
       <Label fx:id="titleLabel" alignment="TOP_LEFT" prefHeight="27.0" prefWidth="785.0" text="Veicoli della tipologia: ">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <Button fx:id="addVeicleButton" alignment="CENTER" mnemonicParsing="false" onAction="#addVeicleAction" prefHeight="25.0" prefWidth="134.0" text="Aggiungi Veicolo">

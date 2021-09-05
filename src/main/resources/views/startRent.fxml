@@ -12,7 +12,7 @@
    <children>
       <Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="8.0" layoutY="89.0" prefHeight="31.0" prefWidth="762.0" text="Contratto di Noleggio" textAlignment="CENTER">
          <font>
-            <Font size="21.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <CheckBox fx:id="dailyCheckBox" layoutX="313.0" layoutY="291.0" mnemonicParsing="false" onAction="#dailyCheckAction" text="€/day" />

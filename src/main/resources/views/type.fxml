@@ -12,7 +12,7 @@
    <children>
       <Label fx:id="titleLabel" alignment="TOP_LEFT" prefWidth="778.0" text="Tipologie di veicoli">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
          <VBox.margin>
             <Insets bottom="10.0" top="10.0" />
@@ -23,7 +23,7 @@
             <Insets bottom="10.0" top="10.0" />
          </VBox.margin>
       </Button>
-      <TableView fx:id="typesTable" prefHeight="172.0" prefWidth="647.0">
+      <TableView fx:id="typesTable" prefHeight="468.0" prefWidth="758.0">
         <columns>
           <TableColumn fx:id="nameColumn" prefWidth="166.0" text="Nome" />
           <TableColumn fx:id="dayColumn" prefWidth="171.0" text="Tariffa Oraria" />
