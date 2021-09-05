@@ -11,7 +11,7 @@
    <children>
       <Label fx:id="titleLabel" alignment="CENTER" prefHeight="47.0" prefWidth="778.0" text="Manutenzioni">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
          <padding>
             <Insets left="10.0" />

@@ -7,21 +7,20 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="578.0" prefWidth="778.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univaq.disim.oop.bhertz.controller.FeedbackController">
    <children>
-      <TableView fx:id="feedbackTable" layoutX="36.0" layoutY="68.0" prefHeight="476.0" prefWidth="707.0">
+      <TableView fx:id="feedbackTable" layoutX="14.0" layoutY="69.0" prefHeight="502.0" prefWidth="757.0">
         <columns>
           <TableColumn fx:id="userColumn" prefWidth="76.0" text="utente" />
             <TableColumn fx:id="valutationColumn" prefWidth="87.0" text="valutazione" />
           <TableColumn fx:id="descriptionColumn" prefWidth="543.0" text="descrizione" />
         </columns>
       </TableView>
-      <Label fx:id="titleLabel" layoutX="36.0" layoutY="32.0" text="Valutazioni del veicolo:">
+      <Label fx:id="titleLabel" layoutX="14.0" layoutY="20.0" text="Valutazioni del veicolo:">
          <font>
-            <Font size="20.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="exitButton" layoutX="677.0" layoutY="35.0" mnemonicParsing="false" onAction="#exitFeedback" prefHeight="25.0" prefWidth="63.0" text="esci" />
+      <Button fx:id="exitButton" layoutX="684.0" layoutY="22.0" mnemonicParsing="false" onAction="#exitFeedback" prefHeight="30.0" prefWidth="79.0" text="Indietro" />
    </children>
 </AnchorPane>

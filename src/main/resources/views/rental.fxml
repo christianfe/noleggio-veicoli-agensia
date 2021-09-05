@@ -11,13 +11,13 @@
    <children>
       <Label fx:id="titleLabel" alignment="CENTER" prefHeight="43.0" prefWidth="778.0" text="Noleggi">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
          <padding>
             <Insets left="10.0" />
          </padding>
       </Label>
-      <TableView fx:id="rentalTable" prefHeight="148.0" prefWidth="580.0">
+      <TableView fx:id="rentalTable" prefHeight="516.0" prefWidth="758.0">
         <columns>
           <TableColumn fx:id="userColumn" prefWidth="84.5" text="user" />
           <TableColumn fx:id="veicleColumn" prefWidth="132.0" text="veicolo-targa" />

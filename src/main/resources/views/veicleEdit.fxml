@@ -11,7 +11,7 @@
    <children>
       <Label fx:id="labelTitle" alignment="CENTER" layoutX="126.0" layoutY="36.0" prefHeight="46.0" prefWidth="538.0" text="Aggiungi Veicolo">
          <font>
-            <Font size="26.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <Label alignment="CENTER_RIGHT" layoutX="250.0" layoutY="119.0" prefHeight="17.0" prefWidth="145.0" text="Modello" textAlignment="CENTER">

@@ -19,7 +19,7 @@
             <Button fx:id="registerButton" layoutX="193.0" layoutY="229.0" mnemonicParsing="false" onAction="#signup" prefHeight="25.0" prefWidth="107.0" text="Salva" />
             <Label fx:id="titleLabel" alignment="CENTER" layoutX="146.0" layoutY="58.0" prefHeight="30.0" prefWidth="200.0" text="Registrazione Utente">
                <font>
-                  <Font size="20.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Label>
             <Label fx:id="labelErrorSignup" alignment="CENTER" layoutX="23.0" layoutY="212.0" prefHeight="17.0" prefWidth="200.0" textFill="RED" />

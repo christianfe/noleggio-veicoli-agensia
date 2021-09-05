@@ -10,7 +10,7 @@
    <children>
       <Label fx:id="titleLabel" alignment="CENTER" layoutX="4.0" layoutY="122.0" prefHeight="30.0" prefWidth="768.0" text="Modifica Tariffe Veicolo">
          <font>
-            <Font size="20.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <TextField fx:id="kmField" layoutX="361.0" layoutY="215.0" />
@@ -18,7 +18,7 @@
       <Label layoutX="242.0" layoutY="219.0" text="Tariffa al Chilometro" />
       <Label layoutX="242.0" layoutY="281.0" text="Tariffa Giornaliera" />
       <Button layoutX="277.0" layoutY="443.0" mnemonicParsing="false" onAction="#setPrices" prefHeight="39.0" prefWidth="94.0" text="Conferma" />
-      <Button layoutX="382.0" layoutY="443.0" mnemonicParsing="false" onAction="#exitAction" prefHeight="39.0" prefWidth="94.0" text="annulla" />
+      <Button layoutX="382.0" layoutY="443.0" mnemonicParsing="false" onAction="#exitAction" prefHeight="39.0" prefWidth="94.0" text="Annulla" />
       <Button layoutX="304.0" layoutY="326.0" mnemonicParsing="false" onAction="#setStandardPrices" text="Imposta tariffa standard" />
    </children>
 </AnchorPane>
