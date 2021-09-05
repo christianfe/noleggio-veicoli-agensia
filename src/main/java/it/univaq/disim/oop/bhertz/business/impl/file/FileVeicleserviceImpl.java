@@ -1,5 +1,6 @@
 package it.univaq.disim.oop.bhertz.business.impl.file;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import it.univaq.disim.oop.bhertz.business.BusinessException;
@@ -45,6 +46,12 @@ public class FileVeicleserviceImpl implements VeiclesService {
 	public void deleteVeicle(Integer id) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean isVeicleFree(Integer idVeicle, LocalDate startDate, LocalDate endDate) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 

@@ -1,11 +1,13 @@
 package it.univaq.disim.oop.bhertz.business.impl.ram;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import it.univaq.disim.oop.bhertz.business.BusinessException;
+import it.univaq.disim.oop.bhertz.business.ContractService;
 import it.univaq.disim.oop.bhertz.business.TypesService;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
 import it.univaq.disim.oop.bhertz.domain.Type;
@@ -16,6 +18,7 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 
 	private Map<Integer, Veicle> veicles = new HashMap<>();
 	private TypesService typeService;
+
 
 	public RAMVeicleserviceImpl() throws BusinessException {
 		this.typeService = new RAMTypesServiceImpl();
@@ -132,6 +135,16 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 		v.setKm(km);
 		v.setFuel(fuel);
 		this.veicles.put(id, v);
+	}
+
+	@Override
+	public boolean isVeicleFree(Integer idVeicle, LocalDate startDate, LocalDate endDate) {
+		/*List<Contract> contractOfVeicle = contractService.getContractsByVeicle(idVeicle);
+		for (Contract c : contractOfVeicle)
+			if (true)
+				return false;
+		return true;*/
+		return false;
 	}
 
 }

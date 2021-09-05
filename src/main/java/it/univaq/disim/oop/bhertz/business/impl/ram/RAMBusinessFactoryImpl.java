@@ -5,6 +5,7 @@ import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.ContractService;
 import it.univaq.disim.oop.bhertz.business.FeedbackService;
 import it.univaq.disim.oop.bhertz.business.MaintenanceService;
+import it.univaq.disim.oop.bhertz.business.NotificationsService;
 import it.univaq.disim.oop.bhertz.business.TypesService;
 import it.univaq.disim.oop.bhertz.business.UserService;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
@@ -17,6 +18,7 @@ public class RAMBusinessFactoryImpl extends BhertzBusinessFactory {
 	private VeiclesService veicleService;
 	private MaintenanceService maintenanceService;
 	private FeedbackService feedbackService;
+	private NotificationsService notificationService;
 	
 	public RAMBusinessFactoryImpl() {
 	
@@ -27,10 +29,7 @@ public class RAMBusinessFactoryImpl extends BhertzBusinessFactory {
 			typeService = new RAMTypesServiceImpl();
 			contractService = new RAMContractServiceImpl();
 			userService = new RAMUserServiceImpl();
-
-
-
-
+			notificationService = new RAMNotificationServiceImpl();
 		} catch (BusinessException e1) {
 			e1.printStackTrace();
 		}
@@ -66,6 +65,11 @@ public class RAMBusinessFactoryImpl extends BhertzBusinessFactory {
 	@Override
 	public FeedbackService getFeedbackService() {
 		return feedbackService;
+	}
+
+	@Override
+	public NotificationsService getNotificationsService() {
+		return notificationService;
 	}
 
 }

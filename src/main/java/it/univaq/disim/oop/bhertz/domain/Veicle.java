@@ -1,8 +1,5 @@
 package it.univaq.disim.oop.bhertz.domain;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class Veicle {
 
 	private String model;
@@ -16,7 +13,6 @@ public class Veicle {
 	private double priceForDay;
 	
 	private Type type;
-	private Set<Contract> contracts = new HashSet<Contract>();
 
 	public Veicle() {}
 
@@ -89,14 +85,6 @@ public class Veicle {
 
 	public void setType(Type type) {
 		this.type = type;
-	}
-
-	public Set<Contract> getContracts() {
-		return contracts;
-	}
-
-	public void setContracts(Set<Contract> contracts) {
-		this.contracts = contracts;
 	}
 
 	public String getFuel() {

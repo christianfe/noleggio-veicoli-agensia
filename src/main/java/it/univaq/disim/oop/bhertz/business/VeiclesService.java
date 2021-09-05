@@ -1,5 +1,6 @@
 package it.univaq.disim.oop.bhertz.business;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import it.univaq.disim.oop.bhertz.domain.Type;
@@ -19,6 +20,8 @@ public interface VeiclesService {
 	void addVeicle(Veicle veicle);
 	
 	void deleteVeicle(Integer id);
+	
+	boolean isVeicleFree(Integer idVeicle, LocalDate startDate, LocalDate endDate);
 	
 }
 	

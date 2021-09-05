@@ -39,4 +39,16 @@ public class FileContractServiceImpl implements ContractService {
 		
 	}
 
+	@Override
+	public List<Contract> getContractsByVeicle(Integer idVeicle) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setContract(Contract contract) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

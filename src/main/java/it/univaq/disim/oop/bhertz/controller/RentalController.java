@@ -116,12 +116,11 @@ public class RentalController extends ViewUtility implements Initializable, Data
 			});
 
 			menuGestioneRiconsegna.setOnAction((ActionEvent event) -> {
+				dispatcher.renderView("veicleReturn", new ObjectsCollector<User, Contract>(user, param.getValue()));
 			});
 
 			menuFeedback.setOnAction((ActionEvent event) -> {
-
 				dispatcher.renderView("createFeedback", new ObjectsCollector<User, Contract>(user, param.getValue()));
-
 			});
 
 			menuPagato.setOnAction((ActionEvent event) -> {
@@ -129,6 +128,9 @@ public class RentalController extends ViewUtility implements Initializable, Data
 				contractService.setPaid(param.getValue().getId(), !param.getValue().isPaid());
 				dispatcher.renderView("rental", this.user);
 			});
+
+			if (param.getValue().getState() == ContractState.ENDED)
+				menuGestioneRiconsegna.setDisable(true);
 
 			if (this.user.getRole() == 2) {
 				if (param.getValue().getVeicle().getState() == VeicleState.MAINTENANCE)

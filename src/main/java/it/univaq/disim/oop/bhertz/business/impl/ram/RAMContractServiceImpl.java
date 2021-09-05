@@ -13,6 +13,7 @@ import it.univaq.disim.oop.bhertz.business.UserService;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
 import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.ContractState;
+import it.univaq.disim.oop.bhertz.domain.Customer;
 import it.univaq.disim.oop.bhertz.domain.User;
 
 public class RAMContractServiceImpl implements ContractService  {
@@ -27,7 +28,7 @@ public class RAMContractServiceImpl implements ContractService  {
 		this.userService = new RAMUserServiceImpl();
 
 		Contract contract1 = new Contract();
-		contract1.setCustomer(userService.getusersByID(5));
+		contract1.setCustomer((Customer) userService.getusersByID(5));
 		contract1.setVeicle(veicleService.getVeicleByID(1));
 		contract1.setStart( LocalDate.of(2014, Month.SEPTEMBER, 10) );
 		contract1.setEnd(LocalDate.of(2014, Month.SEPTEMBER, 20) );
@@ -37,7 +38,7 @@ public class RAMContractServiceImpl implements ContractService  {
 		contracts.put(contract1.getId(), contract1);
 
 		Contract contract2 = new Contract();
-		contract2.setCustomer(userService.getusersByID(3));
+		contract2.setCustomer((Customer) userService.getusersByID(4));
 		contract2.setVeicle(veicleService.getVeicleByID(2));
 		contract2.setStart( LocalDate.of(2014, Month.SEPTEMBER, 10) );
 		contract2.setEnd(LocalDate.of(2014, Month.SEPTEMBER, 20) );
@@ -47,10 +48,10 @@ public class RAMContractServiceImpl implements ContractService  {
 		contracts.put(contract2.getId(), contract2);
 
 		Contract contract3 = new Contract();
-		contract3.setCustomer(userService.getusersByID(3));
+		contract3.setCustomer((Customer) userService.getusersByID(5));
 		contract3.setVeicle(veicleService.getVeicleByID(4));
-		contract3.setStart( LocalDate.of(2014, Month.SEPTEMBER, 12) );
-		contract3.setEnd(LocalDate.of(2014, Month.SEPTEMBER, 13) );
+		contract3.setStart( LocalDate.of(2021, Month.SEPTEMBER, 12) );
+		contract3.setEnd(LocalDate.of(2021, Month.SEPTEMBER, 13) );
 		contract3.setPaid(true);
 		contract3.setId(counter++);
 		contracts.put(contract3.getId(), contract3);
@@ -87,5 +88,19 @@ public class RAMContractServiceImpl implements ContractService  {
 		Contract c = contracts.get(id);
 		c.setPaid(value);
 		contracts.put(id, c);
+	}
+
+	@Override
+	public List<Contract> getContractsByVeicle(Integer idVeicle) {
+		List<Contract> result = new ArrayList<>();
+		for (Contract c : contracts.values())
+			if (c.getVeicle().getId() == idVeicle)
+				result.add(c);
+		return result;
+	}
+	
+	@Override
+	public void setContract(Contract contract) {
+		contracts.put(contract.getId(), contract);
 	}	
 }

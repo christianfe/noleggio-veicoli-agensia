@@ -8,6 +8,7 @@ import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.ContractService;
 import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.ContractType;
+import it.univaq.disim.oop.bhertz.domain.Customer;
 import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
@@ -88,7 +89,6 @@ public class StartRentController extends ViewUtility implements Initializable, D
 
 	@FXML
 	public void startContractAction(ActionEvent e) throws NullPointerException {
-
 		try {
 			if (!dailyCheckBox.isSelected() && !kmCheckBox.isSelected())
 				labelError.setText("Selezionare una tipologia di contratto");
@@ -99,7 +99,7 @@ public class StartRentController extends ViewUtility implements Initializable, D
 				
 				Contract newContract = new Contract();
 				newContract.setVeicle(veicle);
-				newContract.setCustomer(user);
+				newContract.setCustomer((Customer) user);
 				newContract.setStartKm(veicle.getKm());
 				
 				newContract.setStart(dateStartField.getValue());
@@ -118,10 +118,7 @@ public class StartRentController extends ViewUtility implements Initializable, D
 			}
 		} catch (NullPointerException E) {
 			labelError.setText("Seleziona un periodo valido");
-
 		}
-		
-
 	}
 	
 	

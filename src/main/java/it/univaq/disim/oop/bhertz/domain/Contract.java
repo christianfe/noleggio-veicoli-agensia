@@ -12,10 +12,11 @@ public class Contract {
 	private ContractState state;
 	private Integer id;
 	private boolean paid;
+	private Veicle veicle;
 
 	private Feedback feedback;
 	private AssistanceTicket assistance;
-	private User customer;
+	private Customer customer;
 	
 	public Contract() {
 		this.setState(ContractState.ACTIVE);
@@ -36,8 +37,6 @@ public class Contract {
 	public void setAssistance(AssistanceTicket assistance) {
 		this.assistance = assistance;
 	}
-
-	private Veicle veicle;
 
 	public Integer getId() {
 		return id;
@@ -95,11 +94,11 @@ public class Contract {
 		this.type = type;
 	}
 
-	public User getCustomer() {
+	public Customer getCustomer() {
 		return customer;
 	}
 
-	public void setCustomer(User customer) {
+	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
 
@@ -126,8 +125,6 @@ public class Contract {
 		
 		return stateString;
 	}
-	
-
 	
 	public ContractType getContractType() {
 		return this.type;

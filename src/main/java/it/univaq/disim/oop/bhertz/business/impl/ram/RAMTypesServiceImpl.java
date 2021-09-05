@@ -54,13 +54,11 @@ public class RAMTypesServiceImpl implements TypesService{
 
 	@Override
 	public void addType(Type type) {
-		System.out.println(types);
 		Integer max = 0;
 		for (Type t : types.values())
 			max = (max > t.getId())? max : t.getId();
 		type.setId(max + 1);
 		this.types.put(type.getId(), type);
-		System.out.println(types);
 	}
 
 	@Override

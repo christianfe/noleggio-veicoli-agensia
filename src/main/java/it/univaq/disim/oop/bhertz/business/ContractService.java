@@ -15,5 +15,9 @@ public interface ContractService {
 	
 	void addContract(Contract contract);
 	
+	void setContract(Contract contract);
+	
 	void setPaid(Integer id, boolean value);
+	
+	List<Contract> getContractsByVeicle(Integer idVeicle);
 }

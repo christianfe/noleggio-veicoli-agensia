@@ -6,6 +6,7 @@ import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.ContractService;
 import it.univaq.disim.oop.bhertz.business.FeedbackService;
 import it.univaq.disim.oop.bhertz.business.MaintenanceService;
+import it.univaq.disim.oop.bhertz.business.NotificationsService;
 import it.univaq.disim.oop.bhertz.business.TypesService;
 import it.univaq.disim.oop.bhertz.business.UserService;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
@@ -17,6 +18,7 @@ public class FileBusinessFactoryImpl extends BhertzBusinessFactory {
 	private VeiclesService veicleService;
 	private MaintenanceService maintenanceService;
 	private FeedbackService feedbackService;
+	private NotificationsService notificationService;
 	
 	private static final String REPOSITORY_BASE = "src" + File.separator + "main" + File.separator + "resources"
 			+ File.separator + "data";
@@ -33,6 +35,7 @@ public class FileBusinessFactoryImpl extends BhertzBusinessFactory {
 		veicleService = new FileVeicleserviceImpl();
 		maintenanceService = new FileMaintenanceServiceImpl();
 		feedbackService = new FileFeedbackServiceImpl();
+		notificationService = new FileNotificationServiceImpl();
 	}
 	
 	@Override
@@ -62,8 +65,12 @@ public class FileBusinessFactoryImpl extends BhertzBusinessFactory {
 
 	@Override
 	public FeedbackService getFeedbackService() {
-		// TODO Auto-generated method stub
-		return null;
+		return feedbackService;
+	}
+
+	@Override
+	public NotificationsService getNotificationsService() {
+		return notificationService;
 	}
 
 }
