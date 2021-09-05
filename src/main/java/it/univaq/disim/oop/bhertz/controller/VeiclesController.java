@@ -88,7 +88,7 @@ public class VeiclesController extends ViewUtility
 			return new SimpleStringProperty(param.getValue().getConsumption() + " km/l");
 		});
 		kmColumn.setCellValueFactory((CellDataFeatures<Veicle, String> param) -> {
-			return new SimpleStringProperty(param.getValue().getKm() + " km");
+			return new SimpleStringProperty(String.format( "%.01f",param.getValue().getKm()) + " km");
 		});
 		stateColumn.setCellValueFactory(new PropertyValueFactory<>("state"));
 		fuelColumn.setCellValueFactory(new PropertyValueFactory<>("fuel"));

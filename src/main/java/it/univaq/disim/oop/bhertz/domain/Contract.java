@@ -6,8 +6,8 @@ public class Contract {
 
 	private LocalDate start;
 	private LocalDate end;
-	private int startKm;
-	private int endKm;
+	private double startKm;
+	private double endKm;
 	private ContractType type;
 	private ContractState state;
 	private Integer id;
@@ -70,15 +70,15 @@ public class Contract {
 		this.end = end;
 	}
 
-	public int getStartKm() {
+	public double getStartKm() {
 		return startKm;
 	}
 
-	public void setStartKm(int startKm) {
-		this.startKm = startKm;
+	public void setStartKm(double d) {
+		this.startKm = d;
 	}
 
-	public int getEndKm() {
+	public double getEndKm() {
 		return endKm;
 	}
 

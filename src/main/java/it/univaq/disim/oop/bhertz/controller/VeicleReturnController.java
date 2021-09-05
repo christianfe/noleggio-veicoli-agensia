@@ -37,6 +37,8 @@ public class VeicleReturnController extends ViewUtility implements Initializable
 	@FXML
 	private TextField timeField;
 	@FXML
+	private TextField kmField;	
+	@FXML
 	private Button saveButton;
 	@FXML
 	private Label labelError;
@@ -55,7 +57,7 @@ public class VeicleReturnController extends ViewUtility implements Initializable
 		this.subtitle1Label.setText("Cliete: " + objectsCollector.getObjectB().getCustomer().getName());
 		this.subtitle2Label.setText(objectsCollector.getObjectB().getStart() + " - " + objectsCollector.getObjectB().getEnd());
 		this.subtitle2Label.setText(objectsCollector.getObjectB().isPaid() ? "Contratto Pagato" : "Contratto Non Pagato");
-		
+		kmField.setText( String.format("%.0f", objectsCollector.getObjectB().getVeicle().getKm()));
 		datePicker.setValue(objectsCollector.getObjectB().getEnd());
 	};
 
@@ -74,6 +76,11 @@ public class VeicleReturnController extends ViewUtility implements Initializable
 	public void saveAction(ActionEvent e) {
 		try {
 			objectsCollector.getObjectB().setState(ContractState.ENDED);
+			
+			objectsCollector.getObjectB().getVeicle().setKm(Double.parseDouble(kmField.getText()));
+			
+			System.out.println(			objectsCollector.getObjectB().getVeicle().getKm() );
+			
 			BhertzBusinessFactory.getInstance().getContractService().setContract(objectsCollector.getObjectB());
 			BhertzBusinessFactory.getInstance().getNotificationsService().addNotification(new Notification(objectsCollector.getObjectB().getCustomer(), NotificationDictionary.END_RENT_APPOINTMENT_TITLE, NotificationDictionary.END_RENT_APPOINTMENT_TEXT + datePicker.getValue() + timeField.getText()));
 			dispatcher.renderView("rental", objectsCollector.getObjectA());

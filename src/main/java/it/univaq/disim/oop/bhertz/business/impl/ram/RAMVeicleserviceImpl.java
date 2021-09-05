@@ -29,7 +29,7 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 		Veicle panda = new Veicle();
 		panda.setId(1);
 		panda.setModel("Fiat Panda");
-		panda.setKm(1546);
+		panda.setKm(10);
 		panda.setPlate("AA000AA");
 		panda.setState(VeicleState.FREE);
 		panda.setConsumption(12);

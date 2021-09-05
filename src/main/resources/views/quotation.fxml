@@ -64,6 +64,6 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <Button fx:id="exitButton" layoutX="359.0" layoutY="510.0" mnemonicParsing="false" onAction="#exitAction" prefHeight="30.0" prefWidth="59.0" text="exit" />
+      <Button fx:id="exitButton" layoutX="359.0" layoutY="510.0" mnemonicParsing="false" onAction="#exitAction" prefHeight="30.0" prefWidth="59.0" text="Indietro" />
    </children>
 </AnchorPane>

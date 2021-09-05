@@ -5,7 +5,7 @@ public class Veicle {
 	private String model;
 	private String plate;
 	private VeicleState state;
-	private int km;
+	private double km;
 	private double consumption;
 	private Integer id;
 	private String fuel;
@@ -63,11 +63,11 @@ public class Veicle {
 		this.state = state;
 	}
 
-	public int getKm() {
+	public double getKm() {
 		return km;
 	}
 
-	public void setKm(int km) {
+	public void setKm(double km) {
 		this.km = km;
 	}
 
