@@ -44,7 +44,8 @@ public class HomeController extends ViewUtility implements Initializable, DataIn
 			notificationTextArea.setVisible(true);
 			listByUser = notificationService.getNotificationByUser(user.getId());
 			for (Notification n : listByUser) {
-				notificationTextArea.appendText("-" + n.getText() + "\n");
+				notificationTextArea.appendText(n.getTitle() + "\n");
+				notificationTextArea.appendText("  -  " + n.getText() + "\n");
 			}
 
 		}

@@ -2,6 +2,8 @@ package it.univaq.disim.oop.bhertz.controller;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -15,6 +17,7 @@ import it.univaq.disim.oop.bhertz.domain.ContractState;
 import it.univaq.disim.oop.bhertz.domain.TicketState;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.domain.VeicleState;
+import it.univaq.disim.oop.bhertz.view.ContractOrder;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import it.univaq.disim.oop.bhertz.view.ViewUtility;
@@ -80,8 +83,9 @@ public class RentalController extends ViewUtility implements Initializable, Data
 
 		periodColumn.setStyle("-fx-alignment: CENTER;");
 		periodColumn.setCellValueFactory((CellDataFeatures<Contract, String> param) -> {
-			return new SimpleStringProperty(param.getValue().getStart().toString().substring(5) + " / "
-					+ param.getValue().getEnd().toString().substring(5));
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-dd-MM");
+			return new SimpleStringProperty(param.getValue().getStart().format(formatter).substring(5) + " / "
+					+ param.getValue().getEnd().format(formatter).substring(5));
 		});
 
 		paymentColumn.setStyle("-fx-alignment: CENTER;");
@@ -159,6 +163,8 @@ public class RentalController extends ViewUtility implements Initializable, Data
 		try {
 			List<Contract> contract = (user.getRole() == 2 ? contractService.getContractsByUser(user)
 					: contractService.getAllContracts());
+			Collections.sort(contract, new ContractOrder());
+			
 			ObservableList<Contract> contractData = FXCollections.observableArrayList(contract);
 			rentalTable.setItems(contractData);
 		} catch (BusinessException e) {

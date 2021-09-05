@@ -55,6 +55,16 @@ public class RAMContractServiceImpl implements ContractService  {
 		contract3.setPaid(true);
 		contract3.setId(counter++);
 		contracts.put(contract3.getId(), contract3);
+		
+		Contract contract4 = new Contract();
+		contract4.setCustomer((Customer) userService.getusersByID(5));
+		contract4.setVeicle(veicleService.getVeicleByID(1));
+		contract4.setStart( LocalDate.of(2014, Month.SEPTEMBER, 10) );
+		contract4.setEnd(LocalDate.of(2014, Month.SEPTEMBER, 20) );
+		contract4.setPaid(false);
+		contract4.setId(counter++);
+		contract4.setState(ContractState.BOOKED);
+		contracts.put(contract4.getId(), contract4);
 
 	}
 
