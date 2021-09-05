@@ -18,7 +18,7 @@ import javafx.scene.paint.Paint;
 
 public class LayoutController implements Initializable, DataInitializable<User> {
 	
-	private static final MenuElement MENU_HOME[] ={ new MenuElement("Home", "home"), new MenuElement("Automezzi", "type"), new MenuElement("Noleggi", "rental"), new MenuElement("Manutenzioni", "maintenance"), new MenuElement("Profilo", "userEditor")};
+	private static final MenuElement MENU_HOME[] ={ new MenuElement("Home", "home"), new MenuElement("Tipologie Di Veicoli", "type"), new MenuElement("Noleggi", "rental"), new MenuElement("Manutenzioni", "maintenance"), new MenuElement("Profilo", "userEditor")};
 	private static final MenuElement MENU_ADMIN =  new MenuElement("Utenti", "user");
 	
 	@FXML
