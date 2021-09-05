@@ -15,8 +15,6 @@ public class RAMFeedbackServiceImpl implements FeedbackService {
 	private Map<Integer, Feedback> feeds = new HashMap<>();
 	private Integer counter = 1;
 	
-	
-	
 	@Override
 	public List<Feedback> getAllFeedbacks() throws BusinessException {
 		// TODO Auto-generated method stub
@@ -44,11 +42,7 @@ public class RAMFeedbackServiceImpl implements FeedbackService {
 
 
 	@Override
-	public Feedback getFeedbackByID(int id) throws BusinessException {
-		// TODO Auto-generated method stub
-		return null;
+	public Feedback getFeedbackByID(Integer id) throws BusinessException {
+		return feeds.get(id);
 	}
-
-	
-
 }

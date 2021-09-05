@@ -17,7 +17,7 @@ public class FileFeedbackServiceImpl implements FeedbackService  {
 	}
 
 	@Override
-	public Feedback getFeedbackByID(int id) throws BusinessException {
+	public Feedback getFeedbackByID(Integer id) throws BusinessException {
 		// TODO Auto-generated method stub
 		return null;
 	}
