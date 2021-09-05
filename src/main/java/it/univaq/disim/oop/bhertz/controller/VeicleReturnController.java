@@ -29,6 +29,8 @@ public class VeicleReturnController extends ViewUtility implements Initializable
 	@FXML
 	private Label subtitle2Label;
 	@FXML
+	private Label subtitle3Label;
+	@FXML
 	private DatePicker datePicker;
 	@FXML
 	private Button saveButton;
@@ -48,6 +50,7 @@ public class VeicleReturnController extends ViewUtility implements Initializable
 		this.titleLabel.setText(titleLabel.getText() + "''" + objectsCollector.getObjectB().getVeicle().getModel() + "''");
 		this.subtitle1Label.setText("Cliete: " + objectsCollector.getObjectB().getCustomer().getName());
 		this.subtitle2Label.setText(objectsCollector.getObjectB().getStart() + " - " + objectsCollector.getObjectB().getEnd());
+		this.subtitle2Label.setText(objectsCollector.getObjectB().isPaid() ? "Contratto Pagato" : "Contratto Non Pagato");
 		
 		datePicker.setValue(objectsCollector.getObjectB().getEnd());
 	};
