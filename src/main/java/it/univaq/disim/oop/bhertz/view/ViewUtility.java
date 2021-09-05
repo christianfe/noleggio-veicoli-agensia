@@ -23,4 +23,18 @@ public class ViewUtility {
 					field.setText(oldValue);
 			});
 	}
+
+	protected void setTimeField(TextField... fields) {
+		for (TextField field : fields)
+			field.textProperty().addListener((observable, oldValue, newValue) -> {
+				if (newValue.length() > 5 ) {
+					field.setText(oldValue);
+					return;
+				}
+				Integer lenght = newValue.length();
+				char c = newValue.charAt(lenght - 1);
+				if ((lenght == 3 && c != ':') || (lenght != 3 && (c < '0' || c > '9')))
+					field.setText(oldValue);
+			});
+	}
 }

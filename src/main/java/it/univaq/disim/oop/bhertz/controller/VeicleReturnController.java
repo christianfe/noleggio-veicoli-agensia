@@ -9,6 +9,7 @@ import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.ContractState;
 import it.univaq.disim.oop.bhertz.domain.Notification;
 import it.univaq.disim.oop.bhertz.domain.User;
+import it.univaq.disim.oop.bhertz.view.NotificationDictionary;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import it.univaq.disim.oop.bhertz.view.ViewUtility;
@@ -19,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 public class VeicleReturnController extends ViewUtility implements Initializable, DataInitializable<ObjectsCollector<User, Contract>> {
 
@@ -32,6 +34,8 @@ public class VeicleReturnController extends ViewUtility implements Initializable
 	private Label subtitle3Label;
 	@FXML
 	private DatePicker datePicker;
+	@FXML
+	private TextField timeField;
 	@FXML
 	private Button saveButton;
 	@FXML
@@ -57,7 +61,7 @@ public class VeicleReturnController extends ViewUtility implements Initializable
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
+		super.setTimeField(timeField);
 		datePicker.setDayCellFactory(d -> new DateCell() {
 			@Override
 			public void updateItem(LocalDate item, boolean empty) {
@@ -71,7 +75,7 @@ public class VeicleReturnController extends ViewUtility implements Initializable
 		try {
 			objectsCollector.getObjectB().setState(ContractState.ENDED);
 			BhertzBusinessFactory.getInstance().getContractService().setContract(objectsCollector.getObjectB());
-			BhertzBusinessFactory.getInstance().getNotificationsService().addNotification(new Notification(objectsCollector.getObjectB().getCustomer(), "Appuntamento Restituzione Veicolo", "Il tuo appuntamento è fissato per il giorno " + datePicker.getValue()));
+			BhertzBusinessFactory.getInstance().getNotificationsService().addNotification(new Notification(objectsCollector.getObjectB().getCustomer(), NotificationDictionary.END_RENT_APPOINTMENT_TITLE, NotificationDictionary.END_RENT_APPOINTMENT_TEXT + datePicker.getValue() + timeField.getText()));
 			dispatcher.renderView("rental", objectsCollector.getObjectA());
 		}catch (NullPointerException e1) {
 			labelError.setText("Impostare data valida");
