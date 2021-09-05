@@ -68,7 +68,7 @@ public class QuotationController extends ViewUtility implements Initializable, D
 				timeQuotationLabel.setText("Macchine del tempo non disponibili");
 			else {
 				float differenceDays = ChronoUnit.DAYS.between(startDate, endDate);
-				double PriceQuotation = differenceDays * veicle.getType().getPriceForDay();
+				double PriceQuotation = differenceDays * veicle.getPriceForDay();
 				timeQuotationLabel.setText(PriceQuotation + " Euro");
 			}
 
@@ -81,7 +81,7 @@ public class QuotationController extends ViewUtility implements Initializable, D
 	public void sliderDragAction() {
 
 		double kmSelected = kmSlider.getValue();
-		double priceQuotation = kmSelected * veicle.getType().getPriceForKm();
+		double priceQuotation = kmSelected * veicle.getPriceForKm();
 
 		sliderPositionLabel.setText(String.format("%.02f", kmSelected));
 		kmQuotationLabel.setText(String.format("%.02f", priceQuotation));

@@ -12,7 +12,9 @@ public class Veicle {
 	private double consumption;
 	private Integer id;
 	private String fuel;
-
+	private double priceForKm;
+	private double priceForDay;
+	
 	private Type type;
 	private Set<Contract> contracts = new HashSet<Contract>();
 
@@ -27,6 +29,9 @@ public class Veicle {
 		this.setKm(km);
 		this.setConsumption(consuption);
 		this.setFuel(fuel);
+		this.setPriceForKm(type.getPriceForKm());
+		this.setPriceForDay(type.getPriceForDay());
+		
 	}
 
 	
@@ -100,6 +105,22 @@ public class Veicle {
 
 	public void setFuel(String fuel) {
 		this.fuel = fuel;
+	}
+
+	public double getPriceForKm() {
+		return priceForKm;
+	}
+
+	public void setPriceForKm(double priceForKm) {
+		this.priceForKm = priceForKm;
+	}
+
+	public double getPriceForDay() {
+		return priceForDay;
+	}
+
+	public void setPriceForDay(double priceForDay) {
+		this.priceForDay = priceForDay;
 	}
 	
 	

@@ -51,6 +51,10 @@ public class VeiclesController extends ViewUtility
 	@FXML
 	private TableColumn<Veicle, MenuButton> actionColumn;
 	@FXML
+	private TableColumn<Veicle, String> priceHourColumn;
+	@FXML
+	private TableColumn<Veicle, String> priceKmColumn;
+	@FXML
 	private Button addVeicleButton;
 	@FXML
 	private TableColumn<Veicle, String> fuelColumn;
@@ -67,6 +71,14 @@ public class VeiclesController extends ViewUtility
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
+		priceHourColumn.setCellValueFactory((CellDataFeatures<Veicle, String> param) -> {
+			return new SimpleStringProperty(param.getValue().getPriceForDay() + "  €/h");
+		});
+		priceKmColumn.setCellValueFactory((CellDataFeatures<Veicle, String> param) -> {
+			return new SimpleStringProperty(param.getValue().getPriceForKm() + "  €/km");
+		});
+		
 		modelColumn.setCellValueFactory((CellDataFeatures<Veicle, String> param) -> {
 			return new SimpleStringProperty(param.getValue().getModel() + " - " + param.getValue().getPlate());
 			// return new SimpleStringProperty(param.getValue().getId() + " - " +
@@ -90,6 +102,7 @@ public class VeiclesController extends ViewUtility
 			MenuItem menuEdit = new MenuItem("Modifica Veicolo");
 			MenuItem menuDelete = new MenuItem("Elimina Veicolo");
 			MenuItem menuFeedback = new MenuItem("visualizza Feedback");
+			MenuItem menuPrice = new MenuItem("modifica tariffe Veicolo");
 
 			switch (this.user.getRole()) {
 			case 2:
@@ -99,6 +112,7 @@ public class VeiclesController extends ViewUtility
 			case 0:
 				localMenuButton.getItems().add(menuEdit);
 				localMenuButton.getItems().add(menuDelete);
+				localMenuButton.getItems().add(menuPrice);
 				break;
 
 			}
@@ -108,6 +122,11 @@ public class VeiclesController extends ViewUtility
 			menuRent.setOnAction((ActionEvent event) -> {
 				dispatcher.renderView("startRent", new ObjectsCollector<User, Veicle>(user, param.getValue()));
 			});
+			
+			menuPrice.setOnAction((ActionEvent event) -> {
+				dispatcher.renderView("setPrices", new ObjectsCollector<User, Veicle>(user, param.getValue()));
+			});
+
 
 			menuFeedback.setOnAction((ActionEvent event) -> {
 				dispatcher.renderView("feedback", new ObjectsCollector<User, Veicle>(user, param.getValue()));

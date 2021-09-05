@@ -32,6 +32,8 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 		panda.setConsumption(12);
 		panda.setType(auto);
 		panda.setFuel("gpl");
+		panda.setPriceForDay(panda.getType().getPriceForDay());
+		panda.setPriceForKm(panda.getType().getPriceForKm());
 		Veicle punto = new Veicle();
 		punto.setId(2);
 		punto.setModel("Fiat Punto");
@@ -41,6 +43,8 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 		punto.setConsumption(12);
 		punto.setType(auto);
 		punto.setFuel("gasolio");
+		punto.setPriceForDay(punto.getType().getPriceForDay());
+		punto.setPriceForKm(punto.getType().getPriceForKm());
 		Veicle fiesta = new Veicle();
 		fiesta.setId(3);
 		fiesta.setModel("Ford Fiesta");
@@ -50,6 +54,8 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 		fiesta.setConsumption(12);
 		fiesta.setType(auto);
 		fiesta.setFuel("gpl");
+		fiesta.setPriceForDay(fiesta.getType().getPriceForDay());
+		fiesta.setPriceForKm(fiesta.getType().getPriceForKm());
 		Veicle malaguti = new Veicle();
 		malaguti.setId(4);
 		malaguti.setModel("Vasca da Bagno");
@@ -59,6 +65,8 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 		malaguti.setConsumption(12);
 		malaguti.setType(moto);
 		malaguti.setFuel("benzina");
+		malaguti.setPriceForDay(malaguti.getType().getPriceForDay());
+		malaguti.setPriceForKm(malaguti.getType().getPriceForKm());
 		Veicle aprilia = new Veicle();
 		aprilia.setId(5);
 		aprilia.setModel("Aprilia RS");
@@ -68,6 +76,8 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 		aprilia.setConsumption(12);
 		aprilia.setFuel("bestemmie");
 		aprilia.setType(moto);
+		aprilia.setPriceForDay(aprilia.getType().getPriceForDay());
+		aprilia.setPriceForKm(aprilia.getType().getPriceForKm());
 
 		veicles.put(panda.getId(), panda);
 		veicles.put(punto.getId(), punto);
@@ -104,7 +114,7 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 	public void addVeicle(Veicle veicle) {
 		Integer max = 0;
 		for (Veicle v : veicles.values())
-			max = (max > v.getId())? max : v.getId();
+			max = (max > v.getId()) ? max : v.getId();
 		veicle.setId(max + 1);
 		this.veicles.put(veicle.getId(), veicle);
 	}
@@ -121,7 +131,7 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 		v.setConsumption(consuption);
 		v.setKm(km);
 		v.setFuel(fuel);
-		this.veicles.put(id, v);		
+		this.veicles.put(id, v);
 	}
 
 }

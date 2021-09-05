@@ -22,16 +22,15 @@
       </Button>
       <TableView fx:id="veiclesTable" prefHeight="511.0" prefWidth="758.0">
         <columns>
-          <TableColumn fx:id="modelColumn" prefWidth="166.0" text="Modello" />
-            <TableColumn fx:id="fuelColumn" prefWidth="75.0" text="Alimentazione" />
-            <TableColumn fx:id="consumiColumn" prefWidth="170.0" text="Consumi" />
-            <TableColumn fx:id="kmColumn" prefWidth="92.0" text="Chilometri" />
-          <TableColumn fx:id="stateColumn" prefWidth="171.0" text="Stato" />
-            <TableColumn fx:id="actionColumn" prefWidth="170.0" text="Azioni" />
+          <TableColumn fx:id="modelColumn" prefWidth="141.0" text="Modello" />
+            <TableColumn fx:id="fuelColumn" prefWidth="93.0" text="Alimentazione" />
+            <TableColumn fx:id="consumiColumn" prefWidth="78.0" text="Consumi" />
+            <TableColumn fx:id="kmColumn" prefWidth="86.0" text="Chilometri" />
+            <TableColumn fx:id="priceHourColumn" prefWidth="93.0" text="tariffa Oraria" />
+            <TableColumn fx:id="priceKmColumn" prefWidth="92.0" text="tariffa km" />
+          <TableColumn fx:id="stateColumn" minWidth="0.0" prefWidth="86.0" text="Stato" />
+            <TableColumn fx:id="actionColumn" prefWidth="88.0" text="Azioni" />
         </columns>
-         <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-         </columnResizePolicy>
       </TableView>
    </children>
    <padding>
