@@ -11,8 +11,10 @@ import it.univaq.disim.oop.bhertz.domain.Veicle;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import it.univaq.disim.oop.bhertz.view.ViewUtility;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -20,11 +22,11 @@ import javafx.scene.control.Slider;
 public class QuotationController extends ViewUtility implements Initializable, DataInitializable<ObjectsCollector<User, Veicle>> {
 
 	@FXML
-	private Label titleQuotation;
+	private Label titleLabel;
 	@FXML
-	private DatePicker startQuotation;
+	private DatePicker dateStartField;
 	@FXML
-	private DatePicker endQuotation;
+	private DatePicker dateEndField;
 	@FXML
 	private Label timeQuotationLabel;
 	@FXML
@@ -44,25 +46,33 @@ public class QuotationController extends ViewUtility implements Initializable, D
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
+		dateStartField.setDayCellFactory(d -> new DateCell() {
+			@Override
+			public void updateItem(LocalDate item, boolean empty) {
+				super.updateItem(item, empty);
+				setDisable(item.isBefore(LocalDate.now()));
+			}});
+		dateEndField.setDayCellFactory(d -> new DateCell() {
+			@Override
+			public void updateItem(LocalDate item, boolean empty) {
+				super.updateItem(item, empty);
+				setDisable(item.isBefore(LocalDate.now()));
+			}});
 	}
 
 	@Override
 	public void initializeData(ObjectsCollector<User, Veicle> collector) {
 		this.user = collector.getObjectA();
 		this.veicle = collector.getObjectB();
-		titleQuotation.setText(titleQuotation.getText() + " per: " + veicle.getModel());
-		// sliderPositionLabel.textProperty().bind(Bindings.format("%.2f",
-		// kmSlider.valueProperty()));
+		titleLabel.setText(titleLabel.getText() + " per: " + veicle.getModel());
+		// sliderPositionLabel.textProperty().bind(Bindings.format("%.2f", kmSlider.valueProperty()));
 
 	}
 
-	@FXML
-	public void calculateTimeQuotation() throws NullPointerException {
-
+	public void calculateTimeQuotation(){
 		try {
-			LocalDate startDate = startQuotation.getValue();
-			LocalDate endDate = endQuotation.getValue();
+			LocalDate startDate = dateStartField.getValue();
+			LocalDate endDate = dateEndField.getValue();
 
 			if (startDate.isAfter(endDate))
 				timeQuotationLabel.setText("Macchine del tempo non disponibili");
@@ -71,10 +81,7 @@ public class QuotationController extends ViewUtility implements Initializable, D
 				double PriceQuotation = differenceDays * veicle.getPriceForDay();
 				timeQuotationLabel.setText(PriceQuotation + " Euro");
 			}
-
-		} catch (NullPointerException e) {
-
-		}
+		} catch (NullPointerException e) {}
 	}
 
 	@FXML
@@ -90,5 +97,32 @@ public class QuotationController extends ViewUtility implements Initializable, D
 	@FXML
 	public void exitAction() {
 		dispatcher.renderView("veicles", new ObjectsCollector<User, Type>(user, veicle.getType()) );
+	}
+	
+	@FXML 
+	public void checkDateStart(ActionEvent e) {
+		try {
+			dateEndField.setDayCellFactory(d -> new DateCell() {
+				@Override
+				public void updateItem(LocalDate item, boolean empty) {
+					super.updateItem(item, empty);
+					setDisable(item.isBefore(dateStartField.getValue()));
+				}});
+		} catch (NullPointerException e1) {}
+		calculateTimeQuotation();
+	}
+	
+	@FXML 
+	public void checkDateEnd(ActionEvent e) {
+		try {
+			//if (dateEndField.getValue().isBefore(dateStartField.getValue())) dateEndField.setValue(dateStartField.getValue());
+			dateStartField.setDayCellFactory(d -> new DateCell() {
+				@Override
+				public void updateItem(LocalDate item, boolean empty) {
+					super.updateItem(item, empty);
+					setDisable(item.isBefore(LocalDate.now()) || item.isAfter(dateEndField.getValue()));
+				}});
+		} catch (NullPointerException e1) {}
+		calculateTimeQuotation();
 	}
 }

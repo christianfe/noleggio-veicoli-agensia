@@ -40,6 +40,8 @@ public class StartRentController extends ViewUtility implements Initializable, D
 	@FXML
 	private Button confirmButton;
 	@FXML
+	private Button cancelButton;
+	@FXML
 	private Label labelError;
 
 
@@ -105,8 +107,6 @@ public class StartRentController extends ViewUtility implements Initializable, D
 		try {
 			if (!dailyCheckBox.isSelected() && !kmCheckBox.isSelected())
 				labelError.setText("Selezionare una tipologia di contratto");
-			else if (dateStartField.getValue().isAfter(dateEndField.getValue()))
-				labelError.setText("Macchine del tempo non disponibili");
 			else {
 				ContractService contractService = factory.getContractService();
 
@@ -127,24 +127,40 @@ public class StartRentController extends ViewUtility implements Initializable, D
 				contractService.addContract(newContract);
 				labelError.setText(null);
 				dispatcher.renderView("veicles", new ObjectsCollector<User, Type>(user, veicle.getType()));
-
 			}
 		} catch (NullPointerException E) {
-			labelError.setText("Seleziona un periodo valido");
+			labelError.setText("Imposta data di inizio e fine del noleggio");
 		}
 	}
 
 
 	@FXML 
-	public void checkDate(ActionEvent e) {
-		if (dateStartField.getValue().isBefore(LocalDate.now()))
-			dateStartField.setValue(LocalDate.now());
-		dateEndField.setDayCellFactory(d -> new DateCell() {
-			@Override
-			public void updateItem(LocalDate item, boolean empty) {
-				super.updateItem(item, empty);
-				setDisable(item.isBefore(dateStartField.getValue()));
-			}});
+	public void checkDateStart(ActionEvent e) {
+		try {
+			dateEndField.setDayCellFactory(d -> new DateCell() {
+				@Override
+				public void updateItem(LocalDate item, boolean empty) {
+					super.updateItem(item, empty);
+					setDisable(item.isBefore(dateStartField.getValue()));
+				}});
+		} catch (NullPointerException e1) {}
 	}
-
+	
+	@FXML
+	public void checkDateEnd(ActionEvent e) {
+		try {
+			//if (dateEndField.getValue().isBefore(dateStartField.getValue())) dateEndField.setValue(dateStartField.getValue());
+			dateStartField.setDayCellFactory(d -> new DateCell() {
+				@Override
+				public void updateItem(LocalDate item, boolean empty) {
+					super.updateItem(item, empty);
+					setDisable(item.isBefore(LocalDate.now()) || item.isAfter(dateEndField.getValue()));
+				}});
+		} catch (NullPointerException e1) {}
+	}
+	
+	@FXML
+	public void cancelAction() {
+		dispatcher.renderView("veicles", new ObjectsCollector<User, Type>(user, veicle.getType()));
+	}
 }
