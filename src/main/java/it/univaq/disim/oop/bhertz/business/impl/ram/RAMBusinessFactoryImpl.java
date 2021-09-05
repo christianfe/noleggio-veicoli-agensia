@@ -23,7 +23,7 @@ public class RAMBusinessFactoryImpl extends BhertzBusinessFactory {
 		try {
 			veicleService = new RAMVeicleserviceImpl();
 			maintenanceService = new RAMMaintenanceServiceImpl();
-			feedbackService = new RAMfeedbackServiceImpl();
+			feedbackService = new RAMFeedbackServiceImpl();
 			typeService = new RAMTypesServiceImpl();
 			contractService = new RAMContractServiceImpl();
 			userService = new RAMUserServiceImpl();

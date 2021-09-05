@@ -10,10 +10,10 @@ import it.univaq.disim.oop.bhertz.business.FeedbackService;
 import it.univaq.disim.oop.bhertz.domain.Feedback;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
 
-public class RAMfeedbackServiceImpl implements FeedbackService {
+public class RAMFeedbackServiceImpl implements FeedbackService {
 
 	private Map<Integer, Feedback> feeds = new HashMap<>();
-	private int counter = 1;
+	private Integer counter = 1;
 	
 	
 	
