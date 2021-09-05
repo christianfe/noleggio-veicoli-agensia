@@ -21,6 +21,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 
@@ -40,7 +41,7 @@ public class StartRentController extends ViewUtility implements Initializable, D
 	private Button confirmButton;
 	@FXML
 	private Label labelError;
-	
+
 
 
 	private User user;
@@ -55,6 +56,18 @@ public class StartRentController extends ViewUtility implements Initializable, D
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		dateStartField.setDayCellFactory(d -> new DateCell() {
+			@Override
+			public void updateItem(LocalDate item, boolean empty) {
+				super.updateItem(item, empty);
+				setDisable(item.isBefore(LocalDate.now()));
+			}});
+		dateEndField.setDayCellFactory(d -> new DateCell() {
+			@Override
+			public void updateItem(LocalDate item, boolean empty) {
+				super.updateItem(item, empty);
+				setDisable(item.isBefore(LocalDate.now()));
+			}});
 	}
 
 	@Override
@@ -96,12 +109,12 @@ public class StartRentController extends ViewUtility implements Initializable, D
 				labelError.setText("Macchine del tempo non disponibili");
 			else {
 				ContractService contractService = factory.getContractService();
-				
+
 				Contract newContract = new Contract();
 				newContract.setVeicle(veicle);
 				newContract.setCustomer((Customer) user);
 				newContract.setStartKm(veicle.getKm());
-				
+
 				newContract.setStart(dateStartField.getValue());
 				newContract.setEnd(dateEndField.getValue());
 				if (dailyCheckBox.isSelected())
@@ -120,13 +133,18 @@ public class StartRentController extends ViewUtility implements Initializable, D
 			labelError.setText("Seleziona un periodo valido");
 		}
 	}
-	
-	
+
+
 	@FXML 
 	public void checkDate(ActionEvent e) {
 		if (dateStartField.getValue().isBefore(LocalDate.now()))
 			dateStartField.setValue(LocalDate.now());
-		//controlla che non venga inserita una data di inizio noleggio precedente a quella odierna
+		dateEndField.setDayCellFactory(d -> new DateCell() {
+			@Override
+			public void updateItem(LocalDate item, boolean empty) {
+				super.updateItem(item, empty);
+				setDisable(item.isBefore(dateStartField.getValue()));
+			}});
 	}
 
 }

@@ -8,6 +8,7 @@ import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.view.MenuElement;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
+import it.univaq.disim.oop.bhertz.view.ViewUtility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,7 +17,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 
-public class LayoutController implements Initializable, DataInitializable<User> {
+public class LayoutController extends ViewUtility implements Initializable, DataInitializable<User> {
 	
 	private static final MenuElement MENU_HOME[] ={ new MenuElement("Home", "home"), new MenuElement("Tipologie Di Veicoli", "type"), new MenuElement("Noleggi", "rental"), new MenuElement("Manutenzioni", "maintenance"), new MenuElement("Profilo", "userEditor")};
 	private static final MenuElement MENU_ADMIN =  new MenuElement("Utenti", "user");

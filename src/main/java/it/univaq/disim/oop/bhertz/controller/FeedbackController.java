@@ -13,6 +13,7 @@ import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
+import it.univaq.disim.oop.bhertz.view.ViewUtility;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,8 +24,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 
-public class FeedbackController 
-	implements Initializable, DataInitializable<ObjectsCollector<User, Veicle>> {
+public class FeedbackController extends ViewUtility implements Initializable, DataInitializable<ObjectsCollector<User, Veicle>> {
 
 	@FXML
 	private Label titleLabel;

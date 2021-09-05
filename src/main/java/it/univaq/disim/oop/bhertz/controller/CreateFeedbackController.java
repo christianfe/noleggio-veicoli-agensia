@@ -10,6 +10,7 @@ import it.univaq.disim.oop.bhertz.domain.Feedback;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
+import it.univaq.disim.oop.bhertz.view.ViewUtility;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -17,7 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 
-public class CreateFeedbackController implements Initializable, DataInitializable<ObjectsCollector<User, Contract>> {
+public class CreateFeedbackController extends ViewUtility implements Initializable, DataInitializable<ObjectsCollector<User, Contract>> {
 	
 	@FXML
 	private Label titleFeedback;
@@ -38,12 +39,14 @@ public class CreateFeedbackController implements Initializable, DataInitializabl
 	public CreateFeedbackController() {
 		dispatcher = ViewDispatcher.getInstance();
 		feedbackService = BhertzBusinessFactory.getInstance().getFeedbackService();
+	
 	}
 	
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		confirmFeedback.disableProperty().bind(descriptionFeedback.textProperty().isEmpty());
+		super.addForbiddenCharCheck(descriptionFeedback);
 	}
 	
 	

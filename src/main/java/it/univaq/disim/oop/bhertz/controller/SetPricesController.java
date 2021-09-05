@@ -16,8 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class SetPricesController extends ViewUtility
-		implements Initializable, DataInitializable<ObjectsCollector<User, Veicle>> {
+public class SetPricesController extends ViewUtility implements Initializable, DataInitializable<ObjectsCollector<User, Veicle>> {
 
 	@FXML
 	private Label titleLabel;
@@ -34,12 +33,11 @@ public class SetPricesController extends ViewUtility
 	public SetPricesController() {
 		dispatcher = ViewDispatcher.getInstance();
 		veicleService = BhertzBusinessFactory.getInstance().getVeiclesService();
-
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+		super.addForbiddenCharCheck(kmField, timeField);
 
 	}
 

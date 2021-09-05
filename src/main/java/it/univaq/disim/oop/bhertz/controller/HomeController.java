@@ -4,12 +4,13 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import it.univaq.disim.oop.bhertz.domain.User;
+import it.univaq.disim.oop.bhertz.view.ViewUtility;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 
-public class HomeController implements Initializable, DataInitializable<User> {
+public class HomeController extends ViewUtility implements Initializable, DataInitializable<User> {
 
 	@FXML
 	private Label welcomeLabel;
