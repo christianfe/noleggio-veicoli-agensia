@@ -142,28 +142,7 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 	public void setVeicle(Veicle veicle) {
 		this.veicles.put(veicle.getId(), veicle);
 	}
-	/*
-	 * @Override public boolean isVeicleFree(Integer idVeicle, LocalDate startDate,
-	 * LocalDate endDate, List<Contract> contractOfVeicle) {
-	 * 
-	 * boolean answer = true;
-	 * 
-	 * boolean answers[] = new boolean[contractOfVeicle.size()];
-	 * 
-	 * for (int i = 0; i < contractOfVeicle.size(); i++) {
-	 * 
-	 * Contract c = contractOfVeicle.get(i); if
-	 * (startDate.isAfter(c.getEnd().plusDays(2)) ||
-	 * endDate.plusDays(2).isBefore(c.getStart())) answers[i] = true; else {
-	 * answers[i] = false; }
-	 * 
-	 * }
-	 * 
-	 * for (boolean b : answers) { if (b == false) answer = false; }
-	 * 
-	 * return answer; }
-	 */
-
+	
 	@Override
 	public boolean isVeicleFree(LocalDate startDate, LocalDate endDate, List<Contract> contractOfVeicle) {
 
@@ -177,16 +156,11 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 
 	@Override
 	public String FindAviableDays(List<Contract> contractOfVeicle) {
-
 		Collections.sort(contractOfVeicle, new ContractOrderByDate());
 		String body = "prima del " + contractOfVeicle.get(0).getStart().minusDays(3) + ", \n";
-		for (int i = 0; i < contractOfVeicle.size() - 1; i++) {
-			body = body + "dal " + contractOfVeicle.get(i).getEnd().plusDays(3) + " al "
-					+ contractOfVeicle.get(i + 1).getStart().minusDays(3) + ", \n ";
-		}
-		body = body + "dopo il " + contractOfVeicle.get(contractOfVeicle.size() - 1).getEnd().plusDays(3);
-		// System.out.println(body);
-
+		for (int i = 0; i < contractOfVeicle.size() - 1; i++)
+			body += "dal " + contractOfVeicle.get(i).getEnd().plusDays(3) + " al " + contractOfVeicle.get(i + 1).getStart().minusDays(3) + ", \n ";
+		body += "dopo il " + contractOfVeicle.get(contractOfVeicle.size() - 1).getEnd().plusDays(3);
 		return body;
 	}
 
