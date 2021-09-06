@@ -142,21 +142,13 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 	}
 
 	@Override
-	public boolean isVeicleFree(Integer idVeicle, LocalDate startDate, LocalDate endDate,
-			List<Contract> contractOfVeicle) {
+	public boolean isVeicleFree(LocalDate startDate, LocalDate endDate, List<Contract> contractOfVeicle) {
 
-		boolean answers[] = new boolean[contractOfVeicle.size()];
 		for (int i = 0; i < contractOfVeicle.size(); i++) {
 			Contract c = contractOfVeicle.get(i);
-			if (startDate.isAfter(c.getEnd().plusDays(2)) || endDate.plusDays(2).isBefore(c.getStart()))
-				answers[i] = true;
-			else
-				answers[i] = false;
+			if (!(startDate.isAfter(c.getEnd().plusDays(2)) || endDate.plusDays(2).isBefore(c.getStart())))
+				return false;
 		}
-
-		for (boolean b : answers)
-			if (!b)
-				return b;
 		return true;
 	}
 

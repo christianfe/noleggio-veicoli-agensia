@@ -77,7 +77,8 @@ public class VeicleReturnController extends ViewUtility
 			@Override
 			public void updateItem(LocalDate item, boolean empty) {
 				super.updateItem(item, empty);
-				setDisable(item.isBefore(objectsCollector.getObjectB().getEnd()) || item.isAfter(objectsCollector.getObjectB().getEnd().plusDays(2)));
+				setDisable(item.isBefore(objectsCollector.getObjectB().getEnd())
+						|| item.isAfter(objectsCollector.getObjectB().getEnd().plusDays(2)));
 			}
 		});
 	}

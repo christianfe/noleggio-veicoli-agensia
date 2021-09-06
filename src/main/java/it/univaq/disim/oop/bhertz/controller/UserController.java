@@ -29,12 +29,11 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class UserController extends ViewUtility implements Initializable, DataInitializable<Object>{
+public class UserController extends ViewUtility implements Initializable, DataInitializable<Object> {
 
-	
 	@FXML
 	private Label titleLabel;
-	
+
 	@FXML
 	private TableView<User> staffTable;
 	@FXML
@@ -43,7 +42,7 @@ public class UserController extends ViewUtility implements Initializable, DataIn
 	private TableColumn<User, String> nameStaffColumn;
 	@FXML
 	private TableColumn<User, MenuButton> actionStaffColumn;
-	
+
 	@FXML
 	private TableView<User> customerTable;
 	@FXML
@@ -52,15 +51,15 @@ public class UserController extends ViewUtility implements Initializable, DataIn
 	private TableColumn<User, String> nameCustomersColumn;
 	@FXML
 	private TableColumn<User, MenuButton> actionCustomersColumn;
-	
+
 	private ViewDispatcher dispatcher;
 	private UserService userServices;
-	
+
 	public UserController() {
 		dispatcher = ViewDispatcher.getInstance();
 		userServices = BhertzBusinessFactory.getInstance().getUserService();
 	}
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		usernameStaffColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
@@ -72,16 +71,17 @@ public class UserController extends ViewUtility implements Initializable, DataIn
 
 			MenuItem menuEdit = new MenuItem("Modifica Utente");
 			MenuItem menuDelete = new MenuItem("Elimina Utente");
-			
+
 			localMenuButton.getItems().add(menuEdit);
 			localMenuButton.getItems().add(menuDelete);
 
 			menuEdit.setOnAction((ActionEvent event) -> {
-				dispatcher.renderView("userEditor",  new ObjectsCollector<User, User>(null, param.getValue()));
+				dispatcher.renderView("userEditor", new ObjectsCollector<User, User>(null, param.getValue()));
 			});
-			
+
 			menuDelete.setOnAction((ActionEvent event) -> {
-				if (JOptionPane.showConfirmDialog(null, "Confermi di voler eliminare l'utente selezionato?", "Eliminare l'utente?", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE) == 0) {
+				if (JOptionPane.showConfirmDialog(null, "Confermi di voler eliminare l'utente selezionato?",
+						"Eliminare l'utente?", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE) == 0) {
 					userServices.deleteUser(param.getValue().getId());
 					dispatcher.renderView("user", null);
 				}
@@ -98,31 +98,33 @@ public class UserController extends ViewUtility implements Initializable, DataIn
 
 			MenuItem menuEdit = new MenuItem("Modifica Utente");
 			MenuItem menuDelete = new MenuItem("Elimina Utente");
-			
+
 			localMenuButton.getItems().add(menuEdit);
 			localMenuButton.getItems().add(menuDelete);
 
 			menuEdit.setOnAction((ActionEvent event) -> {
-				dispatcher.renderView("userEditor",  new ObjectsCollector<User, User>(null, param.getValue()));
+				dispatcher.renderView("userEditor", new ObjectsCollector<User, User>(null, param.getValue()));
 			});
-			
+
 			menuDelete.setOnAction((ActionEvent event) -> {
-				if (JOptionPane.showConfirmDialog(null, "Confermi di voler eliminare l'utente selezionato?", "Eliminare l'utente?", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE) == 0) {
+				if (JOptionPane.showConfirmDialog(null, "Confermi di voler eliminare l'utente selezionato?",
+						"Eliminare l'utente?", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE) == 0) {
 					userServices.deleteUser(param.getValue().getId());
 					dispatcher.renderView("user", null);
 				}
 			});
 
 			return new SimpleObjectProperty<MenuButton>(localMenuButton);
-		});	}
-	
+		});
+	}
+
 	@Override
 	public void initializeData(Object o) {
 		try {
 			List<User> staffs = userServices.getUserByRole(1);
 			ObservableList<User> staffData = FXCollections.observableArrayList(staffs);
 			staffTable.setItems(staffData);
-			
+
 			List<User> users = userServices.getUserByRole(2);
 			ObservableList<User> userData = FXCollections.observableArrayList(users);
 			customerTable.setItems(userData);
@@ -131,14 +133,12 @@ public class UserController extends ViewUtility implements Initializable, DataIn
 		}
 	}
 
-	public void addOperatorAction (ActionEvent event) {
+	public void addOperatorAction(ActionEvent event) {
 		dispatcher.renderView("userEditor", new ObjectsCollector<User, User>(null, new Staff()));
 	}
-	
-	public void addUserAction (ActionEvent event) {
+
+	public void addUserAction(ActionEvent event) {
 		dispatcher.renderView("userEditor", new ObjectsCollector<User, User>(null, new Customer()));
 	}
-	
-	
-	
+
 }

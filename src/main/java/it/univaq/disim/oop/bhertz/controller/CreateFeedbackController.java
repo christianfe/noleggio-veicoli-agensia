@@ -18,8 +18,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 
-public class CreateFeedbackController extends ViewUtility implements Initializable, DataInitializable<ObjectsCollector<User, Contract>> {
-	
+public class CreateFeedbackController extends ViewUtility
+		implements Initializable, DataInitializable<ObjectsCollector<User, Contract>> {
+
 	@FXML
 	private Label titleFeedback;
 	@FXML
@@ -30,53 +31,50 @@ public class CreateFeedbackController extends ViewUtility implements Initializab
 	private Button confirmFeedback;
 	@FXML
 	private Button noFeedback;
-	
+
 	private ViewDispatcher dispatcher;
 	private FeedbackService feedbackService;
 	private User user;
 	private Contract contract;
-	
+
 	public CreateFeedbackController() {
 		dispatcher = ViewDispatcher.getInstance();
 		feedbackService = BhertzBusinessFactory.getInstance().getFeedbackService();
-	
+
 	}
-	
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		confirmFeedback.disableProperty().bind(descriptionFeedback.textProperty().isEmpty());
 		super.addForbiddenCharCheck(descriptionFeedback);
 	}
-	
-	
+
 	@Override
 	public void initializeData(ObjectsCollector<User, Contract> collector) {
 		this.user = collector.getObjectA();
 		this.contract = collector.getObjectB();
-		
-		titleFeedback.setText(titleFeedback.getText() + " per il noleggio del veicolo: " + contract.getVeicle().getModel());
+
+		titleFeedback
+				.setText(titleFeedback.getText() + " per il noleggio del veicolo: " + contract.getVeicle().getModel());
 	}
-	
-	
+
 	@FXML
 	public void createFeedback() {
 		Feedback newFeedback = new Feedback();
 		newFeedback.setBody(descriptionFeedback.getText());
 		newFeedback.setContract(contract);
-		newFeedback.setValutation((int)sliderFeedback.getValue());
-		
+		newFeedback.setValutation((int) sliderFeedback.getValue());
+
 		feedbackService.addFeedback(newFeedback);
 		confirmFeedback.disableProperty().unbind();
 		confirmFeedback.setDisable(true);
 		dispatcher.renderView("rental", user);
-		
+
 	}
-	
+
 	@FXML
 	public void exitFeedback() {
 		dispatcher.renderView("rental", user);
 	}
-	
-	
+
 }

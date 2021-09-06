@@ -54,11 +54,10 @@ public class LogInController extends ViewUtility implements Initializable, DataI
 	private AnchorPane LogInStage;
 
 	private UserService userService;
-
 	private ViewDispatcher dispatcher;
 
 	public LogInController() {
-		userService = BhertzBusinessFactory.getInstance().getUserService();
+		this.userService = BhertzBusinessFactory.getInstance().getUserService();
 		this.dispatcher = ViewDispatcher.getInstance();
 	}
 
@@ -66,9 +65,11 @@ public class LogInController extends ViewUtility implements Initializable, DataI
 	public void initialize(URL location, ResourceBundle resources) {
 
 		LogInStage.setStyle("-fx-background-color: #f1f1f1");
-		//TODO logInButton.disableProperty().bind(usernameField.textProperty().isEmpty().or(passwordField.textProperty().isEmpty()));
-		registerButton.disableProperty().bind(newUsernameField.textProperty().isEmpty().or(newNameField.textProperty().isEmpty().or(NewPasswordField.textProperty().isEmpty().or(NewPasswordRepeatField.textProperty().isEmpty()))));
-		super.addForbiddenCharCheck(usernameField, passwordField, newUsernameField, newNameField, NewPasswordField, NewPasswordRepeatField);
+		registerButton.disableProperty().bind(newUsernameField.textProperty().isEmpty().or(newNameField.textProperty()
+				.isEmpty()
+				.or(NewPasswordField.textProperty().isEmpty().or(NewPasswordRepeatField.textProperty().isEmpty()))));
+		super.addForbiddenCharCheck(usernameField, passwordField, newUsernameField, newNameField, NewPasswordField,
+				NewPasswordRepeatField);
 	}
 
 	@FXML
@@ -103,5 +104,5 @@ public class LogInController extends ViewUtility implements Initializable, DataI
 		labelErrorSignup.setText("");
 		labelErrorLogin.setText("");
 	}
-	
+
 }

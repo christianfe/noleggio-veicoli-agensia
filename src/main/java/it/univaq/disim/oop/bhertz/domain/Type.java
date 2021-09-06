@@ -7,16 +7,16 @@ public class Type {
 	private double priceForDay;
 	private Integer id;
 
+	public Type() {
+	}
 
-	public Type() {}
-	
 	public Type(Integer id, String name, double priceForKm, double priceForDay) {
 		this.setId(id);
 		this.setName(name);
 		this.setPriceForDay(priceForDay);
 		this.setPriceForKm(priceForKm);
 	}
-	
+
 	public Integer getId() {
 		return id;
 	}

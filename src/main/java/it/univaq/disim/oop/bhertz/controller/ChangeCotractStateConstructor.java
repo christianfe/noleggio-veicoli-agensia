@@ -20,8 +20,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class ChangeCotractStateConstructor extends ViewUtility implements Initializable, DataInitializable<ObjectsCollector<User, Contract>> {
-	
+public class ChangeCotractStateConstructor extends ViewUtility
+		implements Initializable, DataInitializable<ObjectsCollector<User, Contract>> {
+
 	@FXML
 	private Label errorLabel;
 	@FXML
@@ -41,7 +42,7 @@ public class ChangeCotractStateConstructor extends ViewUtility implements Initia
 	private ContractService contracService;
 	private VeiclesService veicleService;
 	private ObjectsCollector<User, Contract> objectsCollector;
-	
+
 	public ChangeCotractStateConstructor() {
 		this.dispatcher = ViewDispatcher.getInstance();
 		this.contracService = BhertzBusinessFactory.getInstance().getContractService();
@@ -61,7 +62,7 @@ public class ChangeCotractStateConstructor extends ViewUtility implements Initia
 		kmField.setText("" + objectsCollector.getObjectB().getVeicle().getKm());
 		titleLabel.setText(titleLabel.getText() + objectsCollector.getObjectB().getVeicle().getModel());
 	}
-	
+
 	@FXML
 	public void saveAction(ActionEvent e) {
 		double d = Double.parseDouble(kmField.getText());
@@ -78,13 +79,13 @@ public class ChangeCotractStateConstructor extends ViewUtility implements Initia
 			c.setState(ContractState.ENDED);
 		}
 		contracService.setContract(c);
-		
+
 		Veicle v = c.getVeicle();
 		v.setKm(d);
 		veicleService.setVeicle(v);
 		dispatcher.renderView("rental", objectsCollector.getObjectA());
 	}
-	
+
 	@FXML
 	public void cancelAction(ActionEvent e) {
 		dispatcher.renderView("rental", objectsCollector.getObjectA());

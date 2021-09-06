@@ -27,7 +27,7 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class MaintenanceController extends ViewUtility implements Initializable, DataInitializable<User>{
+public class MaintenanceController extends ViewUtility implements Initializable, DataInitializable<User> {
 
 	@FXML
 	private Label titleLabel;
@@ -62,7 +62,7 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 
 		actionColumn.setStyle("-fx-alignment: CENTER;");
 		actionColumn.setCellValueFactory((CellDataFeatures<AssistanceTicket, MenuButton> param) -> {
-			MenuButton localMenuButton= new MenuButton("Menu");
+			MenuButton localMenuButton = new MenuButton("Menu");
 
 			MenuItem menuChangeStatus = new MenuItem();
 			MenuItem menuNewVeicle = new MenuItem("Veicolo Sostitutivo");
@@ -70,14 +70,18 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 			if (param.getValue().getState() == TicketState.ENDED) {
 				menuChangeStatus.setDisable(true);
 				menuChangeStatus.setText("Ticket Risolto");
-			}
-			else menuChangeStatus.setText((param.getValue().getState() == TicketState.REQUIRED) ? "Imposta come IN LAVORAZIONE" : "Imposta come RISOLTO");
+			} else
+				menuChangeStatus
+						.setText((param.getValue().getState() == TicketState.REQUIRED) ? "Imposta come IN LAVORAZIONE"
+								: "Imposta come RISOLTO");
 
 			localMenuButton.getItems().add(menuChangeStatus);
 			localMenuButton.getItems().add(menuNewVeicle);
 
-			menuChangeStatus.setOnAction((ActionEvent event) -> {});
-			menuNewVeicle.setOnAction((ActionEvent event) -> {});
+			menuChangeStatus.setOnAction((ActionEvent event) -> {
+			});
+			menuNewVeicle.setOnAction((ActionEvent event) -> {
+			});
 
 			return new SimpleObjectProperty<MenuButton>(localMenuButton);
 		});
@@ -87,12 +91,13 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 	public void initializeData(User user) {
 		if (user.getRole() == 2)
 			userColumn.setVisible(false);
-		
+
 		if (user.getRole() != 1)
 			actionColumn.setVisible(false);
 
 		try {
-			List<AssistanceTicket> tickets = (user.getRole() == 2 ? maintenanceService.getTicketByUser(user) : maintenanceService.getAllTickets());
+			List<AssistanceTicket> tickets = (user.getRole() == 2 ? maintenanceService.getTicketByUser(user)
+					: maintenanceService.getAllTickets());
 			ObservableList<AssistanceTicket> ticketsData = FXCollections.observableArrayList(tickets);
 			maintenanceTable.setItems(ticketsData);
 		} catch (BusinessException e) {

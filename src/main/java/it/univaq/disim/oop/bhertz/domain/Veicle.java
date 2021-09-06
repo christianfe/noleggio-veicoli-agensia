@@ -11,14 +11,15 @@ public class Veicle {
 	private String fuel;
 	private double priceForKm;
 	private double priceForDay;
-	
+
 	private Type type;
 
-	public Veicle() {}
+	public Veicle() {
+	}
 
 	public Veicle(Integer id, Type type, String model, String plate, double km, double consuption, String fuel) {
-		this.state = VeicleState.FREE;
-		this.setId(id);;
+		this.setState(VeicleState.FREE);
+		this.setId(id);
 		this.setType(type);
 		this.setModel(model);
 		this.setPlate(plate);
@@ -27,10 +28,9 @@ public class Veicle {
 		this.setFuel(fuel);
 		this.setPriceForKm(type.getPriceForKm());
 		this.setPriceForDay(type.getPriceForDay());
-		
+
 	}
 
-	
 	public Integer getId() {
 		return id;
 	}
@@ -78,7 +78,7 @@ public class Veicle {
 	public void setConsumption(double consumption) {
 		this.consumption = consumption;
 	}
-	
+
 	public Type getType() {
 		return type;
 	}
@@ -110,7 +110,5 @@ public class Veicle {
 	public void setPriceForDay(double priceForDay) {
 		this.priceForDay = priceForDay;
 	}
-	
-	
-	
+
 }

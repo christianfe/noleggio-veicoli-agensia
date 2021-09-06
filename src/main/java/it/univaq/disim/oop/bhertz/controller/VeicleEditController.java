@@ -19,7 +19,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class VeicleEditController extends ViewUtility implements Initializable, DataInitializable<BigObjectsCollector<User, Veicle, Type>> {
+public class VeicleEditController extends ViewUtility
+		implements Initializable, DataInitializable<BigObjectsCollector<User, Veicle, Type>> {
 
 	@FXML
 	private Label labelTitle;
@@ -36,7 +37,6 @@ public class VeicleEditController extends ViewUtility implements Initializable, 
 	@FXML
 	private Button saveButton;
 
-
 	private ViewDispatcher dispatcher;
 	private VeiclesService veiclesService;
 	private BigObjectsCollector<User, Veicle, Type> objectsCollector;
@@ -45,12 +45,15 @@ public class VeicleEditController extends ViewUtility implements Initializable, 
 	public VeicleEditController() {
 		dispatcher = ViewDispatcher.getInstance();
 		veiclesService = BhertzBusinessFactory.getInstance().getVeiclesService();
-		
+
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		saveButton.disableProperty().bind(modelField.textProperty().isEmpty().or(plateField.textProperty().isEmpty().or(kmField.textProperty().isEmpty().or(consuptionField.textProperty().isEmpty().or(fuelField.textProperty().isEmpty())))));
+		saveButton.disableProperty()
+				.bind(modelField.textProperty().isEmpty()
+						.or(plateField.textProperty().isEmpty().or(kmField.textProperty().isEmpty()
+								.or(consuptionField.textProperty().isEmpty().or(fuelField.textProperty().isEmpty())))));
 		super.addForbiddenCharCheck(modelField, plateField, kmField, consuptionField, fuelField);
 		super.setOnlyNumberField(kmField, consuptionField);
 	}
@@ -73,10 +76,15 @@ public class VeicleEditController extends ViewUtility implements Initializable, 
 	@FXML
 	public void saveAction(ActionEvent e) {
 		if (this.creatingNewVeicle)
-			veiclesService.addVeicle(new Veicle(0, objectsCollector.getObjectC(), modelField.getText(), plateField.getText(), Double.parseDouble(kmField.getText()), Double.parseDouble(consuptionField.getText()), fuelField.getText() ));
+			veiclesService.addVeicle(new Veicle(0, objectsCollector.getObjectC(), modelField.getText(),
+					plateField.getText(), Double.parseDouble(kmField.getText()),
+					Double.parseDouble(consuptionField.getText()), fuelField.getText()));
 		else
-			veiclesService.setVeicle(objectsCollector.getObjectB().getId(), modelField.getText(), Double.parseDouble(kmField.getText()), Double.parseDouble(consuptionField.getText()), fuelField.getText());
-		dispatcher.renderView("veicles", new ObjectsCollector<User, Type>(objectsCollector.getObjectA(), objectsCollector.getObjectC()));
+			veiclesService.setVeicle(objectsCollector.getObjectB().getId(), modelField.getText(),
+					Double.parseDouble(kmField.getText()), Double.parseDouble(consuptionField.getText()),
+					fuelField.getText());
+		dispatcher.renderView("veicles",
+				new ObjectsCollector<User, Type>(objectsCollector.getObjectA(), objectsCollector.getObjectC()));
 	}
 
 }

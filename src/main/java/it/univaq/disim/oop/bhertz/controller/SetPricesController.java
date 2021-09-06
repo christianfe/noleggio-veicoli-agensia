@@ -16,7 +16,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class SetPricesController extends ViewUtility implements Initializable, DataInitializable<ObjectsCollector<User, Veicle>> {
+public class SetPricesController extends ViewUtility
+		implements Initializable, DataInitializable<ObjectsCollector<User, Veicle>> {
 
 	@FXML
 	private Label titleLabel;

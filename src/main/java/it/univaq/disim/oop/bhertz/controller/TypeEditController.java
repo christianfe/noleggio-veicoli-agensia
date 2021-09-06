@@ -17,7 +17,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class TypeEditController extends ViewUtility implements Initializable, DataInitializable<ObjectsCollector<User, Type>> {
+public class TypeEditController extends ViewUtility
+		implements Initializable, DataInitializable<ObjectsCollector<User, Type>> {
 
 	@FXML
 	private Label labelTitle;
@@ -29,29 +30,29 @@ public class TypeEditController extends ViewUtility implements Initializable, Da
 	private TextField priceForKmField;
 	@FXML
 	private Button saveButton;
-	
-	
+
 	private ViewDispatcher dispatcher;
 	private TypesService typeService;
 	private ObjectsCollector<User, Type> objectsCollector;
 	private boolean creatingNewType;
-	
+
 	public TypeEditController() {
-		dispatcher= ViewDispatcher.getInstance();
+		dispatcher = ViewDispatcher.getInstance();
 		typeService = BhertzBusinessFactory.getInstance().getTypesService();
 	}
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		saveButton.disableProperty().bind(nameField.textProperty().isEmpty().or(priceForDayField.textProperty().isEmpty().or(priceForKmField.textProperty().isEmpty())));
+		saveButton.disableProperty().bind(nameField.textProperty().isEmpty()
+				.or(priceForDayField.textProperty().isEmpty().or(priceForKmField.textProperty().isEmpty())));
 		super.addForbiddenCharCheck(nameField, priceForDayField, priceForKmField);
 		super.setOnlyNumberField(priceForDayField, priceForKmField);
 	}
-	
+
 	@Override
 	public void initializeData(ObjectsCollector<User, Type> objectsCollector) {
 		this.objectsCollector = objectsCollector;
-		this.creatingNewType =  objectsCollector.getObjectB() == null;
+		this.creatingNewType = objectsCollector.getObjectB() == null;
 		if (!creatingNewType) {
 			labelTitle.setText("Modifica Tipologia: ");
 			this.nameField.setText(objectsCollector.getObjectB().getName());
@@ -59,12 +60,16 @@ public class TypeEditController extends ViewUtility implements Initializable, Da
 			this.priceForKmField.setText("" + objectsCollector.getObjectB().getPriceForKm());
 		}
 	}
-	
+
 	@FXML
 	public void saveAction(ActionEvent e) {
-		if (this.creatingNewType) typeService.addType(new Type(0, nameField.getText(), Double.parseDouble(priceForKmField.getText()), Double.parseDouble(priceForDayField.getText())));
-		else typeService.setType(objectsCollector.getObjectB().getId(), nameField.getText(), Double.parseDouble(priceForKmField.getText()), Double.parseDouble(priceForDayField.getText()));
-		
+		if (this.creatingNewType)
+			typeService.addType(new Type(0, nameField.getText(), Double.parseDouble(priceForKmField.getText()),
+					Double.parseDouble(priceForDayField.getText())));
+		else
+			typeService.setType(objectsCollector.getObjectB().getId(), nameField.getText(),
+					Double.parseDouble(priceForKmField.getText()), Double.parseDouble(priceForDayField.getText()));
+
 		dispatcher.renderView("type", objectsCollector.getObjectA());
 	}
 

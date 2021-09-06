@@ -71,14 +71,14 @@ public class VeiclesController extends ViewUtility
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+
 		priceHourColumn.setCellValueFactory((CellDataFeatures<Veicle, String> param) -> {
 			return new SimpleStringProperty(param.getValue().getPriceForDay() + "  €/h");
 		});
 		priceKmColumn.setCellValueFactory((CellDataFeatures<Veicle, String> param) -> {
 			return new SimpleStringProperty(param.getValue().getPriceForKm() + "  €/km");
 		});
-		
+
 		modelColumn.setCellValueFactory((CellDataFeatures<Veicle, String> param) -> {
 			return new SimpleStringProperty(param.getValue().getModel() + " - " + param.getValue().getPlate());
 			// return new SimpleStringProperty(param.getValue().getId() + " - " +
@@ -88,7 +88,7 @@ public class VeiclesController extends ViewUtility
 			return new SimpleStringProperty(param.getValue().getConsumption() + " km/l");
 		});
 		kmColumn.setCellValueFactory((CellDataFeatures<Veicle, String> param) -> {
-			return new SimpleStringProperty(String.format( "%.01f",param.getValue().getKm()) + " km");
+			return new SimpleStringProperty(String.format("%.01f", param.getValue().getKm()) + " km");
 		});
 		stateColumn.setCellValueFactory(new PropertyValueFactory<>("state"));
 		fuelColumn.setCellValueFactory(new PropertyValueFactory<>("fuel"));
@@ -105,15 +105,15 @@ public class VeiclesController extends ViewUtility
 			MenuItem menuPrice = new MenuItem("modifica tariffe Veicolo");
 
 			switch (this.user.getRole()) {
-			case 2:
-				localMenuButton.getItems().add(menuRent);
-				localMenuButton.getItems().add(menuQuotation);
-				break;
-			case 0:
-				localMenuButton.getItems().add(menuEdit);
-				localMenuButton.getItems().add(menuDelete);
-				localMenuButton.getItems().add(menuPrice);
-				break;
+				case 2:
+					localMenuButton.getItems().add(menuRent);
+					localMenuButton.getItems().add(menuQuotation);
+					break;
+				case 0:
+					localMenuButton.getItems().add(menuEdit);
+					localMenuButton.getItems().add(menuDelete);
+					localMenuButton.getItems().add(menuPrice);
+					break;
 
 			}
 
@@ -122,11 +122,10 @@ public class VeiclesController extends ViewUtility
 			menuRent.setOnAction((ActionEvent event) -> {
 				dispatcher.renderView("startRent", new ObjectsCollector<User, Veicle>(user, param.getValue()));
 			});
-			
+
 			menuPrice.setOnAction((ActionEvent event) -> {
 				dispatcher.renderView("setPrices", new ObjectsCollector<User, Veicle>(user, param.getValue()));
 			});
-
 
 			menuFeedback.setOnAction((ActionEvent event) -> {
 				dispatcher.renderView("feedback", new ObjectsCollector<User, Veicle>(user, param.getValue()));
@@ -173,11 +172,11 @@ public class VeiclesController extends ViewUtility
 		this.user = objectsCollector.getObjectA();
 
 		switch (user.getRole()) {
-		case 1:
-			addVeicleButton.setVisible(false);
-			break;
-		case 2:
-			addVeicleButton.setVisible(false);
+			case 1:
+				addVeicleButton.setVisible(false);
+				break;
+			case 2:
+				addVeicleButton.setVisible(false);
 		}
 
 		try {

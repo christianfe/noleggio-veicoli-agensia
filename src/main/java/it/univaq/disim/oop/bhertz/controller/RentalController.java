@@ -106,7 +106,8 @@ public class RentalController extends ViewUtility implements Initializable, Data
 
 		typeColumn.setStyle("-fx-alignment: CENTER;");
 		typeColumn.setCellValueFactory((CellDataFeatures<Contract, String> param) -> {
-			return new SimpleStringProperty(param.getValue().getPrice() + (param.getValue().getType() == ContractType.KM ? " €/km" : " €/giorno"));
+			return new SimpleStringProperty(param.getValue().getPrice()
+					+ (param.getValue().getType() == ContractType.KM ? " €/km" : " €/giorno"));
 		});
 
 		actionColumn.setStyle("-fx-alignment: CENTER;");
@@ -118,7 +119,7 @@ public class RentalController extends ViewUtility implements Initializable, Data
 			MenuItem menuGestioneRiconsegna = new MenuItem("Gestisci Riconsegna");
 			MenuItem menuGestioneConsegna = new MenuItem("Gestisci Consegna");
 			MenuItem menuPagato = new MenuItem("Imposta Pagato");
-			MenuItem menuStato= new MenuItem("");
+			MenuItem menuStato = new MenuItem("");
 
 			menuRichiestaAssistenza.setOnAction((ActionEvent event) -> {
 				Contract assistanceContract = param.getValue();
@@ -147,7 +148,8 @@ public class RentalController extends ViewUtility implements Initializable, Data
 			});
 
 			menuStato.setOnAction((ActionEvent event) -> {
-				dispatcher.renderView("changeContractState", new ObjectsCollector<User, Contract>(user, param.getValue()));
+				dispatcher.renderView("changeContractState",
+						new ObjectsCollector<User, Contract>(user, param.getValue()));
 			});
 
 			menuPagato.setOnAction((ActionEvent event) -> {
@@ -157,7 +159,8 @@ public class RentalController extends ViewUtility implements Initializable, Data
 				else
 					mult = param.getValue().getEndKm() - param.getValue().getStartKm();
 				double toPay = mult * param.getValue().getPrice();
-				if (JOptionPane.showConfirmDialog(null, "Confermi che il cliente ha pagato €" + toPay, "Impostare come pagato?",JOptionPane.YES_NO_CANCEL_OPTION) != 0)
+				if (JOptionPane.showConfirmDialog(null, "Confermi che il cliente ha pagato €" + toPay,
+						"Impostare come pagato?", JOptionPane.YES_NO_CANCEL_OPTION) != 0)
 					return;
 				contractService.setPaid(param.getValue().getId(), true);
 				dispatcher.renderView("rental", this.user);
@@ -165,44 +168,54 @@ public class RentalController extends ViewUtility implements Initializable, Data
 
 			if (param.getValue().getReturnDateTime() != null) {
 				menuGestioneRiconsegna.setDisable(true);
-				menuGestioneRiconsegna.setText("Appuntamento Riconsegna: "  + contractService.getContractByID(param.getValue().getId()).getReturnDateTime());
+				menuGestioneRiconsegna.setText("Appuntamento Riconsegna: "
+						+ contractService.getContractByID(param.getValue().getId()).getReturnDateTime());
 			}
 
 			if (param.getValue().getDeliverDateTime() != null) {
 				menuGestioneConsegna.setDisable(true);
-				menuGestioneConsegna.setText("Appuntamento Consegna: "  + contractService.getContractByID(param.getValue().getId()).getDeliverDateTime());
+				menuGestioneConsegna.setText("Appuntamento Consegna: "
+						+ contractService.getContractByID(param.getValue().getId()).getDeliverDateTime());
 			}
 
 			if (this.user.getRole() == 2) {
 				switch (param.getValue().getState()) {
-				case BOOKED:
-				case MAINTENANCE:
-					return null;
-				case ACTIVE:
-					localMenuButton.getItems().add(menuRichiestaAssistenza);
-					break;
-				case ENDED:
-					if (!feedbackService.isFeedBackSet(param.getValue())) localMenuButton.getItems().add(menuFeedback);
-					else return null;
+					case BOOKED:
+					case MAINTENANCE:
+						return null;
+					case ACTIVE:
+						localMenuButton.getItems().add(menuRichiestaAssistenza);
+						break;
+					case ENDED:
+						if (!feedbackService.isFeedBackSet(param.getValue()))
+							localMenuButton.getItems().add(menuFeedback);
+						else
+							return null;
 				}
 			} else if (this.user.getRole() == 1) {
 				switch (param.getValue().getState()) {
-				case BOOKED:
-					localMenuButton.getItems().add(menuGestioneConsegna);
-					if (param.getValue().getDeliverDateTime() != null) menuStato.setText("Consegna Veicolo");
-					break;
-				case ACTIVE:
-					localMenuButton.getItems().add(menuGestioneRiconsegna);
-					if (!param.getValue().isPaid() && param.getValue().getType() == ContractType.TIME)localMenuButton.getItems().add(menuPagato);
-					if (param.getValue().getReturnDateTime() != null)  menuStato.setText("Ritira Veicolo");
-					break;
-				case MAINTENANCE:
-					return null;
-				case ENDED:
-					if (!param.getValue().isPaid())localMenuButton.getItems().add(menuPagato);
-					else return null;
+					case BOOKED:
+						localMenuButton.getItems().add(menuGestioneConsegna);
+						if (param.getValue().getDeliverDateTime() != null)
+							menuStato.setText("Consegna Veicolo");
+						break;
+					case ACTIVE:
+						localMenuButton.getItems().add(menuGestioneRiconsegna);
+						if (!param.getValue().isPaid() && param.getValue().getType() == ContractType.TIME)
+							localMenuButton.getItems().add(menuPagato);
+						if (param.getValue().getReturnDateTime() != null)
+							menuStato.setText("Ritira Veicolo");
+						break;
+					case MAINTENANCE:
+						return null;
+					case ENDED:
+						if (!param.getValue().isPaid())
+							localMenuButton.getItems().add(menuPagato);
+						else
+							return null;
 				}
-				if (!menuStato.getText().equals(""))localMenuButton.getItems().add(menuStato);
+				if (!menuStato.getText().equals(""))
+					localMenuButton.getItems().add(menuStato);
 			} else if (this.user.getRole() == 0)
 				actionColumn.setVisible(false);
 

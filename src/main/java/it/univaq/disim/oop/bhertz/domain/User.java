@@ -7,8 +7,9 @@ public abstract class User {
 	private String password;
 	private String name;
 
-	public User() {}
-	
+	public User() {
+	}
+
 	public User(int id, String name, String username, String pass) {
 		this.setId(id);
 		this.setName(name);

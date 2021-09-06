@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
-import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.FeedbackService;
 import it.univaq.disim.oop.bhertz.domain.Feedback;
 import it.univaq.disim.oop.bhertz.domain.Type;
@@ -24,7 +23,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 
-public class FeedbackController extends ViewUtility implements Initializable, DataInitializable<ObjectsCollector<User, Veicle>> {
+public class FeedbackController extends ViewUtility
+		implements Initializable, DataInitializable<ObjectsCollector<User, Veicle>> {
 
 	@FXML
 	private Label titleLabel;

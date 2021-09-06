@@ -50,7 +50,7 @@ public class FileVeicleserviceImpl implements VeiclesService {
 	}
 
 	@Override
-	public boolean isVeicleFree(Integer idVeicle, LocalDate startDate, LocalDate endDate, List<Contract> contractOfVeicle) {
+	public boolean isVeicleFree(LocalDate startDate, LocalDate endDate, List<Contract> contractOfVeicle) {
 		// TODO Auto-generated method stub
 		return false;
 	}

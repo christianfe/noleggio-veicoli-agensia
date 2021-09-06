@@ -19,7 +19,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-public class UserEditorController extends ViewUtility implements Initializable, DataInitializable<ObjectsCollector<User, User>> {
+public class UserEditorController extends ViewUtility
+		implements Initializable, DataInitializable<ObjectsCollector<User, User>> {
 
 	@FXML
 	private Label labelErrorSignup;
@@ -45,12 +46,14 @@ public class UserEditorController extends ViewUtility implements Initializable, 
 	public UserEditorController() {
 		this.dispatcher = ViewDispatcher.getInstance();
 		userServices = BhertzBusinessFactory.getInstance().getUserService();
-		
+
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		registerButton.disableProperty().bind(newUsernameField.textProperty().isEmpty().or(newNameField.textProperty().isEmpty().or(newPasswordField.textProperty().isEmpty().or(newPasswordRepeatField.textProperty().isEmpty()))));
+		registerButton.disableProperty().bind(newUsernameField.textProperty().isEmpty().or(newNameField.textProperty()
+				.isEmpty()
+				.or(newPasswordField.textProperty().isEmpty().or(newPasswordRepeatField.textProperty().isEmpty()))));
 		super.addForbiddenCharCheck(newNameField, newPasswordField, newPasswordRepeatField, newUsernameField);
 	}
 
@@ -85,7 +88,7 @@ public class UserEditorController extends ViewUtility implements Initializable, 
 				 */
 				userToEdit.setName(newNameField.getText());
 				userToEdit.setUsername(newUsernameField.getText());
-				userToEdit.setPassword(newPasswordField.getText());	
+				userToEdit.setPassword(newPasswordField.getText());
 				userServices.addUser(userToEdit);
 			} else
 				userServices.setUser(userToEdit.getId(), newNameField.getText(), newUsernameField.getText(),

@@ -20,11 +20,11 @@ public class Contract {
 	private Feedback feedback;
 	private AssistanceTicket assistance;
 	private Customer customer;
-	
+
 	public Contract() {
 		this.setState(ContractState.BOOKED);
 	}
-	
+
 	public Feedback getFeedback() {
 		return feedback;
 	}
@@ -114,28 +114,25 @@ public class Contract {
 	}
 
 	public String getStateString() {
-		String stateString = null;
-		
-		if (state == ContractState.ACTIVE )
-			stateString = "Attivo";
-		else if (state == ContractState.ENDED )
-			stateString = "Chiuso";
-		else if (state == ContractState.MAINTENANCE )
-			stateString = "Manutenzione";
-		else if (state == ContractState.BOOKED )
-			stateString = "Prenotato";
-		
-		
-		return stateString;
+		if (state == ContractState.ACTIVE)
+			return "Attivo";
+		else if (state == ContractState.ENDED)
+			return "Chiuso";
+		else if (state == ContractState.MAINTENANCE)
+			return "Manutenzione";
+		else if (state == ContractState.BOOKED)
+			return "Prenotato";
+
+		return null;
 	}
-	
+
 	public void setState(ContractState state) {
 		this.state = state;
 	}
-	
+
 	public ContractState getState() {
 		return state;
-		
+
 	}
 
 	public String getReturnDateTime() {
@@ -166,6 +163,4 @@ public class Contract {
 		this.price = price;
 	}
 
-	
-	
 }

@@ -69,5 +69,4 @@ public class AssistanceTicket {
 		this.endDate = endDate;
 	}
 
-
 }

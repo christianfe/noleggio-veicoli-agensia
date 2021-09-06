@@ -112,7 +112,7 @@ public class StartRentController extends ViewUtility implements Initializable, D
 				ContractService contractService = factory.getContractService();
 				List<Contract> contractOfVeicle = contractService.getContractsByVeicle(veicle.getId());
 
-				boolean oof = factory.getVeiclesService().isVeicleFree(veicle.getId(), dateStartField.getValue(),
+				boolean oof = factory.getVeiclesService().isVeicleFree(dateStartField.getValue(),
 						dateEndField.getValue(), contractOfVeicle);
 
 				if (oof)

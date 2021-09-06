@@ -24,6 +24,6 @@ public interface VeiclesService {
 
 	void setVeicle(Veicle veicle);
 
-	boolean isVeicleFree(Integer idVeicle, LocalDate startDate, LocalDate endDate, List<Contract> contractOfVeicle);
+	boolean isVeicleFree(LocalDate startDate, LocalDate endDate, List<Contract> contractOfVeicle);
 
 }
