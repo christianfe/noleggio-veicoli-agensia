@@ -145,30 +145,20 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 	public boolean isVeicleFree(Integer idVeicle, LocalDate startDate, LocalDate endDate,
 			List<Contract> contractOfVeicle) {
 
-		boolean answer = true;
-
 		boolean answers[] = new boolean[contractOfVeicle.size()];
-
 		for (int i = 0; i < contractOfVeicle.size(); i++) {
-			System.out.println("entro nel ciclo for");
-
 			Contract c = contractOfVeicle.get(i);
 			if (startDate.isAfter(c.getEnd().plusDays(2)) || endDate.plusDays(2).isBefore(c.getStart()))
 				answers[i] = true;
-			else {
+			else
 				answers[i] = false;
-				System.out.println(startDate + " è prima  " + c.getEnd().plusDays(2));
-				System.out.println(endDate.plusDays(2) + " è dopo " + c.getStart());
-			}
-
 		}
 
-		for (boolean b : answers) {
-			if (b == false)
-				answer = false;
-		}
+		for (boolean b : answers)
+			if (!b)
+				return b;
 
-		return answer;
+		return true;
 	}
 	
 	public String FindAviableDays(List<Contract> contractOfVeicle) {

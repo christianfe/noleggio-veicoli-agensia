@@ -70,7 +70,6 @@ public class FeedbackController extends ViewUtility implements Initializable, Da
 		titleLabel.setText(titleLabel.getText() + " " + veicle.getModel());
 
 		List<Feedback> feedbackList = this.feedbackService.getFeedbackByVeicle(veicle);
-		//List<Feedback> feedbackList = new ArrayList<>();
 		ObservableList<Feedback> feedbackData = FXCollections.observableArrayList(feedbackList);
 		feedbackTable.setItems(feedbackData);
 
