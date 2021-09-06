@@ -157,16 +157,13 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 		for (boolean b : answers)
 			if (!b)
 				return b;
-
 		return true;
 	}
-	
+
 	public String FindAviableDays(List<Contract> contractOfVeicle) {
-		
-		//String 
-		
-		
-		
+
+		// String
+
 		return null;
 	}
 
