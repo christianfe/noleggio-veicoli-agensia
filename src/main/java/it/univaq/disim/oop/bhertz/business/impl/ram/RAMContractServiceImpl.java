@@ -64,6 +64,20 @@ public class RAMContractServiceImpl implements ContractService {
 		contract3.setDeliverDateTime("ora");
 		contract3.setType(ContractType.KM);
 		contracts.put(contract3.getId(), contract3);
+		
+		
+		Contract contract4 = new Contract();
+		contract4.setCustomer((Customer) userService.getusersByID(5));
+		contract4.setVeicle(veicleService.getVeicleByID(1));
+		contract4.setStart(LocalDate.of(2021, Month.SEPTEMBER, 30));
+		contract4.setEnd(LocalDate.of(2021, Month.OCTOBER, 5));
+		contract4.setPaid(false);
+		contract4.setId(counter++);
+		contract4.setState(ContractState.ACTIVE);
+		contract4.setDeliverDateTime("ora");
+		contract4.setReturnDateTime("ora");
+		contract4.setType(ContractType.TIME);
+		contracts.put(contract4.getId(), contract4);
 
 	}
 
