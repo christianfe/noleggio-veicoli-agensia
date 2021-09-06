@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.ContractService;
+import it.univaq.disim.oop.bhertz.business.FeedbackService;
 import it.univaq.disim.oop.bhertz.business.MaintenanceService;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
 import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
@@ -64,12 +65,14 @@ public class RentalController extends ViewUtility implements Initializable, Data
 
 	private ContractService contractService;
 	private VeiclesService veiclesService;
+	private FeedbackService feedbackService;
 	private User user;
 
 	public RentalController() throws BusinessException {
 		dispatcher = ViewDispatcher.getInstance();
 		contractService = BhertzBusinessFactory.getInstance().getContractService();
 		veiclesService = BhertzBusinessFactory.getInstance().getVeiclesService();
+		feedbackService = BhertzBusinessFactory.getInstance().getFeedbackService();
 	}
 
 	@Override
@@ -179,8 +182,8 @@ public class RentalController extends ViewUtility implements Initializable, Data
 					localMenuButton.getItems().add(menuRichiestaAssistenza);
 					break;
 				case ENDED:
-					localMenuButton.getItems().add(menuFeedback);
-					break;
+					if (!feedbackService.isFeedBackSet(param.getValue())) localMenuButton.getItems().add(menuFeedback);
+					else return null;
 				}
 			} else if (this.user.getRole() == 1) {
 				switch (param.getValue().getState()) {

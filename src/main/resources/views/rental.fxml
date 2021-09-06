@@ -24,7 +24,7 @@
             <TableColumn fx:id="periodColumn" prefWidth="110.0" text="Inizio - Fine" />
             <TableColumn fx:id="stateColumn" prefWidth="129.0" text="Stato" />
             <TableColumn fx:id="paymentColumn" prefWidth="75.0" text="Pagato" />
-            <TableColumn fx:id="typeColumn" prefWidth="75.0" text="Tipo" />
+            <TableColumn fx:id="typeColumn" prefWidth="75.0" text="Prezzo" />
             <TableColumn fx:id="actionColumn" minWidth="0.0" prefWidth="102.0" text="Azioni" />
         </columns>
          <columnResizePolicy>
