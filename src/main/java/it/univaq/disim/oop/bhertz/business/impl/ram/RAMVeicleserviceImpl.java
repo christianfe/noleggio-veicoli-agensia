@@ -142,7 +142,7 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 	public void setVeicle(Veicle veicle) {
 		this.veicles.put(veicle.getId(), veicle);
 	}
-	
+
 	@Override
 	public boolean isVeicleFree(LocalDate startDate, LocalDate endDate, List<Contract> contractOfVeicle) {
 
@@ -159,7 +159,8 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 		Collections.sort(contractOfVeicle, new ContractOrderByDate());
 		String body = "prima del " + contractOfVeicle.get(0).getStart().minusDays(3) + ", \n";
 		for (int i = 0; i < contractOfVeicle.size() - 1; i++)
-			body += "dal " + contractOfVeicle.get(i).getEnd().plusDays(3) + " al " + contractOfVeicle.get(i + 1).getStart().minusDays(3) + ", \n ";
+			body += "dal " + contractOfVeicle.get(i).getEnd().plusDays(3) + " al "
+					+ contractOfVeicle.get(i + 1).getStart().minusDays(3) + ", \n ";
 		body += "dopo il " + contractOfVeicle.get(contractOfVeicle.size() - 1).getEnd().plusDays(3);
 		return body;
 	}
