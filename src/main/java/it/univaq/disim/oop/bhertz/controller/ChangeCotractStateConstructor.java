@@ -65,7 +65,7 @@ public class ChangeCotractStateConstructor extends ViewUtility implements Initia
 	@FXML
 	public void saveAction(ActionEvent e) {
 		double d = Double.parseDouble(kmField.getText());
-		if (d <= objectsCollector.getObjectB().getVeicle().getKm()) {
+		if (d < objectsCollector.getObjectB().getVeicle().getKm()) {
 			labelError.setText("Input chilometri non valido!");
 			return;
 		}
