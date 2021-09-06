@@ -8,6 +8,7 @@ public class Contract {
 	private LocalDate end;
 	private double startKm;
 	private double endKm;
+	private double price;
 	private ContractType type;
 	private ContractState state;
 	private Integer id;
@@ -155,6 +156,14 @@ public class Contract {
 
 	public void setDeliverDateTime(String deliverDateTime) {
 		this.deliverDateTime = deliverDateTime;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
 	}
 
 	

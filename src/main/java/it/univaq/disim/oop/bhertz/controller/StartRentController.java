@@ -126,11 +126,13 @@ public class StartRentController extends ViewUtility implements Initializable, D
 				newContract.setStartKm(veicle.getKm());
 				newContract.setStart(dateStartField.getValue());
 				newContract.setEnd(dateEndField.getValue());
-				if (dailyCheckBox.isSelected())
+				if (dailyCheckBox.isSelected()) {
 					newContract.setType(ContractType.TIME);
-				else if (kmCheckBox.isSelected())
+					newContract.setPrice(veicle.getPriceForDay());
+				} else if (kmCheckBox.isSelected()) {
 					newContract.setType(ContractType.KM);
-
+					newContract.setPrice(veicle.getPriceForKm());
+				}
 				veicle.setState(VeicleState.BUSY);
 
 				contractService.addContract(newContract);

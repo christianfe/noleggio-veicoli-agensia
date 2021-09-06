@@ -3,6 +3,7 @@ package it.univaq.disim.oop.bhertz.controller;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -102,7 +103,7 @@ public class RentalController extends ViewUtility implements Initializable, Data
 
 		typeColumn.setStyle("-fx-alignment: CENTER;");
 		typeColumn.setCellValueFactory((CellDataFeatures<Contract, String> param) -> {
-			return new SimpleStringProperty(param.getValue().getType() + "");
+			return new SimpleStringProperty(param.getValue().getPrice() + (param.getValue().getType() == ContractType.KM ? " €/km" : " €/giorno"));
 		});
 
 		actionColumn.setStyle("-fx-alignment: CENTER;");
@@ -147,7 +148,13 @@ public class RentalController extends ViewUtility implements Initializable, Data
 			});
 
 			menuPagato.setOnAction((ActionEvent event) -> {
-				if (JOptionPane.showConfirmDialog(null, "Confermi che il cliente ha pagato €100.00", "Impostare come pagato?",JOptionPane.YES_NO_CANCEL_OPTION) != 0)
+				double mult;
+				if (param.getValue().getType() == ContractType.TIME)
+					mult = ChronoUnit.DAYS.between(param.getValue().getStart(), param.getValue().getEnd());
+				else
+					mult = param.getValue().getEndKm() - param.getValue().getStartKm();
+				double toPay = mult * param.getValue().getPrice();
+				if (JOptionPane.showConfirmDialog(null, "Confermi che il cliente ha pagato €" + toPay, "Impostare come pagato?",JOptionPane.YES_NO_CANCEL_OPTION) != 0)
 					return;
 				contractService.setPaid(param.getValue().getId(), true);
 				dispatcher.renderView("rental", this.user);
