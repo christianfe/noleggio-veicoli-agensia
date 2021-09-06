@@ -54,5 +54,11 @@ public class FileVeicleserviceImpl implements VeiclesService {
 		return false;
 	}
 
+	@Override
+	public void setVeicle(Veicle veicle) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

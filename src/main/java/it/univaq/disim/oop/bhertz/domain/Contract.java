@@ -13,6 +13,8 @@ public class Contract {
 	private Integer id;
 	private boolean paid;
 	private Veicle veicle;
+	private String returnDateTime = null;
+	private String deliverDateTime = null;
 
 	private Feedback feedback;
 	private AssistanceTicket assistance;
@@ -126,10 +128,6 @@ public class Contract {
 		return stateString;
 	}
 	
-	public ContractType getContractType() {
-		return this.type;
-	}
-	
 	public void setState(ContractState state) {
 		this.state = state;
 	}
@@ -139,4 +137,26 @@ public class Contract {
 		
 	}
 
+	public String getReturnDateTime() {
+		return returnDateTime;
+	}
+
+	public void setReturnDateTime(String returnDateTime) {
+		this.returnDateTime = returnDateTime;
+	}
+
+	public void setEndKm(double endKm) {
+		this.endKm = endKm;
+	}
+
+	public String getDeliverDateTime() {
+		return deliverDateTime;
+	}
+
+	public void setDeliverDateTime(String deliverDateTime) {
+		this.deliverDateTime = deliverDateTime;
+	}
+
+	
+	
 }

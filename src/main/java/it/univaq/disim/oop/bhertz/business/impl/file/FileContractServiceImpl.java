@@ -16,7 +16,7 @@ public class FileContractServiceImpl implements ContractService {
 	}
 
 	@Override
-	public Contract getContractByID(int id) throws BusinessException {
+	public Contract getContractByID(int id){
 		// TODO Auto-generated method stub
 		return null;
 	}

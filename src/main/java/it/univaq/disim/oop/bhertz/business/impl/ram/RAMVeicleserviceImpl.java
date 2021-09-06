@@ -136,6 +136,11 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 		v.setFuel(fuel);
 		this.veicles.put(id, v);
 	}
+	
+	@Override
+	public void setVeicle(Veicle veicle) {
+		this.veicles.put(veicle.getId(), veicle);
+	}
 
 	@Override
 	public boolean isVeicleFree(Integer idVeicle, LocalDate startDate, LocalDate endDate) {

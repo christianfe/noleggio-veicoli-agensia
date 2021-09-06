@@ -22,6 +22,8 @@ public interface VeiclesService {
 	void deleteVeicle(Integer id);
 	
 	boolean isVeicleFree(Integer idVeicle, LocalDate startDate, LocalDate endDate);
+
+	void setVeicle(Veicle veicle);
 	
 }
 	

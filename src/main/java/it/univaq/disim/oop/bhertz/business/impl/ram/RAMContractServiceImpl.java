@@ -13,6 +13,7 @@ import it.univaq.disim.oop.bhertz.business.UserService;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
 import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.ContractState;
+import it.univaq.disim.oop.bhertz.domain.ContractType;
 import it.univaq.disim.oop.bhertz.domain.Customer;
 import it.univaq.disim.oop.bhertz.domain.User;
 
@@ -34,7 +35,9 @@ public class RAMContractServiceImpl implements ContractService  {
 		contract1.setEnd(LocalDate.of(2014, Month.SEPTEMBER, 20) );
 		contract1.setPaid(false);
 		contract1.setId(counter++);
-		contract1.setState(ContractState.MAINTENANCE);
+		contract1.setState(ContractState.ACTIVE);
+		contract1.setDeliverDateTime("ora");
+		contract1.setType(ContractType.TIME);
 		contracts.put(contract1.getId(), contract1);
 
 		Contract contract2 = new Contract();
@@ -42,9 +45,11 @@ public class RAMContractServiceImpl implements ContractService  {
 		contract2.setVeicle(veicleService.getVeicleByID(2));
 		contract2.setStart( LocalDate.of(2014, Month.SEPTEMBER, 10) );
 		contract2.setEnd(LocalDate.of(2014, Month.SEPTEMBER, 20) );
-		contract2.setPaid(true);
+		contract2.setPaid(false);
 		contract2.setId(counter++);
-		contract1.setState(ContractState.ENDED);
+		contract2.setState(ContractState.ENDED);
+		contract2.setDeliverDateTime("ora");
+		contract2.setType(ContractType.KM);
 		contracts.put(contract2.getId(), contract2);
 
 		Contract contract3 = new Contract();
@@ -52,8 +57,11 @@ public class RAMContractServiceImpl implements ContractService  {
 		contract3.setVeicle(veicleService.getVeicleByID(4));
 		contract3.setStart( LocalDate.of(2021, Month.SEPTEMBER, 12) );
 		contract3.setEnd(LocalDate.of(2021, Month.SEPTEMBER, 13) );
-		contract3.setPaid(true);
+		contract3.setPaid(false);
 		contract3.setId(counter++);
+		contract3.setState(ContractState.ACTIVE);
+		contract3.setDeliverDateTime("ora");
+		contract3.setType(ContractType.KM);
 		contracts.put(contract3.getId(), contract3);
 		
 		Contract contract4 = new Contract();
@@ -64,6 +72,7 @@ public class RAMContractServiceImpl implements ContractService  {
 		contract4.setPaid(false);
 		contract4.setId(counter++);
 		contract4.setState(ContractState.BOOKED);
+		contract4.setType(ContractType.TIME);
 		contracts.put(contract4.getId(), contract4);
 
 	}
@@ -74,7 +83,7 @@ public class RAMContractServiceImpl implements ContractService  {
 	}
 
 	@Override
-	public Contract getContractByID(int id) throws BusinessException {
+	public Contract getContractByID(int id) {
 		return contracts.get(id);
 	}
 

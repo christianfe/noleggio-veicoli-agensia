@@ -9,7 +9,7 @@ public interface ContractService {
 	
 	List<Contract> getAllContracts() throws BusinessException;
 	
-	Contract getContractByID(int id) throws BusinessException;
+	Contract getContractByID(int id);
 
 	List<Contract> getContractsByUser(User user) throws BusinessException;
 	

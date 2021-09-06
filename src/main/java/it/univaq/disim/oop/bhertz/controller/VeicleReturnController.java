@@ -6,7 +6,6 @@ import java.util.ResourceBundle;
 
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.domain.Contract;
-import it.univaq.disim.oop.bhertz.domain.ContractState;
 import it.univaq.disim.oop.bhertz.domain.Notification;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.view.NotificationDictionary;
@@ -37,14 +36,13 @@ public class VeicleReturnController extends ViewUtility implements Initializable
 	@FXML
 	private TextField timeField;
 	@FXML
-	private TextField kmField;	
-	@FXML
 	private Button saveButton;
 	@FXML
 	private Label labelError;
 
 	private ObjectsCollector<User, Contract> objectsCollector;
 	private ViewDispatcher dispatcher;
+	private int mode; //1: consegna 2: riconsegna
 
 	public VeicleReturnController() {
 		this.dispatcher = ViewDispatcher.getInstance();
@@ -53,12 +51,15 @@ public class VeicleReturnController extends ViewUtility implements Initializable
 	@Override
 	public void initializeData(ObjectsCollector<User, Contract> objectsCollector) {
 		this.objectsCollector = objectsCollector;
-		this.titleLabel.setText(titleLabel.getText() + "''" + objectsCollector.getObjectB().getVeicle().getModel() + "''");
 		this.subtitle1Label.setText("Cliete: " + objectsCollector.getObjectB().getCustomer().getName());
 		this.subtitle2Label.setText(objectsCollector.getObjectB().getStart() + " - " + objectsCollector.getObjectB().getEnd());
-		this.subtitle2Label.setText(objectsCollector.getObjectB().isPaid() ? "Contratto Pagato" : "Contratto Non Pagato");
-		kmField.setText( String.format("%.0f", objectsCollector.getObjectB().getVeicle().getKm()));
+		this.subtitle3Label.setText(objectsCollector.getObjectB().isPaid() ? "Noleggio Pagato" : "Noleggio Non Pagato");
 		datePicker.setValue(objectsCollector.getObjectB().getEnd());
+		this.mode = objectsCollector.getObjectB().getDeliverDateTime() == null ? 1 : 2;
+		if(mode == 1)
+			this.titleLabel.setText("Gestione Consegna Veicolo '" + objectsCollector.getObjectB().getVeicle().getModel() + "'");
+		else if(mode == 2)
+			this.titleLabel.setText(titleLabel.getText() + " '" + objectsCollector.getObjectB().getVeicle().getModel() + "'");
 	};
 
 	@Override
@@ -68,24 +69,34 @@ public class VeicleReturnController extends ViewUtility implements Initializable
 			@Override
 			public void updateItem(LocalDate item, boolean empty) {
 				super.updateItem(item, empty);
-				setDisable(item.isBefore(objectsCollector.getObjectB().getEnd()));
+				setDisable(item.isBefore(objectsCollector.getObjectB().getEnd()) || item.isAfter(objectsCollector.getObjectB().getEnd().plusDays(2)));
 			}});
 	}
 
 	@FXML	
 	public void saveAction(ActionEvent e) {
 		try {
-			objectsCollector.getObjectB().setState(ContractState.ENDED);
-			
-			objectsCollector.getObjectB().getVeicle().setKm(Double.parseDouble(kmField.getText()));
-			
-			System.out.println(			objectsCollector.getObjectB().getVeicle().getKm() );
-			
-			BhertzBusinessFactory.getInstance().getContractService().setContract(objectsCollector.getObjectB());
-			BhertzBusinessFactory.getInstance().getNotificationsService().addNotification(new Notification(objectsCollector.getObjectB().getCustomer(), NotificationDictionary.END_RENT_APPOINTMENT_TITLE, NotificationDictionary.END_RENT_APPOINTMENT_TEXT + datePicker.getValue() + timeField.getText()));
+			if (timeField.getText().length() != 5) {
+				labelError.setText("Orario non valido, inserire ora nel formato hh:mm");
+				e.consume();
+				return;
+			}
+			if(mode == 1) {
+				BhertzBusinessFactory.getInstance().getNotificationsService().addNotification(new Notification(objectsCollector.getObjectB().getCustomer(), NotificationDictionary.START_RENT_APPOINTMENT_TITLE, NotificationDictionary.START_RENT_APPOINTMENT_TEXT + datePicker.getValue() +  "  "+ timeField.getText()));
+				BhertzBusinessFactory.getInstance().getContractService().getContractByID(objectsCollector.getObjectB().getId()).setDeliverDateTime(datePicker.getValue() +  "  " + timeField.getText());
+			} else if(mode == 2) {
+				BhertzBusinessFactory.getInstance().getNotificationsService().addNotification(new Notification(objectsCollector.getObjectB().getCustomer(), NotificationDictionary.END_RENT_APPOINTMENT_TITLE, NotificationDictionary.END_RENT_APPOINTMENT_TEXT + datePicker.getValue() +  "  "+ timeField.getText()));
+				BhertzBusinessFactory.getInstance().getContractService().getContractByID(objectsCollector.getObjectB().getId()).setReturnDateTime(datePicker.getValue() +  "  " + timeField.getText());
+			}
 			dispatcher.renderView("rental", objectsCollector.getObjectA());
+
 		}catch (NullPointerException e1) {
 			labelError.setText("Impostare data valida");
 		}
+	}
+
+	@FXML	
+	public void cancelAction(ActionEvent e) {
+		dispatcher.renderView("rental", objectsCollector.getObjectA());
 	}
 }

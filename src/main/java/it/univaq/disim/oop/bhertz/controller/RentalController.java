@@ -1,21 +1,34 @@
 package it.univaq.disim.oop.bhertz.controller;
 
 import java.net.URL;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.swing.BoxLayout;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.text.NumberFormatter;
+
+import com.sun.javafx.sg.prism.NGShape.Mode;
+
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.ContractService;
 import it.univaq.disim.oop.bhertz.business.MaintenanceService;
+import it.univaq.disim.oop.bhertz.business.VeiclesService;
 import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
 import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.ContractState;
+import it.univaq.disim.oop.bhertz.domain.ContractType;
 import it.univaq.disim.oop.bhertz.domain.TicketState;
 import it.univaq.disim.oop.bhertz.domain.User;
+import it.univaq.disim.oop.bhertz.domain.Veicle;
 import it.univaq.disim.oop.bhertz.domain.VeicleState;
 import it.univaq.disim.oop.bhertz.view.ContractOrder;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
@@ -52,16 +65,20 @@ public class RentalController extends ViewUtility implements Initializable, Data
 	@FXML
 	private TableColumn<Contract, String> paymentColumn;
 	@FXML
+	private TableColumn<Contract, String> typeColumn;
+	@FXML
 	private TableColumn<Contract, MenuButton> actionColumn;
 
 	private ViewDispatcher dispatcher;
 
 	private ContractService contractService;
+	private VeiclesService veiclesService;
 	private User user;
 
 	public RentalController() throws BusinessException {
 		dispatcher = ViewDispatcher.getInstance();
 		contractService = BhertzBusinessFactory.getInstance().getContractService();
+		veiclesService = BhertzBusinessFactory.getInstance().getVeiclesService();
 	}
 
 	@Override
@@ -93,6 +110,11 @@ public class RentalController extends ViewUtility implements Initializable, Data
 			return new SimpleStringProperty(param.getValue().isPaid() ? "SI" : "NO");
 		});
 
+		typeColumn.setStyle("-fx-alignment: CENTER;");
+		typeColumn.setCellValueFactory((CellDataFeatures<Contract, String> param) -> {
+			return new SimpleStringProperty(param.getValue().getType() + "");
+		});
+
 		actionColumn.setStyle("-fx-alignment: CENTER;");
 		actionColumn.setCellValueFactory((CellDataFeatures<Contract, MenuButton> param) -> {
 			MenuButton localMenuButton = new MenuButton("Menu");
@@ -100,12 +122,11 @@ public class RentalController extends ViewUtility implements Initializable, Data
 			MenuItem menuRichiestaAssistenza = new MenuItem("Richiedi Assistenza");
 			MenuItem menuFeedback = new MenuItem("Lascia un Feedback");
 			MenuItem menuGestioneRiconsegna = new MenuItem("Gestisci Riconsegna");
-			MenuItem menuPagato = new MenuItem();
-
-			menuPagato.setText(param.getValue().isPaid() ? "Imposta Non Pagato" : "Imposta Pagato");
+			MenuItem menuGestioneConsegna = new MenuItem("Gestisci Consegna");
+			MenuItem menuPagato = new MenuItem("Imposta Pagato");
+			MenuItem menuStato= new MenuItem("");
 
 			menuRichiestaAssistenza.setOnAction((ActionEvent event) -> {
-
 				Contract assistanceContract = param.getValue();
 				AssistanceTicket ticket = new AssistanceTicket();
 				ticket.setState(TicketState.REQUIRED);
@@ -123,31 +144,97 @@ public class RentalController extends ViewUtility implements Initializable, Data
 				dispatcher.renderView("veicleReturn", new ObjectsCollector<User, Contract>(user, param.getValue()));
 			});
 
+			menuGestioneConsegna.setOnAction((ActionEvent event) -> {
+				dispatcher.renderView("veicleReturn", new ObjectsCollector<User, Contract>(user, param.getValue()));
+			});
+
 			menuFeedback.setOnAction((ActionEvent event) -> {
 				dispatcher.renderView("createFeedback", new ObjectsCollector<User, Contract>(user, param.getValue()));
 			});
 
+			menuStato.setOnAction((ActionEvent event) -> {
+				NumberFormat format = NumberFormat.getInstance();
+				format.setGroupingUsed(false);
+				NumberFormatter formatter = new NumberFormatter(format);
+				formatter.setValueClass(Integer.class);
+				formatter.setMinimum(0);
+				formatter.setMaximum(1000000);
+				formatter.setAllowsInvalid(false);
+				formatter.setCommitsOnValidEdit(false);
+
+				JPanel panel = new JPanel();
+				JLabel label = new JLabel("Chilometri Veicolo:");
+				JFormattedTextField field = new JFormattedTextField(formatter);
+				panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));;
+				panel.add(label);
+				panel.add(field);
+				JOptionPane.showMessageDialog(null, panel);
+				double d = Double.parseDouble(field.getText());
+				if (field.getValue() != null) {
+					Contract c = param.getValue();
+					if (param.getValue().getReturnDateTime() == null) {
+						c.setStartKm(d);
+						c.setState(ContractState.ACTIVE);
+					} else {
+						c.setEndKm(d);
+						c.setState(ContractState.ENDED);
+					}
+					contractService.setContract(c);
+					
+					Veicle v = param.getValue().getVeicle();
+					v.setKm(d);
+					veiclesService.setVeicle(v);
+				}
+				dispatcher.renderView("rental", user);
+			});
+
 			menuPagato.setOnAction((ActionEvent event) -> {
-				// param.getValue().setPaid(!param.getValue().isPaid());
-				contractService.setPaid(param.getValue().getId(), !param.getValue().isPaid());
+				if (JOptionPane.showConfirmDialog(null, "Confermi che il cliente ha pagato €100.00", "Impostare come pagato?",JOptionPane.YES_NO_CANCEL_OPTION) != 0)
+					return;
+				contractService.setPaid(param.getValue().getId(), true);
 				dispatcher.renderView("rental", this.user);
 			});
 
-			if (param.getValue().getState() == ContractState.ENDED)
+			if (param.getValue().getReturnDateTime() != null) {
 				menuGestioneRiconsegna.setDisable(true);
+				menuGestioneRiconsegna.setText("Appuntamento Riconsegna: "  + contractService.getContractByID(param.getValue().getId()).getReturnDateTime());
+			}
+
+			if (param.getValue().getDeliverDateTime() != null) {
+				menuGestioneConsegna.setDisable(true);
+				menuGestioneConsegna.setText("Appuntamento Consegna: "  + contractService.getContractByID(param.getValue().getId()).getDeliverDateTime());
+			}
 
 			if (this.user.getRole() == 2) {
-				if (param.getValue().getVeicle().getState() == VeicleState.MAINTENANCE)
-					localMenuButton.setVisible(false);
-				else
+				switch (param.getValue().getState()) {
+				case BOOKED:
+				case MAINTENANCE:
+					return null;
+				case ACTIVE:
 					localMenuButton.getItems().add(menuRichiestaAssistenza);
-
-				if (param.getValue().getState() == ContractState.ENDED)
+					break;
+				case ENDED:
 					localMenuButton.getItems().add(menuFeedback);
-
+					break;
+				}
 			} else if (this.user.getRole() == 1) {
-				localMenuButton.getItems().add(menuGestioneRiconsegna);
-				localMenuButton.getItems().add(menuPagato);
+				switch (param.getValue().getState()) {
+				case BOOKED:
+					localMenuButton.getItems().add(menuGestioneConsegna);
+					if (param.getValue().getDeliverDateTime() != null) menuStato.setText("Consegna Veicolo");
+					break;
+				case ACTIVE:
+					localMenuButton.getItems().add(menuGestioneRiconsegna);
+					if (!param.getValue().isPaid() && param.getValue().getType() == ContractType.TIME)localMenuButton.getItems().add(menuPagato);
+					if (param.getValue().getReturnDateTime() != null)  menuStato.setText("Ritira Veicolo");
+					break;
+				case MAINTENANCE:
+					return null;
+				case ENDED:
+					if (!param.getValue().isPaid())localMenuButton.getItems().add(menuPagato);
+					else return null;
+				}
+				if (!menuStato.getText().equals(""))localMenuButton.getItems().add(menuStato);
 			} else if (this.user.getRole() == 0)
 				actionColumn.setVisible(false);
 
@@ -159,12 +246,11 @@ public class RentalController extends ViewUtility implements Initializable, Data
 	@Override
 	public void initializeData(User user) {
 		this.user = user;
-
 		try {
 			List<Contract> contract = (user.getRole() == 2 ? contractService.getContractsByUser(user)
 					: contractService.getAllContracts());
 			Collections.sort(contract, new ContractOrder());
-			
+
 			ObservableList<Contract> contractData = FXCollections.observableArrayList(contract);
 			rentalTable.setItems(contractData);
 		} catch (BusinessException e) {

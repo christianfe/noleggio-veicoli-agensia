@@ -19,12 +19,13 @@
       </Label>
       <TableView fx:id="rentalTable" prefHeight="516.0" prefWidth="758.0">
         <columns>
-          <TableColumn fx:id="userColumn" prefWidth="84.5" text="user" />
-          <TableColumn fx:id="veicleColumn" prefWidth="132.0" text="veicolo-targa" />
-            <TableColumn fx:id="periodColumn" prefWidth="110.0" text="inizio-fine" />
-            <TableColumn fx:id="stateColumn" prefWidth="129.0" text="stato" />
-            <TableColumn fx:id="paymentColumn" prefWidth="75.0" text="pagato" />
-            <TableColumn fx:id="actionColumn" minWidth="0.0" prefWidth="102.0" text="azioni" />
+          <TableColumn fx:id="userColumn" prefWidth="84.5" text="Cliente" />
+          <TableColumn fx:id="veicleColumn" prefWidth="132.0" text="Veicolo - Targa" />
+            <TableColumn fx:id="periodColumn" prefWidth="110.0" text="Inizio - Fine" />
+            <TableColumn fx:id="stateColumn" prefWidth="129.0" text="Stato" />
+            <TableColumn fx:id="paymentColumn" prefWidth="75.0" text="Pagato" />
+            <TableColumn fx:id="typeColumn" prefWidth="75.0" text="Tipo" />
+            <TableColumn fx:id="actionColumn" minWidth="0.0" prefWidth="102.0" text="Azioni" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
