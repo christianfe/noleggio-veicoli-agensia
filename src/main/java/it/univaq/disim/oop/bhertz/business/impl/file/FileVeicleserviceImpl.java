@@ -61,6 +61,14 @@ public class FileVeicleserviceImpl implements VeiclesService {
 		
 	}
 
+	@Override
+	public String FindAviableDays(List<Contract> contractOfVeicle) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+
 
 
 

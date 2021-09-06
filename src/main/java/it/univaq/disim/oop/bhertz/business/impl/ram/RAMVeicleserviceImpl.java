@@ -2,6 +2,7 @@ package it.univaq.disim.oop.bhertz.business.impl.ram;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
 import it.univaq.disim.oop.bhertz.domain.VeicleState;
+import it.univaq.disim.oop.bhertz.view.ContractOrderByDate;
 
 public class RAMVeicleserviceImpl implements VeiclesService {
 
@@ -140,39 +142,53 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 	public void setVeicle(Veicle veicle) {
 		this.veicles.put(veicle.getId(), veicle);
 	}
+	/*
+	 * @Override public boolean isVeicleFree(Integer idVeicle, LocalDate startDate,
+	 * LocalDate endDate, List<Contract> contractOfVeicle) {
+	 * 
+	 * boolean answer = true;
+	 * 
+	 * boolean answers[] = new boolean[contractOfVeicle.size()];
+	 * 
+	 * for (int i = 0; i < contractOfVeicle.size(); i++) {
+	 * 
+	 * Contract c = contractOfVeicle.get(i); if
+	 * (startDate.isAfter(c.getEnd().plusDays(2)) ||
+	 * endDate.plusDays(2).isBefore(c.getStart())) answers[i] = true; else {
+	 * answers[i] = false; }
+	 * 
+	 * }
+	 * 
+	 * for (boolean b : answers) { if (b == false) answer = false; }
+	 * 
+	 * return answer; }
+	 */
 
 	@Override
 	public boolean isVeicleFree(Integer idVeicle, LocalDate startDate, LocalDate endDate,
 			List<Contract> contractOfVeicle) {
 
-		boolean answer = true;
-
-		boolean answers[] = new boolean[contractOfVeicle.size()];
-
 		for (int i = 0; i < contractOfVeicle.size(); i++) {
-
 			Contract c = contractOfVeicle.get(i);
-			if (startDate.isAfter(c.getEnd().plusDays(2)) || endDate.plusDays(2).isBefore(c.getStart()))
-				answers[i] = true;
-			else {
-				answers[i] = false;
-			}
-
+			if (!(startDate.isAfter(c.getEnd().plusDays(2)) || endDate.plusDays(2).isBefore(c.getStart())))
+				return false;
 		}
-
-		for (boolean b : answers) {
-			if (b == false)
-				answer = false;
-		}
-
-		return answer;
+		return true;
 	}
 
+	@Override
 	public String FindAviableDays(List<Contract> contractOfVeicle) {
 
-		// String
-
-		return null;
+		Collections.sort(contractOfVeicle, new ContractOrderByDate());
+		String body = "prima del " + contractOfVeicle.get(0).getStart().minusDays(3) + ", \n";
+		for (int i = 0; i < contractOfVeicle.size() - 1; i++) {
+			body = body + "dal " + contractOfVeicle.get(i).getEnd().plusDays(3) + " al "
+					+ contractOfVeicle.get(i + 1).getStart().minusDays(3) + ", \n ";
+		}
+		body = body + "dopo il " + contractOfVeicle.get(contractOfVeicle.size() - 1).getEnd().plusDays(3);
+		//System.out.println(body);
+		
+		return body;
 	}
 
 }

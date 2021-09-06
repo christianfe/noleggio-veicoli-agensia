@@ -25,5 +25,7 @@ public interface VeiclesService {
 	void setVeicle(Veicle veicle);
 
 	boolean isVeicleFree(Integer idVeicle, LocalDate startDate, LocalDate endDate, List<Contract> contractOfVeicle);
+	
+	public String FindAviableDays(List<Contract> contractOfVeicle);
 
 }
