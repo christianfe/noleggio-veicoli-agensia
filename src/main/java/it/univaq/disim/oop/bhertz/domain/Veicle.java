@@ -16,7 +16,7 @@ public class Veicle {
 
 	public Veicle() {}
 
-	public Veicle(Integer id, Type type, String model, String plate, int km, double consuption, String fuel) {
+	public Veicle(Integer id, Type type, String model, String plate, double km, double consuption, String fuel) {
 		this.state = VeicleState.FREE;
 		this.setId(id);;
 		this.setType(type);

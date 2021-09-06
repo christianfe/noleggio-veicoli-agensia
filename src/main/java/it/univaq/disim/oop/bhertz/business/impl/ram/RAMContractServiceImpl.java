@@ -17,7 +17,7 @@ import it.univaq.disim.oop.bhertz.domain.ContractType;
 import it.univaq.disim.oop.bhertz.domain.Customer;
 import it.univaq.disim.oop.bhertz.domain.User;
 
-public class RAMContractServiceImpl implements ContractService  {
+public class RAMContractServiceImpl implements ContractService {
 
 	private Map<Integer, Contract> contracts = new HashMap<>();
 	private VeiclesService veicleService;
@@ -31,8 +31,8 @@ public class RAMContractServiceImpl implements ContractService  {
 		Contract contract1 = new Contract();
 		contract1.setCustomer((Customer) userService.getusersByID(5));
 		contract1.setVeicle(veicleService.getVeicleByID(1));
-		contract1.setStart( LocalDate.of(2014, Month.SEPTEMBER, 10) );
-		contract1.setEnd(LocalDate.of(2014, Month.SEPTEMBER, 20) );
+		contract1.setStart(LocalDate.of(2021, Month.SEPTEMBER, 10));
+		contract1.setEnd(LocalDate.of(2021, Month.SEPTEMBER, 20));
 		contract1.setPaid(false);
 		contract1.setId(counter++);
 		contract1.setState(ContractState.ACTIVE);
@@ -43,9 +43,9 @@ public class RAMContractServiceImpl implements ContractService  {
 		Contract contract2 = new Contract();
 		contract2.setCustomer((Customer) userService.getusersByID(4));
 		contract2.setVeicle(veicleService.getVeicleByID(2));
-		contract2.setStart( LocalDate.of(2014, Month.SEPTEMBER, 10) );
-		contract2.setEnd(LocalDate.of(2014, Month.SEPTEMBER, 20) );
-		contract2.setPaid(false);
+		contract2.setStart(LocalDate.of(2021, Month.SEPTEMBER, 10));
+		contract2.setEnd(LocalDate.of(2021, Month.SEPTEMBER, 20));
+		contract2.setPaid(true);
 		contract2.setId(counter++);
 		contract2.setState(ContractState.ENDED);
 		contract2.setDeliverDateTime("ora");
@@ -55,25 +55,14 @@ public class RAMContractServiceImpl implements ContractService  {
 		Contract contract3 = new Contract();
 		contract3.setCustomer((Customer) userService.getusersByID(5));
 		contract3.setVeicle(veicleService.getVeicleByID(4));
-		contract3.setStart( LocalDate.of(2021, Month.SEPTEMBER, 12) );
-		contract3.setEnd(LocalDate.of(2021, Month.SEPTEMBER, 13) );
+		contract3.setStart(LocalDate.of(2021, Month.SEPTEMBER, 12));
+		contract3.setEnd(LocalDate.of(2021, Month.SEPTEMBER, 13));
 		contract3.setPaid(false);
 		contract3.setId(counter++);
 		contract3.setState(ContractState.ACTIVE);
 		contract3.setDeliverDateTime("ora");
 		contract3.setType(ContractType.KM);
 		contracts.put(contract3.getId(), contract3);
-		
-		Contract contract4 = new Contract();
-		contract4.setCustomer((Customer) userService.getusersByID(5));
-		contract4.setVeicle(veicleService.getVeicleByID(1));
-		contract4.setStart( LocalDate.of(2014, Month.SEPTEMBER, 10) );
-		contract4.setEnd(LocalDate.of(2014, Month.SEPTEMBER, 20) );
-		contract4.setPaid(false);
-		contract4.setId(counter++);
-		contract4.setState(ContractState.BOOKED);
-		contract4.setType(ContractType.TIME);
-		contracts.put(contract4.getId(), contract4);
 
 	}
 
@@ -117,9 +106,9 @@ public class RAMContractServiceImpl implements ContractService  {
 				result.add(c);
 		return result;
 	}
-	
+
 	@Override
 	public void setContract(Contract contract) {
 		contracts.put(contract.getId(), contract);
-	}	
+	}
 }
