@@ -56,7 +56,6 @@ public class CreateFeedbackController extends ViewUtility implements Initializab
 		this.contract = collector.getObjectB();
 		
 		titleFeedback.setText(titleFeedback.getText() + " per il noleggio del veicolo: " + contract.getVeicle().getModel());
-		System.out.println(user.getName());
 	}
 	
 	
@@ -70,7 +69,7 @@ public class CreateFeedbackController extends ViewUtility implements Initializab
 		feedbackService.addFeedback(newFeedback);
 		confirmFeedback.disableProperty().unbind();
 		confirmFeedback.setDisable(true);
-		System.out.println(newFeedback.getBody() + newFeedback.getValutation() + newFeedback.getContract().getVeicle().getModel() + newFeedback.getId() );
+		dispatcher.renderView("rental", user);
 		
 	}
 	

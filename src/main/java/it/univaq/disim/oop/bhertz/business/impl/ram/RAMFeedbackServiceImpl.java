@@ -7,6 +7,7 @@ import java.util.Map;
 
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.FeedbackService;
+import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.Feedback;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
 
@@ -16,7 +17,7 @@ public class RAMFeedbackServiceImpl implements FeedbackService {
 	private Integer counter = 1;
 	
 	@Override
-	public List<Feedback> getAllFeedbacks() throws BusinessException {
+	public List<Feedback> getAllFeedbacks() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -28,7 +29,7 @@ public class RAMFeedbackServiceImpl implements FeedbackService {
 		feeds.put(feedback.getId(), feedback);
 	}
 	@Override
-	public List<Feedback> getFeedbackByVeicle(Veicle veicle) throws BusinessException {
+	public List<Feedback> getFeedbackByVeicle(Veicle veicle) {
 		
 		System.out.println("check getfeedbackbyveicle");
 		System.out.println(veicle.getModel());
@@ -42,7 +43,16 @@ public class RAMFeedbackServiceImpl implements FeedbackService {
 
 
 	@Override
-	public Feedback getFeedbackByID(Integer id) throws BusinessException {
+	public Feedback getFeedbackByID(Integer id) {
 		return feeds.get(id);
+	}
+
+
+	@Override
+	public boolean isFeedBackSet(Contract contract) {
+		for (Feedback f : feeds.values())
+			if (f.getContract().getId() == contract.getId())
+				return true;
+		return false;
 	}
 }

@@ -49,7 +49,7 @@ public class FeedbackController extends ViewUtility implements Initializable, Da
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+
 		userColumn.setCellValueFactory((CellDataFeatures<Feedback, String> param) -> {
 			return new SimpleStringProperty(param.getValue().getContract().getCustomer().getName());
 		});
@@ -69,14 +69,11 @@ public class FeedbackController extends ViewUtility implements Initializable, Da
 
 		titleLabel.setText(titleLabel.getText() + " " + veicle.getModel());
 
-		try {
-			List<Feedback> feedbackList = this.feedbackService.getFeedbackByVeicle(veicle);
-			//List<Feedback> feedbackList = new ArrayList<>();
-			ObservableList<Feedback> feedbackData = FXCollections.observableArrayList(feedbackList);
-			feedbackTable.setItems(feedbackData);
-		} catch (BusinessException e) {
-			dispatcher.renderError(e);
-		}
+		List<Feedback> feedbackList = this.feedbackService.getFeedbackByVeicle(veicle);
+		//List<Feedback> feedbackList = new ArrayList<>();
+		ObservableList<Feedback> feedbackData = FXCollections.observableArrayList(feedbackList);
+		feedbackTable.setItems(feedbackData);
+
 	}
 
 	@FXML
