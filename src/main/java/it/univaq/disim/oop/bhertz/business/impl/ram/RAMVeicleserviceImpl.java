@@ -182,10 +182,8 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 		Collections.sort(contractOfVeicle, new ContractOrderByDate());
 		String body = "prima del " + contractOfVeicle.get(0).getStart().minusDays(3) + ", \n";
 		for (int i = 0; i < contractOfVeicle.size() - 1; i++) {
-			body = body + "dal " + contractOfVeicle.get(i).getEnd().plusDays(3) + " al "
-					+ contractOfVeicle.get(i + 1).getStart().minusDays(3) + ", \n ";
-		}
-		body = body + "dopo il " + contractOfVeicle.get(contractOfVeicle.size() - 1).getEnd().plusDays(3);
+			body += "dal " + contractOfVeicle.get(i).getEnd().plusDays(3) + " al "+ contractOfVeicle.get(i + 1).getStart().minusDays(3) + ", \n ";}
+		body += "dopo il " + contractOfVeicle.get(contractOfVeicle.size() - 1).getEnd().plusDays(3);
 		//System.out.println(body);
 		
 		return body;
