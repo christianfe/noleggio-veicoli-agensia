@@ -21,7 +21,7 @@ public class Contract {
 	private Customer customer;
 	
 	public Contract() {
-		this.setState(ContractState.ACTIVE);
+		this.setState(ContractState.BOOKED);
 	}
 	
 	public Feedback getFeedback() {
