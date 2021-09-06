@@ -2,6 +2,8 @@ package it.univaq.disim.oop.bhertz.controller;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Formatter;
 import java.util.ResourceBundle;
 
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
@@ -91,24 +93,26 @@ public class VeicleReturnController extends ViewUtility
 				e.consume();
 				return;
 			}
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
 			if (mode == 1) {
 				BhertzBusinessFactory.getInstance().getNotificationsService()
 						.addNotification(new Notification(objectsCollector.getObjectB().getCustomer(),
 								NotificationDictionary.START_RENT_APPOINTMENT_TITLE,
-								NotificationDictionary.START_RENT_APPOINTMENT_TEXT + datePicker.getValue() + "  "
+								NotificationDictionary.START_RENT_APPOINTMENT_TEXT + datePicker.getValue().format(formatter) + "  "
 										+ timeField.getText()));
 				BhertzBusinessFactory.getInstance().getContractService()
 						.getContractByID(objectsCollector.getObjectB().getId())
-						.setDeliverDateTime(datePicker.getValue() + "  " + timeField.getText());
+						.setDeliverDateTime(datePicker.getValue().format(formatter) + "  " + timeField.getText());
 			} else if (mode == 2) {
 				BhertzBusinessFactory.getInstance().getNotificationsService()
 						.addNotification(new Notification(objectsCollector.getObjectB().getCustomer(),
 								NotificationDictionary.END_RENT_APPOINTMENT_TITLE,
-								NotificationDictionary.END_RENT_APPOINTMENT_TEXT + datePicker.getValue() + "  "
+								NotificationDictionary.END_RENT_APPOINTMENT_TEXT + datePicker.getValue().format(formatter) + "  "
 										+ timeField.getText()));
 				BhertzBusinessFactory.getInstance().getContractService()
 						.getContractByID(objectsCollector.getObjectB().getId())
-						.setReturnDateTime(datePicker.getValue() + "  " + timeField.getText());
+						.setReturnDateTime(datePicker.getValue().format(formatter) + "  " + timeField.getText());
 			}
 
 			dispatcher.renderView("rental", objectsCollector.getObjectA());

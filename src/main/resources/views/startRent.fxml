@@ -23,13 +23,13 @@
       <DatePicker fx:id="dateEndField" layoutX="412.0" layoutY="133.0" onAction="#checkDateEnd" promptText="gg/mm/aaaa" />
       <Label layoutX="239.0" layoutY="109.0" text="Inizio Noleggio" />
       <Label layoutX="462.0" layoutY="109.0" text="Fine Noleggio" />
-      <Label fx:id="labelError" layoutX="8.0" layoutY="450.0" prefHeight="17.0" prefWidth="762.0" textAlignment="CENTER" textFill="#ff4242">
+      <Label fx:id="labelError" layoutX="9.0" layoutY="344.0" prefHeight="17.0" prefWidth="762.0" textAlignment="CENTER" textFill="#ff4242">
          <font>
             <Font size="14.0" />
          </font></Label>
       <Button fx:id="confirmButton" layoutX="261.0" layoutY="288.0" mnemonicParsing="false" onAction="#startContractAction" prefHeight="41.0" prefWidth="119.0" text="Inizia Noleggio" />
       <Button fx:id="cancelButton" layoutX="401.0" layoutY="288.0" mnemonicParsing="false" onAction="#cancelAction" prefHeight="41.0" prefWidth="119.0" text="Annulla" />
-      <TextArea fx:id="aviableTextArea" layoutX="218.0" layoutY="392.0" prefHeight="161.0" prefWidth="343.0" />
+      <TextArea fx:id="aviableTextArea" editable="false" layoutX="218.0" layoutY="392.0" prefHeight="161.0" prefWidth="343.0" />
       <Label alignment="CENTER" layoutX="220.0" layoutY="371.0" text="Date disponibili" />
    </children>
    <opaqueInsets>

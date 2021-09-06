@@ -1,6 +1,7 @@
 package it.univaq.disim.oop.bhertz.business.impl.ram;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -156,12 +157,22 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 
 	@Override
 	public String FindAviableDays(List<Contract> contractOfVeicle) {
+		
+		if (contractOfVeicle.isEmpty())
+			return "veicolo disponibile per qualunque periodo";
+		
 		Collections.sort(contractOfVeicle, new ContractOrderByDate());
-		String body = "prima del " + contractOfVeicle.get(0).getStart().minusDays(3) + ", \n";
+		String body;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		if (LocalDate.now().isBefore(contractOfVeicle.get(0).getStart().minusDays(3)))
+			body = "prima del " + contractOfVeicle.get(0).getStart().minusDays(3).format(formatter) + ", \n";
+		else
+			body = "";
 		for (int i = 0; i < contractOfVeicle.size() - 1; i++)
-			body += "dal " + contractOfVeicle.get(i).getEnd().plusDays(3) + " al "
-					+ contractOfVeicle.get(i + 1).getStart().minusDays(3) + ", \n ";
-		body += "dopo il " + contractOfVeicle.get(contractOfVeicle.size() - 1).getEnd().plusDays(3);
+			if (!(contractOfVeicle.get(i).getEnd().plusDays(3).isEqual(contractOfVeicle.get(i + 1).getStart())))
+				body += "dal " + contractOfVeicle.get(i).getEnd().plusDays(3).format(formatter) + " al "
+						+ contractOfVeicle.get(i + 1).getStart().minusDays(3).format(formatter) + ", \n";
+		body += "dopo il " + contractOfVeicle.get(contractOfVeicle.size() - 1).getEnd().plusDays(3).format(formatter);
 		return body;
 	}
 

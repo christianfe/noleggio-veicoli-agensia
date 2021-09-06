@@ -12,7 +12,7 @@
    <children>
       <DatePicker fx:id="dateStartField" layoutX="161.0" layoutY="202.0" onAction="#checkDateStart" promptText="gg/mm/aaaa" />
       <DatePicker fx:id="dateEndField" layoutX="161.0" layoutY="236.0" onAction="#checkDateEnd" promptText="gg/mm/aaaa" />
-      <Slider fx:id="kmSlider" layoutX="77.0" layoutY="364.0" majorTickUnit="500.0" max="2000.0" minorTickCount="4" onMouseReleased="#sliderDragAction" prefHeight="38.0" prefWidth="623.0" showTickLabels="true" showTickMarks="true" />
+      <Slider fx:id="kmSlider" layoutX="77.0" layoutY="364.0" majorTickUnit="500.0" max="5000.0" minorTickCount="10" onMouseReleased="#sliderDragAction" prefHeight="38.0" prefWidth="623.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
       <Separator layoutX="31.0" layoutY="269.0" prefHeight="25.0" prefWidth="715.0" />
       <Label layoutX="103.0" layoutY="206.0" prefHeight="17.0" prefWidth="41.0" text="Inizio">
          <font>
