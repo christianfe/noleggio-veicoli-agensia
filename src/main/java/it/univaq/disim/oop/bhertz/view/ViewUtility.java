@@ -32,6 +32,7 @@ public class ViewUtility {
 					return;
 				}
 				Integer lenght = newValue.length();
+				if (lenght <= 0) return;
 				char c = newValue.charAt(lenght - 1);
 				if ((lenght == 3 && c != ':') || (lenght != 3 && (c < '0' || c > '9')))
 					field.setText(oldValue);

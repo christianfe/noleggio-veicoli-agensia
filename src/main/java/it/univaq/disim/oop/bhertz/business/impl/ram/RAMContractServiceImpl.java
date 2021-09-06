@@ -37,6 +37,7 @@ public class RAMContractServiceImpl implements ContractService {
 		contract1.setId(counter++);
 		contract1.setState(ContractState.ACTIVE);
 		contract1.setDeliverDateTime("ora");
+		contract1.setReturnDateTime("ora");
 		contract1.setType(ContractType.TIME);
 		contracts.put(contract1.getId(), contract1);
 
@@ -112,3 +113,4 @@ public class RAMContractServiceImpl implements ContractService {
 		contracts.put(contract.getId(), contract);
 	}
 }
+

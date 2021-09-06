@@ -1,21 +1,13 @@
 package it.univaq.disim.oop.bhertz.controller;
 
 import java.net.URL;
-import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javax.swing.BoxLayout;
-import javax.swing.JFormattedTextField;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.text.NumberFormatter;
-
-import com.sun.javafx.sg.prism.NGShape.Mode;
 
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
@@ -24,11 +16,9 @@ import it.univaq.disim.oop.bhertz.business.MaintenanceService;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
 import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
 import it.univaq.disim.oop.bhertz.domain.Contract;
-import it.univaq.disim.oop.bhertz.domain.ContractState;
 import it.univaq.disim.oop.bhertz.domain.ContractType;
 import it.univaq.disim.oop.bhertz.domain.TicketState;
 import it.univaq.disim.oop.bhertz.domain.User;
-import it.univaq.disim.oop.bhertz.domain.Veicle;
 import it.univaq.disim.oop.bhertz.domain.VeicleState;
 import it.univaq.disim.oop.bhertz.view.ContractOrder;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
@@ -153,39 +143,7 @@ public class RentalController extends ViewUtility implements Initializable, Data
 			});
 
 			menuStato.setOnAction((ActionEvent event) -> {
-				NumberFormat format = NumberFormat.getInstance();
-				format.setGroupingUsed(false);
-				NumberFormatter formatter = new NumberFormatter(format);
-				formatter.setValueClass(Integer.class);
-				formatter.setMinimum(0);
-				formatter.setMaximum(1000000);
-				formatter.setAllowsInvalid(false);
-				formatter.setCommitsOnValidEdit(false);
-
-				JPanel panel = new JPanel();
-				JLabel label = new JLabel("Chilometri Veicolo:");
-				JFormattedTextField field = new JFormattedTextField(formatter);
-				panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));;
-				panel.add(label);
-				panel.add(field);
-				JOptionPane.showMessageDialog(null, panel);
-				double d = Double.parseDouble(field.getText());
-				if (field.getValue() != null) {
-					Contract c = param.getValue();
-					if (param.getValue().getReturnDateTime() == null) {
-						c.setStartKm(d);
-						c.setState(ContractState.ACTIVE);
-					} else {
-						c.setEndKm(d);
-						c.setState(ContractState.ENDED);
-					}
-					contractService.setContract(c);
-					
-					Veicle v = param.getValue().getVeicle();
-					v.setKm(d);
-					veiclesService.setVeicle(v);
-				}
-				dispatcher.renderView("rental", user);
+				dispatcher.renderView("changeContractState", new ObjectsCollector<User, Contract>(user, param.getValue()));
 			});
 
 			menuPagato.setOnAction((ActionEvent event) -> {
