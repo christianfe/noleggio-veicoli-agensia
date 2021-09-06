@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import it.univaq.disim.oop.bhertz.business.BusinessException;
-import it.univaq.disim.oop.bhertz.business.ContractService;
 import it.univaq.disim.oop.bhertz.business.TypesService;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
+import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
 import it.univaq.disim.oop.bhertz.domain.VeicleState;
@@ -18,7 +18,6 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 
 	private Map<Integer, Veicle> veicles = new HashMap<>();
 	private TypesService typeService;
-
 
 	public RAMVeicleserviceImpl() throws BusinessException {
 		this.typeService = new RAMTypesServiceImpl();
@@ -128,7 +127,7 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 	}
 
 	@Override
-	public void setVeicle(Integer id, String model, int km, double consuption, String fuel) {
+	public void setVeicle(Integer id, String model, double km, double consuption, String fuel) {
 		Veicle v = veicles.get(id);
 		v.setModel(model);
 		v.setConsumption(consuption);
@@ -138,13 +137,29 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 	}
 
 	@Override
-	public boolean isVeicleFree(Integer idVeicle, LocalDate startDate, LocalDate endDate) {
-		/*List<Contract> contractOfVeicle = contractService.getContractsByVeicle(idVeicle);
-		for (Contract c : contractOfVeicle)
-			if (true)
-				return false;
-		return true;*/
-		return false;
+	public boolean isVeicleFree(Integer idVeicle, LocalDate startDate, LocalDate endDate,
+			List<Contract> contractOfVeicle) {
+
+		boolean answer = true;
+		
+		boolean answers[] = new boolean[contractOfVeicle.size()];
+
+		for ( int i = 0 ; i<contractOfVeicle.size(); i++) {
+			Contract c = contractOfVeicle.get(i);
+			if (startDate.isAfter(c.getEnd().plusDays(3)) || endDate.plusDays(3).isBefore(c.getStart()) ) 
+				answers[i] = true;
+				else 
+				answers[i] = false;
+			
+			
+		for (boolean b : answers ) {
+			if (b == false)
+				answer = false;
+		}
+			
+		}
+
+		return answer;
 	}
 
 }

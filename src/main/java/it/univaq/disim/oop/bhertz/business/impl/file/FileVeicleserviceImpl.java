@@ -5,6 +5,7 @@ import java.util.List;
 
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
+import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
 import it.univaq.disim.oop.bhertz.domain.VeicleState;
@@ -30,7 +31,7 @@ public class FileVeicleserviceImpl implements VeiclesService {
 	}
 
 	@Override
-	public void setVeicle(Integer id, String model,  int km, double consuption, String fuel
+	public void setVeicle(Integer id, String model,  double km, double consuption, String fuel
 			) {
 		// TODO Auto-generated method stub
 		
@@ -49,10 +50,12 @@ public class FileVeicleserviceImpl implements VeiclesService {
 	}
 
 	@Override
-	public boolean isVeicleFree(Integer idVeicle, LocalDate startDate, LocalDate endDate) {
+	public boolean isVeicleFree(Integer idVeicle, LocalDate startDate, LocalDate endDate, List<Contract> contractOfVeicle) {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+
 
 
 }

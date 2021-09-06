@@ -73,9 +73,9 @@ public class VeicleEditController extends ViewUtility implements Initializable, 
 	@FXML
 	public void saveAction(ActionEvent e) {
 		if (this.creatingNewVeicle)
-			veiclesService.addVeicle(new Veicle(0, objectsCollector.getObjectC(), modelField.getText(), plateField.getText(), Integer.parseInt(kmField.getText()), Double.parseDouble(consuptionField.getText()), fuelField.getText() ));
+			veiclesService.addVeicle(new Veicle(0, objectsCollector.getObjectC(), modelField.getText(), plateField.getText(), Double.parseDouble(kmField.getText()), Double.parseDouble(consuptionField.getText()), fuelField.getText() ));
 		else
-			veiclesService.setVeicle(objectsCollector.getObjectB().getId(), modelField.getText(), Integer.parseInt(kmField.getText()), Double.parseDouble(consuptionField.getText()), fuelField.getText());
+			veiclesService.setVeicle(objectsCollector.getObjectB().getId(), modelField.getText(), Double.parseDouble(kmField.getText()), Double.parseDouble(consuptionField.getText()), fuelField.getText());
 		dispatcher.renderView("veicles", new ObjectsCollector<User, Type>(objectsCollector.getObjectA(), objectsCollector.getObjectC()));
 	}
 

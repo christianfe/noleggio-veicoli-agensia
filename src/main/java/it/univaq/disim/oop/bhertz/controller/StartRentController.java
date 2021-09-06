@@ -3,6 +3,7 @@ package it.univaq.disim.oop.bhertz.controller;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+import java.util.List;
 
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.ContractService;
@@ -44,8 +45,6 @@ public class StartRentController extends ViewUtility implements Initializable, D
 	@FXML
 	private Label labelError;
 
-
-
 	private User user;
 	private Veicle veicle;
 	private BhertzBusinessFactory factory;
@@ -63,13 +62,15 @@ public class StartRentController extends ViewUtility implements Initializable, D
 			public void updateItem(LocalDate item, boolean empty) {
 				super.updateItem(item, empty);
 				setDisable(item.isBefore(LocalDate.now()));
-			}});
+			}
+		});
 		dateEndField.setDayCellFactory(d -> new DateCell() {
 			@Override
 			public void updateItem(LocalDate item, boolean empty) {
 				super.updateItem(item, empty);
 				setDisable(item.isBefore(LocalDate.now()));
-			}});
+			}
+		});
 	}
 
 	@Override
@@ -109,12 +110,20 @@ public class StartRentController extends ViewUtility implements Initializable, D
 				labelError.setText("Selezionare una tipologia di contratto");
 			else {
 				ContractService contractService = factory.getContractService();
+				List<Contract> contractOfVeicle = contractService.getContractsByVeicle(veicle.getId());
+
+				boolean oof = factory.getVeiclesService().isVeicleFree(veicle.getId(), dateStartField.getValue(),
+						dateEndField.getValue(), contractOfVeicle);
+
+				if (oof)
+					System.out.println("si può fare");
+				else
+					System.out.println("non si può fare");
 
 				Contract newContract = new Contract();
 				newContract.setVeicle(veicle);
 				newContract.setCustomer((Customer) user);
 				newContract.setStartKm(veicle.getKm());
-
 				newContract.setStart(dateStartField.getValue());
 				newContract.setEnd(dateEndField.getValue());
 				if (dailyCheckBox.isSelected())
@@ -133,8 +142,7 @@ public class StartRentController extends ViewUtility implements Initializable, D
 		}
 	}
 
-
-	@FXML 
+	@FXML
 	public void checkDateStart(ActionEvent e) {
 		try {
 			dateEndField.setDayCellFactory(d -> new DateCell() {
@@ -142,23 +150,28 @@ public class StartRentController extends ViewUtility implements Initializable, D
 				public void updateItem(LocalDate item, boolean empty) {
 					super.updateItem(item, empty);
 					setDisable(item.isBefore(dateStartField.getValue()));
-				}});
-		} catch (NullPointerException e1) {}
+				}
+			});
+		} catch (NullPointerException e1) {
+		}
 	}
-	
+
 	@FXML
 	public void checkDateEnd(ActionEvent e) {
 		try {
-			//if (dateEndField.getValue().isBefore(dateStartField.getValue())) dateEndField.setValue(dateStartField.getValue());
+			// if (dateEndField.getValue().isBefore(dateStartField.getValue()))
+			// dateEndField.setValue(dateStartField.getValue());
 			dateStartField.setDayCellFactory(d -> new DateCell() {
 				@Override
 				public void updateItem(LocalDate item, boolean empty) {
 					super.updateItem(item, empty);
 					setDisable(item.isBefore(LocalDate.now()) || item.isAfter(dateEndField.getValue()));
-				}});
-		} catch (NullPointerException e1) {}
+				}
+			});
+		} catch (NullPointerException e1) {
+		}
 	}
-	
+
 	@FXML
 	public void cancelAction() {
 		dispatcher.renderView("veicles", new ObjectsCollector<User, Type>(user, veicle.getType()));

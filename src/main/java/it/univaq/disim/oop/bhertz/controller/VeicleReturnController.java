@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
+import it.univaq.disim.oop.bhertz.business.VeiclesService;
 import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.ContractState;
 import it.univaq.disim.oop.bhertz.domain.Notification;
@@ -42,12 +43,15 @@ public class VeicleReturnController extends ViewUtility implements Initializable
 	private Button saveButton;
 	@FXML
 	private Label labelError;
+	
+	private VeiclesService veiclesService;
 
 	private ObjectsCollector<User, Contract> objectsCollector;
 	private ViewDispatcher dispatcher;
 
 	public VeicleReturnController() {
 		this.dispatcher = ViewDispatcher.getInstance();
+		veiclesService = BhertzBusinessFactory.getInstance().getVeiclesService();
 	}
 
 	@Override
@@ -77,9 +81,12 @@ public class VeicleReturnController extends ViewUtility implements Initializable
 		try {
 			objectsCollector.getObjectB().setState(ContractState.ENDED);
 			
-			objectsCollector.getObjectB().getVeicle().setKm(Double.parseDouble(kmField.getText()));
+			//objectsCollector.getObjectB().getVeicle().setKm(Double.parseDouble(kmField.getText()));
 			
-			System.out.println(			objectsCollector.getObjectB().getVeicle().getKm() );
+			//System.out.println( objectsCollector.getObjectB().getVeicle().getKm() );
+			
+			//veiclesService.setVeicle(objectsCollector.getObjectB().getVeicle().getId(), objectsCollector.getObjectB().getVeicle().getModel(), 
+			//Double.parseDouble(kmField.getText()), objectsCollector.getObjectB().getVeicle().getConsumption(), null);
 			
 			BhertzBusinessFactory.getInstance().getContractService().setContract(objectsCollector.getObjectB());
 			BhertzBusinessFactory.getInstance().getNotificationsService().addNotification(new Notification(objectsCollector.getObjectB().getCustomer(), NotificationDictionary.END_RENT_APPOINTMENT_TITLE, NotificationDictionary.END_RENT_APPOINTMENT_TEXT + datePicker.getValue() + timeField.getText()));
