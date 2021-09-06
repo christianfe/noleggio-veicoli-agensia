@@ -26,4 +26,6 @@ public interface VeiclesService {
 
 	boolean isVeicleFree(LocalDate startDate, LocalDate endDate, List<Contract> contractOfVeicle);
 
+	public String FindAviableDays(List<Contract> contractOfVeicle);
+
 }

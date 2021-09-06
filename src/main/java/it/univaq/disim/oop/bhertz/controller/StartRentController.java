@@ -25,6 +25,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 
 public class StartRentController extends ViewUtility implements Initializable, DataInitializable<ObjectsCollector> {
 
@@ -44,6 +45,8 @@ public class StartRentController extends ViewUtility implements Initializable, D
 	private Button cancelButton;
 	@FXML
 	private Label labelError;
+	@FXML
+	private TextArea aviableTextArea;
 
 	private User user;
 	private Veicle veicle;
@@ -89,6 +92,10 @@ public class StartRentController extends ViewUtility implements Initializable, D
 
 		dailyCheckBox.setText(priceForDay + " €/day");
 		kmCheckBox.setText(PriceForKm + " €/km");
+		
+		List<Contract> contractOfVeicle = factory.getContractService().getContractsByVeicle(veicle.getId());
+		
+		aviableTextArea.setText( factory.getVeiclesService().FindAviableDays(contractOfVeicle) );
 	}
 
 	@FXML
