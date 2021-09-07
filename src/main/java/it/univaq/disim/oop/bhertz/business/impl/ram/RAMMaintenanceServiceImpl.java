@@ -74,8 +74,14 @@ public class RAMMaintenanceServiceImpl implements MaintenanceService{
 
 	@Override
 	public void addTicket(AssistanceTicket ticket) {
-		tickets.put(counter++, ticket);
-		
+		ticket.setId(counter++);
+		tickets.put(ticket.getId(), ticket);
+	}
+
+
+	@Override
+	public void setTicket(AssistanceTicket ticket) {
+		tickets.put(ticket.getId(), ticket);
 	}
 
 }

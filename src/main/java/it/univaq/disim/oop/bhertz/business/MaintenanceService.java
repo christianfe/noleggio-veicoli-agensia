@@ -14,4 +14,6 @@ public interface MaintenanceService {
 	List<AssistanceTicket> getTicketByUser(User user) throws BusinessException;
 	
 	void addTicket (AssistanceTicket ticket);
+	
+	void setTicket(AssistanceTicket ticket);
 }

@@ -33,4 +33,10 @@ public class FileMaintenanceServiceImpl implements MaintenanceService {
 		
 	}
 
+	@Override
+	public void setTicket(AssistanceTicket ticket) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

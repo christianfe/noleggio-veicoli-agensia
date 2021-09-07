@@ -30,6 +30,11 @@ public class Veicle {
 		this.setPriceForDay(type.getPriceForDay());
 
 	}
+	
+	@Override
+    public String toString() {
+		return this.getModel() + " - " + this.getPlate();
+	}
 
 	public Integer getId() {
 		return id;

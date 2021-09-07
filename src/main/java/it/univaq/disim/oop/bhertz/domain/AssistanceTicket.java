@@ -13,7 +13,7 @@ public class AssistanceTicket {
 	private String timeEnd = null;
 	private double veicleKm;
 
-	private Veicle sostituteVeicle;
+	private Veicle sostituteVeicle = null;
 	private Contract contract;
 
 	public Veicle getSostituteVeicle() {
