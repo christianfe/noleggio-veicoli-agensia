@@ -95,6 +95,7 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 				actionColumn.setVisible(false);
 			else if (this.user.getRole() == 1) {
 				localMenuButton.getItems().add(menuDetails);
+				param.getValue().getContract().setAssistance(param.getValue()); //prova
 				switch (param.getValue().getState()) {
 					case REQUIRED:
 						if (param.getValue().getStartDate() != null) {
@@ -108,7 +109,7 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 						break;
 
 					case WORKING:
-						menuChangeStatus.setText("Fine interventi");
+						menuChangeStatus.setText("Gestione manutenzione");
 						localMenuButton.getItems().add(menuChangeStatus);
 						break;
 
@@ -134,7 +135,7 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 				switch (param.getValue().getState()) {
 					case REQUIRED:
 						// param.getValue().setState(TicketState.WORKING);
-
+						dispatcher.renderView("maintenanceReturn", new ObjectsCollector<User, AssistanceTicket>(user, param.getValue()));
 						// aggungere vista settaggio ritiro e problemi
 
 						break;
@@ -147,8 +148,6 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 			});
 
 			menuAppointment.setOnAction((ActionEvent event) -> {
-				param.getValue().setStartDate(LocalDate.now());
-				param.getValue().getContract().setAssistance(param.getValue());
 				dispatcher.renderView("veicleReturn",
 						new ObjectsCollector<User, Contract>(user, param.getValue().getContract()));
 			});
