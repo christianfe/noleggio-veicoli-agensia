@@ -7,8 +7,11 @@ public class AssistanceTicket {
 	private TicketState state;
 	private Integer id;
 	private String description;
-	private LocalDate startDate;
-	private LocalDate endDate;
+	private LocalDate startDate = null;
+	private LocalDate endDate = null;
+	private String timeStart = null;
+	private String timeEnd = null;
+	private double veicleKm;
 
 	private Veicle sostituteVeicle;
 	private Contract contract;
@@ -67,6 +70,30 @@ public class AssistanceTicket {
 
 	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
+	}
+
+	public String getTimeStart() {
+		return timeStart;
+	}
+
+	public void setTimeStart(String timeStart) {
+		this.timeStart = timeStart;
+	}
+
+	public String getTimeEnd() {
+		return timeEnd;
+	}
+
+	public void setTimeEnd(String timeEnd) {
+		this.timeEnd = timeEnd;
+	}
+
+	public double getVeicleKm() {
+		return veicleKm;
+	}
+
+	public void setVeicleKm(double veicleKm) {
+		this.veicleKm = veicleKm;
 	}
 
 }

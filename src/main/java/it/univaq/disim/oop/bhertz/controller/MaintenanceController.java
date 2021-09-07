@@ -10,6 +10,7 @@ import it.univaq.disim.oop.bhertz.business.MaintenanceService;
 import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
 import it.univaq.disim.oop.bhertz.domain.TicketState;
 import it.univaq.disim.oop.bhertz.domain.User;
+import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import it.univaq.disim.oop.bhertz.view.ViewUtility;
 import javafx.beans.property.SimpleObjectProperty;
@@ -44,6 +45,7 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 
 	private ViewDispatcher dispatcher;
 	private MaintenanceService maintenanceService;
+	private User user;
 
 	public MaintenanceController() {
 		dispatcher = ViewDispatcher.getInstance();
@@ -65,22 +67,53 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 			MenuButton localMenuButton = new MenuButton("Menu");
 
 			MenuItem menuChangeStatus = new MenuItem();
-			MenuItem menuNewVeicle = new MenuItem("Veicolo Sostitutivo");
+			MenuItem menuAppointment = new MenuItem("Fissa appuntamento ritiro");
+			MenuItem menuDetails = new MenuItem("Visualizza Dettagli");
 
-			if (param.getValue().getState() == TicketState.ENDED) {
-				menuChangeStatus.setDisable(true);
-				menuChangeStatus.setText("Ticket Risolto");
-			} else
-				menuChangeStatus
-						.setText((param.getValue().getState() == TicketState.REQUIRED) ? "Imposta come IN LAVORAZIONE"
-								: "Imposta come RISOLTO");
 
-			localMenuButton.getItems().add(menuChangeStatus);
-			localMenuButton.getItems().add(menuNewVeicle);
+			
+			if (this.user.getRole() == 0)
+				actionColumn.setVisible(false);
+			else if (this.user.getRole() == 1) {
+				localMenuButton.getItems().add(menuDetails);
+				switch (param.getValue().getState()) {
+				case REQUIRED:
+					if (param.getValue().getStartDate() != null) {
+						menuAppointment.setText("Appuntamento: " + param.getValue().getStartDate() + " " + param.getValue().getTimeStart());
+						menuAppointment.setDisable(true);
+						menuChangeStatus.setText("Ritira Veicolo");
+						localMenuButton.getItems().add(menuChangeStatus);
+					}
+					localMenuButton.getItems().add(menuAppointment);
+					break;
+
+				case WORKING:
+					menuChangeStatus.setText("Fine interventi");
+					localMenuButton.getItems().add(menuChangeStatus);
+					break;
+
+				case READY:
+					menuAppointment.setText("Appuntamento: " + param.getValue().getEndDate() + " " + param.getValue().getTimeEnd());
+					menuAppointment.setDisable(true);
+					localMenuButton.getItems().add(menuAppointment);
+					menuChangeStatus.setText("Riconsegna veicolo al cliente");
+					localMenuButton.getItems().add(menuChangeStatus);
+					break;
+
+				case ENDED:
+					break;
+				}
+			}else if (this.user.getRole() == 2) {
+				userColumn.setVisible(false);
+				actionColumn.setVisible(false);
+			}
 
 			menuChangeStatus.setOnAction((ActionEvent event) -> {
 			});
-			menuNewVeicle.setOnAction((ActionEvent event) -> {
+			menuAppointment.setOnAction((ActionEvent event) -> {
+			});
+			menuDetails.setOnAction((ActionEvent event) -> {
+				dispatcher.renderView("maintenanceDetails", new ObjectsCollector<User, AssistanceTicket>(this.user, param.getValue()));
 			});
 
 			return new SimpleObjectProperty<MenuButton>(localMenuButton);
@@ -89,12 +122,7 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 
 	@Override
 	public void initializeData(User user) {
-		if (user.getRole() == 2)
-			userColumn.setVisible(false);
-
-		if (user.getRole() != 1)
-			actionColumn.setVisible(false);
-
+		this.user = user;
 		try {
 			List<AssistanceTicket> tickets = (user.getRole() == 2 ? maintenanceService.getTicketByUser(user)
 					: maintenanceService.getAllTickets());

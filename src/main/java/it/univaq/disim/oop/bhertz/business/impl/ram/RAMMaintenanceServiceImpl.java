@@ -24,7 +24,6 @@ public class RAMMaintenanceServiceImpl implements MaintenanceService{
 	
 	public RAMMaintenanceServiceImpl() throws BusinessException {
 		
-		/*
 		dispatcher =  ViewDispatcher.getInstance();
 		contractService = new RAMContractServiceImpl();
 		veicleService =  new RAMVeicleserviceImpl();
@@ -50,7 +49,6 @@ public class RAMMaintenanceServiceImpl implements MaintenanceService{
 		t3.setContract(contractService.getContractByID(3));
 		t3.setId(counter++);
 		tickets.put(t3.getId(), t3);
-		*/
 	}
 	
 	
