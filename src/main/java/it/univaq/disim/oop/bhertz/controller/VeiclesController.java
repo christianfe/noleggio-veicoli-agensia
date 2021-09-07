@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
+import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
@@ -47,7 +48,7 @@ public class VeiclesController extends ViewUtility
 	@FXML
 	private TableColumn<Veicle, String> kmColumn;
 	@FXML
-	private TableColumn<Veicle, VeicleState> stateColumn;
+	private TableColumn<Veicle, String> stateColumn;
 	@FXML
 	private TableColumn<Veicle, MenuButton> actionColumn;
 	@FXML
@@ -73,7 +74,7 @@ public class VeiclesController extends ViewUtility
 	public void initialize(URL location, ResourceBundle resources) {
 
 		priceHourColumn.setCellValueFactory((CellDataFeatures<Veicle, String> param) -> {
-			return new SimpleStringProperty(param.getValue().getPriceForDay() + "  €/h");
+			return new SimpleStringProperty(param.getValue().getPriceForDay() + "  €/giorno");
 		});
 		priceKmColumn.setCellValueFactory((CellDataFeatures<Veicle, String> param) -> {
 			return new SimpleStringProperty(param.getValue().getPriceForKm() + "  €/km");
@@ -81,8 +82,6 @@ public class VeiclesController extends ViewUtility
 
 		modelColumn.setCellValueFactory((CellDataFeatures<Veicle, String> param) -> {
 			return new SimpleStringProperty(param.getValue().getModel() + " - " + param.getValue().getPlate());
-			// return new SimpleStringProperty(param.getValue().getId() + " - " +
-			// param.getValue().getType().getId());
 		});
 		consumiColumn.setCellValueFactory((CellDataFeatures<Veicle, String> param) -> {
 			return new SimpleStringProperty(param.getValue().getConsumption() + " km/l");
@@ -90,7 +89,21 @@ public class VeiclesController extends ViewUtility
 		kmColumn.setCellValueFactory((CellDataFeatures<Veicle, String> param) -> {
 			return new SimpleStringProperty(String.format("%.01f", param.getValue().getKm()) + " km");
 		});
-		stateColumn.setCellValueFactory(new PropertyValueFactory<>("state"));
+		stateColumn.setCellValueFactory((CellDataFeatures<Veicle, String> param) -> {
+			String s = "";
+			switch (param.getValue().getState()) {
+			case FREE:
+				s = "Libero";
+				break;
+			case BUSY:
+				s = "Occupato";
+				break;
+			case MAINTENANCE:
+				s = "In Manutenzione";
+				break;
+			}
+			return new SimpleStringProperty(s);
+		});
 		fuelColumn.setCellValueFactory(new PropertyValueFactory<>("fuel"));
 
 		actionColumn.setStyle("-fx-alignment: CENTER;");
@@ -101,8 +114,8 @@ public class VeiclesController extends ViewUtility
 			MenuItem menuQuotation = new MenuItem("Calcola Preventivo");
 			MenuItem menuEdit = new MenuItem("Modifica Veicolo");
 			MenuItem menuDelete = new MenuItem("Elimina Veicolo");
-			MenuItem menuFeedback = new MenuItem("visualizza Feedback");
-			MenuItem menuPrice = new MenuItem("modifica tariffe Veicolo");
+			MenuItem menuFeedback = new MenuItem("Visualizza Feedback");
+			MenuItem menuPrice = new MenuItem("Modifica tariffe Veicolo");
 
 			switch (this.user.getRole()) {
 				case 2:
@@ -172,11 +185,12 @@ public class VeiclesController extends ViewUtility
 		this.user = objectsCollector.getObjectA();
 
 		switch (user.getRole()) {
+			case 2:
+				stateColumn.setVisible(false);
 			case 1:
 				addVeicleButton.setVisible(false);
 				break;
-			case 2:
-				addVeicleButton.setVisible(false);
+
 		}
 
 		try {

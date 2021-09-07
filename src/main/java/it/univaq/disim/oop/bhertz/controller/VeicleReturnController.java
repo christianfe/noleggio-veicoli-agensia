@@ -6,8 +6,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
-import it.univaq.disim.oop.bhertz.business.VeiclesService;
-import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
 import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.ContractState;
 import it.univaq.disim.oop.bhertz.domain.Notification;
@@ -16,6 +14,7 @@ import it.univaq.disim.oop.bhertz.view.NotificationDictionary;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import it.univaq.disim.oop.bhertz.view.ViewUtility;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -45,7 +44,6 @@ public class VeicleReturnController extends ViewUtility
 	@FXML
 	private Label labelError;
 
-	private VeiclesService veiclesService;
 
 	private ObjectsCollector<User, Contract> objectsCollector;
 	private ViewDispatcher dispatcher;
@@ -53,7 +51,6 @@ public class VeicleReturnController extends ViewUtility
 
 	public VeicleReturnController() {
 		this.dispatcher = ViewDispatcher.getInstance();
-		veiclesService = BhertzBusinessFactory.getInstance().getVeiclesService();
 	}
 
 	@Override
@@ -130,7 +127,6 @@ public class VeicleReturnController extends ViewUtility
 			}
 
 			dispatcher.renderView("rental", objectsCollector.getObjectA());
-
 			switch (this.mode) {
 			case 1:
 				BhertzBusinessFactory.getInstance().getNotificationsService()

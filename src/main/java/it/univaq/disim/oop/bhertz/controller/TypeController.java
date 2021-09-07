@@ -61,7 +61,7 @@ public class TypeController extends ViewUtility implements Initializable, DataIn
 	public void initialize(URL location, ResourceBundle resources) {
 		nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 		dayColumn.setCellValueFactory((CellDataFeatures<Type, String> param) -> {
-			return new SimpleStringProperty(param.getValue().getPriceForDay() + " €/h");
+			return new SimpleStringProperty(param.getValue().getPriceForDay() + " €/giorno");
 		});
 
 		kmColumn.setCellValueFactory((CellDataFeatures<Type, String> param) -> {

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="789.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univaq.disim.oop.bhertz.controller.VeicleEditController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="561.0" prefWidth="785.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univaq.disim.oop.bhertz.controller.VeicleEditController">
    <children>
       <Label fx:id="labelTitle" alignment="CENTER" layoutX="126.0" layoutY="36.0" prefHeight="46.0" prefWidth="538.0" text="Aggiungi Veicolo">
          <font>
@@ -44,6 +44,6 @@
          </padding>
       </Label>
       <TextField fx:id="fuelField" layoutX="395.0" layoutY="251.0" promptText="Alimentazione" />
-      <Button fx:id="saveButton" layoutX="369.0" layoutY="298.0" mnemonicParsing="false" onAction="#saveAction" text="Salva" />
+      <Button fx:id="saveButton" layoutX="350.0" layoutY="298.0" mnemonicParsing="false" onAction="#saveAction" prefHeight="25.0" prefWidth="83.0" text="Salva" />
    </children>
 </AnchorPane>

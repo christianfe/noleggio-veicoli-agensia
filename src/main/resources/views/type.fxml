@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="578.0" prefWidth="778.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univaq.disim.oop.bhertz.controller.TypeController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="561.0" prefWidth="785.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univaq.disim.oop.bhertz.controller.TypeController">
    <children>
       <Label fx:id="titleLabel" alignment="TOP_LEFT" prefWidth="778.0" text="Tipologie di veicoli">
          <font>
@@ -26,7 +26,7 @@
       <TableView fx:id="typesTable" prefHeight="468.0" prefWidth="758.0">
         <columns>
           <TableColumn fx:id="nameColumn" prefWidth="166.0" text="Nome" />
-          <TableColumn fx:id="dayColumn" prefWidth="171.0" text="Tariffa Oraria" />
+          <TableColumn fx:id="dayColumn" prefWidth="171.0" text="Tariffa Giornaliera" />
             <TableColumn fx:id="kmColumn" prefWidth="170.0" text="Tariffa Chilometrica" />
             <TableColumn fx:id="actionColumn" prefWidth="92.0" text="Azioni" />
         </columns>

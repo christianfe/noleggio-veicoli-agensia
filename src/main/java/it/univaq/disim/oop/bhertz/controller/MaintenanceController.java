@@ -13,6 +13,7 @@ import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.ContractState;
 import it.univaq.disim.oop.bhertz.domain.TicketState;
 import it.univaq.disim.oop.bhertz.domain.User;
+import it.univaq.disim.oop.bhertz.domain.Veicle;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import it.univaq.disim.oop.bhertz.view.ViewUtility;
@@ -42,7 +43,7 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 	@FXML
 	private TableColumn<AssistanceTicket, String> veicleColumn;
 	@FXML
-	private TableColumn<AssistanceTicket, TicketState> stateColumn;
+	private TableColumn<AssistanceTicket, String> stateColumn;
 	@FXML
 	private TableColumn<AssistanceTicket, MenuButton> actionColumn;
 
@@ -63,7 +64,24 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 		veicleColumn.setCellValueFactory((CellDataFeatures<AssistanceTicket, String> param) -> {
 			return new SimpleStringProperty(param.getValue().getContract().getVeicle().getModel());
 		});
-		stateColumn.setCellValueFactory(new PropertyValueFactory<>("state"));
+		stateColumn.setCellValueFactory((CellDataFeatures<AssistanceTicket, String> param) -> {
+			String s = "";
+			switch (param.getValue().getState()) {
+			case REQUIRED:
+				s = "Richiesto";
+				break;
+			case WORKING:
+				s = "In Lavorazione";
+				break;
+			case READY:
+				s = "Pronto per il ritiro";
+				break;
+			case ENDED:
+				s = "Conclusa";
+				break;
+			}
+			return new SimpleStringProperty(s);
+		});
 
 		actionColumn.setStyle("-fx-alignment: CENTER;");
 		actionColumn.setCellValueFactory((CellDataFeatures<AssistanceTicket, MenuButton> param) -> {
@@ -112,8 +130,7 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 			}
 
 			menuChangeStatus.setOnAction((ActionEvent event) -> {
-				// dispatcher.renderView("maintenanceChangeStatus", new
-				// ObjectsCollector<User,AssistanceTicket>(this.user, param.getValue()));
+				// dispatcher.renderView("maintenanceChangeStatus", new ObjectsCollector<User,AssistanceTicket>(this.user, param.getValue()));
 				switch (param.getValue().getState()) {
 					case REQUIRED:
 						// param.getValue().setState(TicketState.WORKING);

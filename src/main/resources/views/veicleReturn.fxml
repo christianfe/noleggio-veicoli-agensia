@@ -8,31 +8,31 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="536.0" prefWidth="743.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univaq.disim.oop.bhertz.controller.VeicleReturnController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="561.0" prefWidth="785.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univaq.disim.oop.bhertz.controller.VeicleReturnController">
    <children>
-      <Label fx:id="titleLabel" alignment="CENTER" layoutX="82.0" layoutY="51.0" prefHeight="51.0" prefWidth="579.0" text="Gestione Riconsegna Veicolo">
+      <Label fx:id="titleLabel" alignment="CENTER" layoutX="103.0" layoutY="59.0" prefHeight="51.0" prefWidth="579.0" text="Gestione Riconsegna Veicolo">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <DatePicker fx:id="datePicker" layoutX="372.0" layoutY="207.0" promptText="gg/mm/aaa" />
-      <Label fx:id="subtitle1Label" alignment="CENTER" layoutX="255.0" layoutY="102.0" prefHeight="25.0" prefWidth="235.0" text="INFO CONTRATTO 1" />
-      <Label alignment="CENTER_RIGHT" layoutX="198.0" layoutY="211.0" prefHeight="17.0" prefWidth="174.0" text="Data riconsegna">
+      <DatePicker fx:id="datePicker" layoutX="393.0" layoutY="215.0" promptText="gg/mm/aaa" />
+      <Label fx:id="subtitle1Label" alignment="CENTER" layoutX="276.0" layoutY="110.0" prefHeight="25.0" prefWidth="235.0" text="INFO CONTRATTO 1" />
+      <Label alignment="CENTER_RIGHT" layoutX="219.0" layoutY="219.0" prefHeight="17.0" prefWidth="174.0" text="Data riconsegna">
          <padding>
             <Insets right="10.0" />
          </padding>
       </Label>
-      <Button fx:id="cancelButton" layoutX="224.0" layoutY="297.0" mnemonicParsing="false" onAction="#cancelAction" prefHeight="32.0" prefWidth="122.0" text="Annulla" />
-      <Label fx:id="subtitle2Label" alignment="CENTER" layoutX="255.0" layoutY="127.0" prefHeight="25.0" prefWidth="235.0" text="INFO CONTRATTO 2" />
-      <Label fx:id="labelError" alignment="CENTER" layoutX="154.0" layoutY="355.0" prefHeight="17.0" prefWidth="438.0" textFill="RED" />
-      <Label fx:id="subtitle3Label" alignment="CENTER" layoutX="256.0" layoutY="152.0" prefHeight="25.0" prefWidth="235.0" text="INFO CONTRATTO 3" />
-      <Label alignment="CENTER_RIGHT" layoutX="199.0" layoutY="247.0" prefHeight="17.0" prefWidth="174.0" text="Orario riconsegna">
+      <Button fx:id="cancelButton" layoutX="245.0" layoutY="305.0" mnemonicParsing="false" onAction="#cancelAction" prefHeight="32.0" prefWidth="122.0" text="Annulla" />
+      <Label fx:id="subtitle2Label" alignment="CENTER" layoutX="276.0" layoutY="135.0" prefHeight="25.0" prefWidth="235.0" text="INFO CONTRATTO 2" />
+      <Label fx:id="labelError" alignment="CENTER" layoutX="175.0" layoutY="363.0" prefHeight="17.0" prefWidth="438.0" textFill="RED" />
+      <Label fx:id="subtitle3Label" alignment="CENTER" layoutX="277.0" layoutY="160.0" prefHeight="25.0" prefWidth="235.0" text="INFO CONTRATTO 3" />
+      <Label alignment="CENTER_RIGHT" layoutX="220.0" layoutY="255.0" prefHeight="17.0" prefWidth="174.0" text="Orario riconsegna">
          <padding>
             <Insets right="10.0" />
          </padding>
       </Label>
-      <Label layoutX="372.0" layoutY="243.0" prefHeight="25.0" prefWidth="174.0" />
-      <TextField fx:id="timeField" layoutX="372.0" layoutY="243.0" prefHeight="25.0" prefWidth="174.0" promptText="hh:mm" />
-      <Button fx:id="saveButton" layoutX="398.0" layoutY="297.0" mnemonicParsing="false" onAction="#saveAction" prefHeight="32.0" prefWidth="122.0" text="Conferma" />
+      <Label layoutX="393.0" layoutY="251.0" prefHeight="25.0" prefWidth="174.0" />
+      <TextField fx:id="timeField" layoutX="393.0" layoutY="251.0" prefHeight="25.0" prefWidth="174.0" promptText="hh:mm" />
+      <Button fx:id="saveButton" layoutX="419.0" layoutY="305.0" mnemonicParsing="false" onAction="#saveAction" prefHeight="32.0" prefWidth="122.0" text="Conferma" />
    </children>
 </AnchorPane>

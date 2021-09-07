@@ -12,8 +12,8 @@ public class Bhertz extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		 ViewDispatcher dispatcher = ViewDispatcher.getInstance();
-        dispatcher.loginView(stage);
+		stage.setResizable(false);
+		ViewDispatcher.getInstance().loginView(stage);
 	}
 
 }

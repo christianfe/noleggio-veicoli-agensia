@@ -46,6 +46,13 @@ public class ViewUtility {
 				char c = newValue.charAt(lenght - 1);
 				if ((lenght == 3 && c != ':') || (lenght != 3 && (c < '0' || c > '9')))
 					field.setText(oldValue);
+				int h = -1, m = -1;
+				if (lenght >= 2)
+					h = Integer.parseInt(newValue.substring(0, 2));
+				if (lenght >= 4)
+					m = Integer.parseInt(newValue.substring(3));
+				if (h > 23 || m  >= 60)
+					field.setText(oldValue);
 			});
 	}
 }

@@ -11,15 +11,15 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="Bertz" fx:id="LogInStage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="533.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univaq.disim.oop.bhertz.controller.LogInController">
+<AnchorPane id="Bertz" fx:id="LogInStage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="561.0" prefWidth="785.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univaq.disim.oop.bhertz.controller.LogInController">
    <children>
       <ImageView fitHeight="236.0" fitWidth="406.0" layoutX="9.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@sprinter_furgone2.png" />
          </image>
       </ImageView>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffdc50" height="39.0" layoutY="496.0" stroke="BLACK" strokeLineCap="BUTT" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="0.0" width="777.0" />
-      <Label alignment="CENTER" layoutX="181.0" layoutY="508.0" text="UNIVAQ - A.A 2020/21 - Laboratorio di programmazione ad oggetti" textAlignment="CENTER" textFill="#2c2c2c">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffdc50" height="63.0" layoutX="-8.0" layoutY="499.0" stroke="BLACK" strokeLineCap="BUTT" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="0.0" width="793.0" />
+      <Label alignment="CENTER" layoutX="156.0" layoutY="499.0" prefHeight="63.0" prefWidth="518.0" text="BHERTZ APPLICAZION v1.0 by ERASMO ALESSIO &amp; FELICIONE CHRISTIAN Università Degli Studi Dell'Aquila  AA 2020/21- Corso di Laurea in Informatica Laboratorio di Programmazione ad Oggetti" textAlignment="CENTER" textFill="#2c2c2c" wrapText="true">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
@@ -54,5 +54,10 @@
             <Label fx:id="labelErrorSignup" alignment="CENTER" layoutX="23.0" layoutY="212.0" prefHeight="17.0" prefWidth="200.0" textFill="RED" />
          </children>
       </Pane>
+      <Label layoutX="220.0" layoutY="44.0" text="Benvenuto in Bhertz">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

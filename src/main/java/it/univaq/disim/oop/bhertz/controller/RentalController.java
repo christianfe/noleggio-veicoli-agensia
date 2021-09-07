@@ -1,7 +1,6 @@
 package it.univaq.disim.oop.bhertz.controller;
 
 import java.net.URL;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
@@ -95,9 +94,8 @@ public class RentalController extends ViewUtility implements Initializable, Data
 
 		periodColumn.setStyle("-fx-alignment: CENTER;");
 		periodColumn.setCellValueFactory((CellDataFeatures<Contract, String> param) -> {
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-dd-MM");
-			return new SimpleStringProperty(param.getValue().getStart().format(formatter).substring(5) + " / "
-					+ param.getValue().getEnd().format(formatter).substring(5));
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yy");
+			return new SimpleStringProperty(param.getValue().getStart().format(formatter) + "/" + param.getValue().getEnd().format(formatter));
 		});
 
 		paymentColumn.setStyle("-fx-alignment: CENTER;");
@@ -229,10 +227,8 @@ public class RentalController extends ViewUtility implements Initializable, Data
 	public void initializeData(User user) {
 		this.user = user;
 		try {
-			List<Contract> contract = (user.getRole() == 2 ? contractService.getContractsByUser(user)
-					: contractService.getAllContracts());
+			List<Contract> contract = (user.getRole() == 2 ? contractService.getContractsByUser(user) : contractService.getAllContracts());
 			Collections.sort(contract, new ContractOrder());
-
 			ObservableList<Contract> contractData = FXCollections.observableArrayList(contract);
 			rentalTable.setItems(contractData);
 		} catch (BusinessException e) {
