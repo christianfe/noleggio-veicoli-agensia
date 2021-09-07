@@ -73,8 +73,6 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 			MenuItem menuAppointment = new MenuItem("Fissa appuntamento ritiro");
 			MenuItem menuDetails = new MenuItem("Visualizza Dettagli");
 
-
-			
 			if (this.user.getRole() == 0)
 				actionColumn.setVisible(false);
 			else if (this.user.getRole() == 1) {
@@ -106,13 +104,15 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 				case ENDED:
 					break;
 				}
-			}else if (this.user.getRole() == 2) {
+			} else if (this.user.getRole() == 2) {
 				userColumn.setVisible(false);
 				actionColumn.setVisible(false);
 			}
 
 			menuChangeStatus.setOnAction((ActionEvent event) -> {
+				dispatcher.renderView("maintenanceChangeStatus", new ObjectsCollector<User, AssistanceTicket>(this.user, param.getValue()));
 			});
+			
 			menuAppointment.setOnAction((ActionEvent event) -> {
 				param.getValue().setStartDate(LocalDate.now());
 				param.getValue().getContract().setAssistance(param.getValue());
@@ -131,8 +131,7 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 	public void initializeData(User user) {
 		this.user = user;
 		try {
-			List<AssistanceTicket> tickets = (user.getRole() == 2 ? maintenanceService.getTicketByUser(user)
-					: maintenanceService.getAllTickets());
+			List<AssistanceTicket> tickets = (user.getRole() == 2 ? maintenanceService.getTicketByUser(user) : maintenanceService.getAllTickets());
 			ObservableList<AssistanceTicket> ticketsData = FXCollections.observableArrayList(tickets);
 			maintenanceTable.setItems(ticketsData);
 		} catch (BusinessException e) {
