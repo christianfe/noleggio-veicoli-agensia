@@ -38,7 +38,7 @@ public class RAMMaintenanceServiceImpl implements MaintenanceService{
 		
 		AssistanceTicket t2 = new AssistanceTicket();
 		t2.setDescription("graffio");
-		t2.setState(TicketState.REQUIRED);
+		t2.setState(TicketState.ENDED);
 		t2.setContract(contractService.getContractByID(2));
 		t2.setId(counter++);
 		tickets.put(t2.getId(), t2);
