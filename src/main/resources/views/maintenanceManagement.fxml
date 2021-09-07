@@ -25,11 +25,11 @@
       <Button layoutX="529.0" layoutY="152.0" mnemonicParsing="false" onAction="#fixedVeicle" prefHeight="43.0" prefWidth="142.0" text="Conferma Intervento " />
       <TableView fx:id="veicleTable" layoutX="73.0" layoutY="323.0" prefHeight="137.0" prefWidth="642.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="Veicolo" />
-          <TableColumn prefWidth="75.0" text="Targa" />
-            <TableColumn prefWidth="75.0" text="Alimentazione" />
-            <TableColumn prefWidth="75.0" text="Consumo" />
-            <TableColumn prefWidth="75.0" text="Azioni" />
+          <TableColumn fx:id="veicleColumn" prefWidth="75.0" text="Veicolo" />
+          <TableColumn fx:id="plateColumn" prefWidth="75.0" text="Targa" />
+            <TableColumn fx:id="fuelColumn" prefWidth="75.0" text="Alimentazione" />
+            <TableColumn fx:id="consumptionColumn" prefWidth="75.0" text="Consumo" />
+            <TableColumn fx:id="actionColumn" prefWidth="75.0" text="Azioni" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
