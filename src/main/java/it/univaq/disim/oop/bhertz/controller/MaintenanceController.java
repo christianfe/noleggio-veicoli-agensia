@@ -1,6 +1,7 @@
 package it.univaq.disim.oop.bhertz.controller;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -8,6 +9,8 @@ import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.MaintenanceService;
 import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
+import it.univaq.disim.oop.bhertz.domain.Contract;
+import it.univaq.disim.oop.bhertz.domain.ContractState;
 import it.univaq.disim.oop.bhertz.domain.TicketState;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
@@ -80,7 +83,7 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 				case REQUIRED:
 					if (param.getValue().getStartDate() != null) {
 						menuAppointment.setText("Appuntamento: " + param.getValue().getStartDate() + " " + param.getValue().getTimeStart());
-						menuAppointment.setDisable(true);
+						//menuAppointment.setDisable(true);
 						menuChangeStatus.setText("Ritira Veicolo");
 						localMenuButton.getItems().add(menuChangeStatus);
 					}
@@ -111,6 +114,10 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 			menuChangeStatus.setOnAction((ActionEvent event) -> {
 			});
 			menuAppointment.setOnAction((ActionEvent event) -> {
+				param.getValue().setStartDate(LocalDate.now());
+				param.getValue().getContract().setAssistance(param.getValue());
+				param.getValue().getContract().setState(ContractState.MAINTENANCE);
+				dispatcher.renderView("veicleReturn", new ObjectsCollector<User, Contract>(user, param.getValue().getContract()) );
 			});
 			menuDetails.setOnAction((ActionEvent event) -> {
 				dispatcher.renderView("maintenanceDetails", new ObjectsCollector<User, AssistanceTicket>(this.user, param.getValue()));
