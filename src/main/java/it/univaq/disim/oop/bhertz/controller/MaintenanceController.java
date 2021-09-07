@@ -117,12 +117,11 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 				// ObjectsCollector<User,AssistanceTicket>(this.user, param.getValue()));
 				switch (param.getValue().getState()) {
 					case REQUIRED:
-						// param.getValue().setState(TicketState.WORKING);
 						dispatcher.renderView("maintenanceReturn", new ObjectsCollector<User, AssistanceTicket>(user, param.getValue()));
-						// aggungere vista settaggio ritiro e problemi
-
 						break;
 					case WORKING:
+						dispatcher.renderView("maintenanceManagement", new ObjectsCollector<User, AssistanceTicket>(user, param.getValue()));
+
 						break;
 					case READY:
 						break;

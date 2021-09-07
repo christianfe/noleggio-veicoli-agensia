@@ -7,13 +7,13 @@ public class AssistanceTicket {
 	private TicketState state;
 	private Integer id;
 	private String description;
-	private LocalDate startDate = null;
-	private LocalDate endDate = null;
-	private String timeStart = null;
-	private String timeEnd = null;
+	private LocalDate startDate;
+	private LocalDate endDate;
+	private String timeStart;
+	private String timeEnd;
 	private double veicleKm;
 
-	private Veicle sostituteVeicle = null;
+	private Veicle sostituteVeicle;
 	private Contract contract;
 
 	public Veicle getSostituteVeicle() {
