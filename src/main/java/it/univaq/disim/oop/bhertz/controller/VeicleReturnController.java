@@ -59,23 +59,26 @@ public class VeicleReturnController extends ViewUtility
 	@Override
 	public void initializeData(ObjectsCollector<User, Contract> objectsCollector) {
 		this.objectsCollector = objectsCollector;
-		this.mode = objectsCollector.getObjectB().getDeliverDateTime() == null ? 1 : 2;
-		
+
 		if (objectsCollector.getObjectB().getState() == ContractState.MAINTENANCE)
+			this.mode = 3;
+		else
+			this.mode = objectsCollector.getObjectB().getDeliverDateTime() == null ? 1 : 2;
+
+		switch (this.mode) {
+		case 1:
+			this.titleLabel.setText(
+					"Gestione Consegna Veicolo '" + objectsCollector.getObjectB().getVeicle().getModel() + "'");
+			break;
+		case 2:
+			this.titleLabel
+					.setText(titleLabel.getText() + " '" + objectsCollector.getObjectB().getVeicle().getModel() + "'");
+			break;
+		case 3:
 			this.titleLabel.setText(
 					"Gestione Assistenza Veicolo '" + objectsCollector.getObjectB().getVeicle().getModel() + "'");
-		else {
-			if (mode == 1)
-				this.titleLabel.setText(
-						"Gestione Consegna Veicolo '" + objectsCollector.getObjectB().getVeicle().getModel() + "'");
-			else if (mode == 2)
-				this.titleLabel.setText(
-						titleLabel.getText() + " '" + objectsCollector.getObjectB().getVeicle().getModel() + "'");
+			break;
 		}
-		
-		
-		
-		
 
 		this.subtitle1Label.setText("Cliete: " + objectsCollector.getObjectB().getCustomer().getName());
 		this.subtitle2Label
@@ -94,7 +97,7 @@ public class VeicleReturnController extends ViewUtility
 				super.updateItem(item, empty);
 				if (objectsCollector.getObjectB().getState() == ContractState.MAINTENANCE) {
 					setDisable(item.isBefore(objectsCollector.getObjectB().getAssistance().getStartDate())
-							|| item.isAfter(objectsCollector.getObjectB().getAssistance().getStartDate().plusDays(1)));
+							|| item.isAfter(objectsCollector.getObjectB().getAssistance().getStartDate().plusDays(2)));
 				} else {
 					setDisable(item.isBefore(objectsCollector.getObjectB().getEnd())
 							|| item.isAfter(objectsCollector.getObjectB().getEnd().plusDays(2)));
@@ -114,14 +117,7 @@ public class VeicleReturnController extends ViewUtility
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
 			if (mode == 1) {
-				BhertzBusinessFactory.getInstance().getNotificationsService()
-						.addNotification(new Notification(objectsCollector.getObjectB().getCustomer(),
-								NotificationDictionary.START_RENT_APPOINTMENT_TITLE,
-								NotificationDictionary.START_RENT_APPOINTMENT_TEXT
-										+ datePicker.getValue().format(formatter) + "  " + timeField.getText()));
-				BhertzBusinessFactory.getInstance().getContractService()
-						.getContractByID(objectsCollector.getObjectB().getId())
-						.setDeliverDateTime(datePicker.getValue().format(formatter) + "  " + timeField.getText());
+
 			} else if (mode == 2) {
 				BhertzBusinessFactory.getInstance().getNotificationsService()
 						.addNotification(new Notification(objectsCollector.getObjectB().getCustomer(),
@@ -134,6 +130,39 @@ public class VeicleReturnController extends ViewUtility
 			}
 
 			dispatcher.renderView("rental", objectsCollector.getObjectA());
+
+			switch (this.mode) {
+			case 1:
+				BhertzBusinessFactory.getInstance().getNotificationsService()
+						.addNotification(new Notification(objectsCollector.getObjectB().getCustomer(),
+								NotificationDictionary.START_RENT_APPOINTMENT_TITLE,
+								NotificationDictionary.START_RENT_APPOINTMENT_TEXT
+										+ datePicker.getValue().format(formatter) + "  " + timeField.getText()));
+				BhertzBusinessFactory.getInstance().getContractService()
+						.getContractByID(objectsCollector.getObjectB().getId())
+						.setDeliverDateTime(datePicker.getValue().format(formatter) + "  " + timeField.getText());
+				dispatcher.renderView("rental", objectsCollector.getObjectA());
+				break;
+			case 2:
+				BhertzBusinessFactory.getInstance().getNotificationsService()
+						.addNotification(new Notification(objectsCollector.getObjectB().getCustomer(),
+								NotificationDictionary.END_RENT_APPOINTMENT_TITLE,
+								NotificationDictionary.END_RENT_APPOINTMENT_TEXT
+										+ datePicker.getValue().format(formatter) + "  " + timeField.getText()));
+				BhertzBusinessFactory.getInstance().getContractService()
+						.getContractByID(objectsCollector.getObjectB().getId())
+						.setReturnDateTime(datePicker.getValue().format(formatter) + "  " + timeField.getText());
+				dispatcher.renderView("rental", objectsCollector.getObjectA());
+				break;
+			case 3:
+				BhertzBusinessFactory.getInstance().getNotificationsService()
+						.addNotification(new Notification(objectsCollector.getObjectB().getCustomer(),
+								NotificationDictionary.START_MAINTENANCE_APPOINTMENT_TITLE,
+								NotificationDictionary.START_MAINTENANCE_APPOINTMENT_TEXT
+										+ datePicker.getValue().format(formatter) + "  " + timeField.getText()));
+				dispatcher.renderView("maintenance", objectsCollector.getObjectA());
+				break;
+			}
 
 		} catch (NullPointerException e1) {
 			labelError.setText("Impostare data valida");

@@ -18,6 +18,7 @@ import it.univaq.disim.oop.bhertz.business.MaintenanceService;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
 import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
 import it.univaq.disim.oop.bhertz.domain.Contract;
+import it.univaq.disim.oop.bhertz.domain.ContractState;
 import it.univaq.disim.oop.bhertz.domain.ContractType;
 import it.univaq.disim.oop.bhertz.domain.TicketState;
 import it.univaq.disim.oop.bhertz.domain.User;
@@ -123,10 +124,10 @@ public class RentalController extends ViewUtility implements Initializable, Data
 
 			menuRichiestaAssistenza.setOnAction((ActionEvent event) -> {
 				Contract assistanceContract = param.getValue();
+				assistanceContract.setState(ContractState.MAINTENANCE);
 				AssistanceTicket ticket = new AssistanceTicket();
 				ticket.setState(TicketState.REQUIRED);
 				ticket.setContract(assistanceContract);
-				ticket.setStartDate(LocalDate.now());
 				assistanceContract.getVeicle().setState(VeicleState.MAINTENANCE);
 				MaintenanceService maintenanceService = BhertzBusinessFactory.getInstance().getMaintenanceService();
 				maintenanceService.addTicket(ticket);

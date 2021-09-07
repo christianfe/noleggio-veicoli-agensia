@@ -78,31 +78,33 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 			else if (this.user.getRole() == 1) {
 				localMenuButton.getItems().add(menuDetails);
 				switch (param.getValue().getState()) {
-				case REQUIRED:
-					if (param.getValue().getStartDate() != null) {
-						menuAppointment.setText("Appuntamento: " + param.getValue().getStartDate() + " " + param.getValue().getTimeStart());
-						//menuAppointment.setDisable(true);
-						menuChangeStatus.setText("Ritira Veicolo");
+					case REQUIRED:
+						if (param.getValue().getStartDate() != null) {
+							menuAppointment.setText("Appuntamento: " + param.getValue().getStartDate() + " "
+									+ param.getValue().getTimeStart());
+							menuAppointment.setDisable(true);
+							menuChangeStatus.setText("Ritira Veicolo");
+							localMenuButton.getItems().add(menuChangeStatus);
+						}
+						localMenuButton.getItems().add(menuAppointment);
+						break;
+
+					case WORKING:
+						menuChangeStatus.setText("Fine interventi");
 						localMenuButton.getItems().add(menuChangeStatus);
-					}
-					localMenuButton.getItems().add(menuAppointment);
-					break;
+						break;
 
-				case WORKING:
-					menuChangeStatus.setText("Fine interventi");
-					localMenuButton.getItems().add(menuChangeStatus);
-					break;
+					case READY:
+						menuAppointment.setText(
+								"Appuntamento: " + param.getValue().getEndDate() + " " + param.getValue().getTimeEnd());
+						menuAppointment.setDisable(true);
+						localMenuButton.getItems().add(menuAppointment);
+						menuChangeStatus.setText("Riconsegna veicolo al cliente");
+						localMenuButton.getItems().add(menuChangeStatus);
+						break;
 
-				case READY:
-					menuAppointment.setText("Appuntamento: " + param.getValue().getEndDate() + " " + param.getValue().getTimeEnd());
-					menuAppointment.setDisable(true);
-					localMenuButton.getItems().add(menuAppointment);
-					menuChangeStatus.setText("Riconsegna veicolo al cliente");
-					localMenuButton.getItems().add(menuChangeStatus);
-					break;
-
-				case ENDED:
-					break;
+					case ENDED:
+						break;
 				}
 			} else if (this.user.getRole() == 2) {
 				userColumn.setVisible(false);
@@ -110,17 +112,32 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 			}
 
 			menuChangeStatus.setOnAction((ActionEvent event) -> {
-				dispatcher.renderView("maintenanceChangeStatus", new ObjectsCollector<User, AssistanceTicket>(this.user, param.getValue()));
+				// dispatcher.renderView("maintenanceChangeStatus", new
+				// ObjectsCollector<User,AssistanceTicket>(this.user, param.getValue()));
+				switch (param.getValue().getState()) {
+					case REQUIRED:
+						// param.getValue().setState(TicketState.WORKING);
+
+						// aggungere vista settaggio ritiro e problemi
+
+						break;
+					case WORKING:
+						break;
+					case READY:
+						break;
+					case ENDED:
+				}
 			});
-			
+
 			menuAppointment.setOnAction((ActionEvent event) -> {
 				param.getValue().setStartDate(LocalDate.now());
 				param.getValue().getContract().setAssistance(param.getValue());
-				param.getValue().getContract().setState(ContractState.MAINTENANCE);
-				dispatcher.renderView("veicleReturn", new ObjectsCollector<User, Contract>(user, param.getValue().getContract()) );
+				dispatcher.renderView("veicleReturn",
+						new ObjectsCollector<User, Contract>(user, param.getValue().getContract()));
 			});
 			menuDetails.setOnAction((ActionEvent event) -> {
-				dispatcher.renderView("maintenanceDetails", new ObjectsCollector<User, AssistanceTicket>(this.user, param.getValue()));
+				dispatcher.renderView("maintenanceDetails",
+						new ObjectsCollector<User, AssistanceTicket>(this.user, param.getValue()));
 			});
 
 			return new SimpleObjectProperty<MenuButton>(localMenuButton);
@@ -131,7 +148,8 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 	public void initializeData(User user) {
 		this.user = user;
 		try {
-			List<AssistanceTicket> tickets = (user.getRole() == 2 ? maintenanceService.getTicketByUser(user) : maintenanceService.getAllTickets());
+			List<AssistanceTicket> tickets = (user.getRole() == 2 ? maintenanceService.getTicketByUser(user)
+					: maintenanceService.getAllTickets());
 			ObservableList<AssistanceTicket> ticketsData = FXCollections.observableArrayList(tickets);
 			maintenanceTable.setItems(ticketsData);
 		} catch (BusinessException e) {
