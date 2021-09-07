@@ -83,7 +83,7 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 				case REQUIRED:
 					if (param.getValue().getStartDate() != null) {
 						menuAppointment.setText("Appuntamento: " + param.getValue().getStartDate() + " " + param.getValue().getTimeStart());
-						//menuAppointment.setDisable(true);
+						menuAppointment.setDisable(true);
 						menuChangeStatus.setText("Ritira Veicolo");
 						localMenuButton.getItems().add(menuChangeStatus);
 					}
@@ -112,11 +112,27 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 			}
 
 			menuChangeStatus.setOnAction((ActionEvent event) -> {
+				
+				switch (param.getValue().getState()) {
+				case REQUIRED:
+					//param.getValue().setState(TicketState.WORKING);
+					
+					//aggungere vista settaggio ritiro e problemi
+					
+					break;
+				case WORKING:
+					break;
+				case READY:
+					break;
+				case ENDED:	
+				}
+				
+				
+				
 			});
 			menuAppointment.setOnAction((ActionEvent event) -> {
 				param.getValue().setStartDate(LocalDate.now());
 				param.getValue().getContract().setAssistance(param.getValue());
-				param.getValue().getContract().setState(ContractState.MAINTENANCE);
 				dispatcher.renderView("veicleReturn", new ObjectsCollector<User, Contract>(user, param.getValue().getContract()) );
 			});
 			menuDetails.setOnAction((ActionEvent event) -> {
