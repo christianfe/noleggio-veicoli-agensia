@@ -78,6 +78,10 @@ public class MaintenanceDetailsController extends ViewUtility implements Initial
 			newVeicleTitle.setText(objectsCollector.getObjectB().getContract().getVeicle() + "");
 			newVeicleInfo.setText(objectsCollector.getObjectB().getContract().getCustomer().getName());
 		}
+		if (objectsCollector.getObjectA().getRole() != 1) {
+			descriptionArea.setEditable(false);
+			saveButton.setVisible(false);
+		}
 	}
 	
 	@FXML

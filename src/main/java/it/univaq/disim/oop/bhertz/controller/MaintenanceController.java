@@ -90,11 +90,8 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 			MenuItem menuChangeStatus = new MenuItem();
 			MenuItem menuAppointment = new MenuItem("Fissa appuntamento ritiro");
 			MenuItem menuDetails = new MenuItem("Visualizza Dettagli");
-
-			if (this.user.getRole() == 0)
-				actionColumn.setVisible(false);
-			else if (this.user.getRole() == 1) {
-				localMenuButton.getItems().add(menuDetails);
+			localMenuButton.getItems().add(menuDetails);
+			if (this.user.getRole() == 1) {
 				param.getValue().getContract().setAssistance(param.getValue()); //prova
 				switch (param.getValue().getState()) {
 					case REQUIRED:
@@ -129,7 +126,7 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 				userColumn.setVisible(false);
 				actionColumn.setVisible(false);
 			}
-
+			
 			menuChangeStatus.setOnAction((ActionEvent event) -> {
 				// dispatcher.renderView("maintenanceChangeStatus", new ObjectsCollector<User,AssistanceTicket>(this.user, param.getValue()));
 				switch (param.getValue().getState()) {
