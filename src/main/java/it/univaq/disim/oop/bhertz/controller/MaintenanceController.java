@@ -9,7 +9,9 @@ import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.MaintenanceService;
 import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
 import it.univaq.disim.oop.bhertz.domain.Contract;
+import it.univaq.disim.oop.bhertz.domain.TicketState;
 import it.univaq.disim.oop.bhertz.domain.User;
+import it.univaq.disim.oop.bhertz.domain.Veicle;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import it.univaq.disim.oop.bhertz.view.ViewUtility;
@@ -85,59 +87,84 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 			MenuItem menuChangeStatus = new MenuItem();
 			MenuItem menuAppointment = new MenuItem("Fissa appuntamento ritiro");
 			MenuItem menuDetails = new MenuItem("Visualizza Dettagli");
+			MenuItem menuFixed = new MenuItem("Conferma veicolo aggiustato");
 			localMenuButton.getItems().add(menuDetails);
 			if (this.user.getRole() == 1) {
 				param.getValue().getContract().setAssistance(param.getValue());
 				switch (param.getValue().getState()) {
-					case REQUIRED:
-						if (param.getValue().getStartDate() != null) {
-							menuAppointment.setText("Appuntamento: " + param.getValue().getStartDate() + " "
-									+ param.getValue().getTimeStart());
-							menuAppointment.setDisable(true);
-							menuChangeStatus.setText("Ritira Veicolo");
-							localMenuButton.getItems().add(menuChangeStatus);
-						}
-						localMenuButton.getItems().add(menuAppointment);
-						break;
-
-					case WORKING:
-						menuChangeStatus.setText("Gestione manutenzione");
+				case REQUIRED:
+					if (param.getValue().getStartDate() != null) {
+						menuAppointment.setText("Appuntamento: " + param.getValue().getStartDate() + " "
+								+ param.getValue().getTimeStart());
+						menuAppointment.setDisable(true);
+						menuChangeStatus.setText("Ritira Veicolo");
 						localMenuButton.getItems().add(menuChangeStatus);
-						break;
+					}
+					localMenuButton.getItems().add(menuAppointment);
+					break;
 
-					case READY:
-						if (param.getValue().getEndDate() == null)
-							menuAppointment.setText("Fissa Appuntamento");
-						else {
-							menuAppointment.setText("Appuntamento: " + param.getValue().getEndDate() + " " + param.getValue().getTimeEnd());
-							menuAppointment.setDisable(true);
-						}
-						localMenuButton.getItems().add(menuAppointment);
+				case WORKING:
+					menuChangeStatus.setText("Seleziona Veicolo Sostitutivo");
+					localMenuButton.getItems().add(menuChangeStatus);
+					localMenuButton.getItems().add(menuFixed);
+
+					menuFixed.setOnAction((ActionEvent event) -> {
+						param.getValue().setState(TicketState.READY);
+						dispatcher.renderView("maintenance", user);
+					});
+
+					break;
+
+				case READY:
+					if (param.getValue().getEndDate() == null)
+						menuAppointment.setText("Fissa Appuntamento");
+					else {
+						menuAppointment.setText(
+								"Appuntamento: " + param.getValue().getEndDate() + " " + param.getValue().getTimeEnd());
+						menuAppointment.setDisable(true);
 						menuChangeStatus.setText("Riconsegna veicolo al cliente");
 						localMenuButton.getItems().add(menuChangeStatus);
-						break;
 
-					case ENDED:
-						break;
+
+					}
+					localMenuButton.getItems().add(menuAppointment);
+
+					break;
+
+				case ENDED:
+					break;
 				}
 			} else if (this.user.getRole() == 2) {
 				userColumn.setVisible(false);
 				actionColumn.setVisible(false);
 			}
-			
-			menuChangeStatus.setOnAction((ActionEvent event) -> {
-				// dispatcher.renderView("maintenanceChangeStatus", new ObjectsCollector<User,AssistanceTicket>(this.user, param.getValue()));
-				switch (param.getValue().getState()) {
-					case REQUIRED:
-						dispatcher.renderView("maintenanceReturn", new ObjectsCollector<User, AssistanceTicket>(user, param.getValue()));
-						break;
-					case WORKING:
-						dispatcher.renderView("maintenanceManagement", new ObjectsCollector<User, AssistanceTicket>(user, param.getValue()));
 
-						break;
-					case READY:
-						break;
-					case ENDED:
+			menuChangeStatus.setOnAction((ActionEvent event) -> {
+				// dispatcher.renderView("maintenanceChangeStatus", new
+				// ObjectsCollector<User,AssistanceTicket>(this.user, param.getValue()));
+				switch (param.getValue().getState()) {
+				case REQUIRED:
+					dispatcher.renderView("maintenanceReturn",
+							new ObjectsCollector<User, AssistanceTicket>(user, param.getValue()));
+					break;
+				case WORKING:
+					dispatcher.renderView("maintenanceManagement",
+							new ObjectsCollector<User, AssistanceTicket>(user, param.getValue()));
+
+					break;
+				case READY:
+					param.getValue().setState(TicketState.ENDED);
+					
+					if (param.getValue().getSubstituteContract() == null)
+						dispatcher.renderView("changeContractState",
+								new ObjectsCollector<User, Contract>(user, param.getValue().getContract()));
+					else
+						dispatcher.renderView("changeContractState",
+								new ObjectsCollector<User, Contract>(user, param.getValue().getSubstituteContract()));
+					
+					
+					break;
+				case ENDED:
 				}
 			});
 
