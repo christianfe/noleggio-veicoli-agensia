@@ -9,7 +9,6 @@ import javax.swing.JOptionPane;
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
-import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
@@ -81,7 +80,7 @@ public class VeiclesController extends ViewUtility
 		});
 
 		modelColumn.setCellValueFactory((CellDataFeatures<Veicle, String> param) -> {
-			return new SimpleStringProperty(param.getValue().getModel() + " - " + param.getValue().getPlate());
+			return new SimpleStringProperty(param.getValue() + "");
 		});
 		consumiColumn.setCellValueFactory((CellDataFeatures<Veicle, String> param) -> {
 			return new SimpleStringProperty(param.getValue().getConsumption() + " km/l");

@@ -32,7 +32,6 @@ public class RAMMaintenanceServiceImpl implements MaintenanceService{
 		t1.setDescription("gomma bucata");
 		t1.setState(TicketState.WORKING);
 		t1.setContract(contractService.getContractByID(1));
-		t1.setSostituteVeicle(veicleService.getVeicleByID(3));
 		t1.setId(counter++);
 		tickets.put(t1.getId(), t1);
 		

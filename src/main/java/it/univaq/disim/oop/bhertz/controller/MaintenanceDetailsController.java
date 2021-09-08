@@ -6,6 +6,8 @@ import java.util.ResourceBundle;
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.MaintenanceService;
 import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
+import it.univaq.disim.oop.bhertz.domain.ContractState;
+import it.univaq.disim.oop.bhertz.domain.TicketState;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
@@ -59,7 +61,7 @@ public class MaintenanceDetailsController extends ViewUtility implements Initial
 	@Override
 	public void initializeData(ObjectsCollector<User, AssistanceTicket> objectsCollector) {
 		this.objectsCollector = objectsCollector;
-		this.newVeicleActive = objectsCollector.getObjectB().getSostituteVeicle() != null;
+		this.newVeicleActive = objectsCollector.getObjectB().getSubstituteContract() != null;
 		this.newVeicleCheck.setSelected(newVeicleActive);
 		this.descriptionArea.setText(objectsCollector.getObjectB().getDescription());
 		this.veicleInfoLabel.setText(objectsCollector.getObjectB().getContract().getVeicle() + "");
@@ -78,7 +80,7 @@ public class MaintenanceDetailsController extends ViewUtility implements Initial
 			newVeicleTitle.setText(objectsCollector.getObjectB().getContract().getVeicle() + "");
 			newVeicleInfo.setText(objectsCollector.getObjectB().getContract().getCustomer().getName());
 		}
-		if (objectsCollector.getObjectA().getRole() != 1) {
+		if (objectsCollector.getObjectA().getRole() != 1 || objectsCollector.getObjectB().getState() == TicketState.ENDED) {
 			descriptionArea.setEditable(false);
 			saveButton.setVisible(false);
 		}

@@ -12,11 +12,14 @@ public class Contract {
 	private ContractType type;
 	private ContractState state;
 	private Integer id;
+	
 	private boolean paid;
 	private Veicle veicle;
 	private String returnDateTime = null;
 	private String deliverDateTime = null;
-
+	
+	private boolean sostistuteContract;
+		
 	private Feedback feedback;
 	private AssistanceTicket assistance;
 	private Customer customer;
@@ -162,5 +165,15 @@ public class Contract {
 	public void setPrice(double price) {
 		this.price = price;
 	}
+
+	public boolean isSostistuteContract() {
+		return sostistuteContract;
+	}
+
+	public void setSostistuteContract(boolean sostistuteContract) {
+		this.sostistuteContract = sostistuteContract;
+	}
+	
+	
 
 }

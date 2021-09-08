@@ -87,7 +87,7 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 			MenuItem menuDetails = new MenuItem("Visualizza Dettagli");
 			localMenuButton.getItems().add(menuDetails);
 			if (this.user.getRole() == 1) {
-				param.getValue().getContract().setAssistance(param.getValue()); //prova
+				param.getValue().getContract().setAssistance(param.getValue());
 				switch (param.getValue().getState()) {
 					case REQUIRED:
 						if (param.getValue().getStartDate() != null) {

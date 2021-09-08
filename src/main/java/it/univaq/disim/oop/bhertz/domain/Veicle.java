@@ -65,7 +65,7 @@ public class Veicle {
 	}
 
 	public void setState(VeicleState state) {
-		this.state = state;
+		this.state = state;	
 	}
 
 	public double getKm() {

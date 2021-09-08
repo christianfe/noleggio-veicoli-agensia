@@ -13,15 +13,15 @@ public class AssistanceTicket {
 	private String timeEnd;
 	private double veicleKm;
 
-	private Veicle sostituteVeicle;
+	private Contract substituteContract = null;
 	private Contract contract;
 
-	public Veicle getSostituteVeicle() {
-		return sostituteVeicle;
+	public Contract getSubstituteContract() {
+		return substituteContract;
 	}
 
-	public void setSostituteVeicle(Veicle sostituteVeicle) {
-		this.sostituteVeicle = sostituteVeicle;
+	public void setSubstituteContract(Contract substituteContract) {
+		this.substituteContract = substituteContract;
 	}
 
 	public Contract getContract() {
