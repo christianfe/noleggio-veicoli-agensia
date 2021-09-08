@@ -121,17 +121,18 @@ public class RentalController extends ViewUtility implements Initializable, Data
 			MenuItem menuStato = new MenuItem("");
 
 			menuRichiestaAssistenza.setOnAction((ActionEvent event) -> {
-				Contract assistanceContract = param.getValue();
-				assistanceContract.setState(ContractState.MAINTENANCE);
-				AssistanceTicket ticket = new AssistanceTicket();
-				ticket.setState(TicketState.REQUIRED);
-				ticket.setContract(assistanceContract);
-				assistanceContract.getVeicle().setState(VeicleState.MAINTENANCE);
-				MaintenanceService maintenanceService = BhertzBusinessFactory.getInstance().getMaintenanceService();
-				maintenanceService.addTicket(ticket);
-				assistanceContract.setAssistance(ticket);
-				dispatcher.renderView("rental", user);
-
+				if (JOptionPane.showConfirmDialog(null, "Confermi di voler richiedere assistenza per il veicolo: " + param.getValue().getVeicle().getModel() + "?","Cotinuare?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
+					Contract assistanceContract = param.getValue();
+					assistanceContract.setState(ContractState.MAINTENANCE);
+					AssistanceTicket ticket = new AssistanceTicket();
+					ticket.setState(TicketState.REQUIRED);
+					ticket.setContract(assistanceContract);
+					assistanceContract.getVeicle().setState(VeicleState.MAINTENANCE);
+					MaintenanceService maintenanceService = BhertzBusinessFactory.getInstance().getMaintenanceService();
+					maintenanceService.addTicket(ticket);
+					assistanceContract.setAssistance(ticket);
+					dispatcher.renderView("maintenance", user);
+				}
 			});
 
 			menuGestioneRiconsegna.setOnAction((ActionEvent event) -> {
@@ -179,39 +180,39 @@ public class RentalController extends ViewUtility implements Initializable, Data
 
 			if (this.user.getRole() == 2) {
 				switch (param.getValue().getState()) {
-					case BOOKED:
-					case MAINTENANCE:
+				case BOOKED:
+				case MAINTENANCE:
+					return null;
+				case ACTIVE:
+					localMenuButton.getItems().add(menuRichiestaAssistenza);
+					break;
+				case ENDED:
+					if (!feedbackService.isFeedBackSet(param.getValue()))
+						localMenuButton.getItems().add(menuFeedback);
+					else
 						return null;
-					case ACTIVE:
-						localMenuButton.getItems().add(menuRichiestaAssistenza);
-						break;
-					case ENDED:
-						if (!feedbackService.isFeedBackSet(param.getValue()))
-							localMenuButton.getItems().add(menuFeedback);
-						else
-							return null;
 				}
 			} else if (this.user.getRole() == 1) {
 				switch (param.getValue().getState()) {
-					case BOOKED:
-						localMenuButton.getItems().add(menuGestioneConsegna);
-						if (param.getValue().getDeliverDateTime() != null)
-							menuStato.setText("Consegna Veicolo");
-						break;
-					case ACTIVE:
-						localMenuButton.getItems().add(menuGestioneRiconsegna);
-						if (!param.getValue().isPaid() && param.getValue().getType() == ContractType.TIME)
-							localMenuButton.getItems().add(menuPagato);
-						if (param.getValue().getReturnDateTime() != null)
-							menuStato.setText("Ritira Veicolo");
-						break;
-					case MAINTENANCE:
+				case BOOKED:
+					localMenuButton.getItems().add(menuGestioneConsegna);
+					if (param.getValue().getDeliverDateTime() != null)
+						menuStato.setText("Consegna Veicolo");
+					break;
+				case ACTIVE:
+					localMenuButton.getItems().add(menuGestioneRiconsegna);
+					if (!param.getValue().isPaid() && param.getValue().getType() == ContractType.TIME)
+						localMenuButton.getItems().add(menuPagato);
+					if (param.getValue().getReturnDateTime() != null)
+						menuStato.setText("Ritira Veicolo");
+					break;
+				case MAINTENANCE:
+					return null;
+				case ENDED:
+					if (!param.getValue().isPaid())
+						localMenuButton.getItems().add(menuPagato);
+					else
 						return null;
-					case ENDED:
-						if (!param.getValue().isPaid())
-							localMenuButton.getItems().add(menuPagato);
-						else
-							return null;
 				}
 				if (!menuStato.getText().equals(""))
 					localMenuButton.getItems().add(menuStato);
@@ -226,14 +227,10 @@ public class RentalController extends ViewUtility implements Initializable, Data
 	@Override
 	public void initializeData(User user) {
 		this.user = user;
-		try {
-			List<Contract> contract = (user.getRole() == 2 ? contractService.getContractsByUser(user) : contractService.getAllContracts());
-			Collections.sort(contract, new ContractOrder());
-			ObservableList<Contract> contractData = FXCollections.observableArrayList(contract);
-			rentalTable.setItems(contractData);
-		} catch (BusinessException e) {
-			dispatcher.renderError(e);
-		}
+		List<Contract> contract = (user.getRole() == 2 ? contractService.getContractsByUser(0,user) : contractService.getAllContracts(0));
+		Collections.sort(contract, new ContractOrder());
+		ObservableList<Contract> contractData = FXCollections.observableArrayList(contract);
+		rentalTable.setItems(contractData);
 	}
 
 }

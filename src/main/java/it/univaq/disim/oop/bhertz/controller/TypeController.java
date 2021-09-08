@@ -88,14 +88,11 @@ public class TypeController extends ViewUtility implements Initializable, DataIn
 				dispatcher.renderView("typeEdit", new ObjectsCollector<User, Type>(this.user, param.getValue()));
 			});
 			menuDelete.setOnAction((ActionEvent event) -> {
-				if (JOptionPane.showConfirmDialog(null, "Confermi di voler eliminare la tipologia selezionata?",
-						"Eliminare?", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE) == 0) {
+				if (JOptionPane.showConfirmDialog(null, "Confermi di voler eliminare la tipologia selezionata?","Eliminare?", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE) == 0) {
 					try {
 						typesService.deleteType(param.getValue().getId());
 					} catch (TypeNotEmptyException e) {
-						JOptionPane.showMessageDialog(null,
-								"Prima di poter eliminare una tipologia devono essere eliminati tutti i veicoli associati",
-								"Errore", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null,"Prima di poter eliminare una tipologia devono essere eliminati tutti i veicoli associati","Errore", JOptionPane.ERROR_MESSAGE);
 					} catch (BusinessException e) {
 						e.printStackTrace();
 					}

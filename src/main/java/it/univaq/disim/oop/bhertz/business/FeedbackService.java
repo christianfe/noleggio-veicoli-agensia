@@ -11,8 +11,12 @@ public interface FeedbackService {
 	List<Feedback> getAllFeedbacks();
 
 	List<Feedback> getFeedbackByVeicle(Veicle veicle);
+	
+	List<Feedback> getFeedbackByUser(Integer id);
 
 	void addFeedback(Feedback feedback);
+	
+	void removeFeedback(Integer id);
 
 	Feedback getFeedbackByID(Integer id);
 	

@@ -8,21 +8,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
+import it.univaq.disim.oop.bhertz.business.ContractService;
+import it.univaq.disim.oop.bhertz.business.FeedbackService;
+import it.univaq.disim.oop.bhertz.business.MaintenanceService;
 import it.univaq.disim.oop.bhertz.business.TypesService;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
+import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
 import it.univaq.disim.oop.bhertz.domain.Contract;
+import it.univaq.disim.oop.bhertz.domain.Feedback;
 import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
 import it.univaq.disim.oop.bhertz.domain.VeicleState;
 import it.univaq.disim.oop.bhertz.view.ContractOrderByDate;
 
-public class RAMVeicleserviceImpl implements VeiclesService {
+public class RAMVeicleServiceImpl implements VeiclesService {
 
 	private Map<Integer, Veicle> veicles = new HashMap<>();
 	private TypesService typeService;
 
-	public RAMVeicleserviceImpl() throws BusinessException {
+	public RAMVeicleServiceImpl() {
 		this.typeService = new RAMTypesServiceImpl();
 
 		Type auto = typeService.getTypeByID(1);
@@ -92,7 +98,7 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 	}
 
 	@Override
-	public List<Veicle> getVeiclesByType(Type t) throws BusinessException {
+	public List<Veicle> getVeiclesByType(Type t) {
 		List<Veicle> result = new ArrayList<>();
 		for (Veicle v : veicles.values()) {
 			if (v.getType().getId() == t.getId())
@@ -107,11 +113,35 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 	}
 
 	@Override
-	public List<Veicle> getVeiclesByState(VeicleState state) throws BusinessException {
+	public List<Veicle> getVeiclesByState(VeicleState state) {
 		List<Veicle> result = new ArrayList<>();
 		for (Veicle v : veicles.values())
 			if (v.getState() == state)
 				result.add(v);
+		return result;
+	}
+
+	@Override
+	public List<Veicle> getVeiclesByStateAndType(Type type, boolean free, boolean busy, boolean maintenance) {
+		List<Veicle> result = new ArrayList<>();
+		if (free) {
+			List<Veicle> resultF = this.getVeiclesByState(VeicleState.FREE);
+			for (Veicle v : resultF)
+				if (v.getType().getId() == type.getId())
+					result.add(v);
+		}
+		if (maintenance) {
+			List<Veicle> resultM = this.getVeiclesByState(VeicleState.MAINTENANCE);
+			for (Veicle v : resultM)
+				if (v.getType().getId() == type.getId())
+					result.add(v);
+		}
+		if (busy) {
+			List<Veicle> resultB = this.getVeiclesByState(VeicleState.BUSY);
+			for (Veicle v : resultB)
+				if (v.getType().getId() == type.getId())
+					result.add(v);
+		}
 		return result;
 	}
 
@@ -125,7 +155,22 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 	}
 
 	@Override
-	public void deleteVeicle(Integer id) {
+	public void deleteVeicle(Integer id) throws BusinessException {
+		ContractService contractService = BhertzBusinessFactory.getInstance().getContractService();
+		FeedbackService feedbackService = BhertzBusinessFactory.getInstance().getFeedbackService();
+		MaintenanceService maintenanceService = BhertzBusinessFactory.getInstance().getMaintenanceService();
+
+		List <Contract> cc = contractService.getContractsByVeicle(2, id);
+		List <Feedback> ff = feedbackService.getFeedbackByVeicle(this.getVeicleByID(id));
+		List <AssistanceTicket> mm = maintenanceService.getTicketByVeicle(id);
+
+		for (Feedback f : ff)
+			feedbackService.removeFeedback(f.getId());
+		for (Contract c : cc)
+			contractService.removeContract(c.getId());
+		for (AssistanceTicket m : mm)
+			maintenanceService.removeMaintenance(m.getId());
+
 		veicles.remove(id);
 	}
 
@@ -157,10 +202,10 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 
 	@Override
 	public String FindAviableDays(List<Contract> contractOfVeicle) {
-		
+
 		if (contractOfVeicle.isEmpty())
 			return "veicolo disponibile per qualunque periodo";
-		
+
 		Collections.sort(contractOfVeicle, new ContractOrderByDate());
 		String body;
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -174,6 +219,20 @@ public class RAMVeicleserviceImpl implements VeiclesService {
 						+ contractOfVeicle.get(i + 1).getStart().minusDays(3).format(formatter) + ", \n";
 		body += "dopo il " + contractOfVeicle.get(contractOfVeicle.size() - 1).getEnd().plusDays(3).format(formatter);
 		return body;
+	}
+
+	@Override
+	public void refreshAllStates() {
+		ContractService contractService = BhertzBusinessFactory.getInstance().getContractService();
+		MaintenanceService maintenanceService = BhertzBusinessFactory.getInstance().getMaintenanceService();
+		for (Veicle v : veicles.values()) {
+			Contract c = contractService.getContractByDate(v, LocalDate.now());
+			AssistanceTicket a = maintenanceService.getTicketByDate(v, LocalDate.now());
+			if (a != null) v.setState(VeicleState.MAINTENANCE);
+			else if (c != null) v.setState(VeicleState.BUSY);
+			else v.setState(VeicleState.FREE);
+		}
+		
 	}
 
 }

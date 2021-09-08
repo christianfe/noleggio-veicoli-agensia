@@ -1,17 +1,23 @@
 package it.univaq.disim.oop.bhertz.business;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.User;
+import it.univaq.disim.oop.bhertz.domain.Veicle;
 
 public interface ContractService {
 	
-	List<Contract> getAllContracts() throws BusinessException;
+	//int type; 0: sostuituteVeicle = false - 1: sostuituteVeicle = true - 2: sostuituteVeicle = false || true 
+	
+	List<Contract> getAllContracts(int type);
 	
 	Contract getContractByID(int id);
+	
+	Contract getContractByDate(Veicle veicle, LocalDate date);
 
-	List<Contract> getContractsByUser(User user) throws BusinessException;
+	List<Contract> getContractsByUser(int type, User user);
 	
 	void addContract(Contract contract);
 	
@@ -19,5 +25,8 @@ public interface ContractService {
 	
 	void setPaid(Integer id, boolean value);
 	
-	List<Contract> getContractsByVeicle(Integer idVeicle);
+	void removeContract(Integer id);
+	
+	List<Contract> getContractsByVeicle(int type, Integer idVeicle);
+	
 }

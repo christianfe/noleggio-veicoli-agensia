@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.ContractService;
 import it.univaq.disim.oop.bhertz.business.UserService;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
@@ -16,6 +15,7 @@ import it.univaq.disim.oop.bhertz.domain.ContractState;
 import it.univaq.disim.oop.bhertz.domain.ContractType;
 import it.univaq.disim.oop.bhertz.domain.Customer;
 import it.univaq.disim.oop.bhertz.domain.User;
+import it.univaq.disim.oop.bhertz.domain.Veicle;
 
 public class RAMContractServiceImpl implements ContractService {
 
@@ -24,12 +24,12 @@ public class RAMContractServiceImpl implements ContractService {
 	private UserService userService;
 	private int counter = 1;
 
-	public RAMContractServiceImpl() throws BusinessException {
-		this.veicleService = new RAMVeicleserviceImpl();
+	public RAMContractServiceImpl() {
+		this.veicleService = new RAMVeicleServiceImpl();
 		this.userService = new RAMUserServiceImpl();
 
 		Contract contract1 = new Contract();
-		contract1.setCustomer((Customer) userService.getusersByID(5));
+		contract1.setCustomer((Customer) userService.getUsersByID(5));
 		contract1.setVeicle(veicleService.getVeicleByID(1));
 		contract1.setStart(LocalDate.of(2021, Month.SEPTEMBER, 10));
 		contract1.setEnd(LocalDate.of(2021, Month.SEPTEMBER, 20));
@@ -42,7 +42,7 @@ public class RAMContractServiceImpl implements ContractService {
 		contracts.put(contract1.getId(), contract1);
 
 		Contract contract2 = new Contract();
-		contract2.setCustomer((Customer) userService.getusersByID(4));
+		contract2.setCustomer((Customer) userService.getUsersByID(4));
 		contract2.setVeicle(veicleService.getVeicleByID(2));
 		contract2.setStart(LocalDate.of(2021, Month.SEPTEMBER, 10));
 		contract2.setEnd(LocalDate.of(2021, Month.SEPTEMBER, 20));
@@ -54,7 +54,7 @@ public class RAMContractServiceImpl implements ContractService {
 		contracts.put(contract2.getId(), contract2);
 
 		Contract contract3 = new Contract();
-		contract3.setCustomer((Customer) userService.getusersByID(5));
+		contract3.setCustomer((Customer) userService.getUsersByID(5));
 		contract3.setVeicle(veicleService.getVeicleByID(4));
 		contract3.setStart(LocalDate.of(2021, Month.SEPTEMBER, 12));
 		contract3.setEnd(LocalDate.of(2021, Month.SEPTEMBER, 13));
@@ -64,10 +64,10 @@ public class RAMContractServiceImpl implements ContractService {
 		contract3.setDeliverDateTime("ora");
 		contract3.setType(ContractType.KM);
 		contracts.put(contract3.getId(), contract3);
-		
-		
+
+
 		Contract contract4 = new Contract();
-		contract4.setCustomer((Customer) userService.getusersByID(5));
+		contract4.setCustomer((Customer) userService.getUsersByID(5));
 		contract4.setVeicle(veicleService.getVeicleByID(1));
 		contract4.setStart(LocalDate.of(2021, Month.SEPTEMBER, 30));
 		contract4.setEnd(LocalDate.of(2021, Month.OCTOBER, 5));
@@ -82,8 +82,29 @@ public class RAMContractServiceImpl implements ContractService {
 	}
 
 	@Override
-	public List<Contract> getAllContracts() throws BusinessException {
-		return new ArrayList<>(contracts.values());
+	public List<Contract> getAllContracts(int type){
+		List<Contract> result = new ArrayList<>();
+		switch (type) {
+		case 0:
+			for (Contract c : contracts.values())
+				if (c.isSostistuteContract() == false)
+					result.add(c);
+			break;
+
+		case 1:
+			for (Contract c : contracts.values())
+				if (c.isSostistuteContract() == true)
+					result.add(c);
+
+			break;
+
+		case 2:
+			for (Contract c : contracts.values())
+				result.add(c);
+
+			break;
+		}
+		return result;
 	}
 
 	@Override
@@ -92,11 +113,24 @@ public class RAMContractServiceImpl implements ContractService {
 	}
 
 	@Override
-	public List<Contract> getContractsByUser(User user) throws BusinessException {
+	public List<Contract> getContractsByUser(int type,User user) {
 		List<Contract> result = new ArrayList<>();
 		for (Contract c : contracts.values())
 			if (c.getCustomer().getId() == user.getId())
-				result.add(c);
+				switch (type) {
+				case 0:
+					if (!c.isSostistuteContract())
+						result.add(c);
+					break;
+				case 1:
+					if (c.isSostistuteContract())
+						result.add(c);
+					break;
+				case 2:
+					result.add(c);
+					break;
+				}
+
 		return result;
 	}
 
@@ -114,11 +148,23 @@ public class RAMContractServiceImpl implements ContractService {
 	}
 
 	@Override
-	public List<Contract> getContractsByVeicle(Integer idVeicle) {
+	public List<Contract> getContractsByVeicle(int type,Integer idVeicle) {
 		List<Contract> result = new ArrayList<>();
 		for (Contract c : contracts.values())
 			if (c.getVeicle().getId() == idVeicle)
-				result.add(c);
+				switch (type) {
+				case 0:
+					if (!c.isSostistuteContract())
+						result.add(c);
+					break;
+				case 1:
+					if (c.isSostistuteContract())
+						result.add(c);
+					break;
+				case 2:
+					result.add(c);
+					break;
+				}
 		return result;
 	}
 
@@ -126,5 +172,19 @@ public class RAMContractServiceImpl implements ContractService {
 	public void setContract(Contract contract) {
 		contracts.put(contract.getId(), contract);
 	}
+
+	@Override
+	public void removeContract(Integer id) {
+		contracts.remove(id);
+	}
+
+	@Override
+	public Contract getContractByDate(Veicle veicle, LocalDate date) {
+		for (Contract c : contracts.values())
+			if (c.getVeicle().getId() == veicle.getId() && (date.isEqual(c.getStart()) || (date.isAfter(c.getStart()) && date.isBefore(c.getEnd().plusDays(2)))))
+				return c;
+		return null;
+	}
+
 }
 

@@ -53,6 +53,6 @@
       <AnchorPane BorderPane.alignment="TOP_LEFT" />
    </center>
    <bottom>
-      <Label alignment="CENTER" prefHeight="17.0" prefWidth="966.0" style="-fx-background-color: #FFD817;" text="BHERTZ APPLICAZION v1.0 by Erasmo Alessio &amp; Felicione Christian - Università Degli Studi Dell'Aquila  AA 2020/21- Laurea in Informatica - Lab. di Programmazione ad Oggetti" BorderPane.alignment="CENTER" />
+      <Label alignment="CENTER" prefHeight="17.0" prefWidth="966.0" style="-fx-background-color: #FFD817;" text="BHERTZ APPLICAZION v1.0 by Agensia (Erasmo A. &amp; Felicione C.) - Università Degli Studi Dell'Aquila  A.A. 2020/21- Laurea in Informatica - Lab. di Programmazione ad Oggetti" BorderPane.alignment="CENTER" />
    </bottom>
 </BorderPane>

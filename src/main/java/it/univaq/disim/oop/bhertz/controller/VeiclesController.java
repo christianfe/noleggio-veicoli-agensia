@@ -25,6 +25,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -55,9 +56,16 @@ public class VeiclesController extends ViewUtility
 	@FXML
 	private TableColumn<Veicle, String> priceKmColumn;
 	@FXML
+	private TableColumn<Veicle, String> fuelColumn;
+	@FXML
 	private Button addVeicleButton;
 	@FXML
-	private TableColumn<Veicle, String> fuelColumn;
+	private CheckBox veicleFreeCheckBox;
+	@FXML
+	private CheckBox veicleBusyCheckBox;
+	@FXML
+	private CheckBox veicleManteinanceCheckBox;
+	
 
 	private ViewDispatcher dispatcher;
 	private VeiclesService veiclesService;
@@ -67,6 +75,7 @@ public class VeiclesController extends ViewUtility
 	public VeiclesController() {
 		dispatcher = ViewDispatcher.getInstance();
 		veiclesService = BhertzBusinessFactory.getInstance().getVeiclesService();
+		veiclesService.refreshAllStates();
 	}
 
 	@Override
@@ -150,7 +159,11 @@ public class VeiclesController extends ViewUtility
 				else if (JOptionPane.showConfirmDialog(null,
 						"Confermi di voler eliminare il Veicolo selezionato e tutti i contratti associati?",
 						"Eliminare?", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE) == 0) {
-					veiclesService.deleteVeicle(param.getValue().getId());
+					try {
+						veiclesService.deleteVeicle(param.getValue().getId());
+					} catch (BusinessException e) {
+						dispatcher.renderError(e);
+					}
 					dispatcher.renderView("veicles", objectsCollector);
 				}
 			});
@@ -186,24 +199,30 @@ public class VeiclesController extends ViewUtility
 		switch (user.getRole()) {
 			case 2:
 				stateColumn.setVisible(false);
+				veicleBusyCheckBox.setVisible(false);
+				veicleManteinanceCheckBox.setVisible(false);
+				veicleFreeCheckBox.setVisible(false);
 			case 1:
 				addVeicleButton.setVisible(false);
 				break;
 
 		}
 
-		try {
-			List<Veicle> veicleList = this.veiclesService.getVeiclesByType(objectsCollector.getObjectB());
-			ObservableList<Veicle> veiclesData = FXCollections.observableArrayList(veicleList);
-			veiclesTable.setItems(veiclesData);
-		} catch (BusinessException e) {
-			dispatcher.renderError(e);
-		}
+		List<Veicle> veicleList = this.veiclesService.getVeiclesByType(objectsCollector.getObjectB());
+		ObservableList<Veicle> veiclesData = FXCollections.observableArrayList(veicleList);
+		veiclesTable.setItems(veiclesData);
 	}
 
 	@FXML
-	private void addVeicleAction(ActionEvent e) {
+	public void addVeicleAction(ActionEvent e) {
 		dispatcher.renderView("veicleEdit", new BigObjectsCollector<User, Veicle, Type>(objectsCollector.getObjectA(),
 				null, objectsCollector.getObjectB()));
+	}
+	
+	@FXML
+	public void veicleFilterAction(ActionEvent e) {
+		List<Veicle> veicleList = this.veiclesService.getVeiclesByStateAndType(objectsCollector.getObjectB(), veicleFreeCheckBox.isSelected(), veicleBusyCheckBox.isSelected(), veicleManteinanceCheckBox.isSelected());
+		ObservableList<Veicle> veiclesData = FXCollections.observableArrayList(veicleList);
+		veiclesTable.setItems(veiclesData);
 	}
 }

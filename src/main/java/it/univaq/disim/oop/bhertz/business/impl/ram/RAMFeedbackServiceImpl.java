@@ -30,14 +30,11 @@ public class RAMFeedbackServiceImpl implements FeedbackService {
 	}
 	@Override
 	public List<Feedback> getFeedbackByVeicle(Veicle veicle) {
-		
-		System.out.println("check getfeedbackbyveicle");
-		System.out.println(veicle.getModel());
 		List<Feedback> result = new ArrayList<>();
-		for (Feedback v : feeds.values()) {
-			if (v.getContract().getVeicle().getId() == veicle.getId())
-				result.add(v);
-		}
+		for (Feedback f : feeds.values())
+			if (f.getContract().getVeicle().getId() == veicle.getId())
+				result.add(f);
+
 		return result;
 	}
 
@@ -54,5 +51,21 @@ public class RAMFeedbackServiceImpl implements FeedbackService {
 			if (f.getContract().getId() == contract.getId())
 				return true;
 		return false;
+	}
+
+	@Override
+	public List<Feedback> getFeedbackByUser(Integer id) {
+		List<Feedback> result = new ArrayList<>();
+		for (Feedback f : feeds.values())
+			if (f.getContract().getCustomer().getId() == id)
+				result.add(f);
+		return result;
+
+	}
+
+
+	@Override
+	public void removeFeedback(Integer id) {
+		feeds.remove(id);		
 	}
 }

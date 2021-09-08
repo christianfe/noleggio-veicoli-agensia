@@ -93,7 +93,7 @@ public class StartRentController extends ViewUtility implements Initializable, D
 		dailyCheckBox.setText(priceForDay + " €/day");
 		kmCheckBox.setText(PriceForKm + " €/km");
 
-		List<Contract> contractOfVeicle = factory.getContractService().getContractsByVeicle(veicle.getId());
+		List<Contract> contractOfVeicle = factory.getContractService().getContractsByVeicle(0, veicle.getId());
 			aviableTextArea.setText(factory.getVeiclesService().FindAviableDays(contractOfVeicle));
 	}
 
@@ -117,7 +117,7 @@ public class StartRentController extends ViewUtility implements Initializable, D
 			else {
 
 				ContractService contractService = factory.getContractService();
-				List<Contract> contractOfVeicle = contractService.getContractsByVeicle(veicle.getId());
+				List<Contract> contractOfVeicle = contractService.getContractsByVeicle(0, veicle.getId());
 
 				if (!(factory.getVeiclesService().isVeicleFree(dateStartField.getValue(), dateEndField.getValue(),
 						contractOfVeicle)))

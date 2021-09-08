@@ -12,15 +12,17 @@ public interface VeiclesService {
 
 	Veicle getVeicleByID(int id);
 
-	List<Veicle> getVeiclesByType(Type t) throws BusinessException;
+	List<Veicle> getVeiclesByType(Type t);
 
-	List<Veicle> getVeiclesByState(VeicleState state) throws BusinessException;
+	List<Veicle> getVeiclesByState(VeicleState state);
+	
+	public List<Veicle> getVeiclesByStateAndType(Type type, boolean free, boolean busy, boolean maintenance);
 
 	void setVeicle(Integer id, String model, double km, double consuption, String fuel);
 
 	void addVeicle(Veicle veicle);
 
-	void deleteVeicle(Integer id);
+	void deleteVeicle(Integer id) throws BusinessException;
 
 	void setVeicle(Veicle veicle);
 
@@ -28,4 +30,5 @@ public interface VeiclesService {
 
 	public String FindAviableDays(List<Contract> contractOfVeicle);
 
+	void refreshAllStates();
 }

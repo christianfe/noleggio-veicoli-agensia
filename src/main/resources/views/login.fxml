@@ -19,7 +19,7 @@
          </image>
       </ImageView>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffdc50" height="63.0" layoutX="-8.0" layoutY="499.0" stroke="BLACK" strokeLineCap="BUTT" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="0.0" width="793.0" />
-      <Label alignment="CENTER" layoutX="156.0" layoutY="499.0" prefHeight="63.0" prefWidth="518.0" text="BHERTZ APPLICAZION v1.0 by ERASMO ALESSIO &amp; FELICIONE CHRISTIAN Università Degli Studi Dell'Aquila  AA 2020/21- Corso di Laurea in Informatica Laboratorio di Programmazione ad Oggetti" textAlignment="CENTER" textFill="#2c2c2c" wrapText="true">
+      <Label alignment="CENTER" layoutX="156.0" layoutY="499.0" prefHeight="63.0" prefWidth="518.0" text="BHERTZ APPLICAZION v1.0 by Agensia (Erasmo Alessio &amp; Felicione Christian) Università Degli Studi Dell'Aquila  A.A. 2020/21- Corso di Laurea in Informatica Laboratorio di Programmazione ad Oggetti" textAlignment="CENTER" textFill="#2c2c2c" wrapText="true">
          <font>
             <Font name="Arial" size="14.0" />
          </font>

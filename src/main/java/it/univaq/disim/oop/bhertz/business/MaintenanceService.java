@@ -1,9 +1,11 @@
 package it.univaq.disim.oop.bhertz.business;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
 import it.univaq.disim.oop.bhertz.domain.User;
+import it.univaq.disim.oop.bhertz.domain.Veicle;
 
 public interface MaintenanceService {
 
@@ -13,7 +15,13 @@ public interface MaintenanceService {
 	
 	List<AssistanceTicket> getTicketByUser(User user) throws BusinessException;
 	
+	List<AssistanceTicket> getTicketByVeicle(Integer idVeicle) throws BusinessException;
+	
 	void addTicket (AssistanceTicket ticket);
 	
 	void setTicket(AssistanceTicket ticket);
+
+	void removeMaintenance(Integer id);
+	
+	AssistanceTicket getTicketByDate(Veicle veicle, LocalDate date);
 }

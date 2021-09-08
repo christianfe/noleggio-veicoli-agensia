@@ -1,5 +1,6 @@
 package it.univaq.disim.oop.bhertz.business.impl.file;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import it.univaq.disim.oop.bhertz.business.BusinessException;
@@ -37,6 +38,24 @@ public class FileMaintenanceServiceImpl implements MaintenanceService {
 	public void setTicket(AssistanceTicket ticket) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<AssistanceTicket> getTicketByVeicle(Integer idVeicle) throws BusinessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void removeMaintenance(Integer id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public AssistanceTicket getTicketByDate(LocalDate date) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

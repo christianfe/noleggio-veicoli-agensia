@@ -8,7 +8,7 @@ public interface UserService {
 
 	User authenticate(String username, String password) throws UserNotFoundException, BusinessException;
 	
-	User getusersByID(int id) throws BusinessException;
+	User getUsersByID(int id);
 
 	List<User> getUserByRole(int r) throws BusinessException;
 

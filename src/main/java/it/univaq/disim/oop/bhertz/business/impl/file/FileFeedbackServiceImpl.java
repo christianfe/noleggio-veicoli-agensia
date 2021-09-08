@@ -39,4 +39,16 @@ public class FileFeedbackServiceImpl implements FeedbackService  {
 		return false;
 	}
 
+	@Override
+	public List<Feedback> getFeedbackByUser(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void removeFeedback(Integer id) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

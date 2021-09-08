@@ -61,7 +61,7 @@ public class FileUserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User getusersByID(int id) throws BusinessException {
+	public User getUsersByID(int id) {
 		return null;
 	}
 

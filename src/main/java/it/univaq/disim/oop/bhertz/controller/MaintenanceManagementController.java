@@ -89,12 +89,10 @@ public class MaintenanceManagementController extends ViewUtility
 		this.ticket = collector.getObjectB();
 		infoArea.setText("");
 
-		try {
-			List<Veicle> veicleList = this.veiclesService
-					.getVeiclesByType(collector.getObjectB().getContract().getVeicle().getType());
+			List<Veicle> veicleList = this.veiclesService.getVeiclesByType(collector.getObjectB().getContract().getVeicle().getType());
 			List<Veicle> veicleListByAviability = new ArrayList<>();
 			for (Veicle v : veicleList) {
-				List<Contract> contractOfVeicle = contractService.getContractsByVeicle(v.getId());
+				List<Contract> contractOfVeicle = contractService.getContractsByVeicle(0,v.getId());
 				if (veiclesService.isVeicleFree(ticket.getStartDate(), ticket.getContract().getEnd(), contractOfVeicle))
 					veicleListByAviability.add(v);
 			}
@@ -102,9 +100,6 @@ public class MaintenanceManagementController extends ViewUtility
 				System.out.println(v.getModel());
 			ObservableList<Veicle> veiclesData = FXCollections.observableArrayList(veicleListByAviability);
 			veicleTable.setItems(veiclesData);
-		} catch (BusinessException e) {
-			dispatcher.renderError(e);
-		}
 
 	}
 

@@ -5,11 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
+import it.univaq.disim.oop.bhertz.business.ContractService;
+import it.univaq.disim.oop.bhertz.business.FeedbackService;
 import it.univaq.disim.oop.bhertz.business.UserNotFoundException;
 import it.univaq.disim.oop.bhertz.business.UserService;
 import it.univaq.disim.oop.bhertz.domain.Admin;
+import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.Customer;
+import it.univaq.disim.oop.bhertz.domain.Feedback;
 import it.univaq.disim.oop.bhertz.domain.Staff;
 import it.univaq.disim.oop.bhertz.domain.User;
 
@@ -34,7 +39,7 @@ public class RAMUserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User authenticate(String username, String password) throws BusinessException {
+	public User authenticate(String username, String password) throws UserNotFoundException, BusinessException{
 
 		for (User u : users.values())
 			if (u.getUsername().equalsIgnoreCase(username) /*&& u.getPassword().equalsIgnoreCase(password)*/)
@@ -44,13 +49,12 @@ public class RAMUserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User getusersByID(int id) throws BusinessException {
-
+	public User getUsersByID(int id) {
 		return users.get(id);
 	}
 
 	@Override
-	public List<User> getUserByRole(int r) throws BusinessException {
+	public List<User> getUserByRole(int r) {
 		List<User> result = new ArrayList<>();
 		for (User u : users.values())
 			if (u.getRole() == r)
@@ -69,12 +73,6 @@ public class RAMUserServiceImpl implements UserService {
 
 	@Override
 	public void addUser(User user){
-		/*
-		Integer max = 0;
-		for (User u : users.values())
-			max = (max > u.getId())? max : u.getId();
-		user.setId(max + 1);
-		*/
 		user.setId(counter++);
 		this.users.put(user.getId(), user);
 	}
@@ -88,7 +86,16 @@ public class RAMUserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void deleteUser(Integer id) {
+	public void deleteUser(Integer id)  {
+		ContractService contractService = BhertzBusinessFactory.getInstance().getContractService();
+		UserService userService = BhertzBusinessFactory.getInstance().getUserService();
+		FeedbackService feedbackService = BhertzBusinessFactory.getInstance().getFeedbackService();
+		List <Contract> cc = contractService.getContractsByUser(2, userService.getUsersByID(id));
+		List <Feedback> ff = feedbackService.getFeedbackByUser(id);
+		for (Feedback f : ff)
+			feedbackService.removeFeedback(f.getId());
+		for (Contract c : cc)
+			contractService.removeContract(c.getId());
 		users.remove(id);
 	}
 
