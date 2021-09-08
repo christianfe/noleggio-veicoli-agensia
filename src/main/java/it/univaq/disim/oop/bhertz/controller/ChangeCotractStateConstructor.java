@@ -70,30 +70,31 @@ public class ChangeCotractStateConstructor extends ViewUtility
 			labelError.setText("Input chilometri non valido!");
 			return;
 		}
+		
+		
 		Contract c = objectsCollector.getObjectB();
 
 		if (objectsCollector.getObjectB().getState() != ContractState.MAINTENANCE) {
-		if (c.getReturnDateTime() == null) {
-			c.setStartKm(d);
-			c.setState(ContractState.ACTIVE);
-		} else {
-			c.setEndKm(d);
-			c.setState(ContractState.ENDED);
-		} 
-		
-		
-		
-		
+			if (c.getReturnDateTime() == null) {
+				c.setStartKm(d);
+				c.setState(ContractState.ACTIVE);
+			} else {
+				c.setEndKm(d);
+				c.setState(ContractState.ENDED);
+			}
+
 		}
+
 		contracService.setContract(c);
 
 		Veicle v = c.getVeicle();
 		v.setKm(d);
 		veicleService.setVeicle(v);
-		
+
 		if (!(objectsCollector.getObjectB().isSostistuteContract()))
-		dispatcher.renderView("rental", objectsCollector.getObjectA());
-		else dispatcher.renderView("maintenance", objectsCollector.getObjectA());
+			dispatcher.renderView("rental", objectsCollector.getObjectA());
+		else
+			dispatcher.renderView("maintenance", objectsCollector.getObjectA());
 	}
 
 	@FXML

@@ -21,6 +21,7 @@
         <columns>
           <TableColumn fx:id="userColumn" prefWidth="84.5" text="Utente" />
           <TableColumn fx:id="veicleColumn" prefWidth="132.0" text="Veicolo" />
+            <TableColumn fx:id="substituteColumn" prefWidth="75.0" text="Veicolo Sostitutivo" />
             <TableColumn fx:id="stateColumn" prefWidth="110.0" text="Stato" />
             <TableColumn fx:id="actionColumn" minWidth="0.0" prefWidth="102.0" text="Azioni" />
         </columns>

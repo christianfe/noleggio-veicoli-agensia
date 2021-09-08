@@ -56,6 +56,7 @@ public class MaintenanceReturnController extends ViewUtility
 		veicleLabel.setText("Veicolo: " + ticket.getContract().getVeicle().getModel() + " - "
 				+ ticket.getContract().getVeicle().getPlate());
 		kmLabel.setText(kmLabel.getText() + ticket.getContract().getStartKm());
+		newKmField.setText(ticket.getContract().getVeicle().getKm() + "");
 
 	}
 
@@ -63,6 +64,9 @@ public class MaintenanceReturnController extends ViewUtility
 	public void saveAction() {
 		ticket.setState(TicketState.WORKING);
 		ticket.setDescription(descriptionArea.getText());
+		
+		ticket.getContract().getVeicle().setKm(Double.parseDouble(newKmField.getText()));
+		
 		ticket.setVeicleKm(Double.parseDouble(newKmField.getText()));
 		dispatcher.renderView("maintenance", this.user);
 	}
