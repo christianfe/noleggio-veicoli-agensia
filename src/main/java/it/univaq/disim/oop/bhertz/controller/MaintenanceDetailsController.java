@@ -77,7 +77,7 @@ public class MaintenanceDetailsController extends ViewUtility implements Initial
 			newVeicleTitle.setText("");
 			newVeicleInfo.setText("");
 		} else {
-			newVeicleTitle.setText(objectsCollector.getObjectB().getContract().getVeicle() + "");
+			newVeicleTitle.setText(objectsCollector.getObjectB().getSubstituteContract().getVeicle().toString());
 			newVeicleInfo.setText(objectsCollector.getObjectB().getContract().getCustomer().getName());
 		}
 		if (objectsCollector.getObjectA().getRole() != 1 || objectsCollector.getObjectB().getState() == TicketState.ENDED) {

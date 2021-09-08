@@ -21,6 +21,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -34,8 +35,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class MaintenanceManagementController extends ViewUtility
 		implements Initializable, DataInitializable<ObjectsCollector<User, AssistanceTicket>> {
 
-	@FXML
-	private TextArea infoArea;
 	@FXML
 	private TableView<Veicle> veicleTable;
 	@FXML
@@ -77,6 +76,21 @@ public class MaintenanceManagementController extends ViewUtility
 			Button localButton = new Button();
 			localButton.setText("Seleziona");
 
+			localButton.setOnAction((ActionEvent event) -> {
+
+				Contract substituteContract = new Contract();
+				substituteContract.setVeicle(param.getValue());
+				substituteContract.setStart(ticket.getStartDate());
+				substituteContract.setEnd(ticket.getContract().getEnd());
+				substituteContract.setSostistuteContract(true);
+				substituteContract.setCustomer(ticket.getContract().getCustomer());
+				ticket.setSubstituteContract(substituteContract);
+				contractService.addContract(substituteContract);
+				
+				ticket.setState(TicketState.READY);
+				dispatcher.renderView("maintenance", user);
+			});
+
 			return new SimpleObjectProperty<Button>(localButton);
 
 		});
@@ -87,7 +101,6 @@ public class MaintenanceManagementController extends ViewUtility
 	public void initializeData(ObjectsCollector<User, AssistanceTicket> collector) {
 		this.user = collector.getObjectA();
 		this.ticket = collector.getObjectB();
-		infoArea.setText("");
 
 			List<Veicle> veicleList = this.veiclesService.getVeiclesByType(collector.getObjectB().getContract().getVeicle().getType());
 			List<Veicle> veicleListByAviability = new ArrayList<>();
@@ -100,15 +113,6 @@ public class MaintenanceManagementController extends ViewUtility
 				System.out.println(v.getModel());
 			ObservableList<Veicle> veiclesData = FXCollections.observableArrayList(veicleListByAviability);
 			veicleTable.setItems(veiclesData);
-
-	}
-
-	@FXML
-	public void fixedVeicle() {
-
-		ticket.setState(TicketState.READY);
-		ticket.setDescription(ticket.getDescription() + infoArea.getText());
-		dispatcher.renderView("maintenance", user);
 
 	}
 
