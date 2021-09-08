@@ -12,14 +12,12 @@ public class Contract {
 	private ContractType type;
 	private ContractState state;
 	private Integer id;
-	
 	private boolean paid;
-	private Veicle veicle;
 	private String returnDateTime = null;
 	private String deliverDateTime = null;
-	
 	private boolean sostistuteContract;
-		
+	
+	private Veicle veicle;
 	private Feedback feedback;
 	private AssistanceTicket assistance;
 	private Customer customer;

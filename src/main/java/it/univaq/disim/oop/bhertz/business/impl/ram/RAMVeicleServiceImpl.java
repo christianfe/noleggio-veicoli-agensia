@@ -232,7 +232,5 @@ public class RAMVeicleServiceImpl implements VeiclesService {
 			else if (c != null) v.setState(VeicleState.BUSY);
 			else v.setState(VeicleState.FREE);
 		}
-		
 	}
-
 }
