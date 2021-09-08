@@ -43,6 +43,8 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 	private TableColumn<AssistanceTicket, String> stateColumn;
 	@FXML
 	private TableColumn<AssistanceTicket, MenuButton> actionColumn;
+	@FXML
+	private TableColumn<AssistanceTicket, String> substituteColumn;
 
 	private ViewDispatcher dispatcher;
 	private MaintenanceService maintenanceService;
@@ -61,6 +63,11 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 		veicleColumn.setCellValueFactory((CellDataFeatures<AssistanceTicket, String> param) -> {
 			return new SimpleStringProperty(param.getValue().getContract().getVeicle().getModel());
 		});
+		substituteColumn.setCellValueFactory((CellDataFeatures<AssistanceTicket, String> param) -> {
+			return new SimpleStringProperty(param.getValue().getSubstituteContract() == null ? "NO"
+					: param.getValue().getSubstituteContract().getVeicle().toString());
+		});
+
 		stateColumn.setCellValueFactory((CellDataFeatures<AssistanceTicket, String> param) -> {
 			String s = "";
 			switch (param.getValue().getState()) {
@@ -125,7 +132,6 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 						menuChangeStatus.setText("Riconsegna veicolo al cliente");
 						localMenuButton.getItems().add(menuChangeStatus);
 
-
 					}
 					localMenuButton.getItems().add(menuAppointment);
 
@@ -155,14 +161,15 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 				case READY:
 					param.getValue().setState(TicketState.ENDED);
 					
+					BhertzBusinessFactory.getInstance().getVeiclesService().refreshAllStates();
+					
 					if (param.getValue().getSubstituteContract() == null)
 						dispatcher.renderView("changeContractState",
 								new ObjectsCollector<User, Contract>(user, param.getValue().getContract()));
 					else
 						dispatcher.renderView("changeContractState",
 								new ObjectsCollector<User, Contract>(user, param.getValue().getSubstituteContract()));
-					
-					
+
 					break;
 				case ENDED:
 				}

@@ -1,6 +1,7 @@
 package it.univaq.disim.oop.bhertz.controller;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
@@ -64,6 +65,7 @@ public class CreateFeedbackController extends ViewUtility
 		newFeedback.setBody(descriptionFeedback.getText());
 		newFeedback.setContract(contract);
 		newFeedback.setValutation((int) sliderFeedback.getValue());
+		newFeedback.setDate(LocalDate.now());
 
 		feedbackService.addFeedback(newFeedback);
 		confirmFeedback.disableProperty().unbind();

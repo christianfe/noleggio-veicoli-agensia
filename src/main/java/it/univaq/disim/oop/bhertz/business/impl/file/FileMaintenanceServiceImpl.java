@@ -7,6 +7,7 @@ import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.MaintenanceService;
 import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
 import it.univaq.disim.oop.bhertz.domain.User;
+import it.univaq.disim.oop.bhertz.domain.Veicle;
 
 public class FileMaintenanceServiceImpl implements MaintenanceService {
 
@@ -53,9 +54,11 @@ public class FileMaintenanceServiceImpl implements MaintenanceService {
 	}
 
 	@Override
-	public AssistanceTicket getTicketByDate(LocalDate date) {
+	public AssistanceTicket getTicketByDate(Veicle veicle, LocalDate date) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 }

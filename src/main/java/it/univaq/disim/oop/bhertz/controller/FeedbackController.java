@@ -1,8 +1,11 @@
 package it.univaq.disim.oop.bhertz.controller;
 
 import java.net.URL;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import javax.swing.text.DateFormatter;
 
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.FeedbackService;
@@ -36,6 +39,8 @@ public class FeedbackController extends ViewUtility
 	private TableColumn<Feedback, String> valutationColumn;
 	@FXML
 	private TableColumn<Feedback, String> descriptionColumn;
+	@FXML
+	private TableColumn<Feedback, String> dateColumn;
 
 	private User user;
 	private Veicle veicle;
@@ -53,6 +58,12 @@ public class FeedbackController extends ViewUtility
 		userColumn.setCellValueFactory((CellDataFeatures<Feedback, String> param) -> {
 			return new SimpleStringProperty(param.getValue().getContract().getCustomer().getName());
 		});
+		
+		dateColumn.setCellValueFactory((CellDataFeatures<Feedback, String> param) -> {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yy");
+			return new SimpleStringProperty(param.getValue().getDate().format(formatter));
+		});
+		
 		valutationColumn.setCellValueFactory((CellDataFeatures<Feedback, String> param) -> {
 			return new SimpleStringProperty("" + param.getValue().getValutation());
 		});
