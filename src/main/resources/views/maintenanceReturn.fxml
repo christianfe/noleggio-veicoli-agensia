@@ -19,7 +19,7 @@
       <TextArea fx:id="descriptionArea" layoutX="65.0" layoutY="199.0" prefHeight="198.0" prefWidth="329.0" promptText="Inserisci una descrizione" />
       <TextField fx:id="newKmField" layoutX="490.0" layoutY="339.0" prefHeight="25.0" prefWidth="179.0" promptText="Inserisci nuovi Km" />
       <Label layoutX="552.0" layoutY="310.0" text="Km rilevati" />
-      <Label fx:id="kmLabel" layoutX="491.0" layoutY="231.0" prefHeight="20.0" prefWidth="234.0" text="Km ad inizio contratto:  3000">
+      <Label fx:id="kmLabel" layoutX="491.0" layoutY="231.0" prefHeight="20.0" prefWidth="234.0" text="Km ad inizio contratto:  ">
          <font>
             <Font size="14.0" />
          </font>
