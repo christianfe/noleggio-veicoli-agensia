@@ -1,7 +1,6 @@
 package it.univaq.disim.oop.bhertz.controller;
 
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -10,10 +9,7 @@ import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.MaintenanceService;
 import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
 import it.univaq.disim.oop.bhertz.domain.Contract;
-import it.univaq.disim.oop.bhertz.domain.ContractState;
-import it.univaq.disim.oop.bhertz.domain.TicketState;
 import it.univaq.disim.oop.bhertz.domain.User;
-import it.univaq.disim.oop.bhertz.domain.Veicle;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import it.univaq.disim.oop.bhertz.view.ViewUtility;
@@ -30,7 +26,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 public class MaintenanceController extends ViewUtility implements Initializable, DataInitializable<User> {
 
@@ -111,9 +106,12 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 						break;
 
 					case READY:
-						menuAppointment.setText(
-								"Appuntamento: " + param.getValue().getEndDate() + " " + param.getValue().getTimeEnd());
-						menuAppointment.setDisable(true);
+						if (param.getValue().getEndDate() == null)
+							menuAppointment.setText("Fissa Appuntamento");
+						else {
+							menuAppointment.setText("Appuntamento: " + param.getValue().getEndDate() + " " + param.getValue().getTimeEnd());
+							menuAppointment.setDisable(true);
+						}
 						localMenuButton.getItems().add(menuAppointment);
 						menuChangeStatus.setText("Riconsegna veicolo al cliente");
 						localMenuButton.getItems().add(menuChangeStatus);

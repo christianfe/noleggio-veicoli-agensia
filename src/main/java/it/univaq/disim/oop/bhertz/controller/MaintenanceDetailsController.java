@@ -59,7 +59,7 @@ public class MaintenanceDetailsController extends ViewUtility implements Initial
 	@Override
 	public void initializeData(ObjectsCollector<User, AssistanceTicket> objectsCollector) {
 		this.objectsCollector = objectsCollector;
-		this.newVeicleActive = objectsCollector.getObjectB().getSostituteVeicle() == null;
+		this.newVeicleActive = objectsCollector.getObjectB().getSostituteVeicle() != null;
 		this.newVeicleCheck.setSelected(newVeicleActive);
 		this.descriptionArea.setText(objectsCollector.getObjectB().getDescription());
 		this.veicleInfoLabel.setText(objectsCollector.getObjectB().getContract().getVeicle() + "");
