@@ -262,7 +262,7 @@ public class RentalController extends ViewUtility implements Initializable, Data
 					localMenuButton.getItems().add(menuStato);
 			} else if (this.user.getRole() == 0)
 				actionColumn.setVisible(false);
-
+			if (param.getValue().isSostistuteContract()) menuRichiestaAssistenza.setDisable(true);
 			return new SimpleObjectProperty<MenuButton>(localMenuButton);
 		});
 

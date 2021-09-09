@@ -206,7 +206,7 @@ public class FileContractServiceImpl implements ContractService {
 			contract.setPaid(row[8].equals("1"));
 			if (!row[9].equals("null")) contract.setReturnDateTime(row[9]);
 			if (!row[10].equals("null")) contract.setDeliverDateTime(row[10]);
-			contract.setSostistuteContract(row[11] == "1");
+			contract.setSostistuteContract(row[11].equals("1"));
 			contract.setCustomer((Customer)userService.getUsersByID(Integer.parseInt(row[12])));
 			contract.setVeicle(veiclesService.getVeicleByID(Integer.parseInt(row[13])));
 			this.counter = (int) fileData.getCount();
