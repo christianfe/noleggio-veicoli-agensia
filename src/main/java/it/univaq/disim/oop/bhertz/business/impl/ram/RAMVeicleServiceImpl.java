@@ -47,14 +47,16 @@ public class RAMVeicleServiceImpl implements VeiclesService {
 		Veicle panda = new Veicle(counter++, auto, "Fiat Panda", "GG999RT", 9545, 14.1, "GPL");
 		Veicle punto = new Veicle(counter++, auto, "Fiat Punto", "FA054KM", 54785, 13.1, "Diesel");
 		Veicle fiesta = new Veicle(counter++, auto, "Ford Fiesta", "ED125FR", 12244, 15.1, "GPL");;
+		fiesta.setPriceForDay(45);
 		Veicle malaguti = new Veicle(counter++, moto, "Runner", "RE12548", 1354, 11.8, "Benzina");;
-		Veicle aprilia = new Veicle(counter++, auto, "Aprilia RS", "DX00486", 1245, 8.4, "Miscela");
-		aprilia.setPriceForDay(0.10);
+		Veicle aprilia = new Veicle(counter++, moto, "Aprilia RS", "DX00486", 1245, 8.4, "Miscela");
+		aprilia.setPriceForDay(60);
 		aprilia.setPriceForKm(0.40);
 		Veicle jeep = new Veicle(counter++, auto, "JEEP Ranegade", "FF667FF", 1125, 10.5, "Ibrida");
 		jeep.setPriceForKm(0.25);
+		
 		Veicle yamaha = new Veicle(counter++, moto, "YAMAHA Xcity", "AD13257", 125, 12.5, "Benzina");
-		yamaha.setPriceForKm(0.29);
+		yamaha.setPriceForKm(29);
 		
 		veicles.put(panda.getId(), panda);
 		veicles.put(punto.getId(), punto);
@@ -62,7 +64,7 @@ public class RAMVeicleServiceImpl implements VeiclesService {
 		veicles.put(malaguti.getId(), malaguti);
 		veicles.put(aprilia.getId(), aprilia);
 		veicles.put(jeep.getId(), jeep);
-		veicles.put(jeep.getId(), yamaha);
+		veicles.put(yamaha.getId(), yamaha);
 	}
 
 	@Override
