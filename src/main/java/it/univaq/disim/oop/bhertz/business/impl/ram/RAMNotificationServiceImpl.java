@@ -12,6 +12,7 @@ import it.univaq.disim.oop.bhertz.domain.Notification;
 public class RAMNotificationServiceImpl implements NotificationsService {
 
 	private Map<Integer, Notification> notifications = new HashMap<>();
+	private int counter = 1;
 	
 	@Override
 	public List<Notification> getAllNotifications() throws BusinessException {
@@ -34,10 +35,7 @@ public class RAMNotificationServiceImpl implements NotificationsService {
 
 	@Override
 	public void addNotification(Notification notification) throws BusinessException {
-		Integer max = 0;
-		for (Notification n : notifications.values())
-			max = (max > n.getId())? max : n.getId();
-		notification.setId(max + 1);
+		notification.setId(counter++);
 		this.notifications.put(notification.getId(), notification);
 	}
 

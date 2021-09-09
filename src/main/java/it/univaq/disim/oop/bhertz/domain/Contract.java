@@ -19,7 +19,7 @@ public class Contract {
 	
 	private Veicle veicle;
 	private Feedback feedback;
-	private AssistanceTicket assistance;
+	private AssistanceTicket assistance = null;
 	private Customer customer;
 
 	public Contract() {
