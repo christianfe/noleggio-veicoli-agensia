@@ -155,11 +155,11 @@ public class RentalController extends ViewUtility implements Initializable, Data
 			});
 
 			menuGestioneRiconsegna.setOnAction((ActionEvent event) -> {
-				dispatcher.renderView("veicleReturn", new ObjectsCollector<User, Contract>(user, param.getValue()));
+				dispatcher.renderView("appointmentManager", new ObjectsCollector<User, Contract>(user, param.getValue()));
 			});
 
 			menuGestioneConsegna.setOnAction((ActionEvent event) -> {
-				dispatcher.renderView("veicleReturn", new ObjectsCollector<User, Contract>(user, param.getValue()));
+				dispatcher.renderView("appointmentManager", new ObjectsCollector<User, Contract>(user, param.getValue()));
 			});
 
 			menuFeedback.setOnAction((ActionEvent event) -> {

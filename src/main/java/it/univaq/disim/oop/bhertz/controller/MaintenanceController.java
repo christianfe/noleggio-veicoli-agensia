@@ -180,7 +180,7 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 			});
 
 			menuAppointment.setOnAction((ActionEvent event) -> {
-				dispatcher.renderView("veicleReturn",
+				dispatcher.renderView("appointmentManager",
 						new ObjectsCollector<User, Contract>(user, param.getValue().getContract()));
 			});
 			menuDetails.setOnAction((ActionEvent event) -> {

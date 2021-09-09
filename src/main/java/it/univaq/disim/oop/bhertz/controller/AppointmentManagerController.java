@@ -25,7 +25,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class VeicleReturnController extends ViewUtility
+public class AppointmentManagerController extends ViewUtility
 		implements Initializable, DataInitializable<ObjectsCollector<User, Contract>> {
 
 	@FXML
@@ -50,7 +50,7 @@ public class VeicleReturnController extends ViewUtility
 	private int mode; // 1: consegna; 2: riconsegna; 3: gestione manutenzione; 4: appuntamento fine
 						// manutenzione
 
-	public VeicleReturnController() {
+	public AppointmentManagerController() {
 		this.dispatcher = ViewDispatcher.getInstance();
 	}
 
