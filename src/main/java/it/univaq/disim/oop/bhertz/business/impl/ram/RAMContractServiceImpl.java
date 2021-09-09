@@ -207,7 +207,7 @@ public class RAMContractServiceImpl implements ContractService {
 	@Override
 	public Contract getContractByDate(Veicle veicle, LocalDate date) throws BusinessException {
 		for (Contract c : contracts.values())
-			if (c.getVeicle().getId() == veicle.getId() && (date.isEqual(c.getStart()) || (date.isAfter(c.getStart()) && date.isBefore(c.getEnd().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT)))))
+			if (c.getVeicle().getId() == veicle.getId() && (date.isEqual(c.getStart()) || (date.isAfter(c.getStart()) && date.isBefore(c.getEnd().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT + 1)))))
 				return c;
 		return null;
 	}

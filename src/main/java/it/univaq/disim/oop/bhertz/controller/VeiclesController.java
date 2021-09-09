@@ -194,7 +194,6 @@ public class VeiclesController extends ViewUtility
 			return new SimpleObjectProperty<MenuButton>(localMenuButton);
 
 		});
-
 	}
 
 	@Override

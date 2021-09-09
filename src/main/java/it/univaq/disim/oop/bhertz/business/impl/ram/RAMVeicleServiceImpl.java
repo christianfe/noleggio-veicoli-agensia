@@ -235,8 +235,8 @@ public class RAMVeicleServiceImpl implements VeiclesService {
 		ContractService contractService = BhertzBusinessFactory.getInstance().getContractService();
 		MaintenanceService maintenanceService = BhertzBusinessFactory.getInstance().getMaintenanceService();
 		for (Veicle v : veicles.values()) {
-			Contract c = contractService.getContractByDate(v, LocalDate.now());
 			AssistanceTicket a = maintenanceService.getTicketByDate(v, LocalDate.now());
+			Contract c = contractService.getContractByDate(v, LocalDate.now());
 			if (a != null) v.setState(VeicleState.MAINTENANCE);
 			else if (c != null) v.setState(VeicleState.BUSY);
 			else v.setState(VeicleState.FREE);

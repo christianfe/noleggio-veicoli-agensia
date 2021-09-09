@@ -15,6 +15,7 @@ import it.univaq.disim.oop.bhertz.domain.TicketState;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
+import it.univaq.disim.oop.bhertz.view.ViewUtility;
 
 public class RAMMaintenanceServiceImpl implements MaintenanceService {
 
@@ -100,9 +101,7 @@ public class RAMMaintenanceServiceImpl implements MaintenanceService {
 	public AssistanceTicket getTicketByDate(Veicle veicle, LocalDate date) throws BusinessException {
 		for (AssistanceTicket t : tickets.values()) {
 			try {
-				if (veicle.getId() == t.getContract().getVeicle().getId()
-						&& (date.isEqual(t.getStartDate()) || date.isEqual(t.getStartDate())
-								|| (date.isAfter(t.getStartDate()) && date.isBefore(t.getEndDate()))))
+				if (veicle.getId() == t.getContract().getVeicle().getId() && (date.isEqual(t.getStartDate()) || date.isEqual(t.getEndDate()) || (date.isAfter(t.getStartDate()) && date.isBefore(t.getEndDate().plusDays()))))
 					return t;
 			} catch (NullPointerException e) {
 				continue;
