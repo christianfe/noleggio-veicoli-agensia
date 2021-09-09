@@ -1,7 +1,6 @@
-7
+11
 1;0;Administrator;admin;admin
 2;1;Operatore;staff;staff
 3;1;Mario Rossi;mrossi;mrossi
 4;2;Cliente;user;user
-5;2;Cliente1;user1;user
-6;2;Cliente2;user2;user
+7;2;Cliente;user1;user

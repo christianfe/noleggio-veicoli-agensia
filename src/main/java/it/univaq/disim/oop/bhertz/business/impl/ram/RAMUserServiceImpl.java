@@ -66,7 +66,7 @@ public class RAMUserServiceImpl implements UserService {
 
 	@Override
 	public void setUser(Integer id, String name, String username, String password) throws BusinessException{
-		User u = users.get(id);
+		User u = this.getUsersByID(id);
 		u.setName(name);
 		u.setUsername(username);
 		u.setPassword(password);
