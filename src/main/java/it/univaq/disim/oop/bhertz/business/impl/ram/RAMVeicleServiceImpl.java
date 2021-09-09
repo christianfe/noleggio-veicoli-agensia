@@ -22,6 +22,7 @@ import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
 import it.univaq.disim.oop.bhertz.domain.VeicleState;
 import it.univaq.disim.oop.bhertz.view.ContractOrderByDate;
+import it.univaq.disim.oop.bhertz.view.ViewUtility;
 
 public class RAMVeicleServiceImpl implements VeiclesService {
 
@@ -202,7 +203,7 @@ public class RAMVeicleServiceImpl implements VeiclesService {
 
 		for (int i = 0; i < contractOfVeicle.size(); i++) {
 			Contract c = contractOfVeicle.get(i);
-			if (!(startDate.isAfter(c.getEnd().plusDays(2)) || endDate.plusDays(2).isBefore(c.getStart())))
+			if (!(startDate.isAfter(c.getEnd().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT)) || endDate.plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT).isBefore(c.getStart())))
 				return false;
 		}
 		return true;
@@ -222,10 +223,10 @@ public class RAMVeicleServiceImpl implements VeiclesService {
 		else
 			body = "";
 		for (int i = 0; i < contractOfVeicle.size() - 1; i++)
-			if (!(contractOfVeicle.get(i).getEnd().plusDays(3).isEqual(contractOfVeicle.get(i + 1).getStart())))
-				body += "dal " + contractOfVeicle.get(i).getEnd().plusDays(3).format(formatter) + " al "
-						+ contractOfVeicle.get(i + 1).getStart().minusDays(3).format(formatter) + ", \n";
-		body += "dopo il " + contractOfVeicle.get(contractOfVeicle.size() - 1).getEnd().plusDays(3).format(formatter);
+			if (!(contractOfVeicle.get(i).getEnd().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT).isEqual(contractOfVeicle.get(i + 1).getStart())))
+				body += "dal " + contractOfVeicle.get(i).getEnd().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT).format(formatter) + " al "
+						+ contractOfVeicle.get(i + 1).getStart().minusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT).format(formatter) + ", \n";
+		body += "dopo il " + contractOfVeicle.get(contractOfVeicle.size() - 1).getEnd().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT).format(formatter);
 		return body;
 	}
 

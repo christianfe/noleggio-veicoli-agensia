@@ -5,6 +5,8 @@ import javafx.scene.control.TextField;
 
 public class ViewUtility {
 
+	public static final int DAYS_VEICLE_BUSY_AFTER_RENT = 2;
+	
 	protected static final String[] FORBIDDEN_INPUT = { ";" };
 
 	protected void addForbiddenCharCheck(TextField... fields) {

@@ -104,10 +104,10 @@ public class VeicleReturnController extends ViewUtility
 				super.updateItem(item, empty);
 				if (objectsCollector.getObjectB().getState() == ContractState.MAINTENANCE) {
 					setDisable(item.isBefore(objectsCollector.getObjectB().getAssistance().getStartDate())
-							|| item.isAfter(objectsCollector.getObjectB().getAssistance().getStartDate().plusDays(2)));
+							|| item.isAfter(objectsCollector.getObjectB().getAssistance().getStartDate().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT)));
 				} else {
 					setDisable(item.isBefore(objectsCollector.getObjectB().getEnd())
-							|| item.isAfter(objectsCollector.getObjectB().getEnd().plusDays(2)));
+							|| item.isAfter(objectsCollector.getObjectB().getEnd().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT)));
 				}
 			}
 		});

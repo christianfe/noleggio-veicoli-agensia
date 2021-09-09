@@ -17,6 +17,7 @@ import it.univaq.disim.oop.bhertz.domain.ContractType;
 import it.univaq.disim.oop.bhertz.domain.Customer;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
+import it.univaq.disim.oop.bhertz.view.ViewUtility;
 
 public class RAMContractServiceImpl implements ContractService {
 
@@ -206,7 +207,7 @@ public class RAMContractServiceImpl implements ContractService {
 	@Override
 	public Contract getContractByDate(Veicle veicle, LocalDate date) throws BusinessException {
 		for (Contract c : contracts.values())
-			if (c.getVeicle().getId() == veicle.getId() && (date.isEqual(c.getStart()) || (date.isAfter(c.getStart()) && date.isBefore(c.getEnd().plusDays(2)))))
+			if (c.getVeicle().getId() == veicle.getId() && (date.isEqual(c.getStart()) || (date.isAfter(c.getStart()) && date.isBefore(c.getEnd().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT)))))
 				return c;
 		return null;
 	}
