@@ -7,6 +7,13 @@ public class FileData {
 	private long count;
 	private List<String[]> rows;
 	
+	public FileData() {
+	}
+	public FileData(long cont, List<String[]> rows) {
+		this.setCount(cont);
+		this.setRows(rows);
+	}
+	
 	public long getCount() {
 		return count;
 	}

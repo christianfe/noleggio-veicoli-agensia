@@ -135,7 +135,7 @@ public class FileUserServiceImpl implements UserService {
 
 	private void saveList() throws BusinessException {
 		FileUtility f = new FileUtility();
-		List<String[]> list = new ArrayList<>() ;
+		List<String[]> list = new ArrayList<>();
 		for (User u : users.values()) {
 			String[] s = new String[5];
 			s[0]= u.getId().toString();
@@ -145,14 +145,14 @@ public class FileUserServiceImpl implements UserService {
 			s[4]= u.getPassword();
 			list.add(s);
 		}
-		f.setAllByFile(this.userFilename, list);
+		f.setAllByFile(this.userFilename, new FileData(this.counter, list));
 	}
 	
 	private void readList() throws BusinessException {
 		FileUtility f = new FileUtility();
-		List<String[]> list = f.getAllByFile(userFilename);
+		FileData fileData = f.getAllByFile(userFilename);
 		this.users = new HashMap<Integer, User>();
-		for (String[] row : list) {
+		for (String[] row : fileData.getRows()) {
 			User user = null;
 			switch (row[1]) {
 				case "0":
