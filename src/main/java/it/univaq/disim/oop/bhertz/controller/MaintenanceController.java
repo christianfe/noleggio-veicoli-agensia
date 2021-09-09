@@ -116,9 +116,14 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 					localMenuButton.getItems().add(menuFixed);
 
 					menuFixed.setOnAction((ActionEvent event) -> {
-						param.getValue().getContract().getVeicle().setState(VeicleState.BUSY);
-							
-					param.getValue().setState(TicketState.READY);
+						AssistanceTicket t = param.getValue();
+						t.setState(TicketState.READY);
+						try {
+							maintenanceService.setTicket(t);
+						} catch (BusinessException e) {
+							dispatcher.renderError(e);
+						}
+						
 						dispatcher.renderView("maintenance", user);
 					});
 
@@ -133,12 +138,8 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 						menuAppointment.setDisable(true);
 						menuChangeStatus.setText("Riconsegna veicolo al cliente");
 						localMenuButton.getItems().add(menuChangeStatus);
-
 					}
 					localMenuButton.getItems().add(menuAppointment);
-					
-					
-					
 					break;
 
 				case ENDED:
@@ -163,15 +164,13 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 
 					break;
 				case READY:
-					param.getValue().setState(TicketState.ENDED);
-
-					/*
-					 * try {
-					 * BhertzBusinessFactory.getInstance().getVeiclesService().refreshAllStates(); }
-					 * catch (BusinessException e) { // TODO Auto-generated catch block
-					 * e.printStackTrace(); }
-					 */
-
+					AssistanceTicket t = param.getValue();
+					t.setState(TicketState.ENDED);
+					try {
+						maintenanceService.setTicket(t);
+					} catch (BusinessException e) {
+						dispatcher.renderError(e);
+					}
 					if (param.getValue().getSubstituteContract() == null) {
 						param.getValue().getContract().getVeicle().setState(VeicleState.BUSY);
 						dispatcher.renderView("changeContractState",

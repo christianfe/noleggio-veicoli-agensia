@@ -14,35 +14,31 @@ import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
 import it.univaq.disim.oop.bhertz.domain.TicketState;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
-import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 
 public class FileMaintenanceServiceImpl implements MaintenanceService {
 
-	private Map<Integer, AssistanceTicket> tickets = new HashMap<>();
 	private int counter = 1;
 	private String filename;
 
 	public FileMaintenanceServiceImpl(String maintenanceFileName) {
 		this.filename = maintenanceFileName;
-		try {
-			this.readList();
-		} catch (BusinessException e) {
-			ViewDispatcher.getInstance().renderError(e);
-		}
 	}
 
 	@Override
 	public List<AssistanceTicket> getAllTickets() throws BusinessException {
+		Map<Integer, AssistanceTicket> tickets = this.readList();
 		return new ArrayList<>(tickets.values());
 	}
 
 	@Override
 	public AssistanceTicket getTicketByID(int id) throws BusinessException {
+		Map<Integer, AssistanceTicket> tickets = this.readList();
 		return tickets.get(id);
 	}
 
 	@Override
 	public List<AssistanceTicket> getTicketByUser(User user) throws BusinessException {
+		Map<Integer, AssistanceTicket> tickets = this.readList();
 		List<AssistanceTicket> result = new ArrayList<>();
 		for (AssistanceTicket v : tickets.values())
 			if (v.getContract().getCustomer().getId() == user.getId())
@@ -52,6 +48,7 @@ public class FileMaintenanceServiceImpl implements MaintenanceService {
 
 	@Override
 	public List<AssistanceTicket> getTicketByVeicle(Integer idVeicle) throws BusinessException {
+		Map<Integer, AssistanceTicket> tickets = this.readList();
 		List<AssistanceTicket> result = new ArrayList<>();
 		for (AssistanceTicket v : tickets.values())
 			if (v.getContract().getVeicle().getId() == idVeicle)
@@ -61,26 +58,30 @@ public class FileMaintenanceServiceImpl implements MaintenanceService {
 
 	@Override
 	public void addTicket(AssistanceTicket ticket) throws BusinessException {
+		Map<Integer, AssistanceTicket> tickets = this.readList();
 		ticket.setId(counter++);
 		tickets.put(ticket.getId(), ticket);
-		this.saveList();
+		this.saveList(tickets);
 	}
 
 	@Override
 	public void setTicket(AssistanceTicket ticket) throws BusinessException {
+		Map<Integer, AssistanceTicket> tickets = this.readList();
 		tickets.put(ticket.getId(), ticket);
-		this.saveList();
+		this.saveList(tickets);
 	}
 
 	@Override
 	public void removeMaintenance(Integer id) throws BusinessException {
+		Map<Integer, AssistanceTicket> tickets = this.readList();
 		tickets.remove(id);
-		this.saveList();
+		this.saveList(tickets);
 
 	}
 
 	@Override
 	public AssistanceTicket getTicketByDate(Veicle veicle, LocalDate date) throws BusinessException {
+		Map<Integer, AssistanceTicket> tickets = this.readList();
 		for (AssistanceTicket t : tickets.values()) {
 			try {
 				if (veicle.getId() == t.getContract().getVeicle().getId() && (date.isEqual(t.getStartDate()) || date.isEqual(t.getEndDate()) || (date.isAfter(t.getStartDate()) && date.isBefore(t.getEndDate()))))
@@ -92,7 +93,7 @@ public class FileMaintenanceServiceImpl implements MaintenanceService {
 		return null;
 	}
 
-	private void saveList() throws BusinessException {
+	private void saveList(Map<Integer, AssistanceTicket> tickets ) throws BusinessException {
 		FileUtility f = new FileUtility();
 		List<String[]> list = new ArrayList<>();
 		for (AssistanceTicket a : tickets.values()) {
@@ -100,8 +101,8 @@ public class FileMaintenanceServiceImpl implements MaintenanceService {
 			s[0] = a.getId().toString();
 			s[1] = a.getState() + "";
 			s[2] = a.getDescription();
-			s[3] = a.getStartDate().toString();
-			s[4] = a.getEndDate().toString();
+			if (a.getStartDate() != null) s[3] = a.getStartDate().toString();
+			if (a.getEndDate() != null) s[4] = a.getEndDate().toString();
 			s[5] = a.getTimeStart();
 			s[6] = a.getTimeEnd();
 			s[7] = a.getVeicleKm() + "";
@@ -111,12 +112,12 @@ public class FileMaintenanceServiceImpl implements MaintenanceService {
 		}
 		f.setAllByFile(this.filename, new FileData(this.counter, list));
 	}
-	
-	private void readList() throws BusinessException {
+
+	private Map<Integer, AssistanceTicket> readList() throws BusinessException {
 		FileUtility fileUtility = new FileUtility();
 		FileData fileData = fileUtility.getAllByFile(filename);
 		ContractService contractService = BhertzBusinessFactory.getInstance().getContractService();
-		this.tickets = new HashMap<Integer, AssistanceTicket>();
+		Map<Integer, AssistanceTicket> tickets = new HashMap<Integer, AssistanceTicket>();
 		for (String[] row : fileData.getRows()) {
 			AssistanceTicket ticket = new AssistanceTicket();
 			ticket.setId(Integer.parseInt(row[0]));
@@ -134,16 +135,17 @@ public class FileMaintenanceServiceImpl implements MaintenanceService {
 				ticket.setState(TicketState.ENDED);
 				break;
 			}
-			ticket.setDescription(row[2]);
-			ticket.setStartDate(LocalDate.parse(row[3]));
-			ticket.setEndDate(LocalDate.parse(row[4]));
-			ticket.setTimeStart(row[5]);
-			ticket.setTimeEnd(row[6]);
+			if(!row[2].equals("null")) ticket.setDescription(row[2]);
+			if(!row[3].equals("null")) ticket.setStartDate(LocalDate.parse(row[3]));
+			if(!row[4].equals("null")) ticket.setEndDate(LocalDate.parse(row[4]));
+			if(!row[5].equals("null")) ticket.setTimeStart(row[5]);
+			if(!row[6].equals("null")) ticket.setTimeEnd(row[6]);
 			ticket.setVeicleKm(Double.parseDouble(row[7]));
 			ticket.setContract(contractService.getContractByID(Integer.parseInt(row[8])));
 			ticket.setSubstituteContract(row[9].equals("0") ? null : contractService.getContractByID(Integer.parseInt(row[9])));
 			this.counter = (int) fileData.getCount();
-			this.tickets.put(ticket.getId(), ticket);
+			tickets.put(ticket.getId(), ticket);
 		}
+		return tickets;
 	}
 }

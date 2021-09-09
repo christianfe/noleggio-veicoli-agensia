@@ -18,26 +18,18 @@ import it.univaq.disim.oop.bhertz.domain.Customer;
 import it.univaq.disim.oop.bhertz.domain.Feedback;
 import it.univaq.disim.oop.bhertz.domain.Staff;
 import it.univaq.disim.oop.bhertz.domain.User;
-import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 
 public class FileUserServiceImpl implements UserService {
 
 	private String userFilename;
-	private Map<Integer, User> users = new HashMap<>();
 	private long counter;
 
 	public FileUserServiceImpl(String userFilename) {
 		this.userFilename = userFilename;
-		try {
-			this.readList();
-		} catch (BusinessException e) {
-			ViewDispatcher.getInstance().renderError(e);
-		}
 	}
 
 	@Override
 	public User authenticate(String username, String password) throws UserNotFoundException, BusinessException {
-		//ID, role, nome, username; password
 		try {
 			FileData fileData = FileUtility.readAllRows(userFilename);
 			for (String[] cols : fileData.getRows()) {
@@ -73,36 +65,42 @@ public class FileUserServiceImpl implements UserService {
 
 	@Override
 	public User getUsersByID(int id) throws BusinessException {
+		Map<Integer, User> users = this.readList();
 		return users.get(id);
 	}
 
 	@Override
 	public List<User> getUserByRole(int r) throws BusinessException {
+		Map<Integer, User> users = this.readList();
 		List<User> result = new ArrayList<>();
 		for (User u : users.values())
 			if (u.getRole() == r)
 				result.add(u);
-		return result;	}
+		return result;
+	}
 
 	@Override
 	public void setUser(Integer id, String name, String username, String password) throws BusinessException {
+		Map<Integer, User> users = this.readList();
 		User u = this.getUsersByID(id);
 		u.setName(name);
 		u.setUsername(username);
 		u.setPassword(password);
-		this.users.put(id, u);
-		this.saveList();
+		users.put(id, u);
+		this.saveList(users);
 	}
 
 	@Override
 	public void addUser(User user) throws BusinessException {
+		Map<Integer, User> users = this.readList();
 		user.setId((int) counter++);
-		this.users.put(user.getId(), user);
-		this.saveList();
+		users.put(user.getId(), user);
+		this.saveList(users);
 	}
 
 	@Override
 	public void deleteUser(Integer id) throws BusinessException {
+		Map<Integer, User> users = this.readList();
 		ContractService contractService = BhertzBusinessFactory.getInstance().getContractService();
 		UserService userService = BhertzBusinessFactory.getInstance().getUserService();
 		FeedbackService feedbackService = BhertzBusinessFactory.getInstance().getFeedbackService();
@@ -113,11 +111,12 @@ public class FileUserServiceImpl implements UserService {
 		for (Contract c : cc)
 			contractService.removeContract(c.getId());
 		users.remove(id);
-		this.saveList();
+		this.saveList(users);
 	}
 
 	@Override
 	public boolean isUsernameSet(String username) throws BusinessException {
+		Map<Integer, User> users = this.readList();
 		for (User u : users.values())
 			if (u.getUsername().equals(username))
 				return true;
@@ -126,6 +125,7 @@ public class FileUserServiceImpl implements UserService {
 
 	@Override
 	public boolean isUsernameSet(Integer currentUserId, String username) throws BusinessException {
+		Map<Integer, User> users = this.readList();
 		for (User u : users.values()) {
 			if (u.getId() == currentUserId) continue;
 			if (u.getUsername().equals(username)) return true;
@@ -133,7 +133,7 @@ public class FileUserServiceImpl implements UserService {
 		return false;
 	}
 
-	private void saveList() throws BusinessException {
+	private void saveList(Map<Integer, User> users) throws BusinessException {
 		FileUtility f = new FileUtility();
 		List<String[]> list = new ArrayList<>();
 		for (User u : users.values()) {
@@ -148,10 +148,10 @@ public class FileUserServiceImpl implements UserService {
 		f.setAllByFile(this.userFilename, new FileData(this.counter, list));
 	}
 	
-	private void readList() throws BusinessException {
+	private Map<Integer, User> readList() throws BusinessException {
 		FileUtility f = new FileUtility();
 		FileData fileData = f.getAllByFile(userFilename);
-		this.users = new HashMap<Integer, User>();
+		Map<Integer, User> users = new HashMap<Integer, User>();
 		for (String[] row : fileData.getRows()) {
 			User user = null;
 			switch (row[1]) {
@@ -173,8 +173,9 @@ public class FileUserServiceImpl implements UserService {
 			} else
 				throw new BusinessException("Errore nella lettura del file");
 			this.counter = fileData.getCount();
-			this.users.put(user.getId(), user);
+			users.put(user.getId(), user);
 		}
+		return users;
 	}
 	
 }

@@ -16,6 +16,7 @@ import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.ContractService;
 import it.univaq.disim.oop.bhertz.business.FeedbackService;
 import it.univaq.disim.oop.bhertz.business.MaintenanceService;
+import it.univaq.disim.oop.bhertz.business.VeiclesService;
 import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
 import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.ContractState;
@@ -75,12 +76,15 @@ public class RentalController extends ViewUtility implements Initializable, Data
 	private ViewDispatcher dispatcher;
 	private ContractService contractService;
 	private FeedbackService feedbackService;
+	private VeiclesService veiclesService;
 	private User user;
 
 	public RentalController() throws BusinessException {
 		dispatcher = ViewDispatcher.getInstance();
 		contractService = BhertzBusinessFactory.getInstance().getContractService();
 		feedbackService = BhertzBusinessFactory.getInstance().getFeedbackService();
+		veiclesService = BhertzBusinessFactory.getInstance().getVeiclesService();
+		veiclesService.refreshAllStates();
 	}
 
 	@Override

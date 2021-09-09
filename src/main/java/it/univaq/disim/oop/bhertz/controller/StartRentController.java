@@ -28,7 +28,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 
-public class StartRentController extends ViewUtility implements Initializable, DataInitializable<ObjectsCollector> {
+public class StartRentController extends ViewUtility implements Initializable, DataInitializable<ObjectsCollector<User, Veicle>> {
 
 	@FXML
 	private Label titleLabel;
@@ -78,7 +78,7 @@ public class StartRentController extends ViewUtility implements Initializable, D
 	}
 
 	@Override
-	public void initializeData(ObjectsCollector objectsCollector) {
+	public void initializeData(ObjectsCollector<User, Veicle> objectsCollector) {
 
 		ObjectsCollector<User, Veicle> ArgumentsData = objectsCollector;
 		this.user = ArgumentsData.getObjectA();

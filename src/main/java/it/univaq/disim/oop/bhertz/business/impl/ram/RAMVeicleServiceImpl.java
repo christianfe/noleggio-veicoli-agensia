@@ -17,7 +17,9 @@ import it.univaq.disim.oop.bhertz.business.TypesService;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
 import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
 import it.univaq.disim.oop.bhertz.domain.Contract;
+import it.univaq.disim.oop.bhertz.domain.ContractState;
 import it.univaq.disim.oop.bhertz.domain.Feedback;
+import it.univaq.disim.oop.bhertz.domain.TicketState;
 import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
 import it.univaq.disim.oop.bhertz.domain.VeicleState;
@@ -162,8 +164,7 @@ public class RAMVeicleServiceImpl implements VeiclesService {
 	@Override
 	public boolean isVeicleFree(LocalDate startDate, LocalDate endDate, List<Contract> contractOfVeicle) throws BusinessException {
 
-		for (int i = 0; i < contractOfVeicle.size(); i++) {
-			Contract c = contractOfVeicle.get(i);
+		for (Contract c : contractOfVeicle) {
 			if (!(startDate.isAfter(c.getEnd().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT)) || endDate.plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT).isBefore(c.getStart())))
 				return false;
 		}
@@ -198,8 +199,15 @@ public class RAMVeicleServiceImpl implements VeiclesService {
 		for (Veicle v : veicles.values()) {
 			AssistanceTicket a = maintenanceService.getTicketByDate(v, LocalDate.now());
 			Contract c = contractService.getContractByDate(v, LocalDate.now());
-			if (a != null) v.setState(VeicleState.MAINTENANCE);
-			else if (c != null) v.setState(VeicleState.BUSY);
+			if (a != null && a.getState() != TicketState.ENDED) {
+				v.setState(VeicleState.MAINTENANCE);
+				c.setState(ContractState.MAINTENANCE);
+				contractService.setContract(c);
+			} else if (c != null) {
+				v.setState(VeicleState.BUSY);
+				c.setState(ContractState.ACTIVE);
+				contractService.setContract(c);
+			}
 			else v.setState(VeicleState.FREE);
 		}
 	}

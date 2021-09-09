@@ -1,1 +1,4 @@
-1
+4
+1;Fiat Panda;1;MAINTENANCE;178.0;1.0;1;21.0;0.25;1
+2;Ford Fiesta;1;FREE;1.0;1.0;1;21.0;0.25;1
+3;Aprilia RS;2;FREE;1.0;1.0;1;21.0;0.25;2

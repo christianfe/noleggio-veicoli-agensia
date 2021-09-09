@@ -1,5 +1,6 @@
-5
+6
 1;0;Administrator;admin;admin
 2;1;Operatore;staff;staff
 3;1;Mario Rossi;mrossi;mrossi
 4;2;user1;user1;user1
+5;2;Christian;chris;chris

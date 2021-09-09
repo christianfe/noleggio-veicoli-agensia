@@ -15,51 +15,45 @@ import it.univaq.disim.oop.bhertz.business.FeedbackService;
 import it.univaq.disim.oop.bhertz.business.MaintenanceService;
 import it.univaq.disim.oop.bhertz.business.TypesService;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
-import it.univaq.disim.oop.bhertz.business.impl.ram.RAMTypesServiceImpl;
 import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
 import it.univaq.disim.oop.bhertz.domain.Contract;
+import it.univaq.disim.oop.bhertz.domain.ContractState;
 import it.univaq.disim.oop.bhertz.domain.Feedback;
+import it.univaq.disim.oop.bhertz.domain.TicketState;
 import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
 import it.univaq.disim.oop.bhertz.domain.VeicleState;
 import it.univaq.disim.oop.bhertz.view.ContractOrderByDate;
-import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import it.univaq.disim.oop.bhertz.view.ViewUtility;
 
-public class FileVeicleserviceImpl implements VeiclesService {
+public class FileVeicleServiceImpl implements VeiclesService {
 
-	private Map<Integer, Veicle> veicles = new HashMap<>();
-	private TypesService typeService;
-	private long counter;
+	private long counter = 1;
 	private String veicleFileName;
 
-	public FileVeicleserviceImpl(String veicleFileName) {
+	public FileVeicleServiceImpl(String veicleFileName) {
 		this.veicleFileName = veicleFileName;
-		this.typeService = new RAMTypesServiceImpl();
-		try {
-			this.readList();
-		} catch (BusinessException e) {
-			ViewDispatcher.getInstance().renderError(e);
-		}
 	}
 
 	@Override
 	public List<Veicle> getVeiclesByType(Type t) throws BusinessException {
+		Map<Integer, Veicle> veicles = this.readList();
 		List<Veicle> result = new ArrayList<>();
-		for (Veicle v : veicles.values()) {
+		for (Veicle v : veicles.values())
 			if (v.getType().getId() == t.getId())
 				result.add(v);
-		}
 		return result;
 	}
 
 	@Override
 	public Veicle getVeicleByID(int id) throws BusinessException {
+		Map<Integer, Veicle> veicles = this.readList();
 		return veicles.get(id);
 	}
 
 	@Override
 	public List<Veicle> getVeiclesByState(VeicleState state) throws BusinessException {
+		Map<Integer, Veicle> veicles = this.readList();
 		List<Veicle> result = new ArrayList<>();
 		for (Veicle v : veicles.values())
 			if (v.getState() == state)
@@ -93,16 +87,15 @@ public class FileVeicleserviceImpl implements VeiclesService {
 
 	@Override
 	public void addVeicle(Veicle veicle) throws BusinessException {
-		Integer max = 0;
-		for (Veicle v : veicles.values())
-			max = (max > v.getId()) ? max : v.getId();
-		veicle.setId(max + 1);
-		this.veicles.put(veicle.getId(), veicle);
-		saveList();
+		Map<Integer, Veicle> veicles = this.readList();
+		veicle.setId((int) counter++);
+		veicles.put(veicle.getId(), veicle);
+		this.saveList(veicles);
 	}
 
 	@Override
 	public void deleteVeicle(Integer id) throws BusinessException {
+		Map<Integer, Veicle> veicles = this.readList();
 		ContractService contractService = BhertzBusinessFactory.getInstance().getContractService();
 		FeedbackService feedbackService = BhertzBusinessFactory.getInstance().getFeedbackService();
 		MaintenanceService maintenanceService = BhertzBusinessFactory.getInstance().getMaintenanceService();
@@ -119,31 +112,31 @@ public class FileVeicleserviceImpl implements VeiclesService {
 			maintenanceService.removeMaintenance(m.getId());
 
 		veicles.remove(id);
-		saveList();
+		this.saveList(veicles);
 	}
 
 	@Override
 	public void setVeicle(Integer id, String model, double km, double consuption, String fuel) throws BusinessException {
-		Veicle v = veicles.get(id);
+		Map<Integer, Veicle> veicles = this.readList();
+		Veicle v = getVeicleByID(id);
 		v.setModel(model);
 		v.setConsumption(consuption);
 		v.setKm(km);
 		v.setFuel(fuel);
-		this.veicles.put(id, v);
-		saveList();
+		veicles.put(id, v);
+		this.saveList(veicles);
 	}
 
 	@Override
 	public void setVeicle(Veicle veicle) throws BusinessException {
-		this.veicles.put(veicle.getId(), veicle);
-		saveList();
+		Map<Integer, Veicle> veicles = this.readList();
+		veicles.put(veicle.getId(), veicle);
+		this.saveList(veicles);
 	}
 
 	@Override
 	public boolean isVeicleFree(LocalDate startDate, LocalDate endDate, List<Contract> contractOfVeicle) throws BusinessException {
-
-		for (int i = 0; i < contractOfVeicle.size(); i++) {
-			Contract c = contractOfVeicle.get(i);
+		for (Contract c : contractOfVeicle) {
 			if (!(startDate.isAfter(c.getEnd().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT)) || endDate.plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT).isBefore(c.getStart())))
 				return false;
 		}
@@ -152,9 +145,8 @@ public class FileVeicleserviceImpl implements VeiclesService {
 
 	@Override
 	public String FindAviableDays(List<Contract> contractOfVeicle) throws BusinessException {
-
 		if (contractOfVeicle.isEmpty())
-			return "veicolo disponibile per qualunque periodo";
+			return "veicolo disponibile in qualunque periodo";
 
 		Collections.sort(contractOfVeicle, new ContractOrderByDate());
 		String body;
@@ -173,19 +165,30 @@ public class FileVeicleserviceImpl implements VeiclesService {
 
 	@Override
 	public void refreshAllStates() throws BusinessException {
+		Map<Integer, Veicle> veicles = this.readList();
 		ContractService contractService = BhertzBusinessFactory.getInstance().getContractService();
 		MaintenanceService maintenanceService = BhertzBusinessFactory.getInstance().getMaintenanceService();
 		for (Veicle v : veicles.values()) {
 			AssistanceTicket a = maintenanceService.getTicketByDate(v, LocalDate.now());
 			Contract c = contractService.getContractByDate(v, LocalDate.now());
-			if (a != null) v.setState(VeicleState.MAINTENANCE);
-			else if (c != null) v.setState(VeicleState.BUSY);
-			else v.setState(VeicleState.FREE);
+			if (a != null && a.getState() != TicketState.ENDED) {
+				v.setState(VeicleState.MAINTENANCE);
+				c.setState(ContractState.MAINTENANCE);
+				contractService.setContract(c);
+			} else if (c != null && c.getState() != ContractState.ENDED && c.getState() != ContractState.BOOKED) {
+				v.setState(VeicleState.BUSY);
+				c.setState(ContractState.ACTIVE);
+				contractService.setContract(c);
+			}
+			else {
+				v.setState(VeicleState.FREE);
+			}
 		}
+		this.saveList(veicles);
 	}
 
 
-	private void saveList() throws BusinessException {
+	private void saveList(Map<Integer, Veicle> veicles) throws BusinessException {
 		FileUtility f = new FileUtility();
 		List<String[]> list = new ArrayList<>();
 		for (Veicle v : veicles.values()) {
@@ -193,18 +196,7 @@ public class FileVeicleserviceImpl implements VeiclesService {
 			s[0] = v.getId().toString();
 			s[1] = v.getModel();
 			s[2] = v.getPlate();
-			// FREE: 0 MAINTENANCE: 1 BUSY: 2
-			switch (v.getState()) {
-			case FREE:
-				s[3] = "0";
-				break;
-			case MAINTENANCE:
-				s[3] = "1";
-				break;
-			case BUSY:
-				s[3] = "2";
-				break;
-			}
+			s[3] = v.getState() + "";
 			s[4] = v.getKm() + "";
 			s[5] = v.getConsumption() + "";
 			s[6] = v.getFuel();
@@ -216,10 +208,11 @@ public class FileVeicleserviceImpl implements VeiclesService {
 		f.setAllByFile(this.veicleFileName, new FileData(this.counter, list));
 	}
 
-	private void readList() throws BusinessException {
+	private Map<Integer, Veicle> readList() throws BusinessException {
 		FileUtility f = new FileUtility();
 		FileData fileData = f.getAllByFile(veicleFileName);
-		this.veicles = new HashMap<Integer, Veicle>();
+		TypesService typeService = BhertzBusinessFactory.getInstance().getTypesService();
+		Map<Integer, Veicle> veicles = new HashMap<>();
 		for (String[] row : fileData.getRows()) {
 			Veicle veicle = new Veicle();
 			veicle.setId(Integer.parseInt(row[0]));
@@ -243,8 +236,8 @@ public class FileVeicleserviceImpl implements VeiclesService {
 			veicle.setPriceForDay(Double.parseDouble(row[8]));
 			veicle.setType(typeService.getTypeByID(Integer.parseInt(row[9])));
 			this.counter = fileData.getCount();
-			this.veicles.put(veicle.getId(), veicle);
+			veicles.put(veicle.getId(), veicle);
 		}
-
+		return veicles;
 	}
 }

@@ -54,9 +54,7 @@ public class RAMFeedbackServiceImpl implements FeedbackService {
 			if (f.getContract().getCustomer().getId() == id)
 				result.add(f);
 		return result;
-
 	}
-
 
 	@Override
 	public void removeFeedback(Integer id) throws BusinessException {

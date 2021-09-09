@@ -1,1 +1,17 @@
-1
+17
+1;Appuntamento Consegna Veicolo;Il suo appuntamento per la consegna del veicolo è stato fissato per il giorno: 15-09-2021  12:12;5
+2;Appuntamento Consegna Veicolo;Il suo appuntamento per la consegna del veicolo è stato fissato per il giorno: 15-09-2021  12:15;5
+3;Appuntamento Consegna Veicolo;Il suo appuntamento per la consegna del veicolo è stato fissato per il giorno: 15-09-2021  11:11;5
+4;Appuntamento Consegna Veicolo;Il suo appuntamento per la consegna del veicolo è stato fissato per il giorno: 15-09-2021  11:11;5
+5;Appuntamento Consegna Veicolo;Il suo appuntamento per la consegna del veicolo è stato fissato per il giorno: 15-09-2021  12:12;5
+6;Appuntamento Consegna Veicolo;Il suo appuntamento per la consegna del veicolo è stato fissato per il giorno: 15-09-2021  12:00;5
+7;Appuntamento Restituzione Veicolo;Il suo appuntamento per la restituzione del veicolo è stato fissato per il giorno: 15-09-2021  12:00;5
+8;Appuntamento Consegna Veicolo;Il suo appuntamento per la consegna del veicolo è stato fissato per il giorno: 13-09-2021  09:00;5
+9;Appuntamento Gestione Manutenzione;Il suo appuntamento per la gestione dell'assistenza è stato fissato per il giorno: 13-09-2021  09:12;5
+10;Appuntamento Gestione Manutenzione;Il suo appuntamento per la gestione dell'assistenza è stato fissato per il giorno: 13-09-2021  12:00;5
+11;Appuntamento Gestione Manutenzione;Il suo appuntamento per la gestione dell'assistenza è stato fissato per il giorno: 11-09-2021  18:00;5
+12;Appuntamento Gestione Manutenzione;Il suo appuntamento per la gestione dell'assistenza è stato fissato per il giorno: 13-09-2021  18:00;5
+13;Appuntamento fine manutenzione;Abbiamo risolto i problemi del veicolo. La consegna del veicolo è stata fissata per il giorno: 13-09-2021  18:18;5
+14;Appuntamento Restituzione Veicolo;Il suo appuntamento per la restituzione del veicolo è stato fissato per il giorno: 13-09-2021  18:01;5
+15;Appuntamento Consegna Veicolo;Il suo appuntamento per la consegna del veicolo è stato fissato per il giorno: 20-09-2021  18:18;5
+16;Appuntamento Gestione Manutenzione;Il suo appuntamento per la gestione dell'assistenza è stato fissato per il giorno: 20-09-2021  18:19;5

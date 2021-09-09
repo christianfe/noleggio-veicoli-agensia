@@ -114,7 +114,6 @@ public class MaintenanceManagementController extends ViewUtility
 			}
 			List<Veicle> veicleListByAviability = new ArrayList<>();
 			for (Veicle v : veicleList) {
-				
 				try {
 					List<Contract> contractOfVeicle = contractService.getContractsByVeicle(0,v.getId());
 					if (veiclesService.isVeicleFree(ticket.getStartDate(), ticket.getContract().getEnd(), contractOfVeicle))

@@ -7,6 +7,9 @@ import java.util.ResourceBundle;
 
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
+import it.univaq.disim.oop.bhertz.business.ContractService;
+import it.univaq.disim.oop.bhertz.business.MaintenanceService;
+import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
 import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.ContractState;
 import it.univaq.disim.oop.bhertz.domain.Notification;
@@ -26,7 +29,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class AppointmentManagerController extends ViewUtility
-		implements Initializable, DataInitializable<ObjectsCollector<User, Contract>> {
+implements Initializable, DataInitializable<ObjectsCollector<User, Contract>> {
 
 	@FXML
 	private Label titleLabel;
@@ -47,11 +50,15 @@ public class AppointmentManagerController extends ViewUtility
 
 	private ObjectsCollector<User, Contract> objectsCollector;
 	private ViewDispatcher dispatcher;
+	private ContractService contractService;
+	private MaintenanceService maintenanceService;
 	private int mode; // 1: consegna; 2: riconsegna; 3: gestione manutenzione; 4: appuntamento fine
-						// manutenzione
+	// manutenzione
 
 	public AppointmentManagerController() {
 		this.dispatcher = ViewDispatcher.getInstance();
+		this.contractService = BhertzBusinessFactory.getInstance().getContractService();
+		this.maintenanceService = BhertzBusinessFactory.getInstance().getMaintenanceService();
 	}
 
 	@Override
@@ -77,7 +84,7 @@ public class AppointmentManagerController extends ViewUtility
 			break;
 		case 2:
 			this.titleLabel
-					.setText(titleLabel.getText() + " '" + objectsCollector.getObjectB().getVeicle().getModel() + "'");
+			.setText(titleLabel.getText() + " '" + objectsCollector.getObjectB().getVeicle().getModel() + "'");
 			break;
 		case 3:
 
@@ -88,7 +95,7 @@ public class AppointmentManagerController extends ViewUtility
 
 		this.subtitle1Label.setText("Cliete: " + objectsCollector.getObjectB().getCustomer().getName());
 		this.subtitle2Label
-				.setText(objectsCollector.getObjectB().getStart() + " - " + objectsCollector.getObjectB().getEnd());
+		.setText(objectsCollector.getObjectB().getStart() + " - " + objectsCollector.getObjectB().getEnd());
 		this.subtitle3Label.setText(objectsCollector.getObjectB().isPaid() ? "Noleggio Pagato" : "Noleggio Non Pagato");
 		datePicker.setValue(objectsCollector.getObjectB().getEnd());
 
@@ -150,43 +157,50 @@ public class AppointmentManagerController extends ViewUtility
 				return;
 			}
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+			Contract c;
+			AssistanceTicket t;
 			switch (this.mode) {
 			case 1:
 				BhertzBusinessFactory.getInstance().getNotificationsService()
-						.addNotification(new Notification(objectsCollector.getObjectB().getCustomer(),
-								NotificationDictionary.START_RENT_APPOINTMENT_TITLE,
-								NotificationDictionary.START_RENT_APPOINTMENT_TEXT
-										+ datePicker.getValue().format(formatter) + "  " + timeField.getText()));
-				BhertzBusinessFactory.getInstance().getContractService()
-						.getContractByID(objectsCollector.getObjectB().getId())
-						.setDeliverDateTime(datePicker.getValue().format(formatter) + "  " + timeField.getText());
+				.addNotification(new Notification(objectsCollector.getObjectB().getCustomer(),
+						NotificationDictionary.START_RENT_APPOINTMENT_TITLE,
+						NotificationDictionary.START_RENT_APPOINTMENT_TEXT
+						+ datePicker.getValue().format(formatter) + "  " + timeField.getText()));
+				c = contractService.getContractByID(objectsCollector.getObjectB().getId());
+				c.setDeliverDateTime(datePicker.getValue().format(formatter) + "  " + timeField.getText());
+				contractService.setContract(c);
 				dispatcher.renderView("rental", objectsCollector.getObjectA());
 				break;
 			case 2:
 				BhertzBusinessFactory.getInstance().getNotificationsService()
-						.addNotification(new Notification(objectsCollector.getObjectB().getCustomer(),
-								NotificationDictionary.END_RENT_APPOINTMENT_TITLE,
-								NotificationDictionary.END_RENT_APPOINTMENT_TEXT
-										+ datePicker.getValue().format(formatter) + "  " + timeField.getText()));
-				BhertzBusinessFactory.getInstance().getContractService()
-						.getContractByID(objectsCollector.getObjectB().getId())
-						.setReturnDateTime(datePicker.getValue().format(formatter) + "  " + timeField.getText());
+				.addNotification(new Notification(objectsCollector.getObjectB().getCustomer(),
+						NotificationDictionary.END_RENT_APPOINTMENT_TITLE,
+						NotificationDictionary.END_RENT_APPOINTMENT_TEXT
+						+ datePicker.getValue().format(formatter) + "  " + timeField.getText()));
+
+				c = this.contractService.getContractByID(objectsCollector.getObjectB().getId());
+				c.setReturnDateTime(datePicker.getValue().format(formatter) + "  " + timeField.getText());
+				contractService.setContract(c);
+				
 				dispatcher.renderView("rental", objectsCollector.getObjectA());
 				break;
 			case 3:
-				objectsCollector.getObjectB().getAssistance().setStartDate(LocalDate.now());
-				objectsCollector.getObjectB().getAssistance().setTimeStart(timeField.getText());
+				t = objectsCollector.getObjectB().getAssistance();
+				t.setStartDate(LocalDate.now());
+				t.setTimeStart(timeField.getText());
+				maintenanceService.setTicket(t);
 				BhertzBusinessFactory.getInstance().getNotificationsService()
-						.addNotification(new Notification(objectsCollector.getObjectB().getCustomer(),
-								NotificationDictionary.START_MAINTENANCE_APPOINTMENT_TITLE,
-								NotificationDictionary.START_MAINTENANCE_APPOINTMENT_TEXT
-										+ datePicker.getValue().format(formatter) + "  " + timeField.getText()));
+				.addNotification(new Notification(objectsCollector.getObjectB().getCustomer(),
+						NotificationDictionary.START_MAINTENANCE_APPOINTMENT_TITLE,
+						NotificationDictionary.START_MAINTENANCE_APPOINTMENT_TEXT
+						+ datePicker.getValue().format(formatter) + "  " + timeField.getText()));
 				dispatcher.renderView("maintenance", objectsCollector.getObjectA());
 				break;
 			case 4:
-				objectsCollector.getObjectB().getAssistance().setEndDate(LocalDate.now());
-				objectsCollector.getObjectB().getAssistance().setTimeEnd(timeField.getText());
-
+				t = objectsCollector.getObjectB().getAssistance();
+				t.setEndDate(datePicker.getValue());
+				t.setTimeEnd(timeField.getText());
+				maintenanceService.setTicket(t);
 				String text;
 				if (objectsCollector.getObjectB().getAssistance().getSubstituteContract() == null)
 					text = NotificationDictionary.END_MAINTENANCE_APPOINTMENT_TEXT;
@@ -194,13 +208,10 @@ public class AppointmentManagerController extends ViewUtility
 					text = NotificationDictionary.END_MAINTENANCE_APPOINTMENT_TEXT_SUBSTITUTE;
 
 				BhertzBusinessFactory.getInstance().getNotificationsService()
-						.addNotification(new Notification(objectsCollector.getObjectB().getCustomer(),
-								NotificationDictionary.END_MAINTENANCE_APPOINTMENT_TITLE,
-								text + datePicker.getValue().format(formatter) + "  " + timeField.getText()));
-				objectsCollector.getObjectB().getAssistance().setEndDate(datePicker.getValue());
-				objectsCollector.getObjectB().getAssistance().setTimeEnd(timeField.getText());
+				.addNotification(new Notification(objectsCollector.getObjectB().getCustomer(),
+						NotificationDictionary.END_MAINTENANCE_APPOINTMENT_TITLE,
+						text + datePicker.getValue().format(formatter) + "  " + timeField.getText()));
 				dispatcher.renderView("maintenance", objectsCollector.getObjectA());
-
 				break;
 			}
 

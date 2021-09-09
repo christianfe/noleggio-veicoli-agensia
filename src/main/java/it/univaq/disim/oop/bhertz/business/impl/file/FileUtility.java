@@ -50,7 +50,7 @@ public class FileUtility {
 
 		try {
 			try (PrintWriter writer = new PrintWriter(new File(fileName))) {
-				writer.println((fileData.getCount()));
+				writer.println(fileData.getCount());
 				for (String[] row : fileData.getRows())
 					writer.println(String.join(FileUtility.COLUMN_SEPARATOR, row));
 			}

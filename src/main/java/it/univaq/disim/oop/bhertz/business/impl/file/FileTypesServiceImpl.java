@@ -11,73 +11,62 @@ import it.univaq.disim.oop.bhertz.business.TypeNotEmptyException;
 import it.univaq.disim.oop.bhertz.business.TypesService;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
 import it.univaq.disim.oop.bhertz.domain.Type;
-import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 
 public class FileTypesServiceImpl implements TypesService {
 
-	private Map<Integer, Type> types = new HashMap<>();
 	private String typesFileName;
 	private long counter = 0;
 
 	public FileTypesServiceImpl(String typesFileName) {
 		this.typesFileName = typesFileName;
-		try {
-			this.readList();
-		} catch (BusinessException e) {
-			ViewDispatcher.getInstance().renderError(e);
-		}
 	}
-
-	/***********************************************************/
 
 	@Override
 	public List<Type> getAllTypes() throws BusinessException {
+		Map<Integer, Type> types = this.readList();
 		return new ArrayList<>(types.values());
-		
+
 	}
 
 	@Override
-	public Type getTypeByID(int id){
+	public Type getTypeByID(int id) throws BusinessException{
+		Map<Integer, Type> types = this.readList();
 		return types.get(id);
 	}
 
 	@Override
 	public void deleteType(Integer id) throws BusinessException, TypeNotEmptyException{
+		Map<Integer, Type> types = this.readList();
 		VeiclesService veiclesService = BhertzBusinessFactory.getInstance().getVeiclesService();
 		Type t = types.get(id);
 		if (!veiclesService.getVeiclesByType(t).isEmpty()) throw new TypeNotEmptyException();
 		else 
-			{
 			types.remove(id);
-			saveList();
-			}
+		saveList(types);
 	}
 
 
 	@Override
 	public void addType(Type type) throws BusinessException {
-		Integer max = 0;
-		for (Type t : types.values())
-			max = (max > t.getId())? max : t.getId();
-		type.setId(max + 1);
-		this.types.put(type.getId(), type);
-		saveList();
+		Map<Integer, Type> types = this.readList();
+		type.setId((int) counter++);
+		types.put(type.getId(), type);
+		saveList(types);
 	}
 
 	@Override
 	public void setType(Integer id, String name, double priceForKm, double priceForDay) throws BusinessException {
+		Map<Integer, Type> types = this.readList();
 		System.out.println(types);
 		Type t = types.get(id);
 		t.setName(name);
 		t.setPriceForDay(priceForDay);
 		t.setPriceForKm(priceForKm);
-		this.types.put(id, t);
-		saveList();
+		types.put(id, t);
+		saveList(types);
 	}
 
-	/***********************************************************/
-
-	private void saveList() throws BusinessException {
+	private void saveList(Map<Integer, Type> types ) throws BusinessException {
 		FileUtility f = new FileUtility();
 		List<String[]> list = new ArrayList<>();
 		for (Type t : types.values()) {
@@ -91,10 +80,10 @@ public class FileTypesServiceImpl implements TypesService {
 		f.setAllByFile(this.typesFileName, new FileData(this.counter, list));
 	}
 
-	private void readList() throws BusinessException {
+	private Map<Integer, Type> readList() throws BusinessException {
 		FileUtility f = new FileUtility();
 		FileData fileData = f.getAllByFile(typesFileName);
-		this.types = new HashMap<Integer, Type>();
+		Map<Integer, Type> types = new HashMap<Integer, Type>();
 		for (String[] row : fileData.getRows()) {
 			Type type = new Type();
 			type.setId(Integer.parseInt(row[0]));
@@ -102,8 +91,9 @@ public class FileTypesServiceImpl implements TypesService {
 			type.setPriceForKm(Double.parseDouble(row[2]));
 			type.setPriceForDay(Double.parseDouble(row[3]));
 			this.counter = fileData.getCount();
-			this.types.put(type.getId(), type);
+			types.put(type.getId(), type);
 		}
+		return types;
 	}
 
 }
