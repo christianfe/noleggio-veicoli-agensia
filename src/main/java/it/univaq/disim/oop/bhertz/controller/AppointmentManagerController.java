@@ -63,13 +63,12 @@ public class AppointmentManagerController extends ViewUtility
 		else
 			this.mode = objectsCollector.getObjectB().getDeliverDateTime() == null ? 1 : 2;
 
-			try {
-				if (objectsCollector.getObjectB().getAssistance().getState() == TicketState.READY)
-					this.mode = 4;
-			} catch (NullPointerException e) {
+		try {
+			if (objectsCollector.getObjectB().getAssistance().getState() == TicketState.READY)
+				this.mode = 4;
+		} catch (NullPointerException e) {
 
-			}
-
+		}
 
 		switch (this.mode) {
 		case 1:
@@ -93,24 +92,53 @@ public class AppointmentManagerController extends ViewUtility
 		this.subtitle3Label.setText(objectsCollector.getObjectB().isPaid() ? "Noleggio Pagato" : "Noleggio Non Pagato");
 		datePicker.setValue(objectsCollector.getObjectB().getEnd());
 
-	};
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
 		super.setTimeField(timeField);
 		datePicker.setDayCellFactory(d -> new DateCell() {
 			@Override
 			public void updateItem(LocalDate item, boolean empty) {
 				super.updateItem(item, empty);
-				if (objectsCollector.getObjectB().getState() == ContractState.MAINTENANCE) {
-					setDisable(item.isBefore(objectsCollector.getObjectB().getAssistance().getStartDate())
-							|| item.isAfter(objectsCollector.getObjectB().getAssistance().getStartDate().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT)));
-				} else {
+
+				/*
+				 * if (objectsCollector.getObjectB().getState() == ContractState.MAINTEN NCE) {
+				 * setDisable(item.isBefore(objectsCollector.getObjectB().getAssistance().
+				 * getStartDate()) ||
+				 * item.isAfter(objectsCollector.getObjectB().getAssistance().getStartDate().
+				 * plusDays(2))); } else {
+				 * setDisable(item.isBefore(objectsCollector.getObjectB().getEnd()) ||
+				 * item.isAfter(objectsCollector.getObjectB().getEnd().plusDays(2))); }
+				 */
+
+				switch (mode) {
+				case 1:
+					setDisable(item.isBefore(objectsCollector.getObjectB().getStart())
+							|| item.isAfter(objectsCollector.getObjectB().getStart().plusDays(2))
+							|| item.isAfter(objectsCollector.getObjectB().getEnd()));
+					break;
+				case 2:
 					setDisable(item.isBefore(objectsCollector.getObjectB().getEnd())
-							|| item.isAfter(objectsCollector.getObjectB().getEnd().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT)));
+							|| item.isAfter(objectsCollector.getObjectB().getEnd().plusDays(2)));
+					break;
+				case 3:
+					setDisable(item.isBefore(objectsCollector.getObjectB().getAssistance().getStartDate())
+							|| item.isAfter(objectsCollector.getObjectB().getAssistance().getStartDate().plusDays(2))
+							|| item.isAfter(objectsCollector.getObjectB().getEnd()));
+					break;
+				case 4:
+					setDisable(item.isBefore(objectsCollector.getObjectB().getAssistance().getStartDate())
+							|| item.isAfter(objectsCollector.getObjectB().getAssistance().getStartDate().plusDays(2))
+							|| item.isAfter(objectsCollector.getObjectB().getEnd()));
+					break;
+
 				}
+
 			}
 		});
+
+	};
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+
 	}
 
 	@FXML
@@ -166,7 +194,8 @@ public class AppointmentManagerController extends ViewUtility
 					text = NotificationDictionary.END_MAINTENANCE_APPOINTMENT_TEXT_SUBSTITUTE;
 
 				BhertzBusinessFactory.getInstance().getNotificationsService()
-						.addNotification(new Notification(objectsCollector.getObjectB().getCustomer(),  NotificationDictionary.END_MAINTENANCE_APPOINTMENT_TITLE,
+						.addNotification(new Notification(objectsCollector.getObjectB().getCustomer(),
+								NotificationDictionary.END_MAINTENANCE_APPOINTMENT_TITLE,
 								text + datePicker.getValue().format(formatter) + "  " + timeField.getText()));
 				objectsCollector.getObjectB().getAssistance().setEndDate(datePicker.getValue());
 				objectsCollector.getObjectB().getAssistance().setTimeEnd(timeField.getText());

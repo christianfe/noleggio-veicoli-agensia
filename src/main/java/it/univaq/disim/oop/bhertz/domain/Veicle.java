@@ -115,5 +115,23 @@ public class Veicle {
 	public void setPriceForDay(double priceForDay) {
 		this.priceForDay = priceForDay;
 	}
+	
+	public void getStringState () {
+		String S;
+		
+		switch (state) {
+		case FREE:
+			S = "libero";
+			break;
+		case BUSY:
+			S = "Occupato";
+		case MAINTENANCE:
+			S = "manutenzione";
+		
+		System.out.println(S);
+		
+		}
+		
+	}
 
 }
