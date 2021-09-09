@@ -28,6 +28,7 @@ public class RAMVeicleServiceImpl implements VeiclesService {
 
 	private Map<Integer, Veicle> veicles = new HashMap<>();
 	private TypesService typeService;
+	private int counter;
 
 	public RAMVeicleServiceImpl() {
 		this.typeService = new RAMTypesServiceImpl();
@@ -43,67 +44,25 @@ public class RAMVeicleServiceImpl implements VeiclesService {
 		}
 		
 
-		Veicle panda = new Veicle();
-		panda.setId(1);
-		panda.setModel("Fiat Panda");
-		panda.setKm(10);
-		panda.setPlate("AA000AA");
-		panda.setState(VeicleState.FREE);
-		panda.setConsumption(12);
-		panda.setType(auto);
-		panda.setFuel("gpl");
-		panda.setPriceForDay(panda.getType().getPriceForDay());
-		panda.setPriceForKm(panda.getType().getPriceForKm());
-		Veicle punto = new Veicle();
-		punto.setId(2);
-		punto.setModel("Fiat Punto");
-		punto.setKm(16154);
-		punto.setPlate("AA000AA");
-		punto.setState(VeicleState.FREE);
-		punto.setConsumption(12);
-		punto.setType(auto);
-		punto.setFuel("gasolio");
-		punto.setPriceForDay(punto.getType().getPriceForDay());
-		punto.setPriceForKm(punto.getType().getPriceForKm());
-		Veicle fiesta = new Veicle();
-		fiesta.setId(3);
-		fiesta.setModel("Ford Fiesta");
-		fiesta.setKm(31515);
-		fiesta.setPlate("AA000AA");
-		fiesta.setState(VeicleState.BUSY);
-		fiesta.setConsumption(12);
-		fiesta.setType(auto);
-		fiesta.setFuel("gpl");
-		fiesta.setPriceForDay(fiesta.getType().getPriceForDay());
-		fiesta.setPriceForKm(fiesta.getType().getPriceForKm());
-		Veicle malaguti = new Veicle();
-		malaguti.setId(4);
-		malaguti.setModel("Vasca da Bagno");
-		malaguti.setKm(1354);
-		malaguti.setPlate("AA000AA");
-		malaguti.setState(VeicleState.FREE);
-		malaguti.setConsumption(12);
-		malaguti.setType(moto);
-		malaguti.setFuel("benzina");
-		malaguti.setPriceForDay(malaguti.getType().getPriceForDay());
-		malaguti.setPriceForKm(malaguti.getType().getPriceForKm());
-		Veicle aprilia = new Veicle();
-		aprilia.setId(5);
-		aprilia.setModel("Aprilia RS");
-		aprilia.setKm(135);
-		aprilia.setPlate("AA000AA");
-		aprilia.setState(VeicleState.MAINTENANCE);
-		aprilia.setConsumption(12);
-		aprilia.setFuel("bestemmie");
-		aprilia.setType(moto);
-		aprilia.setPriceForDay(aprilia.getType().getPriceForDay());
-		aprilia.setPriceForKm(aprilia.getType().getPriceForKm());
-
+		Veicle panda = new Veicle(counter++, auto, "Fiat Panda", "GG999RT", 9545, 14.1, "GPL");
+		Veicle punto = new Veicle(counter++, auto, "Fiat Punto", "FA054KM", 54785, 13.1, "Diesel");
+		Veicle fiesta = new Veicle(counter++, auto, "Ford Fiesta", "ED125FR", 12244, 15.1, "GPL");;
+		Veicle malaguti = new Veicle(counter++, moto, "Runner", "RE12548", 1354, 11.8, "Benzina");;
+		Veicle aprilia = new Veicle(counter++, auto, "Aprilia RS", "DX00486", 1245, 8.4, "Miscela");
+		aprilia.setPriceForDay(0.10);
+		aprilia.setPriceForKm(0.40);
+		Veicle jeep = new Veicle(counter++, auto, "JEEP Ranegade", "FF667FF", 1125, 10.5, "Ibrida");
+		jeep.setPriceForKm(0.25);
+		Veicle yamaha = new Veicle(counter++, moto, "YAMAHA Xcity", "AD13257", 125, 12.5, "Benzina");
+		yamaha.setPriceForKm(0.29);
+		
 		veicles.put(panda.getId(), panda);
 		veicles.put(punto.getId(), punto);
 		veicles.put(fiesta.getId(), fiesta);
 		veicles.put(malaguti.getId(), malaguti);
 		veicles.put(aprilia.getId(), aprilia);
+		veicles.put(jeep.getId(), jeep);
+		veicles.put(jeep.getId(), yamaha);
 	}
 
 	@Override

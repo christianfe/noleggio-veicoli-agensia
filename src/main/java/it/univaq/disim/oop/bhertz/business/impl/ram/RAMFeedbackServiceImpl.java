@@ -16,18 +16,13 @@ public class RAMFeedbackServiceImpl implements FeedbackService {
 	private Map<Integer, Feedback> feeds = new HashMap<>();
 	private Integer counter = 1;
 	
-	@Override
-	public List<Feedback> getAllFeedbacks() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	
 	@Override
 	public void addFeedback(Feedback feedback) throws BusinessException {
 		feedback.setId(counter++);
 		feeds.put(feedback.getId(), feedback);
 	}
+	
 	@Override
 	public List<Feedback> getFeedbackByVeicle(Veicle veicle) throws BusinessException {
 		List<Feedback> result = new ArrayList<>();

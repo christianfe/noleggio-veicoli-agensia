@@ -36,6 +36,8 @@ public class RAMUserServiceImpl implements UserService {
 		users.put(user1.getId(), user1);
 		User user2 = new Customer(counter++, "Cliente2", "user2", "user2");
 		users.put(user2.getId(), user2);
+		User user3 = new Customer(counter++, "Cliente3", "user3", "user3");
+		users.put(user3.getId(), user2);
 	}
 
 	@Override

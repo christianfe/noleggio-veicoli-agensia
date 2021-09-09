@@ -11,18 +11,6 @@ import it.univaq.disim.oop.bhertz.domain.Veicle;
 public class FileFeedbackServiceImpl implements FeedbackService  {
 
 	@Override
-	public List<Feedback> getAllFeedbacks() throws BusinessException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Feedback> getFeedbackByVeicle(Veicle veicle) throws BusinessException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<Feedback> getFeedbackByUser(Integer id) throws BusinessException {
 		// TODO Auto-generated method stub
 		return null;
@@ -50,4 +38,10 @@ public class FileFeedbackServiceImpl implements FeedbackService  {
 	public boolean isFeedBackSet(Contract contract) throws BusinessException {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public List<Feedback> getFeedbackByVeicle(Veicle veicle) throws BusinessException {
+		// TODO Auto-generated method stub
+		return null;
 	}}

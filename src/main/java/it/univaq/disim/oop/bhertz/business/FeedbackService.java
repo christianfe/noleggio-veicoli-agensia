@@ -8,8 +8,6 @@ import it.univaq.disim.oop.bhertz.domain.Veicle;
 
 public interface FeedbackService {
 
-	List<Feedback> getAllFeedbacks() throws BusinessException;
-
 	List<Feedback> getFeedbackByVeicle(Veicle veicle) throws BusinessException;
 	
 	List<Feedback> getFeedbackByUser(Integer id) throws BusinessException;
