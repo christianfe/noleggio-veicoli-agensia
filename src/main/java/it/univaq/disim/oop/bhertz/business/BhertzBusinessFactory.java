@@ -1,13 +1,11 @@
 package it.univaq.disim.oop.bhertz.business;
 
-//import it.univaq.disim.oop.bhertz.business.impl.file.FileBusinessFactoryImpl;
-
-import it.univaq.disim.oop.bhertz.business.impl.ram.RAMBusinessFactoryImpl;
+import it.univaq.disim.oop.bhertz.business.impl.file.FileBusinessFactoryImpl;
 
 public abstract class BhertzBusinessFactory {
 	
-	private static BhertzBusinessFactory factory = new RAMBusinessFactoryImpl();
-	//private static BhertzBusinessFactory factory = new FileBusinessFactoryImpl();
+	//private static BhertzBusinessFactory factory = new RAMBusinessFactoryImpl();
+	private static BhertzBusinessFactory factory = new FileBusinessFactoryImpl();
 	
 	public static BhertzBusinessFactory getInstance() {
 		return factory;

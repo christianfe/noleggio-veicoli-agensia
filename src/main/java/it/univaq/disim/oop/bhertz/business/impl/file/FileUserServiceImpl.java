@@ -1,6 +1,7 @@
 package it.univaq.disim.oop.bhertz.business.impl.file;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import it.univaq.disim.oop.bhertz.domain.Admin;
 import it.univaq.disim.oop.bhertz.domain.Customer;
 import it.univaq.disim.oop.bhertz.domain.Staff;
 import it.univaq.disim.oop.bhertz.domain.User;
+import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 
 public class FileUserServiceImpl implements UserService {
 
@@ -20,6 +22,11 @@ public class FileUserServiceImpl implements UserService {
 
 	public FileUserServiceImpl(String userFilename) {
 		this.userFilename = userFilename;
+		try {
+			this.readList();
+		} catch (BusinessException e) {
+			ViewDispatcher.getInstance().renderError(e);
+		}
 	}
 
 	@Override
@@ -32,16 +39,14 @@ public class FileUserServiceImpl implements UserService {
 					continue;
 				User user = null;
 				switch (cols[1]) {
-					case "admin":
+					case "0":
 						user = new Admin();
 						break;
-					case "staff":
+					case "1":
 						user = new Staff();
 						break;
-					case "user":
+					case "2":
 						user = new Customer();
-						break;
-					default:
 						break;
 				}
 				if (user != null) {
@@ -74,8 +79,8 @@ public class FileUserServiceImpl implements UserService {
 
 	@Override
 	public void setUser(Integer id, String name, String username, String password) throws BusinessException {
-		// TODO Auto-generated method stub
-		
+		//TODO
+		this.saveList();
 	}
 
 	@Override
@@ -102,5 +107,47 @@ public class FileUserServiceImpl implements UserService {
 		return false;
 	}
 
+	private void saveList() throws BusinessException {
+		FileUtility f = new FileUtility();
+		List<String[]> list = new ArrayList<>() ;
+		for (User u : users.values()) {
+			String[] s = new String[5];
+			s[0]= u.getId().toString();
+			s[1]= u.getRole() + "";
+			s[2]= u.getName();
+			s[3]= u.getUsername();
+			s[4]= u.getPassword();
+			list.add(s);
+		}
+		f.setAllByFile(this.userFilename, list);
+	}
+	
+	private void readList() throws BusinessException {
+		FileUtility f = new FileUtility();
+		List<String[]> list = f.getAllByFile(userFilename);
+		this.users = new HashMap<Integer, User>();
+		for (String[] row : list) {
+			User user = null;
+			switch (row[1]) {
+				case "0":
+					user = new Admin();
+					break;
+				case "1":
+					user = new Staff();
+					break;
+				case "2":
+					user = new Customer();
+					break;
+			}
+			if (user != null) {
+				user.setId(Integer.parseInt(row[0]));
+				user.setUsername(row[3]);
+				user.setPassword(row[4]);
+				user.setName(row[2]);
+			} else
+				throw new BusinessException("Errore nella lettura del file");
+			this.users.put(user.getId(), user);
+		}
+	}
 	
 }

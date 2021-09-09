@@ -1,0 +1,14 @@
+Users.txt
+	ID; role;  name; username; password
+Notifications.txt
+	ID; title; text; idCustomer
+Types.txt
+	ID; name; priceKm; priceDay
+Veicles.txt
+	ID; model; plate; state(int); km; consuption; fuel; priceKm; priceDay; idType
+Contracts.txt
+	ID; startDate(String); endDate(String); startKm, endKm; type(int); price; state(int); paid; returnDateTime; deliverDateTime; sostituteContract; idCustomer; idVeicle; idAssistance(0 = null)
+Feedbacks.txt
+	ID; date; body; valutation; idContract
+Tickets.txt
+	ID; state(int); description; startDate(String); endDate(String); timeStart; timeEnd; veicleKm; idContract; idSostituteContract(0 = null)
