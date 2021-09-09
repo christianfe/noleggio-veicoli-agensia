@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
@@ -37,24 +36,22 @@ public class FileUtility {
 		return result;
 	}
 
-	public List<String[]> getAllByFile(String fileName) throws BusinessException {
+	public FileData getAllByFile(String fileName) throws BusinessException {
 		FileData fileData = null;
 		try {
 			fileData = FileUtility.readAllRows(fileName);
 		} catch (IOException e) {
 			ViewDispatcher.getInstance().renderError(e);
 		}
-		return fileData.getRows();
+		return fileData;
 	}
 
-	public void setAllByFile (String fileName, List<String[]> list) throws BusinessException{
+	public void setAllByFile (String fileName, FileData fileData) throws BusinessException{
 
 		try {
-			FileData fileData = FileUtility.readAllRows(fileName);
 			try (PrintWriter writer = new PrintWriter(new File(fileName))) {
-				long cont = fileData.getCount();
-				writer.println((cont + 1));
-				for (String[] row : list)
+				writer.println((fileData.getCount()));
+				for (String[] row : fileData.getRows())
 					writer.println(String.join(FileUtility.COLUMN_SEPARATOR, row));
 			}
 		} catch (IOException e) {
