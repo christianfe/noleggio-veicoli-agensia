@@ -43,10 +43,6 @@ public class FileVeicleserviceImpl implements VeiclesService {
 		}
 	}
 
-	/*************************************************************************/
-	
-	
-	
 	@Override
 	public List<Veicle> getVeiclesByType(Type t) throws BusinessException {
 		List<Veicle> result = new ArrayList<>();
@@ -188,11 +184,7 @@ public class FileVeicleserviceImpl implements VeiclesService {
 		}
 	}
 
-	
-	
-	/******************************************************************/
-	
-	
+
 	private void saveList() throws BusinessException {
 		FileUtility f = new FileUtility();
 		List<String[]> list = new ArrayList<>();
@@ -229,22 +221,21 @@ public class FileVeicleserviceImpl implements VeiclesService {
 		FileData fileData = f.getAllByFile(veicleFileName);
 		this.veicles = new HashMap<Integer, Veicle>();
 		for (String[] row : fileData.getRows()) {
-			Veicle veicle = null;
-			switch (row[3]) {
-			case "0":
-				veicle.setState(VeicleState.FREE);
-				break;
-			case "1":
-				veicle.setState(VeicleState.MAINTENANCE);
-				break;
-			case "2":
-				veicle.setState(VeicleState.BUSY);
-				break;
-			}
-
+			Veicle veicle = new Veicle();
 			veicle.setId(Integer.parseInt(row[0]));
 			veicle.setModel(row[1]);
 			veicle.setPlate(row[2]);
+			switch (row[3]) {
+			case "FREE":
+				veicle.setState(VeicleState.FREE);
+				break;
+			case "MAINTENANCE":
+				veicle.setState(VeicleState.MAINTENANCE);
+				break;
+			case "BUSY":
+				veicle.setState(VeicleState.BUSY);
+				break;
+			}
 			veicle.setKm(Double.parseDouble(row[4]));
 			veicle.setConsumption(Double.parseDouble(row[5]));
 			veicle.setFuel(row[6]);
@@ -253,7 +244,6 @@ public class FileVeicleserviceImpl implements VeiclesService {
 			veicle.setType(typeService.getTypeByID(Integer.parseInt(row[9])));
 			this.counter = fileData.getCount();
 			this.veicles.put(veicle.getId(), veicle);
-
 		}
 
 	}

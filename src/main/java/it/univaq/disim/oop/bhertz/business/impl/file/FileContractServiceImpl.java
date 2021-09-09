@@ -169,8 +169,8 @@ public class FileContractServiceImpl implements ContractService {
 	private void readList() throws BusinessException {
 		FileUtility fileUtility = new FileUtility();
 		FileData fileData = fileUtility.getAllByFile(filename);
-		UserService userService = BhertzBusinessFactory.getInstance().getUserService();
 		VeiclesService veiclesService = BhertzBusinessFactory.getInstance().getVeiclesService();
+		UserService userService = BhertzBusinessFactory.getInstance().getUserService();
 		MaintenanceService maintenanceService = BhertzBusinessFactory.getInstance().getMaintenanceService();
 		this.contracts = new HashMap<Integer, Contract>();
 		for (String[] row : fileData.getRows()) {

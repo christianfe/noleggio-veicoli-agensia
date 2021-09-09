@@ -25,6 +25,8 @@ public class FileNotificationServiceImpl implements NotificationsService {
 			this.readList();
 		} catch (BusinessException e) {
 			ViewDispatcher.getInstance().renderError(e);
+		} catch (NullPointerException e) {
+			
 		}
 	}
 

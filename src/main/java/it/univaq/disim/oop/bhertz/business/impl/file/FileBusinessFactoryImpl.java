@@ -31,13 +31,13 @@ public class FileBusinessFactoryImpl extends BhertzBusinessFactory {
 	private static final String FEEDBACK_FILE_NAME = REPOSITORY_BASE + File.separator + "Feedbacks.txt";
 	
 	public FileBusinessFactoryImpl() {
-		userService = new FileUserServiceImpl(USER_FILE_NAME);
-		contractService = new FileContractServiceImpl(CONTRACTS_FILE_NAME);
-		typeService = new FileTypesServiceImpl(TYPES_FILE_NAME);
-		veicleService = new FileVeicleserviceImpl(VEICLE_FILE_NAME);
-		maintenanceService = new FileMaintenanceServiceImpl(MAINTENANCE_FILE_NAME);
-		feedbackService = new FileFeedbackServiceImpl(FEEDBACK_FILE_NAME);
-		notificationService = new FileNotificationServiceImpl(NOTIFICATION_FILE_NAME);
+		this.userService = new FileUserServiceImpl(USER_FILE_NAME);
+		this.typeService = new FileTypesServiceImpl(TYPES_FILE_NAME);
+		this.veicleService = new FileVeicleserviceImpl(VEICLE_FILE_NAME);
+		this.notificationService = new FileNotificationServiceImpl(NOTIFICATION_FILE_NAME);
+		this.contractService = new FileContractServiceImpl(CONTRACTS_FILE_NAME);
+		this.maintenanceService = new FileMaintenanceServiceImpl(MAINTENANCE_FILE_NAME);
+		this.feedbackService = new FileFeedbackServiceImpl(FEEDBACK_FILE_NAME);
 	}
 	
 	@Override
