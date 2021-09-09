@@ -12,6 +12,10 @@ import it.univaq.disim.oop.bhertz.domain.VeicleState;
 
 public class FileVeicleserviceImpl implements VeiclesService {
 
+	public FileVeicleserviceImpl(String veicleFileName) {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public Veicle getVeicleByID(int id) throws BusinessException {
 		// TODO Auto-generated method stub

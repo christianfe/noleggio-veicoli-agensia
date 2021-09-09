@@ -11,6 +11,10 @@ import it.univaq.disim.oop.bhertz.domain.Veicle;
 
 public class FileMaintenanceServiceImpl implements MaintenanceService {
 
+	public FileMaintenanceServiceImpl(String maintenanceFileName) {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public List<AssistanceTicket> getAllTickets() throws BusinessException {
 		// TODO Auto-generated method stub

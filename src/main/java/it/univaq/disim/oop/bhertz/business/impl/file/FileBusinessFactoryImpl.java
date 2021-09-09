@@ -22,20 +22,22 @@ public class FileBusinessFactoryImpl extends BhertzBusinessFactory {
 	
 	private static final String REPOSITORY_BASE = "src" + File.separator + "main" + File.separator + "resources"
 			+ File.separator + "data";
-	private static final String USER_FILE_NAME = REPOSITORY_BASE + File.separator + "users.txt";
-	private static final String TYPES_FILE_NAME = REPOSITORY_BASE + File.separator + "types.txt";
-	private static final String VEICLE_FILE_NAME = REPOSITORY_BASE + File.separator + "veicles.txt";
-	private static final String MAINTENANCE_FILE_NAME = REPOSITORY_BASE + File.separator + "maintenances.txt";
-	private static final String CONTRACTS_FILE_NAME = REPOSITORY_BASE + File.separator + "contracts.txt";
+	private static final String USER_FILE_NAME = REPOSITORY_BASE + File.separator + "Users.txt";
+	private static final String NOTIFICATION_FILE_NAME = REPOSITORY_BASE + File.separator + "Notifications.txt";
+	private static final String TYPES_FILE_NAME = REPOSITORY_BASE + File.separator + "Types.txt";
+	private static final String VEICLE_FILE_NAME = REPOSITORY_BASE + File.separator + "Veicles.txt";
+	private static final String MAINTENANCE_FILE_NAME = REPOSITORY_BASE + File.separator + "Tickets.txt";
+	private static final String CONTRACTS_FILE_NAME = REPOSITORY_BASE + File.separator + "Contracts.txt";
+	private static final String FEEDBACK_FILE_NAME = REPOSITORY_BASE + File.separator + "Feedbacks.txt";
 	
 	public FileBusinessFactoryImpl() {
 		userService = new FileUserServiceImpl(USER_FILE_NAME);
-		contractService = new FileContractServiceImpl();
-		typeService = new FileTypesServiceImpl();
-		veicleService = new FileVeicleserviceImpl();
-		maintenanceService = new FileMaintenanceServiceImpl();
-		feedbackService = new FileFeedbackServiceImpl();
-		notificationService = new FileNotificationServiceImpl();
+		contractService = new FileContractServiceImpl(CONTRACTS_FILE_NAME);
+		typeService = new FileTypesServiceImpl(TYPES_FILE_NAME);
+		veicleService = new FileVeicleserviceImpl(VEICLE_FILE_NAME);
+		maintenanceService = new FileMaintenanceServiceImpl(MAINTENANCE_FILE_NAME);
+		feedbackService = new FileFeedbackServiceImpl(FEEDBACK_FILE_NAME);
+		notificationService = new FileNotificationServiceImpl(NOTIFICATION_FILE_NAME);
 	}
 	
 	@Override

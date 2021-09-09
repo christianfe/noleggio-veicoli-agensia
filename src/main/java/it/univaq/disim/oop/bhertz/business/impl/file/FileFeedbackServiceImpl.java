@@ -10,6 +10,10 @@ import it.univaq.disim.oop.bhertz.domain.Veicle;
 
 public class FileFeedbackServiceImpl implements FeedbackService  {
 
+	public FileFeedbackServiceImpl(String feedbackFileName) {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public List<Feedback> getFeedbackByUser(Integer id) throws BusinessException {
 		// TODO Auto-generated method stub

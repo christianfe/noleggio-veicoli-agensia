@@ -8,6 +8,10 @@ import it.univaq.disim.oop.bhertz.domain.Notification;
 
 public class FileNotificationServiceImpl implements NotificationsService {
 
+	public FileNotificationServiceImpl(String notificationFileName) {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public List<Notification> getAllNotifications() throws BusinessException {
 		// TODO Auto-generated method stub

@@ -9,6 +9,10 @@ import it.univaq.disim.oop.bhertz.domain.Type;
 
 public class FileTypesServiceImpl implements TypesService {
 
+	public FileTypesServiceImpl(String typesFileName) {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public List<Type> getAllTypes() throws BusinessException {
 		// TODO Auto-generated method stub

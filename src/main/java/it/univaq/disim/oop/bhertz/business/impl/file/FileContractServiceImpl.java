@@ -11,6 +11,11 @@ import it.univaq.disim.oop.bhertz.domain.Veicle;
 
 public class FileContractServiceImpl implements ContractService {
 
+	
+	public FileContractServiceImpl(String contractsFileName) {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public List<Contract> getAllContracts(int type) throws BusinessException {
 		// TODO Auto-generated method stub
