@@ -16,9 +16,9 @@ import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 
-public class RAMMaintenanceServiceImpl implements MaintenanceService{
+public class RAMMaintenanceServiceImpl implements MaintenanceService {
 
-	private Map<Integer, AssistanceTicket> tickets = new HashMap<>(); 
+	private Map<Integer, AssistanceTicket> tickets = new HashMap<>();
 	private ViewDispatcher dispatcher;
 	private ContractService contractService;
 	private VeiclesService veicleService;
@@ -26,9 +26,9 @@ public class RAMMaintenanceServiceImpl implements MaintenanceService{
 
 	public RAMMaintenanceServiceImpl() throws BusinessException {
 
-		dispatcher =  ViewDispatcher.getInstance();
+		dispatcher = ViewDispatcher.getInstance();
 		contractService = new RAMContractServiceImpl();
-		veicleService =  new RAMVeicleServiceImpl();
+		veicleService = new RAMVeicleServiceImpl();
 
 		AssistanceTicket t1 = new AssistanceTicket();
 		t1.setDescription("gomma bucata");
@@ -52,7 +52,6 @@ public class RAMMaintenanceServiceImpl implements MaintenanceService{
 		tickets.put(t3.getId(), t3);
 	}
 
-
 	@Override
 	public List<AssistanceTicket> getAllTickets() throws BusinessException {
 		return new ArrayList<>(tickets.values());
@@ -72,19 +71,16 @@ public class RAMMaintenanceServiceImpl implements MaintenanceService{
 		return result;
 	}
 
-
 	@Override
 	public void addTicket(AssistanceTicket ticket) throws BusinessException {
 		ticket.setId(counter++);
 		tickets.put(ticket.getId(), ticket);
 	}
 
-
 	@Override
 	public void setTicket(AssistanceTicket ticket) throws BusinessException {
 		tickets.put(ticket.getId(), ticket);
 	}
-
 
 	@Override
 	public List<AssistanceTicket> getTicketByVeicle(Integer idVeicle) throws BusinessException {
@@ -95,18 +91,18 @@ public class RAMMaintenanceServiceImpl implements MaintenanceService{
 		return result;
 	}
 
-
 	@Override
 	public void removeMaintenance(Integer id) throws BusinessException {
-		tickets.remove(id);		
+		tickets.remove(id);
 	}
-
 
 	@Override
 	public AssistanceTicket getTicketByDate(Veicle veicle, LocalDate date) throws BusinessException {
 		for (AssistanceTicket t : tickets.values()) {
 			try {
-				if (veicle.getId() == t.getContract().getVeicle().getId() && (date.isEqual(t.getStartDate()) || date.isEqual(t.getEndDate()) || (date.isAfter(t.getStartDate()) && date.isBefore(t.getEndDate()))))
+				if (veicle.getId() == t.getContract().getVeicle().getId()
+						&& (date.isEqual(t.getStartDate()) || date.isEqual(t.getStartDate())
+								|| (date.isAfter(t.getStartDate()) && date.isBefore(t.getEndDate()))))
 					return t;
 			} catch (NullPointerException e) {
 				continue;

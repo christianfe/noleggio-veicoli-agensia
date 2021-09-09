@@ -11,6 +11,7 @@ import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
 import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.TicketState;
 import it.univaq.disim.oop.bhertz.domain.User;
+import it.univaq.disim.oop.bhertz.domain.VeicleState;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import it.univaq.disim.oop.bhertz.view.ViewUtility;
@@ -99,7 +100,7 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 				param.getValue().getContract().setAssistance(param.getValue());
 				switch (param.getValue().getState()) {
 				case REQUIRED:
-					if (param.getValue().getStartDate() != null) {
+					if (param.getValue().getTimeStart() != null) {
 						menuAppointment.setText("Appuntamento: " + param.getValue().getStartDate() + " "
 								+ param.getValue().getTimeStart());
 						menuAppointment.setDisable(true);
@@ -159,21 +160,22 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 					break;
 				case READY:
 					param.getValue().setState(TicketState.ENDED);
-					
-					try {
-						BhertzBusinessFactory.getInstance().getVeiclesService().refreshAllStates();
-					} catch (BusinessException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					
-					if (param.getValue().getSubstituteContract() == null)
+
+					/*
+					 * try {
+					 * BhertzBusinessFactory.getInstance().getVeiclesService().refreshAllStates(); }
+					 * catch (BusinessException e) { // TODO Auto-generated catch block
+					 * e.printStackTrace(); }
+					 */
+
+					if (param.getValue().getSubstituteContract() == null) {
+						param.getValue().getContract().getVeicle().setState(VeicleState.BUSY);
 						dispatcher.renderView("changeContractState",
 								new ObjectsCollector<User, Contract>(user, param.getValue().getContract()));
-					else
+					} else
 						dispatcher.renderView("changeContractState",
 								new ObjectsCollector<User, Contract>(user, param.getValue().getSubstituteContract()));
-
+						
 					break;
 				case ENDED:
 				}

@@ -1,6 +1,7 @@
 package it.univaq.disim.oop.bhertz.controller;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
@@ -127,6 +128,7 @@ public class RentalController extends ViewUtility implements Initializable, Data
 					AssistanceTicket ticket = new AssistanceTicket();
 					ticket.setState(TicketState.REQUIRED);
 					ticket.setContract(assistanceContract);
+					ticket.setStartDate(LocalDate.now());
 					assistanceContract.getVeicle().setState(VeicleState.MAINTENANCE);
 					MaintenanceService maintenanceService = BhertzBusinessFactory.getInstance().getMaintenanceService();
 					try {
