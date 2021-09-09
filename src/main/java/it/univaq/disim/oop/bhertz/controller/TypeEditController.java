@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
+import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.TypesService;
 import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.User;
@@ -18,7 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class TypeEditController extends ViewUtility
-		implements Initializable, DataInitializable<ObjectsCollector<User, Type>> {
+implements Initializable, DataInitializable<ObjectsCollector<User, Type>> {
 
 	@FXML
 	private Label labelTitle;
@@ -63,13 +64,21 @@ public class TypeEditController extends ViewUtility
 
 	@FXML
 	public void saveAction(ActionEvent e) {
-		if (this.creatingNewType)
-			typeService.addType(new Type(0, nameField.getText(), Double.parseDouble(priceForKmField.getText()),
-					Double.parseDouble(priceForDayField.getText())));
-		else
-			typeService.setType(objectsCollector.getObjectB().getId(), nameField.getText(),
-					Double.parseDouble(priceForKmField.getText()), Double.parseDouble(priceForDayField.getText()));
+		try {
 
+			if (this.creatingNewType)
+				typeService.addType(new Type(0, nameField.getText(), Double.parseDouble(priceForKmField.getText()),
+						Double.parseDouble(priceForDayField.getText())));
+			else
+				typeService.setType(objectsCollector.getObjectB().getId(), nameField.getText(),
+						Double.parseDouble(priceForKmField.getText()), Double.parseDouble(priceForDayField.getText()));
+		} catch (NumberFormatException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (BusinessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		dispatcher.renderView("type", objectsCollector.getObjectA());
 	}
 

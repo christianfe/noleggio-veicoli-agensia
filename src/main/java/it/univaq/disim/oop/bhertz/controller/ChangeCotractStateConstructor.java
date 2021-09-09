@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
+import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.ContractService;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
 import it.univaq.disim.oop.bhertz.domain.Contract;
@@ -85,11 +86,21 @@ public class ChangeCotractStateConstructor extends ViewUtility
 
 		}
 
-		contracService.setContract(c);
+		try {
+			contracService.setContract(c);
+		} catch (BusinessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		Veicle v = c.getVeicle();
 		v.setKm(d);
-		veicleService.setVeicle(v);
+		try {
+			veicleService.setVeicle(v);
+		} catch (BusinessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		if (!(objectsCollector.getObjectB().isSostistuteContract()))
 			dispatcher.renderView("rental", objectsCollector.getObjectA());

@@ -53,7 +53,7 @@ public class RAMTypesServiceImpl implements TypesService{
 
 
 	@Override
-	public void addType(Type type) {
+	public void addType(Type type) throws BusinessException {
 		Integer max = 0;
 		for (Type t : types.values())
 			max = (max > t.getId())? max : t.getId();
@@ -62,7 +62,7 @@ public class RAMTypesServiceImpl implements TypesService{
 	}
 
 	@Override
-	public void setType(Integer id, String name, double priceForKm, double priceForDay) {
+	public void setType(Integer id, String name, double priceForKm, double priceForDay) throws BusinessException {
 		System.out.println(types);
 		Type t = types.get(id);
 		t.setName(name);

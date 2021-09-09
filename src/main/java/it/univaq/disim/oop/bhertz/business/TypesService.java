@@ -7,13 +7,13 @@ public interface TypesService {
 
 	List<Type> getAllTypes() throws BusinessException;
 
-	Type getTypeByID(int id);
+	Type getTypeByID(int id) throws BusinessException;
 	
 	void deleteType(Integer id) throws TypeNotEmptyException, BusinessException;
 	
-	void setType(Integer id, String name, double priceForKm, double priceForDay);
+	void setType(Integer id, String name, double priceForKm, double priceForDay) throws BusinessException;
 	
-	void addType(Type type);
+	void addType(Type type) throws BusinessException;
 
 }
 

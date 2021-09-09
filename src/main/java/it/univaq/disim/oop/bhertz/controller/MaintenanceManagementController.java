@@ -25,11 +25,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.MenuButton;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class MaintenanceManagementController extends ViewUtility
@@ -85,7 +83,12 @@ public class MaintenanceManagementController extends ViewUtility
 				substituteContract.setSostistuteContract(true);
 				substituteContract.setCustomer(ticket.getContract().getCustomer());
 				ticket.setSubstituteContract(substituteContract);
-				contractService.addContract(substituteContract);
+				try {
+					contractService.addContract(substituteContract);
+				} catch (BusinessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 				ticket.setState(TicketState.READY);
 				dispatcher.renderView("maintenance", user);
@@ -102,12 +105,24 @@ public class MaintenanceManagementController extends ViewUtility
 		this.user = collector.getObjectA();
 		this.ticket = collector.getObjectB();
 
-			List<Veicle> veicleList = this.veiclesService.getVeiclesByType(collector.getObjectB().getContract().getVeicle().getType());
+			List<Veicle> veicleList = null;
+			try {
+				veicleList = this.veiclesService.getVeiclesByType(collector.getObjectB().getContract().getVeicle().getType());
+			} catch (BusinessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			List<Veicle> veicleListByAviability = new ArrayList<>();
 			for (Veicle v : veicleList) {
-				List<Contract> contractOfVeicle = contractService.getContractsByVeicle(0,v.getId());
-				if (veiclesService.isVeicleFree(ticket.getStartDate(), ticket.getContract().getEnd(), contractOfVeicle))
-					veicleListByAviability.add(v);
+				
+				try {
+					List<Contract> contractOfVeicle = contractService.getContractsByVeicle(0,v.getId());
+					if (veiclesService.isVeicleFree(ticket.getStartDate(), ticket.getContract().getEnd(), contractOfVeicle))
+						veicleListByAviability.add(v);
+				} catch (BusinessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			for (Veicle v : veicleListByAviability)
 				System.out.println(v.getModel());

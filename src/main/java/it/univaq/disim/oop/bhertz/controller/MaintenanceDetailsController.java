@@ -4,9 +4,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
+import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.MaintenanceService;
 import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
-import it.univaq.disim.oop.bhertz.domain.ContractState;
 import it.univaq.disim.oop.bhertz.domain.TicketState;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
@@ -95,7 +95,12 @@ public class MaintenanceDetailsController extends ViewUtility implements Initial
 	public void saveAction(ActionEvent e) {
 		AssistanceTicket t = objectsCollector.getObjectB();
 		t.setDescription(descriptionArea.getText());
-		maintenanceService.setTicket(t);
+		try {
+			maintenanceService.setTicket(t);
+		} catch (BusinessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		dispatcher.renderView("maintenance", objectsCollector.getObjectA());
 	}
 	

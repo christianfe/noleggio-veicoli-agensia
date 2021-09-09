@@ -24,12 +24,12 @@ public class RAMFeedbackServiceImpl implements FeedbackService {
 
 	
 	@Override
-	public void addFeedback(Feedback feedback) {
+	public void addFeedback(Feedback feedback) throws BusinessException {
 		feedback.setId(counter++);
 		feeds.put(feedback.getId(), feedback);
 	}
 	@Override
-	public List<Feedback> getFeedbackByVeicle(Veicle veicle) {
+	public List<Feedback> getFeedbackByVeicle(Veicle veicle) throws BusinessException {
 		List<Feedback> result = new ArrayList<>();
 		for (Feedback f : feeds.values())
 			if (f.getContract().getVeicle().getId() == veicle.getId())
@@ -40,13 +40,13 @@ public class RAMFeedbackServiceImpl implements FeedbackService {
 
 
 	@Override
-	public Feedback getFeedbackByID(Integer id) {
+	public Feedback getFeedbackByID(Integer id) throws BusinessException {
 		return feeds.get(id);
 	}
 
 
 	@Override
-	public boolean isFeedBackSet(Contract contract) {
+	public boolean isFeedBackSet(Contract contract) throws BusinessException {
 		for (Feedback f : feeds.values())
 			if (f.getContract().getId() == contract.getId())
 				return true;
@@ -54,7 +54,7 @@ public class RAMFeedbackServiceImpl implements FeedbackService {
 	}
 
 	@Override
-	public List<Feedback> getFeedbackByUser(Integer id) {
+	public List<Feedback> getFeedbackByUser(Integer id) throws BusinessException {
 		List<Feedback> result = new ArrayList<>();
 		for (Feedback f : feeds.values())
 			if (f.getContract().getCustomer().getId() == id)
@@ -65,7 +65,7 @@ public class RAMFeedbackServiceImpl implements FeedbackService {
 
 
 	@Override
-	public void removeFeedback(Integer id) {
+	public void removeFeedback(Integer id) throws BusinessException {
 		feeds.remove(id);		
 	}
 }

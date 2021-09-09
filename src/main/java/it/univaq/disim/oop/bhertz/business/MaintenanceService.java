@@ -17,11 +17,11 @@ public interface MaintenanceService {
 	
 	List<AssistanceTicket> getTicketByVeicle(Integer idVeicle) throws BusinessException;
 	
-	void addTicket (AssistanceTicket ticket);
+	void addTicket (AssistanceTicket ticket) throws BusinessException;
 	
-	void setTicket(AssistanceTicket ticket);
+	void setTicket(AssistanceTicket ticket) throws BusinessException;
 
-	void removeMaintenance(Integer id);
+	void removeMaintenance(Integer id) throws BusinessException;
 	
-	AssistanceTicket getTicketByDate(Veicle veicle, LocalDate date);
+	AssistanceTicket getTicketByDate(Veicle veicle, LocalDate date) throws BusinessException;
 }

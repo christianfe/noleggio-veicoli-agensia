@@ -11,7 +11,6 @@ import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
 import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.TicketState;
 import it.univaq.disim.oop.bhertz.domain.User;
-import it.univaq.disim.oop.bhertz.domain.Veicle;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import it.univaq.disim.oop.bhertz.view.ViewUtility;
@@ -161,7 +160,12 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 				case READY:
 					param.getValue().setState(TicketState.ENDED);
 					
-					BhertzBusinessFactory.getInstance().getVeiclesService().refreshAllStates();
+					try {
+						BhertzBusinessFactory.getInstance().getVeiclesService().refreshAllStates();
+					} catch (BusinessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					
 					if (param.getValue().getSubstituteContract() == null)
 						dispatcher.renderView("changeContractState",

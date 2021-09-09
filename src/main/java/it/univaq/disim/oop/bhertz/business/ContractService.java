@@ -11,22 +11,22 @@ public interface ContractService {
 	
 	//int type; 0: sostuituteVeicle = false - 1: sostuituteVeicle = true - 2: sostuituteVeicle = false || true 
 	
-	List<Contract> getAllContracts(int type);
+	List<Contract> getAllContracts(int type) throws BusinessException;
 	
-	Contract getContractByID(int id);
+	Contract getContractByID(int id) throws BusinessException;
 	
-	Contract getContractByDate(Veicle veicle, LocalDate date);
+	Contract getContractByDate(Veicle veicle, LocalDate date) throws BusinessException;
 
-	List<Contract> getContractsByUser(int type, User user);
+	List<Contract> getContractsByUser(int type, User user) throws BusinessException;
 	
-	void addContract(Contract contract);
+	void addContract(Contract contract) throws BusinessException;
 	
-	void setContract(Contract contract);
+	void setContract(Contract contract) throws BusinessException;
 	
-	void setPaid(Integer id, boolean value);
+	void setPaid(Integer id, boolean value) throws BusinessException;
 	
-	void removeContract(Integer id);
+	void removeContract(Integer id) throws BusinessException;
 	
-	List<Contract> getContractsByVeicle(int type, Integer idVeicle);
+	List<Contract> getContractsByVeicle(int type, Integer idVeicle) throws BusinessException;
 	
 }

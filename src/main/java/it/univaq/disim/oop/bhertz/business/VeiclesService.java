@@ -10,25 +10,25 @@ import it.univaq.disim.oop.bhertz.domain.VeicleState;
 
 public interface VeiclesService {
 
-	Veicle getVeicleByID(int id);
+	Veicle getVeicleByID(int id) throws BusinessException;
 
-	List<Veicle> getVeiclesByType(Type t);
+	List<Veicle> getVeiclesByType(Type t) throws BusinessException;
 
-	List<Veicle> getVeiclesByState(VeicleState state);
+	List<Veicle> getVeiclesByState(VeicleState state) throws BusinessException;
 	
-	public List<Veicle> getVeiclesByStateAndType(Type type, boolean free, boolean busy, boolean maintenance);
+	public List<Veicle> getVeiclesByStateAndType(Type type, boolean free, boolean busy, boolean maintenance) throws BusinessException;
 
-	void setVeicle(Integer id, String model, double km, double consuption, String fuel);
+	void setVeicle(Integer id, String model, double km, double consuption, String fuel) throws BusinessException;
 
-	void addVeicle(Veicle veicle);
+	void addVeicle(Veicle veicle) throws BusinessException;
 
 	void deleteVeicle(Integer id) throws BusinessException;
 
-	void setVeicle(Veicle veicle);
+	void setVeicle(Veicle veicle) throws BusinessException;
 
-	boolean isVeicleFree(LocalDate startDate, LocalDate endDate, List<Contract> contractOfVeicle);
+	boolean isVeicleFree(LocalDate startDate, LocalDate endDate, List<Contract> contractOfVeicle) throws BusinessException;
 
-	public String FindAviableDays(List<Contract> contractOfVeicle);
+	public String FindAviableDays(List<Contract> contractOfVeicle) throws BusinessException;
 
-	void refreshAllStates();
+	void refreshAllStates() throws BusinessException;
 }

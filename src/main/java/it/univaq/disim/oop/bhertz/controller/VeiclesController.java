@@ -75,7 +75,12 @@ public class VeiclesController extends ViewUtility
 	public VeiclesController() {
 		dispatcher = ViewDispatcher.getInstance();
 		veiclesService = BhertzBusinessFactory.getInstance().getVeiclesService();
-		veiclesService.refreshAllStates();
+		try {
+			veiclesService.refreshAllStates();
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -208,7 +213,13 @@ public class VeiclesController extends ViewUtility
 
 		}
 
-		List<Veicle> veicleList = this.veiclesService.getVeiclesByType(objectsCollector.getObjectB());
+		List<Veicle> veicleList = null;
+		try {
+			veicleList = this.veiclesService.getVeiclesByType(objectsCollector.getObjectB());
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		ObservableList<Veicle> veiclesData = FXCollections.observableArrayList(veicleList);
 		veiclesTable.setItems(veiclesData);
 	}
@@ -221,7 +232,13 @@ public class VeiclesController extends ViewUtility
 	
 	@FXML
 	public void veicleFilterAction(ActionEvent e) {
-		List<Veicle> veicleList = this.veiclesService.getVeiclesByStateAndType(objectsCollector.getObjectB(), veicleFreeCheckBox.isSelected(), veicleBusyCheckBox.isSelected(), veicleManteinanceCheckBox.isSelected());
+		List<Veicle> veicleList = null;
+		try {
+			veicleList = this.veiclesService.getVeiclesByStateAndType(objectsCollector.getObjectB(), veicleFreeCheckBox.isSelected(), veicleBusyCheckBox.isSelected(), veicleManteinanceCheckBox.isSelected());
+		} catch (BusinessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		ObservableList<Veicle> veiclesData = FXCollections.observableArrayList(veicleList);
 		veiclesTable.setItems(veiclesData);
 	}

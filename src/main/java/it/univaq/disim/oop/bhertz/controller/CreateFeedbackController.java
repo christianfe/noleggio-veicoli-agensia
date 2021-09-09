@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
+import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.FeedbackService;
 import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.Feedback;
@@ -67,7 +68,12 @@ public class CreateFeedbackController extends ViewUtility
 		newFeedback.setValutation((int) sliderFeedback.getValue());
 		newFeedback.setDate(LocalDate.now());
 
-		feedbackService.addFeedback(newFeedback);
+		try {
+			feedbackService.addFeedback(newFeedback);
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		confirmFeedback.disableProperty().unbind();
 		confirmFeedback.setDisable(true);
 		dispatcher.renderView("rental", user);

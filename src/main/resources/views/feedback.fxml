@@ -11,10 +11,10 @@
    <children>
       <TableView fx:id="feedbackTable" layoutX="14.0" layoutY="69.0" prefHeight="485.0" prefWidth="757.0">
         <columns>
-          <TableColumn fx:id="userColumn" prefWidth="88.0" text="utente" />
+          <TableColumn fx:id="userColumn" prefWidth="88.0" text="Utente" />
             <TableColumn fx:id="dateColumn" prefWidth="88.0" text="Data" />
-            <TableColumn fx:id="valutationColumn" prefWidth="90.0" text="valutazione" />
-          <TableColumn fx:id="descriptionColumn" prefWidth="515.0" text="descrizione" />
+            <TableColumn fx:id="valutationColumn" prefWidth="90.0" text="Valutazione" />
+          <TableColumn fx:id="descriptionColumn" prefWidth="515.0" text="Descrizione" />
         </columns>
       </TableView>
       <Label fx:id="titleLabel" layoutX="14.0" layoutY="20.0" text="Valutazioni del veicolo:">

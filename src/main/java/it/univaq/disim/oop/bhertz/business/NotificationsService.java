@@ -6,12 +6,12 @@ import it.univaq.disim.oop.bhertz.domain.Notification;
 
 public interface NotificationsService {
 
-	List<Notification> getAllNotifications();
+	List<Notification> getAllNotifications() throws BusinessException;
 	
-	Notification getNotificationByID(int id);
+	Notification getNotificationByID(int id) throws BusinessException;
 	
-	List<Notification> getNotificationByUser(Integer id);
+	List<Notification> getNotificationByUser(Integer id) throws BusinessException;
 	
-	void addNotification (Notification notification);	
+	void addNotification (Notification notification) throws BusinessException;
 }
 	

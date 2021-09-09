@@ -2,10 +2,11 @@ package it.univaq.disim.oop.bhertz.controller;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.ResourceBundle;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
+import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.ContractService;
 import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.ContractType;
@@ -93,8 +94,15 @@ public class StartRentController extends ViewUtility implements Initializable, D
 		dailyCheckBox.setText(priceForDay + " €/day");
 		kmCheckBox.setText(PriceForKm + " €/km");
 
-		List<Contract> contractOfVeicle = factory.getContractService().getContractsByVeicle(0, veicle.getId());
+		List<Contract> contractOfVeicle;
+		try {
+			contractOfVeicle = factory.getContractService().getContractsByVeicle(0, veicle.getId());
 			aviableTextArea.setText(factory.getVeiclesService().FindAviableDays(contractOfVeicle));
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
 	}
 
 	@FXML
@@ -117,36 +125,37 @@ public class StartRentController extends ViewUtility implements Initializable, D
 			else {
 
 				ContractService contractService = factory.getContractService();
-				List<Contract> contractOfVeicle = contractService.getContractsByVeicle(0, veicle.getId());
+					List<Contract> contractOfVeicle = contractService.getContractsByVeicle(0, veicle.getId());
+					if (!(factory.getVeiclesService().isVeicleFree(dateStartField.getValue(), dateEndField.getValue(),
+							contractOfVeicle)))
+						labelError.setText("Periodo impostato per il noleggio non disponibile");
+					else {
 
-				if (!(factory.getVeiclesService().isVeicleFree(dateStartField.getValue(), dateEndField.getValue(),
-						contractOfVeicle)))
-					labelError.setText("Periodo impostato per il noleggio non disponibile");
-				else {
+						Contract newContract = new Contract();
+						newContract.setVeicle(veicle);
+						newContract.setCustomer((Customer) user);
+						newContract.setStartKm(veicle.getKm());
+						newContract.setStart(dateStartField.getValue());
+						newContract.setEnd(dateEndField.getValue());
+						if (dailyCheckBox.isSelected()) {
+							newContract.setType(ContractType.TIME);
+							newContract.setPrice(veicle.getPriceForDay());
+						} else if (kmCheckBox.isSelected()) {
+							newContract.setType(ContractType.KM);
+							newContract.setPrice(veicle.getPriceForKm());
+						}
+						veicle.setState(VeicleState.BUSY);
 
-					Contract newContract = new Contract();
-					newContract.setVeicle(veicle);
-					newContract.setCustomer((Customer) user);
-					newContract.setStartKm(veicle.getKm());
-					newContract.setStart(dateStartField.getValue());
-					newContract.setEnd(dateEndField.getValue());
-					if (dailyCheckBox.isSelected()) {
-						newContract.setType(ContractType.TIME);
-						newContract.setPrice(veicle.getPriceForDay());
-					} else if (kmCheckBox.isSelected()) {
-						newContract.setType(ContractType.KM);
-						newContract.setPrice(veicle.getPriceForKm());
+						contractService.addContract(newContract);
+						labelError.setText(null);
+						dispatcher.renderView("veicles", new ObjectsCollector<User, Type>(user, veicle.getType()));
 					}
-					veicle.setState(VeicleState.BUSY);
-
-					contractService.addContract(newContract);
-					labelError.setText(null);
-					dispatcher.renderView("veicles", new ObjectsCollector<User, Type>(user, veicle.getType()));
-				}
-
 			}
 		} catch (NullPointerException E) {
 			labelError.setText("Imposta data di inizio e fine del noleggio");
+		} catch (BusinessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 	}
 

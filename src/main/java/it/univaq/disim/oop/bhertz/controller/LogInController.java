@@ -86,14 +86,19 @@ public class LogInController extends ViewUtility implements Initializable, DataI
 
 	@FXML
 	public void signup(ActionEvent e) {
-		if (userService.isUsernameSet(newUsernameField.getText()))
-			labelErrorSignup.setText("Username non disponibile!");
-		else if (!NewPasswordField.getText().equals(NewPasswordRepeatField.getText()))
-			labelErrorSignup.setText("Le password immesse sono diverse!");
-		else {
-			UserService userService = BhertzBusinessFactory.getInstance().getUserService();
-			userService.addUser(new Customer(0, newNameField.getText(), newUsernameField.getText(), NewPasswordField.getText()));
-			switchView(null);
+		try {
+			if (userService.isUsernameSet(newUsernameField.getText()))
+				labelErrorSignup.setText("Username non disponibile!");
+			else if (!NewPasswordField.getText().equals(NewPasswordRepeatField.getText()))
+				labelErrorSignup.setText("Le password immesse sono diverse!");
+			else {
+				UserService userService = BhertzBusinessFactory.getInstance().getUserService();
+				userService.addUser(new Customer(0, newNameField.getText(), newUsernameField.getText(), NewPasswordField.getText()));
+				switchView(null);
+			}
+		} catch (BusinessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 	}
 

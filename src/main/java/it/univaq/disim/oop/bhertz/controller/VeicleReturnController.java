@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
+import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.ContractState;
 import it.univaq.disim.oop.bhertz.domain.Notification;
@@ -15,7 +16,6 @@ import it.univaq.disim.oop.bhertz.view.NotificationDictionary;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import it.univaq.disim.oop.bhertz.view.ViewUtility;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -177,6 +177,9 @@ public class VeicleReturnController extends ViewUtility
 
 		} catch (NullPointerException e1) {
 			labelError.setText("Impostare data valida");
+		} catch (BusinessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 	}
 

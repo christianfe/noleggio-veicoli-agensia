@@ -31,8 +31,16 @@ public class RAMVeicleServiceImpl implements VeiclesService {
 	public RAMVeicleServiceImpl() {
 		this.typeService = new RAMTypesServiceImpl();
 
-		Type auto = typeService.getTypeByID(1);
-		Type moto = typeService.getTypeByID(2);
+		Type auto = null;
+		Type moto = null;
+		try {
+			auto = typeService.getTypeByID(1);
+			moto = typeService.getTypeByID(2);
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 
 		Veicle panda = new Veicle();
 		panda.setId(1);
@@ -98,7 +106,7 @@ public class RAMVeicleServiceImpl implements VeiclesService {
 	}
 
 	@Override
-	public List<Veicle> getVeiclesByType(Type t) {
+	public List<Veicle> getVeiclesByType(Type t) throws BusinessException {
 		List<Veicle> result = new ArrayList<>();
 		for (Veicle v : veicles.values()) {
 			if (v.getType().getId() == t.getId())
@@ -108,12 +116,12 @@ public class RAMVeicleServiceImpl implements VeiclesService {
 	}
 
 	@Override
-	public Veicle getVeicleByID(int id) {
+	public Veicle getVeicleByID(int id) throws BusinessException {
 		return veicles.get(id);
 	}
 
 	@Override
-	public List<Veicle> getVeiclesByState(VeicleState state) {
+	public List<Veicle> getVeiclesByState(VeicleState state) throws BusinessException {
 		List<Veicle> result = new ArrayList<>();
 		for (Veicle v : veicles.values())
 			if (v.getState() == state)
@@ -122,7 +130,7 @@ public class RAMVeicleServiceImpl implements VeiclesService {
 	}
 
 	@Override
-	public List<Veicle> getVeiclesByStateAndType(Type type, boolean free, boolean busy, boolean maintenance) {
+	public List<Veicle> getVeiclesByStateAndType(Type type, boolean free, boolean busy, boolean maintenance) throws BusinessException {
 		List<Veicle> result = new ArrayList<>();
 		if (free) {
 			List<Veicle> resultF = this.getVeiclesByState(VeicleState.FREE);
@@ -146,7 +154,7 @@ public class RAMVeicleServiceImpl implements VeiclesService {
 	}
 
 	@Override
-	public void addVeicle(Veicle veicle) {
+	public void addVeicle(Veicle veicle) throws BusinessException {
 		Integer max = 0;
 		for (Veicle v : veicles.values())
 			max = (max > v.getId()) ? max : v.getId();
@@ -175,7 +183,7 @@ public class RAMVeicleServiceImpl implements VeiclesService {
 	}
 
 	@Override
-	public void setVeicle(Integer id, String model, double km, double consuption, String fuel) {
+	public void setVeicle(Integer id, String model, double km, double consuption, String fuel) throws BusinessException {
 		Veicle v = veicles.get(id);
 		v.setModel(model);
 		v.setConsumption(consuption);
@@ -190,7 +198,7 @@ public class RAMVeicleServiceImpl implements VeiclesService {
 	}
 
 	@Override
-	public boolean isVeicleFree(LocalDate startDate, LocalDate endDate, List<Contract> contractOfVeicle) {
+	public boolean isVeicleFree(LocalDate startDate, LocalDate endDate, List<Contract> contractOfVeicle) throws BusinessException {
 
 		for (int i = 0; i < contractOfVeicle.size(); i++) {
 			Contract c = contractOfVeicle.get(i);
@@ -201,7 +209,7 @@ public class RAMVeicleServiceImpl implements VeiclesService {
 	}
 
 	@Override
-	public String FindAviableDays(List<Contract> contractOfVeicle) {
+	public String FindAviableDays(List<Contract> contractOfVeicle) throws BusinessException {
 
 		if (contractOfVeicle.isEmpty())
 			return "veicolo disponibile per qualunque periodo";
@@ -222,7 +230,7 @@ public class RAMVeicleServiceImpl implements VeiclesService {
 	}
 
 	@Override
-	public void refreshAllStates() {
+	public void refreshAllStates() throws BusinessException {
 		ContractService contractService = BhertzBusinessFactory.getInstance().getContractService();
 		MaintenanceService maintenanceService = BhertzBusinessFactory.getInstance().getMaintenanceService();
 		for (Veicle v : veicles.values()) {

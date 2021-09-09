@@ -5,9 +5,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javax.swing.text.DateFormatter;
-
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
+import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.FeedbackService;
 import it.univaq.disim.oop.bhertz.domain.Feedback;
 import it.univaq.disim.oop.bhertz.domain.Type;
@@ -80,7 +79,13 @@ public class FeedbackController extends ViewUtility
 
 		titleLabel.setText(titleLabel.getText() + " " + veicle.getModel());
 
-		List<Feedback> feedbackList = this.feedbackService.getFeedbackByVeicle(veicle);
+		List<Feedback> feedbackList = null;
+		try {
+			feedbackList = this.feedbackService.getFeedbackByVeicle(veicle);
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		ObservableList<Feedback> feedbackData = FXCollections.observableArrayList(feedbackList);
 		feedbackTable.setItems(feedbackData);
 

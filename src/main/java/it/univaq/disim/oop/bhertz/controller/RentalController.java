@@ -129,7 +129,12 @@ public class RentalController extends ViewUtility implements Initializable, Data
 					ticket.setContract(assistanceContract);
 					assistanceContract.getVeicle().setState(VeicleState.MAINTENANCE);
 					MaintenanceService maintenanceService = BhertzBusinessFactory.getInstance().getMaintenanceService();
-					maintenanceService.addTicket(ticket);
+					try {
+						maintenanceService.addTicket(ticket);
+					} catch (BusinessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					assistanceContract.setAssistance(ticket);
 					dispatcher.renderView("maintenance", user);
 				}
@@ -162,20 +167,35 @@ public class RentalController extends ViewUtility implements Initializable, Data
 				if (JOptionPane.showConfirmDialog(null, "Confermi che il cliente ha pagato €" + toPay,
 						"Impostare come pagato?", JOptionPane.YES_NO_CANCEL_OPTION) != 0)
 					return;
-				contractService.setPaid(param.getValue().getId(), true);
+				try {
+					contractService.setPaid(param.getValue().getId(), true);
+				} catch (BusinessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				dispatcher.renderView("rental", this.user);
 			});
 
 			if (param.getValue().getReturnDateTime() != null) {
 				menuGestioneRiconsegna.setDisable(true);
-				menuGestioneRiconsegna.setText("Appuntamento Riconsegna: "
-						+ contractService.getContractByID(param.getValue().getId()).getReturnDateTime());
+				try {
+					menuGestioneRiconsegna.setText("Appuntamento Riconsegna: "
+							+ contractService.getContractByID(param.getValue().getId()).getReturnDateTime());
+				} catch (BusinessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 
 			if (param.getValue().getDeliverDateTime() != null) {
 				menuGestioneConsegna.setDisable(true);
-				menuGestioneConsegna.setText("Appuntamento Consegna: "
-						+ contractService.getContractByID(param.getValue().getId()).getDeliverDateTime());
+				try {
+					menuGestioneConsegna.setText("Appuntamento Consegna: "
+							+ contractService.getContractByID(param.getValue().getId()).getDeliverDateTime());
+				} catch (BusinessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 
 			if (this.user.getRole() == 2) {
@@ -187,10 +207,15 @@ public class RentalController extends ViewUtility implements Initializable, Data
 					localMenuButton.getItems().add(menuRichiestaAssistenza);
 					break;
 				case ENDED:
-					if (!feedbackService.isFeedBackSet(param.getValue()))
-						localMenuButton.getItems().add(menuFeedback);
-					else
-						return null;
+					try {
+						if (!feedbackService.isFeedBackSet(param.getValue()))
+							localMenuButton.getItems().add(menuFeedback);
+						else
+							return null;
+					} catch (BusinessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			} else if (this.user.getRole() == 1) {
 				switch (param.getValue().getState()) {
@@ -227,7 +252,13 @@ public class RentalController extends ViewUtility implements Initializable, Data
 	@Override
 	public void initializeData(User user) {
 		this.user = user;
-		List<Contract> contract = (user.getRole() == 2 ? contractService.getContractsByUser(0,user) : contractService.getAllContracts(0));
+		List<Contract> contract = null;
+		try {
+			contract = (user.getRole() == 2 ? contractService.getContractsByUser(0,user) : contractService.getAllContracts(0));
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Collections.sort(contract, new ContractOrder());
 		ObservableList<Contract> contractData = FXCollections.observableArrayList(contract);
 		rentalTable.setItems(contractData);

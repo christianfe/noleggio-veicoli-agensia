@@ -1,11 +1,13 @@
 package it.univaq.disim.oop.bhertz.controller;
 
+import java.awt.HeadlessException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
+import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.UserService;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.view.ObjectsCollector;
@@ -73,32 +75,37 @@ public class UserEditorController extends ViewUtility
 
 	@FXML
 	private void signup(ActionEvent e) {
-		if (creatingNewOperator && userServices.isUsernameSet(newUsernameField.getText()))
-			labelErrorSignup.setText("Username non disponibile!");
-		else if (!creatingNewOperator
-				&& userServices.isUsernameSet(this.userToEdit.getId(), newUsernameField.getText()))
-			labelErrorSignup.setText("Username non disponibile!");
-		else if (!newPasswordField.getText().equals(newPasswordRepeatField.getText()))
-			labelErrorSignup.setText("Le password immesse sono diverse!");
-		else {
-			if (creatingNewOperator) {
-				/*
-				 * userServices.addUser( new Staff(0, newNameField.getText(),
-				 * newUsernameField.getText(), newPasswordField.getText()));
-				 */
-				userToEdit.setName(newNameField.getText());
-				userToEdit.setUsername(newUsernameField.getText());
-				userToEdit.setPassword(newPasswordField.getText());
-				userServices.addUser(userToEdit);
-			} else
-				userServices.setUser(userToEdit.getId(), newNameField.getText(), newUsernameField.getText(),
-						newPasswordField.getText());
+		try {
+			if (creatingNewOperator && userServices.isUsernameSet(newUsernameField.getText()))
+				labelErrorSignup.setText("Username non disponibile!");
+			else if (!creatingNewOperator
+					&& userServices.isUsernameSet(this.userToEdit.getId(), newUsernameField.getText()))
+				labelErrorSignup.setText("Username non disponibile!");
+			else if (!newPasswordField.getText().equals(newPasswordRepeatField.getText()))
+				labelErrorSignup.setText("Le password immesse sono diverse!");
+			else {
+				if (creatingNewOperator) {
+					/*
+					 * userServices.addUser( new Staff(0, newNameField.getText(),
+					 * newUsernameField.getText(), newPasswordField.getText()));
+					 */
+					userToEdit.setName(newNameField.getText());
+					userToEdit.setUsername(newUsernameField.getText());
+					userToEdit.setPassword(newPasswordField.getText());
+					userServices.addUser(userToEdit);
+				} else
+					userServices.setUser(userToEdit.getId(), newNameField.getText(), newUsernameField.getText(),
+							newPasswordField.getText());
 
-			if (userEditing != null && userToEdit != null && userEditing.getId() == userToEdit.getId()) {
-				JOptionPane.showMessageDialog(null, "Dati aggiornati con successo!");
-				dispatcher.renderView("home", userEditing);
-			} else
-				dispatcher.renderView("user", null);
+				if (userEditing != null && userToEdit != null && userEditing.getId() == userToEdit.getId()) {
+					JOptionPane.showMessageDialog(null, "Dati aggiornati con successo!");
+					dispatcher.renderView("home", userEditing);
+				} else
+					dispatcher.renderView("user", null);
+			}
+		} catch (BusinessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 	}
 }

@@ -82,7 +82,12 @@ public class UserController extends ViewUtility implements Initializable, DataIn
 			menuDelete.setOnAction((ActionEvent event) -> {
 				if (JOptionPane.showConfirmDialog(null, "Confermi di voler eliminare l'utente selezionato?",
 						"Eliminare l'utente?", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE) == 0) {
-					userServices.deleteUser(param.getValue().getId());
+					try {
+						userServices.deleteUser(param.getValue().getId());
+					} catch (BusinessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					dispatcher.renderView("user", null);
 				}
 			});
@@ -109,7 +114,12 @@ public class UserController extends ViewUtility implements Initializable, DataIn
 			menuDelete.setOnAction((ActionEvent event) -> {
 				if (JOptionPane.showConfirmDialog(null, "Confermi di voler eliminare l'utente selezionato?",
 						"Eliminare l'utente?", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE) == 0) {
-					userServices.deleteUser(param.getValue().getId());
+					try {
+						userServices.deleteUser(param.getValue().getId());
+					} catch (BusinessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					dispatcher.renderView("user", null);
 				}
 			});

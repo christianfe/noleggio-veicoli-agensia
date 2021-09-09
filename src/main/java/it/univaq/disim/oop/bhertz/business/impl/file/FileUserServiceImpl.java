@@ -61,43 +61,46 @@ public class FileUserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User getUsersByID(int id) {
+	public User getUsersByID(int id) throws BusinessException {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<User> getUserByRole(int r) throws BusinessException {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
-	
 	@Override
-	public void addUser(User user){
-	}
-
-	@Override
-	public boolean isUsernameSet(String username){
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void deleteUser(Integer id) {
+	public void setUser(Integer id, String name, String username, String password) throws BusinessException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void setUser(Integer id, String name, String username, String password) {
+	public void addUser(User user) throws BusinessException {
 		// TODO Auto-generated method stub
 		
 	}
 
-	
 	@Override
-	public boolean isUsernameSet(Integer currentUserId, String username) {
+	public void deleteUser(Integer id) throws BusinessException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isUsernameSet(String username) throws BusinessException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
+	public boolean isUsernameSet(Integer currentUserId, String username) throws BusinessException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
 }

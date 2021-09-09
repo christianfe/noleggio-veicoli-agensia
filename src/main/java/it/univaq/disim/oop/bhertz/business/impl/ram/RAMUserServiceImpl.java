@@ -54,7 +54,7 @@ public class RAMUserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> getUserByRole(int r) {
+	public List<User> getUserByRole(int r) throws BusinessException {
 		List<User> result = new ArrayList<>();
 		for (User u : users.values())
 			if (u.getRole() == r)
@@ -63,7 +63,7 @@ public class RAMUserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void setUser(Integer id, String name, String username, String password){
+	public void setUser(Integer id, String name, String username, String password) throws BusinessException{
 		User u = users.get(id);
 		u.setName(name);
 		u.setUsername(username);
@@ -72,13 +72,13 @@ public class RAMUserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void addUser(User user){
+	public void addUser(User user) throws BusinessException{
 		user.setId(counter++);
 		this.users.put(user.getId(), user);
 	}
 
 	@Override
-	public boolean isUsernameSet(String username){
+	public boolean isUsernameSet(String username) throws BusinessException{
 		for (User u : users.values())
 			if (u.getUsername().equals(username))
 				return true;
@@ -86,7 +86,7 @@ public class RAMUserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void deleteUser(Integer id)  {
+	public void deleteUser(Integer id) throws BusinessException {
 		ContractService contractService = BhertzBusinessFactory.getInstance().getContractService();
 		UserService userService = BhertzBusinessFactory.getInstance().getUserService();
 		FeedbackService feedbackService = BhertzBusinessFactory.getInstance().getFeedbackService();
@@ -100,7 +100,7 @@ public class RAMUserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean isUsernameSet(Integer currentUserId, String username) {
+	public boolean isUsernameSet(Integer currentUserId, String username) throws BusinessException {
 		for (User u : users.values()) {
 			if (u.getId() == currentUserId) continue;
 			if (u.getUsername().equals(username)) return true;

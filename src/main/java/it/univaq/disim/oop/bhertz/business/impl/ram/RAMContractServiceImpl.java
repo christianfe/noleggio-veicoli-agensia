@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.ContractService;
 import it.univaq.disim.oop.bhertz.business.UserService;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
@@ -29,8 +30,14 @@ public class RAMContractServiceImpl implements ContractService {
 		this.userService = new RAMUserServiceImpl();
 
 		Contract contract1 = new Contract();
-		contract1.setCustomer((Customer) userService.getUsersByID(5));
-		contract1.setVeicle(veicleService.getVeicleByID(1));
+		
+		try {
+			contract1.setCustomer((Customer) userService.getUsersByID(5));
+			contract1.setVeicle(veicleService.getVeicleByID(1));
+		} catch (BusinessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		contract1.setStart(LocalDate.of(2021, Month.SEPTEMBER, 10));
 		contract1.setEnd(LocalDate.of(2021, Month.SEPTEMBER, 20));
 		contract1.setPaid(false);
@@ -42,8 +49,14 @@ public class RAMContractServiceImpl implements ContractService {
 		contracts.put(contract1.getId(), contract1);
 
 		Contract contract2 = new Contract();
-		contract2.setCustomer((Customer) userService.getUsersByID(4));
-		contract2.setVeicle(veicleService.getVeicleByID(2));
+		try {
+			contract2.setCustomer((Customer) userService.getUsersByID(4));
+			contract2.setVeicle(veicleService.getVeicleByID(2));
+		} catch (BusinessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		contract2.setStart(LocalDate.of(2021, Month.SEPTEMBER, 10));
 		contract2.setEnd(LocalDate.of(2021, Month.SEPTEMBER, 20));
 		contract2.setPaid(true);
@@ -54,8 +67,14 @@ public class RAMContractServiceImpl implements ContractService {
 		contracts.put(contract2.getId(), contract2);
 
 		Contract contract3 = new Contract();
-		contract3.setCustomer((Customer) userService.getUsersByID(5));
-		contract3.setVeicle(veicleService.getVeicleByID(4));
+		try {
+			contract3.setCustomer((Customer) userService.getUsersByID(5));
+			contract3.setVeicle(veicleService.getVeicleByID(4));
+		} catch (BusinessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		contract3.setStart(LocalDate.of(2021, Month.SEPTEMBER, 12));
 		contract3.setEnd(LocalDate.of(2021, Month.SEPTEMBER, 13));
 		contract3.setPaid(false);
@@ -67,8 +86,14 @@ public class RAMContractServiceImpl implements ContractService {
 
 
 		Contract contract4 = new Contract();
-		contract4.setCustomer((Customer) userService.getUsersByID(5));
-		contract4.setVeicle(veicleService.getVeicleByID(1));
+		try {
+			contract4.setCustomer((Customer) userService.getUsersByID(5));
+			contract4.setVeicle(veicleService.getVeicleByID(1));
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		contract4.setStart(LocalDate.of(2021, Month.SEPTEMBER, 30));
 		contract4.setEnd(LocalDate.of(2021, Month.OCTOBER, 5));
 		contract4.setPaid(false);
@@ -82,7 +107,7 @@ public class RAMContractServiceImpl implements ContractService {
 	}
 
 	@Override
-	public List<Contract> getAllContracts(int type){
+	public List<Contract> getAllContracts(int type) throws BusinessException {
 		List<Contract> result = new ArrayList<>();
 		switch (type) {
 		case 0:
@@ -108,12 +133,12 @@ public class RAMContractServiceImpl implements ContractService {
 	}
 
 	@Override
-	public Contract getContractByID(int id) {
+	public Contract getContractByID(int id) throws BusinessException {
 		return contracts.get(id);
 	}
 
 	@Override
-	public List<Contract> getContractsByUser(int type,User user) {
+	public List<Contract> getContractsByUser(int type,User user) throws BusinessException {
 		List<Contract> result = new ArrayList<>();
 		for (Contract c : contracts.values())
 			if (c.getCustomer().getId() == user.getId())
@@ -135,20 +160,20 @@ public class RAMContractServiceImpl implements ContractService {
 	}
 
 	@Override
-	public void addContract(Contract contract) {
+	public void addContract(Contract contract) throws BusinessException {
 		contract.setId(counter);
 		contracts.put(counter++, contract);
 	}
 
 	@Override
-	public void setPaid(Integer id, boolean value) {
+	public void setPaid(Integer id, boolean value) throws BusinessException {
 		Contract c = contracts.get(id);
 		c.setPaid(value);
 		contracts.put(id, c);
 	}
 
 	@Override
-	public List<Contract> getContractsByVeicle(int type,Integer idVeicle) {
+	public List<Contract> getContractsByVeicle(int type,Integer idVeicle) throws BusinessException {
 		List<Contract> result = new ArrayList<>();
 		for (Contract c : contracts.values())
 			if (c.getVeicle().getId() == idVeicle)
@@ -169,17 +194,17 @@ public class RAMContractServiceImpl implements ContractService {
 	}
 
 	@Override
-	public void setContract(Contract contract) {
+	public void setContract(Contract contract) throws BusinessException {
 		contracts.put(contract.getId(), contract);
 	}
 
 	@Override
-	public void removeContract(Integer id) {
+	public void removeContract(Integer id) throws BusinessException {
 		contracts.remove(id);
 	}
 
 	@Override
-	public Contract getContractByDate(Veicle veicle, LocalDate date) {
+	public Contract getContractByDate(Veicle veicle, LocalDate date) throws BusinessException {
 		for (Contract c : contracts.values())
 			if (c.getVeicle().getId() == veicle.getId() && (date.isEqual(c.getStart()) || (date.isAfter(c.getStart()) && date.isBefore(c.getEnd().plusDays(2)))))
 				return c;

@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
+import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
 import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.User;
@@ -20,7 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class VeicleEditController extends ViewUtility
-		implements Initializable, DataInitializable<BigObjectsCollector<User, Veicle, Type>> {
+implements Initializable, DataInitializable<BigObjectsCollector<User, Veicle, Type>> {
 
 	@FXML
 	private Label labelTitle;
@@ -51,9 +52,9 @@ public class VeicleEditController extends ViewUtility
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		saveButton.disableProperty()
-				.bind(modelField.textProperty().isEmpty()
-						.or(plateField.textProperty().isEmpty().or(kmField.textProperty().isEmpty()
-								.or(consuptionField.textProperty().isEmpty().or(fuelField.textProperty().isEmpty())))));
+		.bind(modelField.textProperty().isEmpty()
+				.or(plateField.textProperty().isEmpty().or(kmField.textProperty().isEmpty()
+						.or(consuptionField.textProperty().isEmpty().or(fuelField.textProperty().isEmpty())))));
 		super.addForbiddenCharCheck(modelField, plateField, kmField, consuptionField, fuelField);
 		super.setOnlyNumberField(kmField, consuptionField);
 	}
@@ -75,16 +76,22 @@ public class VeicleEditController extends ViewUtility
 
 	@FXML
 	public void saveAction(ActionEvent e) {
-		if (this.creatingNewVeicle)
-			veiclesService.addVeicle(new Veicle(0, objectsCollector.getObjectC(), modelField.getText(),
-					plateField.getText(), Double.parseDouble(kmField.getText()),
-					Double.parseDouble(consuptionField.getText()), fuelField.getText()));
-		else
-			veiclesService.setVeicle(objectsCollector.getObjectB().getId(), modelField.getText(),
-					Double.parseDouble(kmField.getText()), Double.parseDouble(consuptionField.getText()),
-					fuelField.getText());
-		dispatcher.renderView("veicles",
-				new ObjectsCollector<User, Type>(objectsCollector.getObjectA(), objectsCollector.getObjectC()));
+		try {
+
+			if (this.creatingNewVeicle)
+				veiclesService.addVeicle(new Veicle(0, objectsCollector.getObjectC(), modelField.getText(),
+						plateField.getText(), Double.parseDouble(kmField.getText()),
+						Double.parseDouble(consuptionField.getText()), fuelField.getText()));
+
+			else
+				veiclesService.setVeicle(objectsCollector.getObjectB().getId(), modelField.getText(),
+						Double.parseDouble(kmField.getText()), Double.parseDouble(consuptionField.getText()),
+						fuelField.getText());
+		} catch (BusinessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		dispatcher.renderView("veicles", new ObjectsCollector<User, Type>(objectsCollector.getObjectA(), objectsCollector.getObjectC()));
 	}
 
 }

@@ -74,14 +74,14 @@ public class RAMMaintenanceServiceImpl implements MaintenanceService{
 
 
 	@Override
-	public void addTicket(AssistanceTicket ticket) {
+	public void addTicket(AssistanceTicket ticket) throws BusinessException {
 		ticket.setId(counter++);
 		tickets.put(ticket.getId(), ticket);
 	}
 
 
 	@Override
-	public void setTicket(AssistanceTicket ticket) {
+	public void setTicket(AssistanceTicket ticket) throws BusinessException {
 		tickets.put(ticket.getId(), ticket);
 	}
 
@@ -97,13 +97,13 @@ public class RAMMaintenanceServiceImpl implements MaintenanceService{
 
 
 	@Override
-	public void removeMaintenance(Integer id) {
+	public void removeMaintenance(Integer id) throws BusinessException {
 		tickets.remove(id);		
 	}
 
 
 	@Override
-	public AssistanceTicket getTicketByDate(Veicle veicle, LocalDate date) {
+	public AssistanceTicket getTicketByDate(Veicle veicle, LocalDate date) throws BusinessException {
 		for (AssistanceTicket t : tickets.values()) {
 			try {
 				if (veicle.getId() == t.getContract().getVeicle().getId() && (date.isEqual(t.getStartDate()) || date.isEqual(t.getEndDate()) || (date.isAfter(t.getStartDate()) && date.isBefore(t.getEndDate()))))

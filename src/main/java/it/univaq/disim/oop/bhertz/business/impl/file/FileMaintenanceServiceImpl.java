@@ -30,35 +30,31 @@ public class FileMaintenanceServiceImpl implements MaintenanceService {
 	}
 
 	@Override
-	public void addTicket(AssistanceTicket ticket) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setTicket(AssistanceTicket ticket) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public List<AssistanceTicket> getTicketByVeicle(Integer idVeicle) throws BusinessException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void removeMaintenance(Integer id) {
+	public void addTicket(AssistanceTicket ticket) throws BusinessException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public AssistanceTicket getTicketByDate(Veicle veicle, LocalDate date) {
+	public void setTicket(AssistanceTicket ticket) throws BusinessException {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
-	
+	@Override
+	public void removeMaintenance(Integer id) throws BusinessException {
+		// TODO Auto-generated method stub
+		
+	}
 
-}
+	@Override
+	public AssistanceTicket getTicketByDate(Veicle veicle, LocalDate date) throws BusinessException {
+		// TODO Auto-generated method stub
+		return null;
+	}}
