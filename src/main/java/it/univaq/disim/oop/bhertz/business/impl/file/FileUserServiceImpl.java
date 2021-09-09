@@ -24,7 +24,7 @@ public class FileUserServiceImpl implements UserService {
 
 	private String userFilename;
 	private Map<Integer, User> users = new HashMap<>();
-	private int counter;
+	private long counter;
 
 	public FileUserServiceImpl(String userFilename) {
 		this.userFilename = userFilename;
@@ -96,7 +96,7 @@ public class FileUserServiceImpl implements UserService {
 
 	@Override
 	public void addUser(User user) throws BusinessException {
-		user.setId(counter++);
+		user.setId((int) counter++);
 		this.users.put(user.getId(), user);
 		this.saveList();
 	}
@@ -108,10 +108,10 @@ public class FileUserServiceImpl implements UserService {
 		FeedbackService feedbackService = BhertzBusinessFactory.getInstance().getFeedbackService();
 		List <Contract> cc = contractService.getContractsByUser(2, userService.getUsersByID(id));
 		List <Feedback> ff = feedbackService.getFeedbackByUser(id);
-		/*for (Feedback f : ff)
+		for (Feedback f : ff)
 			feedbackService.removeFeedback(f.getId());
 		for (Contract c : cc)
-			contractService.removeContract(c.getId());*/
+			contractService.removeContract(c.getId());
 		users.remove(id);
 		this.saveList();
 	}
@@ -170,9 +170,9 @@ public class FileUserServiceImpl implements UserService {
 				user.setUsername(row[3]);
 				user.setPassword(row[4]);
 				user.setName(row[2]);
-				this.counter = (this.counter  > Integer.parseInt(row[0])) ? this.counter : Integer.parseInt(row[0]);
 			} else
 				throw new BusinessException("Errore nella lettura del file");
+			this.counter = fileData.getCount();
 			this.users.put(user.getId(), user);
 		}
 	}
