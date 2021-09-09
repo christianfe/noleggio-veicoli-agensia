@@ -116,7 +116,9 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 					localMenuButton.getItems().add(menuFixed);
 
 					menuFixed.setOnAction((ActionEvent event) -> {
-						param.getValue().setState(TicketState.READY);
+						param.getValue().getContract().getVeicle().setState(VeicleState.BUSY);
+							
+					param.getValue().setState(TicketState.READY);
 						dispatcher.renderView("maintenance", user);
 					});
 
@@ -134,7 +136,9 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 
 					}
 					localMenuButton.getItems().add(menuAppointment);
-
+					
+					
+					
 					break;
 
 				case ENDED:
