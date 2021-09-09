@@ -75,12 +75,14 @@ public class VeiclesController extends ViewUtility
 	public VeiclesController() {
 		dispatcher = ViewDispatcher.getInstance();
 		veiclesService = BhertzBusinessFactory.getInstance().getVeiclesService();
+		
 		try {
 			veiclesService.refreshAllStates();
 		} catch (BusinessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 
 	@Override
