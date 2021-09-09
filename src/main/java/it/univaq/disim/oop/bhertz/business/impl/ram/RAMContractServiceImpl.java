@@ -43,8 +43,8 @@ public class RAMContractServiceImpl implements ContractService {
 		contract1.setPaid(false);
 		contract1.setId(counter++);
 		contract1.setState(ContractState.ACTIVE);
-		contract1.setDeliverDateTime("ora");
-		contract1.setReturnDateTime("ora");
+		contract1.setDeliverDateTime("13-09-2021 12:00");
+		contract1.setReturnDateTime("13-09-2021 12:00");
 		contract1.setType(ContractType.TIME);
 		contracts.put(contract1.getId(), contract1);
 
@@ -62,7 +62,7 @@ public class RAMContractServiceImpl implements ContractService {
 		contract2.setPaid(true);
 		contract2.setId(counter++);
 		contract2.setState(ContractState.ENDED);
-		contract2.setDeliverDateTime("ora");
+		contract2.setDeliverDateTime("13-09-2021 12:00");
 		contract2.setType(ContractType.KM);
 		contracts.put(contract2.getId(), contract2);
 
@@ -80,7 +80,7 @@ public class RAMContractServiceImpl implements ContractService {
 		contract3.setPaid(false);
 		contract3.setId(counter++);
 		contract3.setState(ContractState.ACTIVE);
-		contract3.setDeliverDateTime("ora");
+		contract3.setDeliverDateTime("13-09-2021 12:00");
 		contract3.setType(ContractType.KM);
 		contracts.put(contract3.getId(), contract3);
 
@@ -99,8 +99,8 @@ public class RAMContractServiceImpl implements ContractService {
 		contract4.setPaid(false);
 		contract4.setId(counter++);
 		contract4.setState(ContractState.ACTIVE);
-		contract4.setDeliverDateTime("ora");
-		contract4.setReturnDateTime("ora");
+		contract4.setDeliverDateTime("13-09-2021 12:00");
+		contract4.setReturnDateTime("14-09-2021 12:00");
 		contract4.setType(ContractType.TIME);
 		contracts.put(contract4.getId(), contract4);
 

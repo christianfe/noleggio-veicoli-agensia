@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -17,6 +20,20 @@
             <Insets left="10.0" />
          </padding>
       </Label>
+      <HBox fx:id="filterHBox" alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="765.0">
+         <children>
+            <CheckBox fx:id="filterCheckBox" mnemonicParsing="false" onAction="#filterAction" text="Visualizza Noleggi in riconsegna il">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </CheckBox>
+            <DatePicker fx:id="filterDatePicker" promptText="gg/mm/aaaa">
+               <HBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </HBox.margin>
+            </DatePicker>
+         </children>
+      </HBox>
       <TableView fx:id="rentalTable" prefHeight="516.0" prefWidth="758.0">
         <columns>
           <TableColumn fx:id="userColumn" prefWidth="84.5" text="Cliente" />

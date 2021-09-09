@@ -1,8 +1,10 @@
 package it.univaq.disim.oop.bhertz.controller;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -14,7 +16,6 @@ import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.ContractService;
 import it.univaq.disim.oop.bhertz.business.FeedbackService;
 import it.univaq.disim.oop.bhertz.business.MaintenanceService;
-import it.univaq.disim.oop.bhertz.business.VeiclesService;
 import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
 import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.ContractState;
@@ -33,12 +34,16 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.DateCell;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.HBox;
 
 public class RentalController extends ViewUtility implements Initializable, DataInitializable<User> {
 
@@ -60,24 +65,33 @@ public class RentalController extends ViewUtility implements Initializable, Data
 	private TableColumn<Contract, String> typeColumn;
 	@FXML
 	private TableColumn<Contract, MenuButton> actionColumn;
+	@FXML
+	private HBox filterHBox;
+	@FXML
+	private CheckBox filterCheckBox;
+	@FXML
+	private DatePicker filterDatePicker;
 
 	private ViewDispatcher dispatcher;
-
 	private ContractService contractService;
-	private VeiclesService veiclesService;
 	private FeedbackService feedbackService;
 	private User user;
 
 	public RentalController() throws BusinessException {
 		dispatcher = ViewDispatcher.getInstance();
 		contractService = BhertzBusinessFactory.getInstance().getContractService();
-		veiclesService = BhertzBusinessFactory.getInstance().getVeiclesService();
 		feedbackService = BhertzBusinessFactory.getInstance().getFeedbackService();
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
+		filterDatePicker.setDayCellFactory(d -> new DateCell() {
+			@Override
+			public void updateItem(LocalDate item, boolean empty) {
+				super.updateItem(item, empty);
+					setDisable(item.isBefore(LocalDate.now()));
+			}
+		});
 		userColumn.setCellValueFactory((CellDataFeatures<Contract, String> param) -> {
 			return new SimpleStringProperty(param.getValue().getCustomer().getName());
 		});
@@ -253,6 +267,8 @@ public class RentalController extends ViewUtility implements Initializable, Data
 	public void initializeData(User user) {
 		this.user = user;
 		List<Contract> contract = null;
+		if (user.getRole() != 1)
+			filterHBox.setVisible(false);
 		try {
 			contract = (user.getRole() == 2 ? contractService.getContractsByUser(0,user) : contractService.getAllContracts(0));
 		} catch (BusinessException e) {
@@ -262,6 +278,28 @@ public class RentalController extends ViewUtility implements Initializable, Data
 		Collections.sort(contract, new ContractOrder());
 		ObservableList<Contract> contractData = FXCollections.observableArrayList(contract);
 		rentalTable.setItems(contractData);
+	}
+	
+	@FXML
+	public void filterAction(ActionEvent e) {
+		try {
+			if (!filterCheckBox.isSelected()) {
+				this.initializeData(user);
+				return;
+			}
+			List<Contract> contracts =  contractService.getAllContracts(0);
+			List<Contract> selectedContract = new ArrayList<>();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+			for (Contract c : contracts)
+				if (c.getState() == ContractState.ACTIVE && c.getReturnDateTime() != null && filterDatePicker.getValue().format(formatter).toString().equals(c.getReturnDateTime().substring(0, 10)))
+					selectedContract.add(c);
+			ObservableList<Contract> contractData = FXCollections.observableArrayList(selectedContract);
+			rentalTable.setItems(contractData);
+		} catch (NullPointerException ex) {
+			filterCheckBox.setSelected(false);
+		} catch (BusinessException ex) {
+			dispatcher.renderError(ex);
+		}
 	}
 
 }
