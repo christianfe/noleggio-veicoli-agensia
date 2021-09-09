@@ -29,7 +29,6 @@ public class RAMFeedbackServiceImpl implements FeedbackService {
 		for (Feedback f : feeds.values())
 			if (f.getContract().getVeicle().getId() == veicle.getId())
 				result.add(f);
-
 		return result;
 	}
 
