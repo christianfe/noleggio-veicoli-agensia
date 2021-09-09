@@ -101,7 +101,7 @@ public class RAMMaintenanceServiceImpl implements MaintenanceService {
 	public AssistanceTicket getTicketByDate(Veicle veicle, LocalDate date) throws BusinessException {
 		for (AssistanceTicket t : tickets.values()) {
 			try {
-				if (veicle.getId() == t.getContract().getVeicle().getId() && (date.isEqual(t.getStartDate()) || date.isEqual(t.getEndDate()) || (date.isAfter(t.getStartDate()) && date.isBefore(t.getEndDate().plusDays()))))
+				if (veicle.getId() == t.getContract().getVeicle().getId() && (date.isEqual(t.getStartDate()) || date.isEqual(t.getEndDate()) || (date.isAfter(t.getStartDate()) && date.isBefore(t.getEndDate()))))
 					return t;
 			} catch (NullPointerException e) {
 				continue;
