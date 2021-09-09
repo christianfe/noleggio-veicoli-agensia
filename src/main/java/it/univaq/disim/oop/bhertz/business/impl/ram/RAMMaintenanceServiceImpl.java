@@ -16,7 +16,6 @@ public class RAMMaintenanceServiceImpl implements MaintenanceService {
 
 	private Map<Integer, AssistanceTicket> tickets = new HashMap<>();
 	private int counter = 1;
-
 	
 	@Override
 	public List<AssistanceTicket> getAllTickets() throws BusinessException {

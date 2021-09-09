@@ -18,6 +18,7 @@ import it.univaq.disim.oop.bhertz.domain.ContractType;
 import it.univaq.disim.oop.bhertz.domain.Customer;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
+import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import it.univaq.disim.oop.bhertz.view.ViewUtility;
 
 public class FileContractServiceImpl implements ContractService {
@@ -28,6 +29,11 @@ public class FileContractServiceImpl implements ContractService {
 
 	public FileContractServiceImpl(String contractsFileName) {
 		this.filename = contractsFileName;
+		try {
+			this.readList();
+		} catch (BusinessException e) {
+			ViewDispatcher.getInstance().renderError(e);
+		}
 	}
 
 	@Override
