@@ -1,6 +1,7 @@
 package it.univaq.disim.oop.bhertz.view;
 
 
+@SuppressWarnings("serial")
 public class ViewException extends Exception {
 
 	public ViewException() {

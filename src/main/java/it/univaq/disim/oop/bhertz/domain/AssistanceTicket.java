@@ -6,7 +6,7 @@ public class AssistanceTicket {
 
 	private TicketState state;
 	private Integer id;
-	private String description;
+	private String description = "";
 	private LocalDate startDate;
 	private LocalDate endDate;
 	private String timeStart;
@@ -15,7 +15,7 @@ public class AssistanceTicket {
 
 	private Contract substituteContract = null;
 	private Contract contract;
-
+	
 	public Contract getSubstituteContract() {
 		return substituteContract;
 	}

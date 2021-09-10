@@ -1,6 +1,5 @@
 package it.univaq.disim.oop.bhertz.controller;
 
-import java.awt.HeadlessException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -62,7 +61,12 @@ public class UserEditorController extends ViewUtility
 	@Override
 	public void initializeData(ObjectsCollector<User, User> objectsCollector) {
 		userEditing = objectsCollector.getObjectA();
-		userToEdit = objectsCollector.getObjectB();
+		try {
+			userToEdit = BhertzBusinessFactory.getInstance().getUserService().getUsersByID(objectsCollector.getObjectB().getId());
+			objectsCollector.setObjectB(userToEdit);
+		} catch (BusinessException e) {
+			dispatcher.renderError(e);
+		}
 		if (userToEdit.getId() != null) {
 			creatingNewOperator = false;
 			titleLabel.setText("Modifica Utente");

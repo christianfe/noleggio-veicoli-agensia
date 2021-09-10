@@ -57,8 +57,12 @@ public class FileTypesServiceImpl implements TypesService {
 	@Override
 	public void setType(Integer id, String name, double priceForKm, double priceForDay) throws BusinessException {
 		Map<Integer, Type> types = this.readList();
-		System.out.println(types);
 		Type t = types.get(id);
+		
+		if (t.getPriceForDay() != priceForDay || t.getPriceForKm() != priceForKm);{
+			VeiclesService veiclesService = BhertzBusinessFactory.getInstance().getVeiclesService();
+			veiclesService.updatePrices(t.getPriceForDay(), t.getPriceForKm(), priceForDay, priceForKm);
+		}
 		t.setName(name);
 		t.setPriceForDay(priceForDay);
 		t.setPriceForKm(priceForKm);

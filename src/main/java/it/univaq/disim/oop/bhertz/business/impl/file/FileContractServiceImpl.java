@@ -9,7 +9,6 @@ import java.util.Map;
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.ContractService;
-import it.univaq.disim.oop.bhertz.business.MaintenanceService;
 import it.univaq.disim.oop.bhertz.business.UserService;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
 import it.univaq.disim.oop.bhertz.domain.Contract;
@@ -171,8 +170,7 @@ public class FileContractServiceImpl implements ContractService {
 		FileData fileData = fileUtility.getAllByFile(filename);
 		VeiclesService veiclesService = BhertzBusinessFactory.getInstance().getVeiclesService();
 		UserService userService = BhertzBusinessFactory.getInstance().getUserService();
-		MaintenanceService maintenanceService = BhertzBusinessFactory.getInstance().getMaintenanceService();
-		Map<Integer, Contract> contracts = new HashMap<Integer, Contract>();
+			Map<Integer, Contract> contracts = new HashMap<Integer, Contract>();
 		for (String[] row : fileData.getRows()) {
 			Contract contract = new Contract();
 			contract.setId(Integer.parseInt(row[0]));

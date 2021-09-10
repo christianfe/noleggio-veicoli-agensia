@@ -64,7 +64,7 @@ public class MaintenanceDetailsController extends ViewUtility implements Initial
 		this.newVeicleActive = objectsCollector.getObjectB().getSubstituteContract() != null;
 		this.newVeicleCheck.setSelected(newVeicleActive);
 		this.descriptionArea.setText(objectsCollector.getObjectB().getDescription());
-		this.veicleInfoLabel.setText(objectsCollector.getObjectB().getContract().getVeicle() + "");
+		this.veicleInfoLabel.setText(objectsCollector.getObjectB().getContract().getVeicle() + " - al km " + objectsCollector.getObjectB().getVeicleKm());
 		if (objectsCollector.getObjectB().getStartDate() == null)
 			this.startAssistanceLabel.setText(startAssistanceLabel.getText() + ": Non definito");
 		else
@@ -78,7 +78,7 @@ public class MaintenanceDetailsController extends ViewUtility implements Initial
 			newVeicleInfo.setText("");
 		} else {
 			newVeicleTitle.setText(objectsCollector.getObjectB().getSubstituteContract().getVeicle().toString());
-			newVeicleInfo.setText(objectsCollector.getObjectB().getContract().getCustomer().getName());
+			newVeicleInfo.setText("Cliente: " + objectsCollector.getObjectB().getContract().getCustomer().getName());
 		}
 		if (objectsCollector.getObjectA().getRole() != 1 || objectsCollector.getObjectB().getState() == TicketState.ENDED) {
 			descriptionArea.setEditable(false);

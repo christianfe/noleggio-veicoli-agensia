@@ -1,5 +1,6 @@
 package it.univaq.disim.oop.bhertz.business;
 
+@SuppressWarnings("serial")
 public class UserNotFoundException extends BusinessException {
 
 	public UserNotFoundException() {

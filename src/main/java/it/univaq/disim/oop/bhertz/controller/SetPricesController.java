@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
+import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
 import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.User;
@@ -63,7 +64,11 @@ public class SetPricesController extends ViewUtility
 	public void setPrices() {
 		veicle.setPriceForDay(Double.parseDouble(timeField.getText()));
 		veicle.setPriceForKm(Double.parseDouble(kmField.getText()));
-
+		try {
+			veicleService.setVeicle(veicle);
+		} catch (BusinessException e) {
+			dispatcher.renderError(e);
+		}
 		exitAction();
 	}
 

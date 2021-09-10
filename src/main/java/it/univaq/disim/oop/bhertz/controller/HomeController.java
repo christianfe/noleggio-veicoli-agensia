@@ -7,8 +7,10 @@ import java.util.ResourceBundle;
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.NotificationsService;
+import it.univaq.disim.oop.bhertz.business.UserService;
 import it.univaq.disim.oop.bhertz.domain.Notification;
 import it.univaq.disim.oop.bhertz.domain.User;
+import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import it.univaq.disim.oop.bhertz.view.ViewUtility;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,7 +26,6 @@ public class HomeController extends ViewUtility implements Initializable, DataIn
 	@FXML
 	private TextArea notificationTextArea;
 
-	private User user;
 	private List<Notification> listByUser;
 	private NotificationsService notificationService;
 
@@ -38,16 +39,19 @@ public class HomeController extends ViewUtility implements Initializable, DataIn
 
 	@Override
 	public void initializeData(User user) {
-		this.user = user;
-		welcomeLabel.setText("Benvenuto " + user.getName());
+		try {
+			UserService userService = BhertzBusinessFactory.getInstance().getUserService();
+			user = userService.getUsersByID(user.getId());
+		} catch (BusinessException e1) {
+			ViewDispatcher.getInstance().renderError(e1);
+		}
 		if (user.getRole() == 2) {
 			notificationLabel.setVisible(true);
 			notificationTextArea.setVisible(true);
 			try {
 				listByUser = notificationService.getNotificationByUser(user.getId());
 			} catch (BusinessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				ViewDispatcher.getInstance().renderError(e);
 			}
 			for (Notification n : listByUser) {
 				notificationTextArea.appendText(n.getTitle() + "\n");

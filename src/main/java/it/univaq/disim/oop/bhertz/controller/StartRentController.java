@@ -55,7 +55,7 @@ public class StartRentController extends ViewUtility implements Initializable, D
 	private ViewDispatcher dispatcher;
 
 	public StartRentController() {
-		this.dispatcher = dispatcher.getInstance();
+		this.dispatcher = ViewDispatcher.getInstance();
 		factory = BhertzBusinessFactory.getInstance();
 	}
 
@@ -99,8 +99,7 @@ public class StartRentController extends ViewUtility implements Initializable, D
 			contractOfVeicle = factory.getContractService().getContractsByVeicle(0, veicle.getId());
 			aviableTextArea.setText(factory.getVeiclesService().FindAviableDays(contractOfVeicle));
 		} catch (BusinessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			dispatcher.renderError(e);
 		}
 			
 	}
@@ -154,8 +153,7 @@ public class StartRentController extends ViewUtility implements Initializable, D
 		} catch (NullPointerException E) {
 			labelError.setText("Imposta data di inizio e fine del noleggio");
 		} catch (BusinessException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			dispatcher.renderError(e1);
 		}
 	}
 

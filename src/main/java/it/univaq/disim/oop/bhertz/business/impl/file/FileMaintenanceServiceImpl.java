@@ -135,7 +135,7 @@ public class FileMaintenanceServiceImpl implements MaintenanceService {
 				ticket.setState(TicketState.ENDED);
 				break;
 			}
-			if(!row[2].equals("null")) ticket.setDescription(row[2]);
+			ticket.setDescription(row[2]);
 			if(!row[3].equals("null")) ticket.setStartDate(LocalDate.parse(row[3]));
 			if(!row[4].equals("null")) ticket.setEndDate(LocalDate.parse(row[4]));
 			if(!row[5].equals("null")) ticket.setTimeStart(row[5]);

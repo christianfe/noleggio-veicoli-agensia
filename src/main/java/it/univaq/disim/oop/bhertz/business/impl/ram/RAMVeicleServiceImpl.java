@@ -170,6 +170,17 @@ public class RAMVeicleServiceImpl implements VeiclesService {
 		}
 		return true;
 	}
+	
+	@Override
+	public void updatePrices(double oldPriceForDay, double oldPriceForKm, double newPriceForDay, double newPriceForKm) throws BusinessException {
+		for (Veicle v : veicles.values()) {
+			if (v.getPriceForDay() == oldPriceForDay)
+				v.setPriceForDay(newPriceForDay);
+			if (v.getPriceForKm() == oldPriceForKm)
+				v.setPriceForKm(newPriceForKm);
+			veicles.put(v.getId(), v);
+		}
+	}
 
 	@Override
 	public String FindAviableDays(List<Contract> contractOfVeicle) throws BusinessException {

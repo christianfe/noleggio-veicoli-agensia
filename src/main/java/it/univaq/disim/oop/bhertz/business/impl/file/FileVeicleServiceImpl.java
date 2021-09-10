@@ -186,6 +186,20 @@ public class FileVeicleServiceImpl implements VeiclesService {
 		}
 		this.saveList(veicles);
 	}
+	
+
+	@Override
+	public void updatePrices(double oldPriceForDay, double oldPriceForKm, double newPriceForDay, double newPriceForKm) throws BusinessException {
+		Map<Integer, Veicle> veicles = this.readList();
+		for (Veicle v : veicles.values()) {
+			if (v.getPriceForDay() == oldPriceForDay)
+				v.setPriceForDay(newPriceForDay);
+			if (v.getPriceForKm() == oldPriceForKm)
+				v.setPriceForKm(newPriceForKm);
+			veicles.put(v.getId(), v);
+		}
+		this.saveList(veicles);
+	}
 
 
 	private void saveList(Map<Integer, Veicle> veicles) throws BusinessException {
@@ -240,4 +254,5 @@ public class FileVeicleServiceImpl implements VeiclesService {
 		}
 		return veicles;
 	}
+
 }
