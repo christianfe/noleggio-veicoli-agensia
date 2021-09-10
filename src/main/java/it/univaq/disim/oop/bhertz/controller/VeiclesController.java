@@ -172,10 +172,16 @@ public class VeiclesController extends ViewUtility
 			});
 
 			menuEdit.setOnAction((ActionEvent event) -> {
+<<<<<<< Updated upstream
 				if (param.getValue().getState() != VeicleState.FREE)
 					JOptionPane.showMessageDialog(null, "E' possibile modificare solo veicoli Liberi", "Errore",
 							JOptionPane.ERROR_MESSAGE);
 				else
+=======
+				//if (param.getValue().getState() != VeicleState.FREE)
+					//JOptionPane.showMessageDialog(null, "E' possibile eliminare solo veicoli Liberi", "Errore",JOptionPane.ERROR_MESSAGE);
+				//else
+>>>>>>> Stashed changes
 					dispatcher.renderView("veicleEdit", new BigObjectsCollector<User, Veicle, Type>(
 							objectsCollector.getObjectA(), param.getValue(), objectsCollector.getObjectB()));
 			});
