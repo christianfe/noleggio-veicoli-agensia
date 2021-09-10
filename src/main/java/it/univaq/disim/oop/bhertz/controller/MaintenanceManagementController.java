@@ -1,8 +1,6 @@
 package it.univaq.disim.oop.bhertz.controller;
 
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -78,7 +76,6 @@ public class MaintenanceManagementController extends ViewUtility
 			localButton.setText("Seleziona");
 
 			localButton.setOnAction((ActionEvent event) -> {
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 				Contract substituteContract = new Contract();
 				substituteContract.setVeicle(param.getValue());
 				substituteContract.setStart(ticket.getStartDate());
@@ -90,6 +87,7 @@ public class MaintenanceManagementController extends ViewUtility
 				substituteContract.setPrice(ticket.getContract().getPrice());
 				substituteContract.setState(ContractState.BOOKED);
 				substituteContract.setType(ticket.getContract().getType());
+				
 				ticket.setSubstituteContract(substituteContract);
 				try {
 					contractService.addContract(substituteContract);
