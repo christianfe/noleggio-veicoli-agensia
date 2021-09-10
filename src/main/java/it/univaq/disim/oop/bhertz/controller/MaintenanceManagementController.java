@@ -61,7 +61,6 @@ public class MaintenanceManagementController extends ViewUtility
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
 		veicleColumn.setCellValueFactory(new PropertyValueFactory<>("model"));
 		plateColumn.setCellValueFactory(new PropertyValueFactory<>("plate"));
 		fuelColumn.setCellValueFactory(new PropertyValueFactory<>("fuel"));
