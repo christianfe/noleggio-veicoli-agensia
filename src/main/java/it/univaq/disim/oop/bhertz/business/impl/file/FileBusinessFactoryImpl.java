@@ -33,7 +33,7 @@ public class FileBusinessFactoryImpl extends BhertzBusinessFactory {
 	public FileBusinessFactoryImpl() {
 		this.userService = new FileUserServiceImpl(USER_FILE_NAME);
 		this.typeService = new FileTypesServiceImpl(TYPES_FILE_NAME);
-		this.veicleService = new FileVeicleserviceImpl(VEICLE_FILE_NAME);
+		this.veicleService = new FileVeicleServiceImpl(VEICLE_FILE_NAME);
 		this.notificationService = new FileNotificationServiceImpl(NOTIFICATION_FILE_NAME);
 		this.contractService = new FileContractServiceImpl(CONTRACTS_FILE_NAME);
 		this.maintenanceService = new FileMaintenanceServiceImpl(MAINTENANCE_FILE_NAME);

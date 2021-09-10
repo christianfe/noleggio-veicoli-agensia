@@ -3,6 +3,9 @@ package it.univaq.disim.oop.bhertz.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
+import it.univaq.disim.oop.bhertz.business.BusinessException;
+import it.univaq.disim.oop.bhertz.business.MaintenanceService;
 import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
 import it.univaq.disim.oop.bhertz.domain.TicketState;
 import it.univaq.disim.oop.bhertz.domain.User;
@@ -33,11 +36,13 @@ public class MaintenanceReturnController extends ViewUtility
 	private Button confirmButton;
 
 	private ViewDispatcher dispatcher;
+	private MaintenanceService maintenanceService;
 	private User user;
 	private AssistanceTicket ticket;
 
 	public MaintenanceReturnController() {
 		this.dispatcher = ViewDispatcher.getInstance();
+		this.maintenanceService = BhertzBusinessFactory.getInstance().getMaintenanceService();
 	}
 
 	@Override
@@ -55,6 +60,7 @@ public class MaintenanceReturnController extends ViewUtility
 
 		veicleLabel.setText("Veicolo: " + ticket.getContract().getVeicle().getModel() + " - "
 				+ ticket.getContract().getVeicle().getPlate());
+		descriptionArea.setText(ticket.getDescription());
 		kmLabel.setText(kmLabel.getText() + ticket.getContract().getStartKm());
 		newKmField.setText(ticket.getContract().getVeicle().getKm() + "");
 
@@ -64,10 +70,13 @@ public class MaintenanceReturnController extends ViewUtility
 	public void saveAction() {
 		ticket.setState(TicketState.WORKING);
 		ticket.setDescription(descriptionArea.getText());
-		
 		ticket.getContract().getVeicle().setKm(Double.parseDouble(newKmField.getText()));
-		
 		ticket.setVeicleKm(Double.parseDouble(newKmField.getText()));
+		try {
+			maintenanceService.setTicket(ticket);
+		} catch (BusinessException e) {
+			dispatcher.renderError(e);
+		}
 		dispatcher.renderView("maintenance", this.user);
 	}
 

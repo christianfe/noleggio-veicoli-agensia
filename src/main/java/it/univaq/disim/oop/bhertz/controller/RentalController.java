@@ -16,6 +16,7 @@ import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.ContractService;
 import it.univaq.disim.oop.bhertz.business.FeedbackService;
 import it.univaq.disim.oop.bhertz.business.MaintenanceService;
+import it.univaq.disim.oop.bhertz.business.VeiclesService;
 import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
 import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.ContractState;
@@ -75,12 +76,15 @@ public class RentalController extends ViewUtility implements Initializable, Data
 	private ViewDispatcher dispatcher;
 	private ContractService contractService;
 	private FeedbackService feedbackService;
+	private VeiclesService veiclesService;
 	private User user;
 
 	public RentalController() throws BusinessException {
 		dispatcher = ViewDispatcher.getInstance();
 		contractService = BhertzBusinessFactory.getInstance().getContractService();
 		feedbackService = BhertzBusinessFactory.getInstance().getFeedbackService();
+		veiclesService = BhertzBusinessFactory.getInstance().getVeiclesService();
+		veiclesService.refreshAllStates();
 	}
 
 	@Override
@@ -258,7 +262,7 @@ public class RentalController extends ViewUtility implements Initializable, Data
 					localMenuButton.getItems().add(menuStato);
 			} else if (this.user.getRole() == 0)
 				actionColumn.setVisible(false);
-
+			if (param.getValue().isSostistuteContract()) menuRichiestaAssistenza.setDisable(true);
 			return new SimpleObjectProperty<MenuButton>(localMenuButton);
 		});
 
@@ -271,7 +275,7 @@ public class RentalController extends ViewUtility implements Initializable, Data
 		if (user.getRole() != 1)
 			filterHBox.setVisible(false);
 		try {
-			contract = (user.getRole() == 2 ? contractService.getContractsByUser(0,user) : contractService.getAllContracts(0));
+			contract = (user.getRole() == 2 ? contractService.getContractsByUser(2,user) : contractService.getAllContracts(2));
 		} catch (BusinessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

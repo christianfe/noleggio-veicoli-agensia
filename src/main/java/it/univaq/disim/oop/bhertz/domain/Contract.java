@@ -17,10 +17,10 @@ public class Contract {
 	private String deliverDateTime = null;
 	private boolean sostistuteContract;
 	
-	private Veicle veicle;
-	private Feedback feedback;
+	private Veicle veicle = null;
+	private Feedback feedback = null;
 	private AssistanceTicket assistance = null;
-	private Customer customer;
+	private Customer customer = null;
 
 	public Contract() {
 		this.setState(ContractState.BOOKED);

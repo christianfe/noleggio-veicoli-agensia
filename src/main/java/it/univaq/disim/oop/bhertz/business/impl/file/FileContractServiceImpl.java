@@ -9,7 +9,6 @@ import java.util.Map;
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.ContractService;
-import it.univaq.disim.oop.bhertz.business.MaintenanceService;
 import it.univaq.disim.oop.bhertz.business.UserService;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
 import it.univaq.disim.oop.bhertz.domain.Contract;
@@ -18,36 +17,30 @@ import it.univaq.disim.oop.bhertz.domain.ContractType;
 import it.univaq.disim.oop.bhertz.domain.Customer;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
-import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 import it.univaq.disim.oop.bhertz.view.ViewUtility;
 
 public class FileContractServiceImpl implements ContractService {
 
-	private Map<Integer, Contract> contracts = new HashMap<>();
 	private int counter = 1;
 	private String filename;
 
 	public FileContractServiceImpl(String contractsFileName) {
 		this.filename = contractsFileName;
-		try {
-			this.readList();
-		} catch (BusinessException e) {
-			ViewDispatcher.getInstance().renderError(e);
-		}
 	}
 
 	@Override
 	public List<Contract> getAllContracts(int type) throws BusinessException {
+		Map<Integer, Contract> contracts = this.readList();
 		List<Contract> result = new ArrayList<>();
 		switch (type) {
 		case 0:
 			for (Contract c : contracts.values())
-				if (c.isSostistuteContract() == false)
+				if (!c.isSostistuteContract())
 					result.add(c);
 			break;
 		case 1:
 			for (Contract c : contracts.values())
-				if (c.isSostistuteContract() == true)
+				if (c.isSostistuteContract())
 					result.add(c);
 			break;
 
@@ -61,11 +54,13 @@ public class FileContractServiceImpl implements ContractService {
 
 	@Override
 	public Contract getContractByID(int id) throws BusinessException {
+		Map<Integer, Contract> contracts = this.readList();
 		return contracts.get(id);
 	}
 
 	@Override
 	public Contract getContractByDate(Veicle veicle, LocalDate date) throws BusinessException {
+		Map<Integer, Contract> contracts = this.readList();
 		for (Contract c : contracts.values())
 			if (c.getVeicle().getId() == veicle.getId() && (date.isEqual(c.getStart()) || (date.isAfter(c.getStart()) && date.isBefore(c.getEnd().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT + 1)))))
 				return c;
@@ -74,6 +69,7 @@ public class FileContractServiceImpl implements ContractService {
 
 	@Override
 	public List<Contract> getContractsByUser(int type, User user) throws BusinessException {
+		Map<Integer, Contract> contracts = this.readList();
 		List<Contract> result = new ArrayList<>();
 		for (Contract c : contracts.values())
 			if (c.getCustomer().getId() == user.getId())
@@ -96,33 +92,37 @@ public class FileContractServiceImpl implements ContractService {
 
 	@Override
 	public void addContract(Contract contract) throws BusinessException {
-		contract.setId(counter);
-		contracts.put(counter++, contract);
-		this.saveList();
+		Map<Integer, Contract> contracts = this.readList();
+		contract.setId(counter++);
+		contracts.put(contract.getId(), contract);
+		this.saveList(contracts);
 	}
 
 	@Override
 	public void setContract(Contract contract) throws BusinessException {
+		Map<Integer, Contract> contracts = this.readList();
 		contracts.put(contract.getId(), contract);
-		this.saveList();
+		this.saveList(contracts);
 	}
 
 	@Override
 	public void setPaid(Integer id, boolean value) throws BusinessException {
+		Map<Integer, Contract> contracts = this.readList();
 		Contract c = contracts.get(id);
 		c.setPaid(value);
-		contracts.put(id, c);
-		this.saveList();
+		setContract(c);
 	}
 
 	@Override
 	public void removeContract(Integer id) throws BusinessException {
+		Map<Integer, Contract> contracts = this.readList();
 		contracts.remove(id);
-		this.saveList();
+		this.saveList(contracts);
 	}
 
 	@Override
 	public List<Contract> getContractsByVeicle(int type, Integer idVeicle) throws BusinessException {
+		Map<Integer, Contract> contracts = this.readList();
 		List<Contract> result = new ArrayList<>();
 		for (Contract c : contracts.values())
 			if (c.getVeicle().getId() == idVeicle)
@@ -141,7 +141,7 @@ public class FileContractServiceImpl implements ContractService {
 				}
 		return result;
 	}
-	private void saveList() throws BusinessException {
+	private void saveList(Map<Integer, Contract> contracts) throws BusinessException {
 		FileUtility fileUtility = new FileUtility();
 		List<String[]> list = new ArrayList<>();
 		for (Contract c : contracts.values()) {
@@ -160,19 +160,17 @@ public class FileContractServiceImpl implements ContractService {
 			s[11] = c.isSostistuteContract() ? "1" : "0";
 			s[12] = c.getCustomer().getId().toString();
 			s[13] = c.getVeicle().getId().toString();
-			s[14] = c.getAssistance().getId().toString() != null ? c.getAssistance().getId().toString() : "0";
 			list.add(s);
 		}
 		fileUtility.setAllByFile(this.filename, new FileData(this.counter, list));
 	}
 
-	private void readList() throws BusinessException {
+	private Map<Integer, Contract> readList() throws BusinessException {
 		FileUtility fileUtility = new FileUtility();
 		FileData fileData = fileUtility.getAllByFile(filename);
 		VeiclesService veiclesService = BhertzBusinessFactory.getInstance().getVeiclesService();
 		UserService userService = BhertzBusinessFactory.getInstance().getUserService();
-		MaintenanceService maintenanceService = BhertzBusinessFactory.getInstance().getMaintenanceService();
-		this.contracts = new HashMap<Integer, Contract>();
+			Map<Integer, Contract> contracts = new HashMap<Integer, Contract>();
 		for (String[] row : fileData.getRows()) {
 			Contract contract = new Contract();
 			contract.setId(Integer.parseInt(row[0]));
@@ -203,15 +201,15 @@ public class FileContractServiceImpl implements ContractService {
 				contract.setState(ContractState.ENDED);
 				break;
 			}
-			contract.setPaid(row[8] == "1");
-			contract.setReturnDateTime(row[9]);
-			contract.setDeliverDateTime(row[10]);
-			contract.setSostistuteContract(row[11] == "1");
+			contract.setPaid(row[8].equals("1"));
+			if (!row[9].equals("null")) contract.setReturnDateTime(row[9]);
+			if (!row[10].equals("null")) contract.setDeliverDateTime(row[10]);
+			contract.setSostistuteContract(row[11].equals("1"));
 			contract.setCustomer((Customer)userService.getUsersByID(Integer.parseInt(row[12])));
 			contract.setVeicle(veiclesService.getVeicleByID(Integer.parseInt(row[13])));
-			if (!row[14].equals("0")) contract.setAssistance(maintenanceService.getTicketByID(Integer.parseInt(row[14])));
 			this.counter = (int) fileData.getCount();
-			this.contracts.put(contract.getId(), contract);
+			contracts.put(contract.getId(), contract);
 		}
+		return contracts;
 	}	
 }

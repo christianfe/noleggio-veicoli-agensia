@@ -1,1 +1,6 @@
-1
+6
+1;Fiat Panda;1;FREE;178.0;1.0;1;0.31;50.0;1
+2;Ford Fiesta;1;BUSY;15.0;1.0;1;21.0;0.25;1
+3;Aprilia RS;DV21762;FREE;1.0;1.0;Benzina;21.0;0.25;2
+4;Yamaha R1;DZ67128;FREE;12000.0;12.0;Benzina;21.0;0.25;2
+5;Piaggio Zip;X7CCHP;FREE;16000.0;20.0;Benzina;21.0;0.25;2

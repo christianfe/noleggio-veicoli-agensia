@@ -7,7 +7,7 @@ Types.txt
 Veicles.txt
 	ID; model; plate; state(int); km; consuption; fuel; priceKm; priceDay; idType
 Contracts.txt
-	ID; startDate(String); endDate(String); startKm, endKm; type(String); price; state(int); paid; returnDateTime; deliverDateTime; sostituteContract; idCustomer; idVeicle; idAssistance(0 = null)
+	ID; startDate(String); endDate(String); startKm, endKm; type(String); price; state(int); paid; returnDateTime; deliverDateTime; sostituteContract; idCustomer; idVeicle
 Feedbacks.txt
 	ID; date; body; valutation; idContract
 Tickets.txt

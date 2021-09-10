@@ -13,25 +13,19 @@ import it.univaq.disim.oop.bhertz.business.FeedbackService;
 import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.Feedback;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
-import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
 
 public class FileFeedbackServiceImpl implements FeedbackService  {
 
-	private Map<Integer, Feedback> feeds = new HashMap<>();
 	private int counter = 1;
 	private String filename;
 
 	public FileFeedbackServiceImpl(String feedbackFileName) {
 		this.filename = feedbackFileName;
-		try {
-			this.readList();
-		} catch (BusinessException e) {
-			ViewDispatcher.getInstance().renderError(e);
-		}
 	}
 
 	@Override
 	public List<Feedback> getFeedbackByUser(Integer id) throws BusinessException {
+		Map<Integer, Feedback> feeds = this.readList();
 		List<Feedback> result = new ArrayList<>();
 		for (Feedback f : feeds.values())
 			if (f.getContract().getCustomer().getId() == id)
@@ -41,24 +35,28 @@ public class FileFeedbackServiceImpl implements FeedbackService  {
 
 	@Override
 	public void addFeedback(Feedback feedback) throws BusinessException {
+		Map<Integer, Feedback> feeds = this.readList();
 		feedback.setId(counter++);
 		feeds.put(feedback.getId(), feedback);
-		this.saveList();		
+		this.saveList(feeds);		
 	}
 
 	@Override
 	public void removeFeedback(Integer id) throws BusinessException {
+		Map<Integer, Feedback> feeds = this.readList();
 		feeds.remove(id);
-		this.saveList();
+		this.saveList(feeds);
 	}
 
 	@Override
 	public Feedback getFeedbackByID(Integer id) throws BusinessException {
+		Map<Integer, Feedback> feeds = this.readList();
 		return feeds.get(id);
 	}
 
 	@Override
 	public boolean isFeedBackSet(Contract contract) throws BusinessException {
+		Map<Integer, Feedback> feeds = this.readList();
 		for (Feedback f : feeds.values())
 			if (f.getContract().getId() == contract.getId())
 				return true;
@@ -67,6 +65,7 @@ public class FileFeedbackServiceImpl implements FeedbackService  {
 
 	@Override
 	public List<Feedback> getFeedbackByVeicle(Veicle veicle) throws BusinessException {
+		Map<Integer, Feedback> feeds = this.readList();
 		List<Feedback> result = new ArrayList<>();
 		for (Feedback f : feeds.values())
 			if (f.getContract().getVeicle().getId() == veicle.getId())
@@ -74,7 +73,7 @@ public class FileFeedbackServiceImpl implements FeedbackService  {
 		return result;
 	}
 
-	private void saveList() throws BusinessException {
+	private void saveList(Map<Integer, Feedback> feeds) throws BusinessException {
 		FileUtility fileUtility = new FileUtility();
 		List<String[]> list = new ArrayList<>();
 		for (Feedback f : feeds.values()) {
@@ -89,11 +88,11 @@ public class FileFeedbackServiceImpl implements FeedbackService  {
 		fileUtility.setAllByFile(this.filename, new FileData(this.counter, list));
 	}
 
-	private void readList() throws BusinessException {
+	private Map<Integer, Feedback> readList() throws BusinessException {
 		FileUtility fileUtility = new FileUtility();
 		FileData fileData = fileUtility.getAllByFile(filename);
 		ContractService contractService = BhertzBusinessFactory.getInstance().getContractService();
-		this.feeds = new HashMap<Integer, Feedback>();
+		Map<Integer, Feedback> feeds = new HashMap<Integer, Feedback>();
 		for (String[] row : fileData.getRows()) {
 			Feedback feedback = new Feedback();
 			feedback.setId(Integer.parseInt(row[0]));
@@ -102,7 +101,8 @@ public class FileFeedbackServiceImpl implements FeedbackService  {
 			feedback.setValutation(Integer.parseInt(row[3]));
 			feedback.setContract(contractService.getContractByID(Integer.parseInt(row[4])));
 			this.counter = (int) fileData.getCount();
-			this.feeds.put(feedback.getId(), feedback);
+			feeds.put(feedback.getId(), feedback);
 		}
+		return feeds;
 	}
 }

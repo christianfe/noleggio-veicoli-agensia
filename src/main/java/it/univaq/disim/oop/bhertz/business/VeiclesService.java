@@ -31,4 +31,6 @@ public interface VeiclesService {
 	public String FindAviableDays(List<Contract> contractOfVeicle) throws BusinessException;
 
 	void refreshAllStates() throws BusinessException;
+
+	void updatePrices(double oldPriceForDay, double oldPriceForKm, double newPriceForDay, double newPriceForKm) throws BusinessException;
 }
