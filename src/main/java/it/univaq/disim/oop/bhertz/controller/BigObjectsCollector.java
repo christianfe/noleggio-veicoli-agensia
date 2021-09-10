@@ -1,4 +1,4 @@
-package it.univaq.disim.oop.bhertz.view;
+package it.univaq.disim.oop.bhertz.controller;
 
 public class BigObjectsCollector <A, B, C> {
 	private A objectA;

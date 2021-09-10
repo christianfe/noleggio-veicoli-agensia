@@ -10,7 +10,6 @@ import it.univaq.disim.oop.bhertz.business.UserService;
 import it.univaq.disim.oop.bhertz.domain.Customer;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
-import it.univaq.disim.oop.bhertz.view.ViewUtility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

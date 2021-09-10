@@ -15,6 +15,8 @@ import it.univaq.disim.oop.bhertz.business.FeedbackService;
 import it.univaq.disim.oop.bhertz.business.MaintenanceService;
 import it.univaq.disim.oop.bhertz.business.TypesService;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
+import it.univaq.disim.oop.bhertz.controller.ContractOrderByDate;
+import it.univaq.disim.oop.bhertz.controller.ViewUtility;
 import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
 import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.ContractState;
@@ -23,9 +25,7 @@ import it.univaq.disim.oop.bhertz.domain.TicketState;
 import it.univaq.disim.oop.bhertz.domain.Type;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
 import it.univaq.disim.oop.bhertz.domain.VeicleState;
-import it.univaq.disim.oop.bhertz.view.ContractOrderByDate;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
-import it.univaq.disim.oop.bhertz.view.ViewUtility;
 
 public class RAMVeicleServiceImpl implements VeiclesService {
 

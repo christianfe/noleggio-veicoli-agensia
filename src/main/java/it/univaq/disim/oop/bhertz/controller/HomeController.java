@@ -11,7 +11,6 @@ import it.univaq.disim.oop.bhertz.business.UserService;
 import it.univaq.disim.oop.bhertz.domain.Notification;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.view.ViewDispatcher;
-import it.univaq.disim.oop.bhertz.view.ViewUtility;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;

@@ -8,10 +8,10 @@ import java.util.Map;
 
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.ContractService;
+import it.univaq.disim.oop.bhertz.controller.ViewUtility;
 import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
-import it.univaq.disim.oop.bhertz.view.ViewUtility;
 
 public class RAMContractServiceImpl implements ContractService {
 
