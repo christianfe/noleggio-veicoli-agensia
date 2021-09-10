@@ -61,12 +61,8 @@ public class UserEditorController extends ViewUtility
 	@Override
 	public void initializeData(ObjectsCollector<User, User> objectsCollector) {
 		userEditing = objectsCollector.getObjectA();
-		try {
-			userToEdit = BhertzBusinessFactory.getInstance().getUserService().getUsersByID(objectsCollector.getObjectB().getId());
-			objectsCollector.setObjectB(userToEdit);
-		} catch (BusinessException e) {
-			dispatcher.renderError(e);
-		}
+		userToEdit = objectsCollector.getObjectB();
+		
 		if (userToEdit.getId() != null) {
 			creatingNewOperator = false;
 			titleLabel.setText("Modifica Utente");
@@ -103,7 +99,8 @@ public class UserEditorController extends ViewUtility
 
 				if (userEditing != null && userToEdit != null && userEditing.getId() == userToEdit.getId()) {
 					JOptionPane.showMessageDialog(null, "Dati aggiornati con successo!");
-					dispatcher.renderView("home", userEditing);
+			
+					dispatcher.renderView("home", userServices.getUsersByID(userEditing.getId()));
 				} else
 					dispatcher.renderView("user", null);
 			}

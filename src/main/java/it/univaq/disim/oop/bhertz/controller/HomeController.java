@@ -45,6 +45,7 @@ public class HomeController extends ViewUtility implements Initializable, DataIn
 		} catch (BusinessException e1) {
 			ViewDispatcher.getInstance().renderError(e1);
 		}
+		
 		if (user.getRole() == 2) {
 			notificationLabel.setVisible(true);
 			notificationTextArea.setVisible(true);
@@ -60,5 +61,10 @@ public class HomeController extends ViewUtility implements Initializable, DataIn
 
 		}
 
+	}
+
+	private Label SetText(String string) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

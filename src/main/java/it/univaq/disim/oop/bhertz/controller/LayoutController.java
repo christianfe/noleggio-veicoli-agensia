@@ -3,6 +3,10 @@ package it.univaq.disim.oop.bhertz.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import it.univaq.disim.oop.bhertz.Bhertz;
+import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
+import it.univaq.disim.oop.bhertz.business.BusinessException;
+import it.univaq.disim.oop.bhertz.business.UserService;
 import it.univaq.disim.oop.bhertz.domain.Admin;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.view.MenuElement;
@@ -28,7 +32,7 @@ public class LayoutController extends ViewUtility implements Initializable, Data
 	private VBox menuBar;
 
 	private ViewDispatcher dispatcher;
-
+	private UserService userService;
 	private User user;
 
 	public void initialize(URL location, ResourceBundle resources) {
@@ -37,12 +41,16 @@ public class LayoutController extends ViewUtility implements Initializable, Data
 
 	@Override
 	public void initializeData(User user) {
+		userService = BhertzBusinessFactory.getInstance().getUserService();
 		this.user = user;
 		// menuBar.getChildren().add(new Separator());
 		for (MenuElement menu : MENU_HOME)
 			menuBar.getChildren().add(createButton(menu));
 		if (user instanceof Admin)
 			menuBar.getChildren().addAll(createButton(MENU_ADMIN));
+		
+		
+		
 	}
 
 	private Button createButton(MenuElement viewItem) {
@@ -56,9 +64,19 @@ public class LayoutController extends ViewUtility implements Initializable, Data
 		button.setPrefWidth(180);
 		button.setOnAction((ActionEvent event) -> {
 			if (button.getText().equals(MENU_HOME[4].getNome()))
-				dispatcher.renderView(viewItem.getVista(), new ObjectsCollector<User, User>(user, user));
+				try {
+					dispatcher.renderView(viewItem.getVista(), new ObjectsCollector<User, User>(userService.getUsersByID(user.getId()), userService.getUsersByID(user.getId())));
+				} catch (BusinessException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			else
-				dispatcher.renderView(viewItem.getVista(), user);
+				try {
+					dispatcher.renderView(viewItem.getVista(), userService.getUsersByID(user.getId()));
+				} catch (BusinessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		});
 		return button;
 	}
