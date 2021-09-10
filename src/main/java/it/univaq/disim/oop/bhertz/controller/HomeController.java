@@ -45,7 +45,8 @@ public class HomeController extends ViewUtility implements Initializable, DataIn
 		} catch (BusinessException e1) {
 			ViewDispatcher.getInstance().renderError(e1);
 		}
-		
+		welcomeLabel.setText("Benvenuto " + user.getName());
+
 		if (user.getRole() == 2) {
 			notificationLabel.setVisible(true);
 			notificationTextArea.setVisible(true);
