@@ -1,6 +1,7 @@
 package it.univaq.disim.oop.bhertz.controller;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -8,9 +9,11 @@ import java.util.ResourceBundle;
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.ContractService;
+import it.univaq.disim.oop.bhertz.business.MaintenanceService;
 import it.univaq.disim.oop.bhertz.business.VeiclesService;
 import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
 import it.univaq.disim.oop.bhertz.domain.Contract;
+import it.univaq.disim.oop.bhertz.domain.ContractState;
 import it.univaq.disim.oop.bhertz.domain.TicketState;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
@@ -50,12 +53,14 @@ public class MaintenanceManagementController extends ViewUtility
 	private User user;
 	private AssistanceTicket ticket;
 	private VeiclesService veiclesService;
+	private MaintenanceService maintenanceService;
 	private ContractService contractService;
 
 	public MaintenanceManagementController() {
 		dispatcher = ViewDispatcher.getInstance();
 		this.veiclesService = BhertzBusinessFactory.getInstance().getVeiclesService();
 		this.contractService = BhertzBusinessFactory.getInstance().getContractService();
+		this.maintenanceService = BhertzBusinessFactory.getInstance().getMaintenanceService();
 	}
 
 	@Override
@@ -82,15 +87,21 @@ public class MaintenanceManagementController extends ViewUtility
 				substituteContract.setEnd(ticket.getContract().getEnd());
 				substituteContract.setSostistuteContract(true);
 				substituteContract.setCustomer(ticket.getContract().getCustomer());
+				substituteContract.setPaid(ticket.getContract().isPaid());
+				//TODO FORMAT DATE STRING
+				substituteContract.setDeliverDateTime(LocalDate.now().toString());
+				substituteContract.setStartKm(ticket.getVeicleKm());
+				substituteContract.setPrice(ticket.getContract().getPrice());
+				substituteContract.setState(ContractState.BOOKED);
+				substituteContract.setType(ticket.getContract().getType());
 				ticket.setSubstituteContract(substituteContract);
 				try {
 					contractService.addContract(substituteContract);
+					maintenanceService.setTicket(ticket);
 				} catch (BusinessException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				ticket.setState(TicketState.READY);
 				dispatcher.renderView("maintenance", user);
 			});
 
@@ -104,29 +115,21 @@ public class MaintenanceManagementController extends ViewUtility
 	public void initializeData(ObjectsCollector<User, AssistanceTicket> collector) {
 		this.user = collector.getObjectA();
 		this.ticket = collector.getObjectB();
-
+		try {
 			List<Veicle> veicleList = null;
-			try {
-				veicleList = this.veiclesService.getVeiclesByType(collector.getObjectB().getContract().getVeicle().getType());
-			} catch (BusinessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			veicleList = this.veiclesService.getVeiclesByType(collector.getObjectB().getContract().getVeicle().getType());
 			List<Veicle> veicleListByAviability = new ArrayList<>();
 			for (Veicle v : veicleList) {
-				try {
 					List<Contract> contractOfVeicle = contractService.getContractsByVeicle(0,v.getId());
 					if (veiclesService.isVeicleFree(ticket.getStartDate(), ticket.getContract().getEnd(), contractOfVeicle))
 						veicleListByAviability.add(v);
-				} catch (BusinessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
-			for (Veicle v : veicleListByAviability)
-				System.out.println(v.getModel());
 			ObservableList<Veicle> veiclesData = FXCollections.observableArrayList(veicleListByAviability);
 			veicleTable.setItems(veiclesData);
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 

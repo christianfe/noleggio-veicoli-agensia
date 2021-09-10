@@ -275,7 +275,7 @@ public class RentalController extends ViewUtility implements Initializable, Data
 		if (user.getRole() != 1)
 			filterHBox.setVisible(false);
 		try {
-			contract = (user.getRole() == 2 ? contractService.getContractsByUser(0,user) : contractService.getAllContracts(0));
+			contract = (user.getRole() == 2 ? contractService.getContractsByUser(2,user) : contractService.getAllContracts(2));
 		} catch (BusinessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

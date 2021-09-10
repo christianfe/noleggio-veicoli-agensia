@@ -1,14 +1,17 @@
 package it.univaq.disim.oop.bhertz.controller;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
+import it.univaq.disim.oop.bhertz.business.ContractService;
 import it.univaq.disim.oop.bhertz.business.MaintenanceService;
 import it.univaq.disim.oop.bhertz.domain.AssistanceTicket;
 import it.univaq.disim.oop.bhertz.domain.Contract;
+import it.univaq.disim.oop.bhertz.domain.ContractState;
 import it.univaq.disim.oop.bhertz.domain.TicketState;
 import it.univaq.disim.oop.bhertz.domain.User;
 import it.univaq.disim.oop.bhertz.domain.VeicleState;
@@ -112,21 +115,9 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 
 				case WORKING:
 					menuChangeStatus.setText("Seleziona Veicolo Sostitutivo");
+					if (param.getValue().getSubstituteContract() != null) menuChangeStatus.setDisable(true);
 					localMenuButton.getItems().add(menuChangeStatus);
 					localMenuButton.getItems().add(menuFixed);
-
-					menuFixed.setOnAction((ActionEvent event) -> {
-						AssistanceTicket t = param.getValue();
-						t.setState(TicketState.READY);
-						try {
-							maintenanceService.setTicket(t);
-						} catch (BusinessException e) {
-							dispatcher.renderError(e);
-						}
-						
-						dispatcher.renderView("maintenance", user);
-					});
-
 					break;
 
 				case READY:
@@ -182,6 +173,32 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 					break;
 				case ENDED:
 				}
+			});
+			
+			menuFixed.setOnAction((ActionEvent event) -> {
+				AssistanceTicket t = param.getValue();
+				if (param.getValue().getSubstituteContract() != null) {
+					Contract c = t.getContract();	
+					t.setState(TicketState.ENDED);
+					c.setReturnDateTime(LocalDate.now().toString());
+					c.setEndKm(t.getVeicleKm());
+					c.setState(ContractState.ENDED);
+					c.setEnd(t.getSubstituteContract().getStart());
+					try{
+						ContractService contractService = BhertzBusinessFactory.getInstance().getContractService();
+						contractService.setContract(c);
+					} catch (BusinessException e) {
+						dispatcher.renderError(e);
+					}
+				}else
+					t.setState(TicketState.READY);
+				try {
+					maintenanceService.setTicket(t);
+				} catch (BusinessException e) {
+					dispatcher.renderError(e);
+				}
+				
+				dispatcher.renderView("maintenance", user);
 			});
 
 			menuAppointment.setOnAction((ActionEvent event) -> {
