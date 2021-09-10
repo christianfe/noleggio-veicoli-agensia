@@ -2,6 +2,8 @@ package it.univaq.disim.oop.bhertz.view;
 
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
+import javafx.util.converter.NumberStringConverter;
 
 public class ViewUtility {
 
@@ -28,12 +30,25 @@ public class ViewUtility {
 	}
 
 	protected void setOnlyNumberField(TextField... fields) {
+		
 		for (TextField field : fields)
-			field.textProperty().addListener((observable, oldValue, newValue) -> {
+			field.setTextFormatter(new TextFormatter<>(new NumberStringConverter()));
+			/*field.textProperty().addListener((observable, oldValue, newValue) -> {
 				char c = newValue.charAt(newValue.length() - 1);
-				if (c < '0' || c > '9')
+				if (c < '0' || c > '9' || c > '.') {
 					field.setText(oldValue);
-			});
+					return;
+				}
+				
+				boolean t = false;
+				for(int i = 0; i < newValue.length(); i++)
+					if (newValue.charAt(i) == '.')
+						if (!t) t = true;
+						else {
+							field.setText(oldValue);
+							break;
+						}
+			});*/
 	}
 
 	protected void setTimeField(TextField... fields) {
