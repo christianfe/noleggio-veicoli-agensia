@@ -67,7 +67,6 @@ implements Initializable, DataInitializable<ObjectsCollector<User, Type>> {
 	@FXML
 	public void saveAction(ActionEvent e) {
 		try {
-
 			if (this.creatingNewType)
 				typeService.addType(new Type(0, nameField.getText(), Double.parseDouble(priceForKmField.getText()),
 						Double.parseDouble(priceForDayField.getText())));
