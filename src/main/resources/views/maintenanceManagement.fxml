@@ -28,5 +28,6 @@
       </TableView>
       <Label layoutX="75.0" layoutY="104.0" text="Veicoli disponibili" />
       <Button layoutX="347.0" layoutY="474.0" mnemonicParsing="false" onAction="#exitAction" prefHeight="37.0" prefWidth="99.0" text="Annulla" />
+      <Label layoutX="138.0" layoutY="446.0" text="Per fissare l'appuntamento della consegna del veicolo sostitutivo andare nella sezione &quot;Noleggi&quot;" />
    </children>
 </AnchorPane>
