@@ -79,8 +79,7 @@ public class VeiclesController extends ViewUtility
 		try {
 			veiclesService.refreshAllStates();
 		} catch (BusinessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			dispatcher.renderError(e);
 		}
 		
 	}
@@ -218,8 +217,7 @@ public class VeiclesController extends ViewUtility
 		try {
 			veicleList = this.veiclesService.getVeiclesByType(objectsCollector.getObjectB());
 		} catch (BusinessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			dispatcher.renderError(e);
 		}
 		ObservableList<Veicle> veiclesData = FXCollections.observableArrayList(veicleList);
 		veiclesTable.setItems(veiclesData);
@@ -237,8 +235,7 @@ public class VeiclesController extends ViewUtility
 		try {
 			veicleList = this.veiclesService.getVeiclesByStateAndType(objectsCollector.getObjectB(), veicleFreeCheckBox.isSelected(), veicleBusyCheckBox.isSelected(), veicleManteinanceCheckBox.isSelected());
 		} catch (BusinessException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			dispatcher.renderError(e1);
 		}
 		ObservableList<Veicle> veiclesData = FXCollections.observableArrayList(veicleList);
 		veiclesTable.setItems(veiclesData);

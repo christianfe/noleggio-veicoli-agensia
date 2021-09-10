@@ -83,8 +83,7 @@ public class FeedbackController extends ViewUtility
 		try {
 			feedbackList = this.feedbackService.getFeedbackByVeicle(veicle);
 		} catch (BusinessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			dispatcher.renderError(e);
 		}
 		ObservableList<Feedback> feedbackData = FXCollections.observableArrayList(feedbackList);
 		feedbackTable.setItems(feedbackData);

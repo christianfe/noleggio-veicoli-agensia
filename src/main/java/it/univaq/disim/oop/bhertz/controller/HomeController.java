@@ -60,9 +60,4 @@ public class HomeController extends ViewUtility implements Initializable, DataIn
 			}
 		}
 	}
-
-	private Label SetText(String string) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

@@ -151,8 +151,7 @@ public class RentalController extends ViewUtility implements Initializable, Data
 					try {
 						maintenanceService.addTicket(ticket);
 					} catch (BusinessException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						dispatcher.renderError(e);
 					}
 					assistanceContract.setAssistance(ticket);
 					dispatcher.renderView("maintenance", user);
@@ -189,8 +188,7 @@ public class RentalController extends ViewUtility implements Initializable, Data
 				try {
 					contractService.setPaid(param.getValue().getId(), true);
 				} catch (BusinessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					dispatcher.renderError(e);
 				}
 				dispatcher.renderView("rental", this.user);
 			});
@@ -201,8 +199,7 @@ public class RentalController extends ViewUtility implements Initializable, Data
 					menuGestioneRiconsegna.setText("Appuntamento Riconsegna: "
 							+ contractService.getContractByID(param.getValue().getId()).getReturnDateTime());
 				} catch (BusinessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					dispatcher.renderError(e);
 				}
 			}
 
@@ -212,8 +209,7 @@ public class RentalController extends ViewUtility implements Initializable, Data
 					menuGestioneConsegna.setText("Appuntamento Consegna: "
 							+ contractService.getContractByID(param.getValue().getId()).getDeliverDateTime());
 				} catch (BusinessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					dispatcher.renderError(e);
 				}
 			}
 
@@ -232,8 +228,7 @@ public class RentalController extends ViewUtility implements Initializable, Data
 						else
 							return null;
 					} catch (BusinessException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						dispatcher.renderError(e);
 					}
 				}
 			} else if (this.user.getRole() == 1) {
@@ -277,8 +272,7 @@ public class RentalController extends ViewUtility implements Initializable, Data
 		try {
 			contract = (user.getRole() == 2 ? contractService.getContractsByUser(2,user) : contractService.getAllContracts(2));
 		} catch (BusinessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			dispatcher.renderError(e);
 		}
 		Collections.sort(contract, new ContractOrder());
 		ObservableList<Contract> contractData = FXCollections.observableArrayList(contract);

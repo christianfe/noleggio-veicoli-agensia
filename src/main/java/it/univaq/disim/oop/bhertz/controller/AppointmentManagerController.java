@@ -210,8 +210,7 @@ public class AppointmentManagerController extends ViewUtility
 		} catch (NullPointerException e1) {
 			labelError.setText("Impostare data valida");
 		} catch (BusinessException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			dispatcher.renderError(e1);
 		}
 	}
 

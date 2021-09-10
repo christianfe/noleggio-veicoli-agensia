@@ -97,8 +97,7 @@ public class LogInController extends ViewUtility implements Initializable, DataI
 				switchView(null);
 			}
 		} catch (BusinessException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			dispatcher.renderError(e1);
 		}
 	}
 

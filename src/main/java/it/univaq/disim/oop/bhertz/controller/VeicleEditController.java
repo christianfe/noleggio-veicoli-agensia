@@ -88,8 +88,7 @@ implements Initializable, DataInitializable<BigObjectsCollector<User, Veicle, Ty
 						Double.parseDouble(kmField.getText()), Double.parseDouble(consuptionField.getText()),
 						fuelField.getText());
 		} catch (BusinessException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			dispatcher.renderError(e1);
 		}
 		dispatcher.renderView("veicles", new ObjectsCollector<User, Type>(objectsCollector.getObjectA(), objectsCollector.getObjectC()));
 	}

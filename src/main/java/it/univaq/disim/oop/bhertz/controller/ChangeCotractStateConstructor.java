@@ -85,21 +85,13 @@ public class ChangeCotractStateConstructor extends ViewUtility
 			}
 
 		}
-
-		try {
-			contracService.setContract(c);
-		} catch (BusinessException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
 		Veicle v = c.getVeicle();
 		v.setKm(d);
 		try {
 			veicleService.setVeicle(v);
+			contracService.setContract(c);
 		} catch (BusinessException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			dispatcher.renderError(e1);
 		}
 
 		if (!(objectsCollector.getObjectB().isSostistuteContract()))

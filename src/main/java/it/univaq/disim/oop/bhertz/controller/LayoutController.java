@@ -3,7 +3,6 @@ package it.univaq.disim.oop.bhertz.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import it.univaq.disim.oop.bhertz.Bhertz;
 import it.univaq.disim.oop.bhertz.business.BhertzBusinessFactory;
 import it.univaq.disim.oop.bhertz.business.BusinessException;
 import it.univaq.disim.oop.bhertz.business.UserService;
@@ -48,9 +47,9 @@ public class LayoutController extends ViewUtility implements Initializable, Data
 			menuBar.getChildren().add(createButton(menu));
 		if (user instanceof Admin)
 			menuBar.getChildren().addAll(createButton(MENU_ADMIN));
-		
-		
-		
+
+
+
 	}
 
 	private Button createButton(MenuElement viewItem) {
@@ -63,20 +62,15 @@ public class LayoutController extends ViewUtility implements Initializable, Data
 		button.setPrefHeight(10);
 		button.setPrefWidth(180);
 		button.setOnAction((ActionEvent event) -> {
-			if (button.getText().equals(MENU_HOME[4].getNome()))
-				try {
+			try {
+				if (button.getText().equals(MENU_HOME[4].getNome()))
+
 					dispatcher.renderView(viewItem.getVista(), new ObjectsCollector<User, User>(userService.getUsersByID(user.getId()), userService.getUsersByID(user.getId())));
-				} catch (BusinessException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			else
-				try {
+				else
 					dispatcher.renderView(viewItem.getVista(), userService.getUsersByID(user.getId()));
-				} catch (BusinessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			} catch (BusinessException e) {
+				dispatcher.renderError(e);
+			}
 		});
 		return button;
 	}

@@ -24,6 +24,8 @@ implements Initializable, DataInitializable<ObjectsCollector<User, Type>> {
 	@FXML
 	private Label labelTitle;
 	@FXML
+	private Label labelError;
+	@FXML
 	private TextField nameField;
 	@FXML
 	private TextField priceForDayField;
@@ -72,14 +74,12 @@ implements Initializable, DataInitializable<ObjectsCollector<User, Type>> {
 			else
 				typeService.setType(objectsCollector.getObjectB().getId(), nameField.getText(),
 						Double.parseDouble(priceForKmField.getText()), Double.parseDouble(priceForDayField.getText()));
+			dispatcher.renderView("type", objectsCollector.getObjectA());
 		} catch (NumberFormatException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			labelError.setText("Formato numerico non valido");
 		} catch (BusinessException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			dispatcher.renderError(e1);
 		}
-		dispatcher.renderView("type", objectsCollector.getObjectA());
 	}
 
 }

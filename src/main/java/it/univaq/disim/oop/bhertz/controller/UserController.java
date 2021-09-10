@@ -85,8 +85,7 @@ public class UserController extends ViewUtility implements Initializable, DataIn
 					try {
 						userServices.deleteUser(param.getValue().getId());
 					} catch (BusinessException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						dispatcher.renderError(e);
 					}
 					dispatcher.renderView("user", null);
 				}
@@ -117,8 +116,7 @@ public class UserController extends ViewUtility implements Initializable, DataIn
 					try {
 						userServices.deleteUser(param.getValue().getId());
 					} catch (BusinessException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						dispatcher.renderError(e);
 					}
 					dispatcher.renderView("user", null);
 				}

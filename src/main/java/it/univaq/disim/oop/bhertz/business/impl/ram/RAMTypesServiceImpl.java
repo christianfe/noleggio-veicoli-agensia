@@ -63,12 +63,10 @@ public class RAMTypesServiceImpl implements TypesService{
 
 	@Override
 	public void setType(Integer id, String name, double priceForKm, double priceForDay) throws BusinessException {
-		System.out.println(types);
 		Type t = types.get(id);
 		t.setName(name);
 		t.setPriceForDay(priceForDay);
 		t.setPriceForKm(priceForKm);
 		this.types.put(id, t);
-		System.out.println(types);
 	}
 }

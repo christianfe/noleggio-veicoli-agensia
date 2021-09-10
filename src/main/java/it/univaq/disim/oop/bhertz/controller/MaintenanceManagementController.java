@@ -2,6 +2,7 @@ package it.univaq.disim.oop.bhertz.controller;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -33,7 +34,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class MaintenanceManagementController extends ViewUtility
-		implements Initializable, DataInitializable<ObjectsCollector<User, AssistanceTicket>> {
+implements Initializable, DataInitializable<ObjectsCollector<User, AssistanceTicket>> {
 
 	@FXML
 	private TableView<Veicle> veicleTable;
@@ -79,7 +80,7 @@ public class MaintenanceManagementController extends ViewUtility
 			localButton.setText("Seleziona");
 
 			localButton.setOnAction((ActionEvent event) -> {
-
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 				Contract substituteContract = new Contract();
 				substituteContract.setVeicle(param.getValue());
 				substituteContract.setStart(ticket.getStartDate());
@@ -87,8 +88,7 @@ public class MaintenanceManagementController extends ViewUtility
 				substituteContract.setSostistuteContract(true);
 				substituteContract.setCustomer(ticket.getContract().getCustomer());
 				substituteContract.setPaid(ticket.getContract().isPaid());
-				//TODO FORMAT DATE STRING
-				substituteContract.setDeliverDateTime(LocalDate.now().toString());
+				substituteContract.setDeliverDateTime(LocalDate.now().format(formatter) + "");
 				substituteContract.setStartKm(ticket.getVeicleKm());
 				substituteContract.setPrice(ticket.getContract().getPrice());
 				substituteContract.setState(ContractState.BOOKED);
@@ -98,16 +98,13 @@ public class MaintenanceManagementController extends ViewUtility
 					contractService.addContract(substituteContract);
 					maintenanceService.setTicket(ticket);
 				} catch (BusinessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					dispatcher.renderError(e);
 				}
 				dispatcher.renderView("maintenance", user);
 			});
 
 			return new SimpleObjectProperty<Button>(localButton);
-
 		});
-
 	}
 
 	@Override
@@ -119,17 +116,15 @@ public class MaintenanceManagementController extends ViewUtility
 			veicleList = this.veiclesService.getVeiclesByType(collector.getObjectB().getContract().getVeicle().getType());
 			List<Veicle> veicleListByAviability = new ArrayList<>();
 			for (Veicle v : veicleList) {
-					List<Contract> contractOfVeicle = contractService.getContractsByVeicle(0,v.getId());
-					if (veiclesService.isVeicleFree(ticket.getStartDate(), ticket.getContract().getEnd(), contractOfVeicle))
-						veicleListByAviability.add(v);
+				List<Contract> contractOfVeicle = contractService.getContractsByVeicle(0,v.getId());
+				if (veiclesService.isVeicleFree(ticket.getStartDate(), ticket.getContract().getEnd(), contractOfVeicle))
+					veicleListByAviability.add(v);
 			}
 			ObservableList<Veicle> veiclesData = FXCollections.observableArrayList(veicleListByAviability);
 			veicleTable.setItems(veiclesData);
 		} catch (BusinessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			dispatcher.renderError(e);
 		}
-
 	}
 
 	@FXML

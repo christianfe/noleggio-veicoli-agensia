@@ -98,8 +98,7 @@ public class MaintenanceDetailsController extends ViewUtility implements Initial
 		try {
 			maintenanceService.setTicket(t);
 		} catch (BusinessException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			dispatcher.renderError(e1);
 		}
 		dispatcher.renderView("maintenance", objectsCollector.getObjectA());
 	}

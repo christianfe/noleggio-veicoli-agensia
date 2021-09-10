@@ -2,13 +2,11 @@ package it.univaq.disim.oop.bhertz.view;
 
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
-import javafx.util.converter.NumberStringConverter;
 
 public class ViewUtility {
 
 	public static final int DAYS_VEICLE_BUSY_AFTER_RENT = 1;
-	
+
 	protected static final String[] FORBIDDEN_INPUT = { ";" };
 
 	protected void addForbiddenCharCheck(TextField... fields) {
@@ -19,7 +17,7 @@ public class ViewUtility {
 						field.setText(oldValue);
 			});
 	}
-	
+
 	protected void addForbiddenCharCheck(TextArea... fields) {
 		for (TextArea field : fields)
 			field.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -30,9 +28,13 @@ public class ViewUtility {
 	}
 
 	protected void setOnlyNumberField(TextField... fields) {
-		
-		for (TextField field : fields)
-			field.setTextFormatter(new TextFormatter<>(new NumberStringConverter()));
+		/*for (TextField field : fields) {
+			field.textProperty().addListener((observable, oldValue, newValue) -> {
+				char c = newValue.charAt(newValue.length() - 1);
+				if (c < '0' || c > '9' || c > '.')
+					field.setText(oldValue);
+			});
+		}*/
 	}
 
 	protected void setTimeField(TextField... fields) {

@@ -71,8 +71,7 @@ public class CreateFeedbackController extends ViewUtility
 		try {
 			feedbackService.addFeedback(newFeedback);
 		} catch (BusinessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			dispatcher.renderError(e);
 		}
 		confirmFeedback.disableProperty().unbind();
 		confirmFeedback.setDisable(true);
