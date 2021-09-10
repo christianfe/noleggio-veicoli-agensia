@@ -1,4 +1,4 @@
-19
+21
 1;Appuntamento Consegna Veicolo;Il suo appuntamento per la consegna del veicolo è stato fissato per il giorno: 15-09-2021  12:12;5
 2;Appuntamento Consegna Veicolo;Il suo appuntamento per la consegna del veicolo è stato fissato per il giorno: 15-09-2021  12:15;5
 3;Appuntamento Consegna Veicolo;Il suo appuntamento per la consegna del veicolo è stato fissato per il giorno: 15-09-2021  11:11;5
@@ -17,3 +17,5 @@
 16;Appuntamento Gestione Manutenzione;Il suo appuntamento per la gestione dell'assistenza è stato fissato per il giorno: 20-09-2021  18:19;5
 17;Appuntamento Consegna Veicolo;Il suo appuntamento per la consegna del veicolo è stato fissato per il giorno: 20-09-2021  12:00;5
 18;Appuntamento Consegna Veicolo;Il suo appuntamento per la consegna del veicolo è stato fissato per il giorno: 10-09-2021  11:30;8
+19;Appuntamento Restituzione Veicolo;Il suo appuntamento per la restituzione del veicolo è stato fissato per il giorno: 20-09-2021  12:00;5
+20;Appuntamento Restituzione Veicolo;Il suo appuntamento per la restituzione del veicolo è stato fissato per il giorno: 10-09-2021  12:00;5

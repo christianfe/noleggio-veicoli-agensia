@@ -270,33 +270,30 @@ public class RentalController extends ViewUtility implements Initializable, Data
 	@Override
 	public void initializeData(User user) {
 		this.user = user;
-		List<Contract> contract = null;
+		List<Contract> contractList = null;
 		if (user.getRole() != 1)
 			filterHBox.setVisible(false);
 		try {
 			switch (user.getRole()) {
 			case 0:
-				contract = contractService.getAllContracts(2);
+				contractList = contractService.getAllContracts(2);
 				break;
 			case 1:
-				List<Contract> temp = new ArrayList<Contract>();
-				contract = new ArrayList<Contract>();
-				temp = contractService.getAllContracts(2);
+				contractList = new ArrayList<Contract>();
+				List<Contract> temp = contractService.getAllContracts(2);
 				for (Contract c : temp)
-					if (c.getState() != ContractState.ENDED)
-						contract.add(c);
+					if (!(c.getState() == ContractState.ENDED && c.isPaid()))
+						contractList.add(c);
 				break;
 			case 2:
-				contract = contractService.getContractsByUser(2, user);
+				contractList = contractService.getContractsByUser(2, user);
 				break;
 			}
-			contract = (user.getRole() == 2 ? contractService.getContractsByUser(2, user)
-					: contractService.getAllContracts(2));
 		} catch (BusinessException e) {
 			dispatcher.renderError(e);
 		}
-		Collections.sort(contract, new ContractOrder());
-		ObservableList<Contract> contractData = FXCollections.observableArrayList(contract);
+		Collections.sort(contractList, new ContractOrder());
+		ObservableList<Contract> contractData = FXCollections.observableArrayList(contractList);
 		rentalTable.setItems(contractData);
 	}
 
