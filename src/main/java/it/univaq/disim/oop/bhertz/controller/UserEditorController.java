@@ -94,7 +94,8 @@ public class UserEditorController extends ViewUtility
 
 				if (userEditing != null && userToEdit != null && userEditing.getId() == userToEdit.getId()) {
 					JOptionPane.showMessageDialog(null, "Dati aggiornati con successo!");
-					dispatcher.renderView("home", userEditing);
+			
+					dispatcher.renderView("home", userServices.getUsersByID(userEditing.getId()));
 				} else
 					dispatcher.renderView("user", null);
 			}

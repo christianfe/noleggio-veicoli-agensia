@@ -44,6 +44,8 @@ public class HomeController extends ViewUtility implements Initializable, DataIn
 		} catch (BusinessException e1) {
 			ViewDispatcher.getInstance().renderError(e1);
 		}
+		welcomeLabel.setText("Benvenuto " + user.getName());
+
 		if (user.getRole() == 2) {
 			notificationLabel.setVisible(true);
 			notificationTextArea.setVisible(true);
@@ -57,5 +59,10 @@ public class HomeController extends ViewUtility implements Initializable, DataIn
 				notificationTextArea.appendText("  -  " + n.getText() + "\n");
 			}
 		}
+	}
+
+	private Label SetText(String string) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

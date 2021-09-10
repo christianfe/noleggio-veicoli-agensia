@@ -1,6 +1,5 @@
 package it.univaq.disim.oop.bhertz.business.impl.file;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +29,15 @@ public class FileUserServiceImpl implements UserService {
 
 	@Override
 	public User authenticate(String username, String password) throws UserNotFoundException, BusinessException {
-		try {
+			
+			Map<Integer, User> users = this.readList();
+			for (User u : users.values())
+				if (u.getUsername().equalsIgnoreCase(username) && u.getPassword().equalsIgnoreCase(password))
+					return u;
+			throw new UserNotFoundException();
+		
+			/*
+			 try {
 			FileData fileData = FileUtility.readAllRows(userFilename);
 			for (String[] cols : fileData.getRows()) {
 				if (!(cols[3].equals(username) && cols[4].equals(password)))
@@ -61,6 +68,7 @@ public class FileUserServiceImpl implements UserService {
 			e.printStackTrace();
 			throw new BusinessException(e);
 		}
+		*/
 	}
 
 	@Override
