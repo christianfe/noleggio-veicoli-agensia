@@ -140,7 +140,7 @@ public class RentalController extends ViewUtility implements Initializable, Data
 				if (JOptionPane.showConfirmDialog(null,
 						"Confermi di voler richiedere assistenza per il veicolo: "
 								+ param.getValue().getVeicle().getModel() + "?",
-						"Cotinuare?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
+								"Cotinuare?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
 					Contract assistanceContract = param.getValue();
 					assistanceContract.setState(ContractState.MAINTENANCE);
 					AssistanceTicket ticket = new AssistanceTicket();
@@ -218,43 +218,43 @@ public class RentalController extends ViewUtility implements Initializable, Data
 
 			if (this.user.getRole() == 2) {
 				switch (param.getValue().getState()) {
-					case BOOKED:
-					case MAINTENANCE:
-						return null;
-					case ACTIVE:
-						localMenuButton.getItems().add(menuRichiestaAssistenza);
-						break;
-					case ENDED:
-						try {
-							if (!feedbackService.isFeedBackSet(param.getValue()))
-								localMenuButton.getItems().add(menuFeedback);
-							else
-								return null;
-						} catch (BusinessException e) {
-							dispatcher.renderError(e);
-						}
+				case BOOKED:
+				case MAINTENANCE:
+					return null;
+				case ACTIVE:
+					localMenuButton.getItems().add(menuRichiestaAssistenza);
+					break;
+				case ENDED:
+					try {
+						if (!feedbackService.isFeedBackSet(param.getValue()))
+							localMenuButton.getItems().add(menuFeedback);
+						else
+							return null;
+					} catch (BusinessException e) {
+						dispatcher.renderError(e);
+					}
 				}
 			} else if (this.user.getRole() == 1) {
 				switch (param.getValue().getState()) {
-					case BOOKED:
-						localMenuButton.getItems().add(menuGestioneConsegna);
-						if (param.getValue().getDeliverDateTime() != null)
-							menuStato.setText("Consegna Veicolo");
-						break;
-					case ACTIVE:
-						localMenuButton.getItems().add(menuGestioneRiconsegna);
-						if (!param.getValue().isPaid() && param.getValue().getType() == ContractType.TIME)
-							localMenuButton.getItems().add(menuPagato);
-						if (param.getValue().getReturnDateTime() != null)
-							menuStato.setText("Ritira Veicolo");
-						break;
-					case MAINTENANCE:
+				case BOOKED:
+					localMenuButton.getItems().add(menuGestioneConsegna);
+					if (param.getValue().getDeliverDateTime() != null)
+						menuStato.setText("Consegna Veicolo");
+					break;
+				case ACTIVE:
+					localMenuButton.getItems().add(menuGestioneRiconsegna);
+					if (!param.getValue().isPaid() && param.getValue().getType() == ContractType.TIME)
+						localMenuButton.getItems().add(menuPagato);
+					if (param.getValue().getReturnDateTime() != null)
+						menuStato.setText("Ritira Veicolo");
+					break;
+				case MAINTENANCE:
+					return null;
+				case ENDED:
+					if (!param.getValue().isPaid())
+						localMenuButton.getItems().add(menuPagato);
+					else
 						return null;
-					case ENDED:
-						if (!param.getValue().isPaid())
-							localMenuButton.getItems().add(menuPagato);
-						else
-							return null;
 				}
 				if (!menuStato.getText().equals(""))
 					localMenuButton.getItems().add(menuStato);
@@ -274,6 +274,22 @@ public class RentalController extends ViewUtility implements Initializable, Data
 		if (user.getRole() != 1)
 			filterHBox.setVisible(false);
 		try {
+			switch (user.getRole()) {
+			case 0:
+				contract = contractService.getAllContracts(2);
+				break;
+			case 1:
+				List<Contract> temp = new ArrayList<Contract>();
+				contract = new ArrayList<Contract>();
+				temp = contractService.getAllContracts(2);
+				for (Contract c : temp)
+					if (c.getState() != ContractState.ENDED)
+						contract.add(c);
+				break;
+			case 2:
+				contract = contractService.getContractsByUser(2, user);
+				break;
+			}
 			contract = (user.getRole() == 2 ? contractService.getContractsByUser(2, user)
 					: contractService.getAllContracts(2));
 		} catch (BusinessException e) {
@@ -296,7 +312,7 @@ public class RentalController extends ViewUtility implements Initializable, Data
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 			for (Contract c : contracts)
 				if (c.getState() == ContractState.ACTIVE && c.getReturnDateTime() != null && filterDatePicker.getValue()
-						.format(formatter).toString().equals(c.getReturnDateTime().substring(0, 10)))
+				.format(formatter).toString().equals(c.getReturnDateTime().substring(0, 10)))
 					selectedContract.add(c);
 			ObservableList<Contract> contractData = FXCollections.observableArrayList(selectedContract);
 			rentalTable.setItems(contractData);
