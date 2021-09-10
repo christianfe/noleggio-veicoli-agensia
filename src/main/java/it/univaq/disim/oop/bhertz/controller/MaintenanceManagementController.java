@@ -86,7 +86,6 @@ public class MaintenanceManagementController extends ViewUtility
 				substituteContract.setSostistuteContract(true);
 				substituteContract.setCustomer(ticket.getContract().getCustomer());
 				substituteContract.setPaid(ticket.getContract().isPaid());
-				substituteContract.setDeliverDateTime(LocalDate.now().format(formatter) + "");
 				substituteContract.setStartKm(ticket.getVeicleKm());
 				substituteContract.setPrice(ticket.getContract().getPrice());
 				substituteContract.setState(ContractState.BOOKED);

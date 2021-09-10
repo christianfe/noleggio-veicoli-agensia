@@ -180,7 +180,6 @@ public class MaintenanceController extends ViewUtility implements Initializable,
 					t.setState(TicketState.ENDED);
 					t.setEndDate(LocalDate.now());
 					t.setTimeEnd("");
-					c.setReturnDateTime(LocalDate.now().toString());
 					c.setEndKm(t.getVeicleKm());
 					c.setState(ContractState.ENDED);
 					c.setEnd(t.getSubstituteContract().getStart());
