@@ -61,12 +61,7 @@ public class UserEditorController extends ViewUtility
 	@Override
 	public void initializeData(ObjectsCollector<User, User> objectsCollector) {
 		userEditing = objectsCollector.getObjectA();
-		try {
-			userToEdit = BhertzBusinessFactory.getInstance().getUserService().getUsersByID(objectsCollector.getObjectB().getId());
-			objectsCollector.setObjectB(userToEdit);
-		} catch (BusinessException e) {
-			dispatcher.renderError(e);
-		}
+		userToEdit = objectsCollector.getObjectB();
 		if (userToEdit.getId() != null) {
 			creatingNewOperator = false;
 			titleLabel.setText("Modifica Utente");
@@ -89,10 +84,6 @@ public class UserEditorController extends ViewUtility
 				labelErrorSignup.setText("Le password immesse sono diverse!");
 			else {
 				if (creatingNewOperator) {
-					/*
-					 * userServices.addUser( new Staff(0, newNameField.getText(),
-					 * newUsernameField.getText(), newPasswordField.getText()));
-					 */
 					userToEdit.setName(newNameField.getText());
 					userToEdit.setUsername(newUsernameField.getText());
 					userToEdit.setPassword(newPasswordField.getText());

@@ -34,8 +34,7 @@ public class HomeController extends ViewUtility implements Initializable, DataIn
 	}
 
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-	}
+	public void initialize(URL location, ResourceBundle resources) {}
 
 	@Override
 	public void initializeData(User user) {
@@ -57,8 +56,6 @@ public class HomeController extends ViewUtility implements Initializable, DataIn
 				notificationTextArea.appendText(n.getTitle() + "\n");
 				notificationTextArea.appendText("  -  " + n.getText() + "\n");
 			}
-
 		}
-
 	}
 }
