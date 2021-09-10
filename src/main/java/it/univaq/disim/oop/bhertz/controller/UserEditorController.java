@@ -62,7 +62,6 @@ public class UserEditorController extends ViewUtility
 	public void initializeData(ObjectsCollector<User, User> objectsCollector) {
 		userEditing = objectsCollector.getObjectA();
 		userToEdit = objectsCollector.getObjectB();
-		
 		if (userToEdit.getId() != null) {
 			creatingNewOperator = false;
 			titleLabel.setText("Modifica Utente");
@@ -85,10 +84,6 @@ public class UserEditorController extends ViewUtility
 				labelErrorSignup.setText("Le password immesse sono diverse!");
 			else {
 				if (creatingNewOperator) {
-					/*
-					 * userServices.addUser( new Staff(0, newNameField.getText(),
-					 * newUsernameField.getText(), newPasswordField.getText()));
-					 */
 					userToEdit.setName(newNameField.getText());
 					userToEdit.setUsername(newUsernameField.getText());
 					userToEdit.setPassword(newPasswordField.getText());
