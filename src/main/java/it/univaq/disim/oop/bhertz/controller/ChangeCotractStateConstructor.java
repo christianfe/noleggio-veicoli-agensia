@@ -52,7 +52,6 @@ public class ChangeCotractStateConstructor extends ViewUtility
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		super.setOnlyNumberField(kmField);
 		saveButton.disableProperty().bind(kmField.textProperty().isEmpty());
 	}
 
@@ -66,6 +65,9 @@ public class ChangeCotractStateConstructor extends ViewUtility
 
 	@FXML
 	public void saveAction(ActionEvent e) {
+		
+		try {
+		
 		double d = Double.parseDouble(kmField.getText());
 		if (d < objectsCollector.getObjectB().getVeicle().getKm()) {
 			labelError.setText("Input chilometri non valido!");
@@ -98,6 +100,13 @@ public class ChangeCotractStateConstructor extends ViewUtility
 			dispatcher.renderView("rental", objectsCollector.getObjectA());
 		else
 			dispatcher.renderView("maintenance", objectsCollector.getObjectA());
+	} catch (NumberFormatException exception ) {
+		
+		labelError.setText("Input chilometri non valido!");
+	
+	}
+		
+		
 	}
 
 	@FXML

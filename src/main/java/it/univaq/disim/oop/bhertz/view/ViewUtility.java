@@ -27,15 +27,7 @@ public class ViewUtility {
 			});
 	}
 
-	protected void setOnlyNumberField(TextField... fields) {
-		/*for (TextField field : fields) {
-			field.textProperty().addListener((observable, oldValue, newValue) -> {
-				char c = newValue.charAt(newValue.length() - 1);
-				if (c < '0' || c > '9' || c > '.')
-					field.setText(oldValue);
-			});
-		}*/
-	}
+	
 
 	protected void setTimeField(TextField... fields) {
 		for (TextField field : fields)

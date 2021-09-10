@@ -49,7 +49,7 @@ implements Initializable, DataInitializable<ObjectsCollector<User, Type>> {
 		saveButton.disableProperty().bind(nameField.textProperty().isEmpty()
 				.or(priceForDayField.textProperty().isEmpty().or(priceForKmField.textProperty().isEmpty())));
 		super.addForbiddenCharCheck(nameField, priceForDayField, priceForKmField);
-		super.setOnlyNumberField(priceForDayField, priceForKmField);
+		
 	}
 
 	@Override

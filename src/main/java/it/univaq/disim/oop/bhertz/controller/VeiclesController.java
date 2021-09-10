@@ -160,7 +160,7 @@ public class VeiclesController extends ViewUtility
 
 			menuDelete.setOnAction((ActionEvent event) -> {
 				if (param.getValue().getState() != VeicleState.FREE)
-					JOptionPane.showMessageDialog(null, "E' possibile modificare solo veicoli Liberi", "Errore",
+					JOptionPane.showMessageDialog(null, "E' possibile eliminare solo veicoli Liberi", "Errore",
 							JOptionPane.ERROR_MESSAGE);
 				else if (JOptionPane.showConfirmDialog(null,
 						"Confermi di voler eliminare il Veicolo selezionato e tutti i contratti associati?",
@@ -176,7 +176,7 @@ public class VeiclesController extends ViewUtility
 
 			menuEdit.setOnAction((ActionEvent event) -> {
 				if (param.getValue().getState() != VeicleState.FREE)
-					JOptionPane.showMessageDialog(null, "E' possibile eliminare solo veicoli Liberi", "Errore",
+					JOptionPane.showMessageDialog(null, "E' possibile modificare solo veicoli Liberi", "Errore",
 							JOptionPane.ERROR_MESSAGE);
 				else
 					dispatcher.renderView("veicleEdit", new BigObjectsCollector<User, Veicle, Type>(

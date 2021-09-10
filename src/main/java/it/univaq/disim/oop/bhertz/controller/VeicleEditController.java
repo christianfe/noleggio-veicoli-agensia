@@ -26,6 +26,8 @@ implements Initializable, DataInitializable<BigObjectsCollector<User, Veicle, Ty
 	@FXML
 	private Label labelTitle;
 	@FXML
+	private Label labelError;
+	@FXML
 	private TextField modelField;
 	@FXML
 	private TextField plateField;
@@ -56,7 +58,7 @@ implements Initializable, DataInitializable<BigObjectsCollector<User, Veicle, Ty
 				.or(plateField.textProperty().isEmpty().or(kmField.textProperty().isEmpty()
 						.or(consuptionField.textProperty().isEmpty().or(fuelField.textProperty().isEmpty())))));
 		super.addForbiddenCharCheck(modelField, plateField, kmField, consuptionField, fuelField);
-		super.setOnlyNumberField(kmField, consuptionField);
+		//super.setOnlyNumberField(kmField, consuptionField);
 	}
 
 	@Override
@@ -71,6 +73,7 @@ implements Initializable, DataInitializable<BigObjectsCollector<User, Veicle, Ty
 			this.kmField.setText("" + objectsCollector.getObjectB().getKm());
 			this.consuptionField.setText("" + objectsCollector.getObjectB().getConsumption());
 			this.fuelField.setText("" + objectsCollector.getObjectB().getFuel());
+
 		}
 	}
 
@@ -78,6 +81,8 @@ implements Initializable, DataInitializable<BigObjectsCollector<User, Veicle, Ty
 	public void saveAction(ActionEvent e) {
 		try {
 
+			try {
+			
 			if (this.creatingNewVeicle)
 				veiclesService.addVeicle(new Veicle(0, objectsCollector.getObjectC(), modelField.getText(),
 						plateField.getText(), Double.parseDouble(kmField.getText()),
@@ -87,10 +92,18 @@ implements Initializable, DataInitializable<BigObjectsCollector<User, Veicle, Ty
 				veiclesService.setVeicle(objectsCollector.getObjectB().getId(), modelField.getText(),
 						Double.parseDouble(kmField.getText()), Double.parseDouble(consuptionField.getText()),
 						fuelField.getText());
+			
+			dispatcher.renderView("veicles", new ObjectsCollector<User, Type>(objectsCollector.getObjectA(), objectsCollector.getObjectC()));
+			
+			} catch (NumberFormatException exception) {
+				labelError.setText("input numerico non valido!");
+			}
+		
+		
 		} catch (BusinessException e1) {
 			dispatcher.renderError(e1);
 		}
-		dispatcher.renderView("veicles", new ObjectsCollector<User, Type>(objectsCollector.getObjectA(), objectsCollector.getObjectC()));
+		
 	}
 
 }
