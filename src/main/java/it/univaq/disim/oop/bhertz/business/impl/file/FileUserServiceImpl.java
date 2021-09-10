@@ -29,46 +29,13 @@ public class FileUserServiceImpl implements UserService {
 
 	@Override
 	public User authenticate(String username, String password) throws UserNotFoundException, BusinessException {
-			
-			Map<Integer, User> users = this.readList();
-			for (User u : users.values())
-				if (u.getUsername().equalsIgnoreCase(username) && u.getPassword().equalsIgnoreCase(password))
-					return u;
-			throw new UserNotFoundException();
-		
-			/*
-			 try {
-			FileData fileData = FileUtility.readAllRows(userFilename);
-			for (String[] cols : fileData.getRows()) {
-				if (!(cols[3].equals(username) && cols[4].equals(password)))
-					continue;
-				User user = null;
-				switch (cols[1]) {
-					case "0":
-						user = new Admin();
-						break;
-					case "1":
-						user = new Staff();
-						break;
-					case "2":
-						user = new Customer();
-						break;
-				}
-				if (user != null) {
-					user.setId(Integer.parseInt(cols[0]));
-					user.setUsername(username);
-					user.setPassword(password);
-					user.setName(cols[2]);
-				} else
-					throw new BusinessException("errore nella lettura del file");
-				return user;
-			}
-			throw new UserNotFoundException();
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new BusinessException(e);
-		}
-		*/
+
+		Map<Integer, User> users = this.readList();
+		for (User u : users.values())
+			if (u.getUsername().equalsIgnoreCase(username) && u.getPassword().equalsIgnoreCase(password))
+				return u;
+		throw new UserNotFoundException();
+
 	}
 
 	@Override
@@ -112,8 +79,8 @@ public class FileUserServiceImpl implements UserService {
 		ContractService contractService = BhertzBusinessFactory.getInstance().getContractService();
 		UserService userService = BhertzBusinessFactory.getInstance().getUserService();
 		FeedbackService feedbackService = BhertzBusinessFactory.getInstance().getFeedbackService();
-		List <Contract> cc = contractService.getContractsByUser(2, userService.getUsersByID(id));
-		List <Feedback> ff = feedbackService.getFeedbackByUser(id);
+		List<Contract> cc = contractService.getContractsByUser(2, userService.getUsersByID(id));
+		List<Feedback> ff = feedbackService.getFeedbackByUser(id);
 		for (Feedback f : ff)
 			feedbackService.removeFeedback(f.getId());
 		for (Contract c : cc)
@@ -135,8 +102,10 @@ public class FileUserServiceImpl implements UserService {
 	public boolean isUsernameSet(Integer currentUserId, String username) throws BusinessException {
 		Map<Integer, User> users = this.readList();
 		for (User u : users.values()) {
-			if (u.getId() == currentUserId) continue;
-			if (u.getUsername().equals(username)) return true;
+			if (u.getId() == currentUserId)
+				continue;
+			if (u.getUsername().equals(username))
+				return true;
 		}
 		return false;
 	}
@@ -146,16 +115,16 @@ public class FileUserServiceImpl implements UserService {
 		List<String[]> list = new ArrayList<>();
 		for (User u : users.values()) {
 			String[] s = new String[5];
-			s[0]= u.getId().toString();
-			s[1]= u.getRole() + "";
-			s[2]= u.getName();
-			s[3]= u.getUsername();
-			s[4]= u.getPassword();
+			s[0] = u.getId().toString();
+			s[1] = u.getRole() + "";
+			s[2] = u.getName();
+			s[3] = u.getUsername();
+			s[4] = u.getPassword();
 			list.add(s);
 		}
 		f.setAllByFile(this.userFilename, new FileData(this.counter, list));
 	}
-	
+
 	private Map<Integer, User> readList() throws BusinessException {
 		FileUtility f = new FileUtility();
 		FileData fileData = f.getAllByFile(userFilename);
@@ -163,15 +132,15 @@ public class FileUserServiceImpl implements UserService {
 		for (String[] row : fileData.getRows()) {
 			User user = null;
 			switch (row[1]) {
-				case "0":
-					user = new Admin();
-					break;
-				case "1":
-					user = new Staff();
-					break;
-				case "2":
-					user = new Customer();
-					break;
+			case "0":
+				user = new Admin();
+				break;
+			case "1":
+				user = new Staff();
+				break;
+			case "2":
+				user = new Customer();
+				break;
 			}
 			if (user != null) {
 				user.setId(Integer.parseInt(row[0]));
@@ -185,5 +154,5 @@ public class FileUserServiceImpl implements UserService {
 		}
 		return users;
 	}
-	
+
 }
