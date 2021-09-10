@@ -15,14 +15,13 @@ public class RAMFeedbackServiceImpl implements FeedbackService {
 
 	private Map<Integer, Feedback> feeds = new HashMap<>();
 	private Integer counter = 1;
-	
-	
+
 	@Override
 	public void addFeedback(Feedback feedback) throws BusinessException {
 		feedback.setId(counter++);
 		feeds.put(feedback.getId(), feedback);
 	}
-	
+
 	@Override
 	public List<Feedback> getFeedbackByVeicle(Veicle veicle) throws BusinessException {
 		List<Feedback> result = new ArrayList<>();
@@ -32,12 +31,10 @@ public class RAMFeedbackServiceImpl implements FeedbackService {
 		return result;
 	}
 
-
 	@Override
 	public Feedback getFeedbackByID(Integer id) throws BusinessException {
 		return feeds.get(id);
 	}
-
 
 	@Override
 	public boolean isFeedBackSet(Contract contract) throws BusinessException {
@@ -58,6 +55,6 @@ public class RAMFeedbackServiceImpl implements FeedbackService {
 
 	@Override
 	public void removeFeedback(Integer id) throws BusinessException {
-		feeds.remove(id);		
+		feeds.remove(id);
 	}
 }

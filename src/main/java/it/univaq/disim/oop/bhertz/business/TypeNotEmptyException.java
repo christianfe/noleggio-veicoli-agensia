@@ -7,7 +7,8 @@ public class TypeNotEmptyException extends BusinessException {
 		super();
 	}
 
-	public TypeNotEmptyException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+	public TypeNotEmptyException(String message, Throwable cause, boolean enableSuppression,
+			boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
 

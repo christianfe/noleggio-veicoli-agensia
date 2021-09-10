@@ -62,7 +62,8 @@ public class FileVeicleServiceImpl implements VeiclesService {
 	}
 
 	@Override
-	public List<Veicle> getVeiclesByStateAndType(Type type, boolean free, boolean busy, boolean maintenance) throws BusinessException {
+	public List<Veicle> getVeiclesByStateAndType(Type type, boolean free, boolean busy, boolean maintenance)
+			throws BusinessException {
 		List<Veicle> result = new ArrayList<>();
 		if (free) {
 			List<Veicle> resultF = this.getVeiclesByState(VeicleState.FREE);
@@ -100,9 +101,9 @@ public class FileVeicleServiceImpl implements VeiclesService {
 		FeedbackService feedbackService = BhertzBusinessFactory.getInstance().getFeedbackService();
 		MaintenanceService maintenanceService = BhertzBusinessFactory.getInstance().getMaintenanceService();
 
-		List <Contract> cc = contractService.getContractsByVeicle(2, id);
-		List <Feedback> ff = feedbackService.getFeedbackByVeicle(this.getVeicleByID(id));
-		List <AssistanceTicket> mm = maintenanceService.getTicketByVeicle(id);
+		List<Contract> cc = contractService.getContractsByVeicle(2, id);
+		List<Feedback> ff = feedbackService.getFeedbackByVeicle(this.getVeicleByID(id));
+		List<AssistanceTicket> mm = maintenanceService.getTicketByVeicle(id);
 
 		for (Feedback f : ff)
 			feedbackService.removeFeedback(f.getId());
@@ -116,7 +117,8 @@ public class FileVeicleServiceImpl implements VeiclesService {
 	}
 
 	@Override
-	public void setVeicle(Integer id, String model, double km, double consuption, String fuel) throws BusinessException {
+	public void setVeicle(Integer id, String model, double km, double consuption, String fuel)
+			throws BusinessException {
 		Map<Integer, Veicle> veicles = this.readList();
 		Veicle v = getVeicleByID(id);
 		v.setModel(model);
@@ -135,9 +137,11 @@ public class FileVeicleServiceImpl implements VeiclesService {
 	}
 
 	@Override
-	public boolean isVeicleFree(LocalDate startDate, LocalDate endDate, List<Contract> contractOfVeicle) throws BusinessException {
+	public boolean isVeicleFree(LocalDate startDate, LocalDate endDate, List<Contract> contractOfVeicle)
+			throws BusinessException {
 		for (Contract c : contractOfVeicle) {
-			if (!(startDate.isAfter(c.getEnd().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT)) || endDate.plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT).isBefore(c.getStart())))
+			if (!(startDate.isAfter(c.getEnd().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT))
+					|| endDate.plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT).isBefore(c.getStart())))
 				return false;
 		}
 		return true;
@@ -156,10 +160,16 @@ public class FileVeicleServiceImpl implements VeiclesService {
 		else
 			body = "";
 		for (int i = 0; i < contractOfVeicle.size() - 1; i++)
-			if (!(contractOfVeicle.get(i).getEnd().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT).isEqual(contractOfVeicle.get(i + 1).getStart())))
-				body += "dal " + contractOfVeicle.get(i).getEnd().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT).format(formatter) + " al "
-						+ contractOfVeicle.get(i + 1).getStart().minusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT).format(formatter) + ", \n";
-		body += "dopo il " + contractOfVeicle.get(contractOfVeicle.size() - 1).getEnd().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT).format(formatter);
+			if (!(contractOfVeicle.get(i).getEnd().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT)
+					.isEqual(contractOfVeicle.get(i + 1).getStart())))
+				body += "dal "
+						+ contractOfVeicle.get(i).getEnd().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT)
+								.format(formatter)
+						+ " al " + contractOfVeicle.get(i + 1).getStart()
+								.minusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT).format(formatter)
+						+ ", \n";
+		body += "dopo il " + contractOfVeicle.get(contractOfVeicle.size() - 1).getEnd()
+				.plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT).format(formatter);
 		return body;
 	}
 
@@ -179,17 +189,16 @@ public class FileVeicleServiceImpl implements VeiclesService {
 				v.setState(VeicleState.BUSY);
 				c.setState(ContractState.ACTIVE);
 				contractService.setContract(c);
-			}
-			else {
+			} else {
 				v.setState(VeicleState.FREE);
 			}
 		}
 		this.saveList(veicles);
 	}
-	
 
 	@Override
-	public void updatePrices(double oldPriceForDay, double oldPriceForKm, double newPriceForDay, double newPriceForKm) throws BusinessException {
+	public void updatePrices(double oldPriceForDay, double oldPriceForKm, double newPriceForDay, double newPriceForKm)
+			throws BusinessException {
 		Map<Integer, Veicle> veicles = this.readList();
 		for (Veicle v : veicles.values()) {
 			if (v.getPriceForDay() == oldPriceForDay)
@@ -201,6 +210,15 @@ public class FileVeicleServiceImpl implements VeiclesService {
 		this.saveList(veicles);
 	}
 
+	/*
+	 * in ogni File....Service abbiamo implementato i metodi "save list" e
+	 * "readList" che hanno rispettivamente il compito di creare il file prendendo
+	 * in input la mappa e viceversa. Questi metodi verranno poi richiamati dagli
+	 * altri metodi della classe che devono leggere i dati e/o modificarli. Il
+	 * metodo "ReadList" restituisce una mappa, ciò ci ha permesso di riutilizzare
+	 * per gli altri metodi un codice molto simile a quello utilizzato
+	 * nell'implementazione su RAM
+	 */
 
 	private void saveList(Map<Integer, Veicle> veicles) throws BusinessException {
 		FileUtility f = new FileUtility();
@@ -233,15 +251,15 @@ public class FileVeicleServiceImpl implements VeiclesService {
 			veicle.setModel(row[1]);
 			veicle.setPlate(row[2]);
 			switch (row[3]) {
-			case "FREE":
-				veicle.setState(VeicleState.FREE);
-				break;
-			case "MAINTENANCE":
-				veicle.setState(VeicleState.MAINTENANCE);
-				break;
-			case "BUSY":
-				veicle.setState(VeicleState.BUSY);
-				break;
+				case "FREE":
+					veicle.setState(VeicleState.FREE);
+					break;
+				case "MAINTENANCE":
+					veicle.setState(VeicleState.MAINTENANCE);
+					break;
+				case "BUSY":
+					veicle.setState(VeicleState.BUSY);
+					break;
 			}
 			veicle.setKm(Double.parseDouble(row[4]));
 			veicle.setConsumption(Double.parseDouble(row[5]));

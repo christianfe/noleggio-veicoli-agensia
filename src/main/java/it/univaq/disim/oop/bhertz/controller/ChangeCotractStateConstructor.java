@@ -63,48 +63,51 @@ public class ChangeCotractStateConstructor extends ViewUtility
 
 	@FXML
 	public void saveAction(ActionEvent e) {
-		
-		try {
-		
-		double d = Double.parseDouble(kmField.getText());
-		if (d < objectsCollector.getObjectB().getVeicle().getKm()) {
-			labelError.setText("Input chilometri non valido!");
-			return;
-		}
-		
-		
-		Contract c = objectsCollector.getObjectB();
 
-		if (objectsCollector.getObjectB().getState() != ContractState.MAINTENANCE) {
-			if (c.getReturnDateTime() == null) {
-				c.setStartKm(d);
-				c.setState(ContractState.ACTIVE);
-			} else {
-				c.setEndKm(d);
-				c.setState(ContractState.ENDED);
+		try {
+
+			double d = Double.parseDouble(kmField.getText());
+			if (d < objectsCollector.getObjectB().getVeicle().getKm()) {
+				labelError.setText("Input chilometri non valido!");
+				return;
 			}
 
-		}
-		Veicle v = c.getVeicle();
-		v.setKm(d);
-		try {
-			veicleService.setVeicle(v);
-			contracService.setContract(c);
-		} catch (BusinessException e1) {
-			dispatcher.renderError(e1);
+			Contract c = objectsCollector.getObjectB();
+
+			if (objectsCollector.getObjectB().getState() != ContractState.MAINTENANCE) {
+				if (c.getReturnDateTime() == null) {
+					c.setStartKm(d);
+					c.setState(ContractState.ACTIVE);
+				} else {
+					c.setEndKm(d);
+					c.setState(ContractState.ENDED);
+				}
+
+			}
+			Veicle v = c.getVeicle();
+			v.setKm(d);
+			try {
+				veicleService.setVeicle(v);
+				contracService.setContract(c);
+			} catch (BusinessException e1) {
+				dispatcher.renderError(e1);
+			}
+
+			if (!(objectsCollector.getObjectB().isSostistuteContract()))
+				dispatcher.renderView("rental", objectsCollector.getObjectA());
+			else
+				dispatcher.renderView("maintenance", objectsCollector.getObjectA());
+		} catch (NumberFormatException exception) {
+
+			labelError.setText("Input chilometri non valido!");
+			/*
+			 * in tutti quei campi di testo in cui occorreva inserire un numero( modifica
+			 * km, modifica tariffe ecc ) abbiamo gestito gli input errati con questa
+			 * eccezione
+			 */
+
 		}
 
-		if (!(objectsCollector.getObjectB().isSostistuteContract()))
-			dispatcher.renderView("rental", objectsCollector.getObjectA());
-		else
-			dispatcher.renderView("maintenance", objectsCollector.getObjectA());
-	} catch (NumberFormatException exception ) {
-		
-		labelError.setText("Input chilometri non valido!");
-	
-	}
-		
-		
 	}
 
 	@FXML

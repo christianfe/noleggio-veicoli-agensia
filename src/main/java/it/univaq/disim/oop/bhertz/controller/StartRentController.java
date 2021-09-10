@@ -26,7 +26,8 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 
-public class StartRentController extends ViewUtility implements Initializable, DataInitializable<ObjectsCollector<User, Veicle>> {
+public class StartRentController extends ViewUtility
+		implements Initializable, DataInitializable<ObjectsCollector<User, Veicle>> {
 
 	@FXML
 	private Label titleLabel;
@@ -99,7 +100,7 @@ public class StartRentController extends ViewUtility implements Initializable, D
 		} catch (BusinessException e) {
 			dispatcher.renderError(e);
 		}
-			
+
 	}
 
 	@FXML
@@ -122,31 +123,31 @@ public class StartRentController extends ViewUtility implements Initializable, D
 			else {
 
 				ContractService contractService = factory.getContractService();
-					List<Contract> contractOfVeicle = contractService.getContractsByVeicle(0, veicle.getId());
-					if (!(factory.getVeiclesService().isVeicleFree(dateStartField.getValue(), dateEndField.getValue(),
-							contractOfVeicle)))
-						labelError.setText("Periodo impostato per il noleggio non disponibile");
-					else {
+				List<Contract> contractOfVeicle = contractService.getContractsByVeicle(0, veicle.getId());
+				if (!(factory.getVeiclesService().isVeicleFree(dateStartField.getValue(), dateEndField.getValue(),
+						contractOfVeicle)))
+					labelError.setText("Periodo impostato per il noleggio non disponibile");
+				else {
 
-						Contract newContract = new Contract();
-						newContract.setVeicle(veicle);
-						newContract.setCustomer((Customer) user);
-						newContract.setStartKm(veicle.getKm());
-						newContract.setStart(dateStartField.getValue());
-						newContract.setEnd(dateEndField.getValue());
-						if (dailyCheckBox.isSelected()) {
-							newContract.setType(ContractType.TIME);
-							newContract.setPrice(veicle.getPriceForDay());
-						} else if (kmCheckBox.isSelected()) {
-							newContract.setType(ContractType.KM);
-							newContract.setPrice(veicle.getPriceForKm());
-						}
-						veicle.setState(VeicleState.BUSY);
-
-						contractService.addContract(newContract);
-						labelError.setText(null);
-						dispatcher.renderView("veicles", new ObjectsCollector<User, Type>(user, veicle.getType()));
+					Contract newContract = new Contract();
+					newContract.setVeicle(veicle);
+					newContract.setCustomer((Customer) user);
+					newContract.setStartKm(veicle.getKm());
+					newContract.setStart(dateStartField.getValue());
+					newContract.setEnd(dateEndField.getValue());
+					if (dailyCheckBox.isSelected()) {
+						newContract.setType(ContractType.TIME);
+						newContract.setPrice(veicle.getPriceForDay());
+					} else if (kmCheckBox.isSelected()) {
+						newContract.setType(ContractType.KM);
+						newContract.setPrice(veicle.getPriceForKm());
 					}
+					veicle.setState(VeicleState.BUSY);
+
+					contractService.addContract(newContract);
+					labelError.setText(null);
+					dispatcher.renderView("veicles", new ObjectsCollector<User, Type>(user, veicle.getType()));
+				}
 			}
 		} catch (NullPointerException E) {
 			labelError.setText("Imposta data di inizio e fine del noleggio");

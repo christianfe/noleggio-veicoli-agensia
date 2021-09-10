@@ -18,8 +18,9 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 
-public class MaintenanceDetailsController extends ViewUtility implements Initializable, DataInitializable<ObjectsCollector<User, AssistanceTicket>>{
-	
+public class MaintenanceDetailsController extends ViewUtility
+		implements Initializable, DataInitializable<ObjectsCollector<User, AssistanceTicket>> {
+
 	@FXML
 	private Label titleLabel;
 	@FXML
@@ -40,7 +41,7 @@ public class MaintenanceDetailsController extends ViewUtility implements Initial
 	private Button saveButton;
 	@FXML
 	private Button cancelButton;
-	
+
 	private ViewDispatcher dispatcher;
 	private MaintenanceService maintenanceService;
 	private ObjectsCollector<User, AssistanceTicket> objectsCollector;
@@ -55,22 +56,26 @@ public class MaintenanceDetailsController extends ViewUtility implements Initial
 	public void initialize(URL location, ResourceBundle resources) {
 		super.addForbiddenCharCheck(descriptionArea);
 	}
-	
+
 	@Override
 	public void initializeData(ObjectsCollector<User, AssistanceTicket> objectsCollector) {
 		this.objectsCollector = objectsCollector;
 		this.newVeicleActive = objectsCollector.getObjectB().getSubstituteContract() != null;
 		this.newVeicleCheck.setSelected(newVeicleActive);
 		this.descriptionArea.setText(objectsCollector.getObjectB().getDescription());
-		this.veicleInfoLabel.setText(objectsCollector.getObjectB().getContract().getVeicle() + " - al km " + objectsCollector.getObjectB().getVeicleKm());
+		this.veicleInfoLabel.setText(objectsCollector.getObjectB().getContract().getVeicle() + " - al km "
+				+ objectsCollector.getObjectB().getVeicleKm());
 		if (objectsCollector.getObjectB().getStartDate() == null)
 			this.startAssistanceLabel.setText(startAssistanceLabel.getText() + ": Non definito");
 		else
-			this.startAssistanceLabel.setText(startAssistanceLabel.getText() + ": " + objectsCollector.getObjectB().getStartDate() + " " + objectsCollector.getObjectB().getTimeStart());
+			this.startAssistanceLabel
+					.setText(startAssistanceLabel.getText() + ": " + objectsCollector.getObjectB().getStartDate() + " "
+							+ objectsCollector.getObjectB().getTimeStart());
 		if (objectsCollector.getObjectB().getEndDate() == null)
 			this.endAssistanceLabel.setText(endAssistanceLabel.getText() + ": Non definito");
 		else
-			this.endAssistanceLabel.setText(endAssistanceLabel.getText() + ": " + objectsCollector.getObjectB().getEndDate() + " " + objectsCollector.getObjectB().getTimeEnd());
+			this.endAssistanceLabel.setText(endAssistanceLabel.getText() + ": "
+					+ objectsCollector.getObjectB().getEndDate() + " " + objectsCollector.getObjectB().getTimeEnd());
 		if (!newVeicleActive) {
 			newVeicleTitle.setText("");
 			newVeicleInfo.setText("");
@@ -78,17 +83,18 @@ public class MaintenanceDetailsController extends ViewUtility implements Initial
 			newVeicleTitle.setText(objectsCollector.getObjectB().getSubstituteContract().getVeicle().toString());
 			newVeicleInfo.setText("Cliente: " + objectsCollector.getObjectB().getContract().getCustomer().getName());
 		}
-		if (objectsCollector.getObjectA().getRole() != 1 || objectsCollector.getObjectB().getState() == TicketState.ENDED) {
+		if (objectsCollector.getObjectA().getRole() != 1
+				|| objectsCollector.getObjectB().getState() == TicketState.ENDED) {
 			descriptionArea.setEditable(false);
 			saveButton.setVisible(false);
 		}
 	}
-	
+
 	@FXML
 	public void newVeicleCheckAction(ActionEvent e) {
 		newVeicleCheck.setSelected(newVeicleActive);
 	}
-	
+
 	@FXML
 	public void saveAction(ActionEvent e) {
 		AssistanceTicket t = objectsCollector.getObjectB();
@@ -100,11 +106,10 @@ public class MaintenanceDetailsController extends ViewUtility implements Initial
 		}
 		dispatcher.renderView("maintenance", objectsCollector.getObjectA());
 	}
-	
+
 	@FXML
 	public void cancelAction(ActionEvent e) {
 		dispatcher.renderView("maintenance", objectsCollector.getObjectA());
 	}
-	
 
 }

@@ -18,7 +18,7 @@ public class RAMBusinessFactoryImpl extends BhertzBusinessFactory {
 	private MaintenanceService maintenanceService;
 	private FeedbackService feedbackService;
 	private NotificationsService notificationService;
-	
+
 	public RAMBusinessFactoryImpl() {
 		veicleService = new RAMVeicleServiceImpl();
 		maintenanceService = new RAMMaintenanceServiceImpl();
@@ -28,7 +28,7 @@ public class RAMBusinessFactoryImpl extends BhertzBusinessFactory {
 		userService = new RAMUserServiceImpl();
 		notificationService = new RAMNotificationServiceImpl();
 	}
-	
+
 	@Override
 	public ContractService getContractService() {
 		return contractService;

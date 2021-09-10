@@ -18,7 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class VeicleEditController extends ViewUtility
-implements Initializable, DataInitializable<BigObjectsCollector<User, Veicle, Type>> {
+		implements Initializable, DataInitializable<BigObjectsCollector<User, Veicle, Type>> {
 
 	@FXML
 	private Label labelTitle;
@@ -51,11 +51,10 @@ implements Initializable, DataInitializable<BigObjectsCollector<User, Veicle, Ty
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		saveButton.disableProperty()
-		.bind(modelField.textProperty().isEmpty()
-				.or(plateField.textProperty().isEmpty().or(kmField.textProperty().isEmpty()
-						.or(consuptionField.textProperty().isEmpty().or(fuelField.textProperty().isEmpty())))));
+				.bind(modelField.textProperty().isEmpty()
+						.or(plateField.textProperty().isEmpty().or(kmField.textProperty().isEmpty()
+								.or(consuptionField.textProperty().isEmpty().or(fuelField.textProperty().isEmpty())))));
 		super.addForbiddenCharCheck(modelField, plateField, kmField, consuptionField, fuelField);
-		//super.setOnlyNumberField(kmField, consuptionField);
 	}
 
 	@Override
@@ -79,28 +78,28 @@ implements Initializable, DataInitializable<BigObjectsCollector<User, Veicle, Ty
 		try {
 
 			try {
-			
-			if (this.creatingNewVeicle)
-				veiclesService.addVeicle(new Veicle(0, objectsCollector.getObjectC(), modelField.getText(),
-						plateField.getText(), Double.parseDouble(kmField.getText()),
-						Double.parseDouble(consuptionField.getText()), fuelField.getText()));
 
-			else
-				veiclesService.setVeicle(objectsCollector.getObjectB().getId(), modelField.getText(),
-						Double.parseDouble(kmField.getText()), Double.parseDouble(consuptionField.getText()),
-						fuelField.getText());
-			
-			dispatcher.renderView("veicles", new ObjectsCollector<User, Type>(objectsCollector.getObjectA(), objectsCollector.getObjectC()));
-			
+				if (this.creatingNewVeicle)
+					veiclesService.addVeicle(new Veicle(0, objectsCollector.getObjectC(), modelField.getText(),
+							plateField.getText(), Double.parseDouble(kmField.getText()),
+							Double.parseDouble(consuptionField.getText()), fuelField.getText()));
+
+				else
+					veiclesService.setVeicle(objectsCollector.getObjectB().getId(), modelField.getText(),
+							Double.parseDouble(kmField.getText()), Double.parseDouble(consuptionField.getText()),
+							fuelField.getText());
+
+				dispatcher.renderView("veicles",
+						new ObjectsCollector<User, Type>(objectsCollector.getObjectA(), objectsCollector.getObjectC()));
+
 			} catch (NumberFormatException exception) {
 				labelError.setText("input numerico non valido!");
 			}
-		
-		
+
 		} catch (BusinessException e1) {
 			dispatcher.renderError(e1);
 		}
-		
+
 	}
 
 }

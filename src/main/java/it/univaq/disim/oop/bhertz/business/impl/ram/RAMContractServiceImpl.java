@@ -22,21 +22,21 @@ public class RAMContractServiceImpl implements ContractService {
 	public List<Contract> getAllContracts(int type) throws BusinessException {
 		List<Contract> result = new ArrayList<>();
 		switch (type) {
-		case 0:
-			for (Contract c : contracts.values())
-				if (c.isSostistuteContract() == false)
-					result.add(c);
-			break;
-		case 1:
-			for (Contract c : contracts.values())
-				if (c.isSostistuteContract() == true)
-					result.add(c);
-			break;
+			case 0:
+				for (Contract c : contracts.values())
+					if (c.isSostistuteContract() == false)
+						result.add(c);
+				break;
+			case 1:
+				for (Contract c : contracts.values())
+					if (c.isSostistuteContract() == true)
+						result.add(c);
+				break;
 
-		case 2:
-			for (Contract c : contracts.values())
-				result.add(c);
-			break;
+			case 2:
+				for (Contract c : contracts.values())
+					result.add(c);
+				break;
 		}
 		return result;
 	}
@@ -47,22 +47,22 @@ public class RAMContractServiceImpl implements ContractService {
 	}
 
 	@Override
-	public List<Contract> getContractsByUser(int type,User user) throws BusinessException {
+	public List<Contract> getContractsByUser(int type, User user) throws BusinessException {
 		List<Contract> result = new ArrayList<>();
 		for (Contract c : contracts.values())
 			if (c.getCustomer().getId() == user.getId())
 				switch (type) {
-				case 0:
-					if (!c.isSostistuteContract())
+					case 0:
+						if (!c.isSostistuteContract())
+							result.add(c);
+						break;
+					case 1:
+						if (c.isSostistuteContract())
+							result.add(c);
+						break;
+					case 2:
 						result.add(c);
-					break;
-				case 1:
-					if (c.isSostistuteContract())
-						result.add(c);
-					break;
-				case 2:
-					result.add(c);
-					break;
+						break;
 				}
 
 		return result;
@@ -82,22 +82,22 @@ public class RAMContractServiceImpl implements ContractService {
 	}
 
 	@Override
-	public List<Contract> getContractsByVeicle(int type,Integer idVeicle) throws BusinessException {
+	public List<Contract> getContractsByVeicle(int type, Integer idVeicle) throws BusinessException {
 		List<Contract> result = new ArrayList<>();
 		for (Contract c : contracts.values())
 			if (c.getVeicle().getId() == idVeicle)
 				switch (type) {
-				case 0:
-					if (!c.isSostistuteContract())
+					case 0:
+						if (!c.isSostistuteContract())
+							result.add(c);
+						break;
+					case 1:
+						if (c.isSostistuteContract())
+							result.add(c);
+						break;
+					case 2:
 						result.add(c);
-					break;
-				case 1:
-					if (c.isSostistuteContract())
-						result.add(c);
-					break;
-				case 2:
-					result.add(c);
-					break;
+						break;
 				}
 		return result;
 	}
@@ -115,10 +115,10 @@ public class RAMContractServiceImpl implements ContractService {
 	@Override
 	public Contract getContractByDate(Veicle veicle, LocalDate date) throws BusinessException {
 		for (Contract c : contracts.values())
-			if (c.getVeicle().getId() == veicle.getId() && (date.isEqual(c.getStart()) || (date.isAfter(c.getStart()) && date.isBefore(c.getEnd().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT + 1)))))
+			if (c.getVeicle().getId() == veicle.getId() && (date.isEqual(c.getStart()) || (date.isAfter(c.getStart())
+					&& date.isBefore(c.getEnd().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT + 1)))))
 				return c;
 		return null;
 	}
 
 }
-

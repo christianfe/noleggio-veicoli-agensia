@@ -16,7 +16,7 @@ public class Contract {
 	private String returnDateTime = null;
 	private String deliverDateTime = null;
 	private boolean sostistuteContract;
-	
+
 	private Veicle veicle = null;
 	private Feedback feedback = null;
 	private AssistanceTicket assistance = null;
@@ -171,7 +171,5 @@ public class Contract {
 	public void setSostistuteContract(boolean sostistuteContract) {
 		this.sostistuteContract = sostistuteContract;
 	}
-	
-	
 
 }

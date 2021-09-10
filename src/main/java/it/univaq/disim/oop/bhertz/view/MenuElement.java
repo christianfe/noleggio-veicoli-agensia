@@ -1,7 +1,7 @@
 package it.univaq.disim.oop.bhertz.view;
 
 public class MenuElement {
-	
+
 	private String nome;
 	private String vista;
 

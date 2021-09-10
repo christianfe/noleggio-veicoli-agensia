@@ -14,7 +14,7 @@ import it.univaq.disim.oop.bhertz.domain.Contract;
 import it.univaq.disim.oop.bhertz.domain.Feedback;
 import it.univaq.disim.oop.bhertz.domain.Veicle;
 
-public class FileFeedbackServiceImpl implements FeedbackService  {
+public class FileFeedbackServiceImpl implements FeedbackService {
 
 	private int counter = 1;
 	private String filename;
@@ -38,7 +38,7 @@ public class FileFeedbackServiceImpl implements FeedbackService  {
 		Map<Integer, Feedback> feeds = this.readList();
 		feedback.setId(counter++);
 		feeds.put(feedback.getId(), feedback);
-		this.saveList(feeds);		
+		this.saveList(feeds);
 	}
 
 	@Override
@@ -73,16 +73,26 @@ public class FileFeedbackServiceImpl implements FeedbackService  {
 		return result;
 	}
 
+	/*
+	 * in ogni File....Service abbiamo implementato i metodi "save list" e
+	 * "readList" che hanno rispettivamente il compito di creare il file prendendo
+	 * in input la mappa e viceversa. Questi metodi verranno poi richiamati dagli
+	 * altri metodi della classe che devono leggere i dati e/o modificarli. Il
+	 * metodo "ReadList" restituisce una mappa, ciò ci ha permesso di riutilizzare
+	 * per gli altri metodi un codice molto simile a quello utilizzato
+	 * nell'implementazione su RAM
+	 */
+
 	private void saveList(Map<Integer, Feedback> feeds) throws BusinessException {
 		FileUtility fileUtility = new FileUtility();
 		List<String[]> list = new ArrayList<>();
 		for (Feedback f : feeds.values()) {
 			String[] s = new String[5];
-			s[0]= f.getId().toString();
-			s[1]= f.getDate().toString();
-			s[2]= f.getBody();
-			s[3]= f.getValutation() + "";
-			s[4]= f.getContract().getId().toString();
+			s[0] = f.getId().toString();
+			s[1] = f.getDate().toString();
+			s[2] = f.getBody();
+			s[3] = f.getValutation() + "";
+			s[4] = f.getContract().getId().toString();
 			list.add(s);
 		}
 		fileUtility.setAllByFile(this.filename, new FileData(this.counter, list));

@@ -44,22 +44,23 @@ public class RAMVeicleServiceImpl implements VeiclesService {
 		} catch (BusinessException e) {
 			ViewDispatcher.getInstance().renderError(e);
 		}
-		
 
 		Veicle panda = new Veicle(counter++, auto, "Fiat Panda", "GG999RT", 9545, 14.1, "GPL");
 		Veicle punto = new Veicle(counter++, auto, "Fiat Punto", "FA054KM", 54785, 13.1, "Diesel");
-		Veicle fiesta = new Veicle(counter++, auto, "Ford Fiesta", "ED125FR", 12244, 15.1, "GPL");;
+		Veicle fiesta = new Veicle(counter++, auto, "Ford Fiesta", "ED125FR", 12244, 15.1, "GPL");
+		;
 		fiesta.setPriceForDay(45);
-		Veicle malaguti = new Veicle(counter++, moto, "Runner", "RE12548", 1354, 11.8, "Benzina");;
+		Veicle malaguti = new Veicle(counter++, moto, "Runner", "RE12548", 1354, 11.8, "Benzina");
+		;
 		Veicle aprilia = new Veicle(counter++, moto, "Aprilia RS", "DX00486", 1245, 8.4, "Miscela");
 		aprilia.setPriceForDay(60);
 		aprilia.setPriceForKm(0.40);
 		Veicle jeep = new Veicle(counter++, auto, "JEEP Ranegade", "FF667FF", 1125, 10.5, "Ibrida");
 		jeep.setPriceForKm(0.25);
-		
+
 		Veicle yamaha = new Veicle(counter++, moto, "YAMAHA Xcity", "AD13257", 125, 12.5, "Benzina");
 		yamaha.setPriceForKm(29);
-		
+
 		veicles.put(panda.getId(), panda);
 		veicles.put(punto.getId(), punto);
 		veicles.put(fiesta.getId(), fiesta);
@@ -94,7 +95,8 @@ public class RAMVeicleServiceImpl implements VeiclesService {
 	}
 
 	@Override
-	public List<Veicle> getVeiclesByStateAndType(Type type, boolean free, boolean busy, boolean maintenance) throws BusinessException {
+	public List<Veicle> getVeiclesByStateAndType(Type type, boolean free, boolean busy, boolean maintenance)
+			throws BusinessException {
 		List<Veicle> result = new ArrayList<>();
 		if (free) {
 			List<Veicle> resultF = this.getVeiclesByState(VeicleState.FREE);
@@ -132,9 +134,9 @@ public class RAMVeicleServiceImpl implements VeiclesService {
 		FeedbackService feedbackService = BhertzBusinessFactory.getInstance().getFeedbackService();
 		MaintenanceService maintenanceService = BhertzBusinessFactory.getInstance().getMaintenanceService();
 
-		List <Contract> cc = contractService.getContractsByVeicle(2, id);
-		List <Feedback> ff = feedbackService.getFeedbackByVeicle(this.getVeicleByID(id));
-		List <AssistanceTicket> mm = maintenanceService.getTicketByVeicle(id);
+		List<Contract> cc = contractService.getContractsByVeicle(2, id);
+		List<Feedback> ff = feedbackService.getFeedbackByVeicle(this.getVeicleByID(id));
+		List<AssistanceTicket> mm = maintenanceService.getTicketByVeicle(id);
 
 		for (Feedback f : ff)
 			feedbackService.removeFeedback(f.getId());
@@ -147,7 +149,8 @@ public class RAMVeicleServiceImpl implements VeiclesService {
 	}
 
 	@Override
-	public void setVeicle(Integer id, String model, double km, double consuption, String fuel) throws BusinessException {
+	public void setVeicle(Integer id, String model, double km, double consuption, String fuel)
+			throws BusinessException {
 		Veicle v = veicles.get(id);
 		v.setModel(model);
 		v.setConsumption(consuption);
@@ -162,17 +165,20 @@ public class RAMVeicleServiceImpl implements VeiclesService {
 	}
 
 	@Override
-	public boolean isVeicleFree(LocalDate startDate, LocalDate endDate, List<Contract> contractOfVeicle) throws BusinessException {
+	public boolean isVeicleFree(LocalDate startDate, LocalDate endDate, List<Contract> contractOfVeicle)
+			throws BusinessException {
 
 		for (Contract c : contractOfVeicle) {
-			if (!(startDate.isAfter(c.getEnd().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT)) || endDate.plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT).isBefore(c.getStart())))
+			if (!(startDate.isAfter(c.getEnd().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT))
+					|| endDate.plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT).isBefore(c.getStart())))
 				return false;
 		}
 		return true;
 	}
-	
+
 	@Override
-	public void updatePrices(double oldPriceForDay, double oldPriceForKm, double newPriceForDay, double newPriceForKm) throws BusinessException {
+	public void updatePrices(double oldPriceForDay, double oldPriceForKm, double newPriceForDay, double newPriceForKm)
+			throws BusinessException {
 		for (Veicle v : veicles.values()) {
 			if (v.getPriceForDay() == oldPriceForDay)
 				v.setPriceForDay(newPriceForDay);
@@ -188,7 +194,8 @@ public class RAMVeicleServiceImpl implements VeiclesService {
 		if (contractOfVeicle.isEmpty())
 			return "veicolo disponibile per qualunque periodo";
 
-		Collections.sort(contractOfVeicle, new ContractOrderByDate());
+		Collections.sort(contractOfVeicle, new ContractOrderByDate()); // ordinamento gestito nella classe
+																		// ContractOrderByDaye che implementa Comparator
 		String body;
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 		if (LocalDate.now().isBefore(contractOfVeicle.get(0).getStart().minusDays(3)))
@@ -196,11 +203,22 @@ public class RAMVeicleServiceImpl implements VeiclesService {
 		else
 			body = "";
 		for (int i = 0; i < contractOfVeicle.size() - 1; i++)
-			if (!(contractOfVeicle.get(i).getEnd().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT).isEqual(contractOfVeicle.get(i + 1).getStart())))
-				body += "dal " + contractOfVeicle.get(i).getEnd().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT).format(formatter) + " al "
-						+ contractOfVeicle.get(i + 1).getStart().minusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT).format(formatter) + ", \n";
-		body += "dopo il " + contractOfVeicle.get(contractOfVeicle.size() - 1).getEnd().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT).format(formatter);
+			if (!(contractOfVeicle.get(i).getEnd().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT)
+					.isEqual(contractOfVeicle.get(i + 1).getStart())))
+				body += "dal "
+						+ contractOfVeicle.get(i).getEnd().plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT)
+								.format(formatter)
+						+ " al " + contractOfVeicle.get(i + 1).getStart()
+								.minusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT).format(formatter)
+						+ ", \n";
+		body += "dopo il " + contractOfVeicle.get(contractOfVeicle.size() - 1).getEnd()
+				.plusDays(ViewUtility.DAYS_VEICLE_BUSY_AFTER_RENT).format(formatter);
 		return body;
+		/*
+		 * Questo metodo genera una stringa che poi verrà stampata nel textfield nella
+		 * pagina di creazione di un nuovo contratto. questa stringa elenca i giorni
+		 * disponibili.
+		 */
 	}
 
 	@Override
@@ -218,8 +236,15 @@ public class RAMVeicleServiceImpl implements VeiclesService {
 				v.setState(VeicleState.BUSY);
 				c.setState(ContractState.ACTIVE);
 				contractService.setContract(c);
-			}
-			else v.setState(VeicleState.FREE);
+			} else
+				v.setState(VeicleState.FREE);
 		}
+
+		/*
+		 * per ogni veicolo fa controlli sui ticket di assistenza associati e sui
+		 * contratti, leggendone stato e data. modificano di conseguenza lo stato del
+		 * veicolo
+		 */
+
 	}
 }

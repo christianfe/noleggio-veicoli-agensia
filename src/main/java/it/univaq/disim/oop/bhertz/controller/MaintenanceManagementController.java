@@ -32,7 +32,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class MaintenanceManagementController extends ViewUtility
-implements Initializable, DataInitializable<ObjectsCollector<User, AssistanceTicket>> {
+		implements Initializable, DataInitializable<ObjectsCollector<User, AssistanceTicket>> {
 
 	@FXML
 	private TableView<Veicle> veicleTable;
@@ -111,10 +111,11 @@ implements Initializable, DataInitializable<ObjectsCollector<User, AssistanceTic
 		this.ticket = collector.getObjectB();
 		try {
 			List<Veicle> veicleList = null;
-			veicleList = this.veiclesService.getVeiclesByType(collector.getObjectB().getContract().getVeicle().getType());
+			veicleList = this.veiclesService
+					.getVeiclesByType(collector.getObjectB().getContract().getVeicle().getType());
 			List<Veicle> veicleListByAviability = new ArrayList<>();
 			for (Veicle v : veicleList) {
-				List<Contract> contractOfVeicle = contractService.getContractsByVeicle(0,v.getId());
+				List<Contract> contractOfVeicle = contractService.getContractsByVeicle(0, v.getId());
 				if (veiclesService.isVeicleFree(ticket.getStartDate(), ticket.getContract().getEnd(), contractOfVeicle))
 					veicleListByAviability.add(v);
 			}

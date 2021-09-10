@@ -6,26 +6,27 @@ public class FileData {
 
 	private long count;
 	private List<String[]> rows;
-	
+
 	public FileData() {
 	}
+
 	public FileData(long cont, List<String[]> rows) {
 		this.setCount(cont);
 		this.setRows(rows);
 	}
-	
+
 	public long getCount() {
 		return count;
 	}
-	
+
 	public void setCount(long count) {
 		this.count = count;
 	}
-	
+
 	public List<String[]> getRows() {
 		return rows;
 	}
-	
+
 	public void setRows(List<String[]> rows) {
 		this.rows = rows;
 	}

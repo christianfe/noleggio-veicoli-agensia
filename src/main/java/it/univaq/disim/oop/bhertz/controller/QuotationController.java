@@ -66,8 +66,6 @@ public class QuotationController extends ViewUtility
 		this.user = collector.getObjectA();
 		this.veicle = collector.getObjectB();
 		titleLabel.setText(titleLabel.getText() + " per: " + veicle.getModel());
-		// sliderPositionLabel.textProperty().bind(Bindings.format("%.2f",
-		// kmSlider.valueProperty()));
 
 	}
 
@@ -120,8 +118,7 @@ public class QuotationController extends ViewUtility
 	@FXML
 	public void checkDateEnd(ActionEvent e) {
 		try {
-			// if (dateEndField.getValue().isBefore(dateStartField.getValue()))
-			// dateEndField.setValue(dateStartField.getValue());
+
 			dateStartField.setDayCellFactory(d -> new DateCell() {
 				@Override
 				public void updateItem(LocalDate item, boolean empty) {

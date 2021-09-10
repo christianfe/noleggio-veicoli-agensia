@@ -15,7 +15,7 @@ public class AssistanceTicket {
 
 	private Contract substituteContract = null;
 	private Contract contract;
-	
+
 	public Contract getSubstituteContract() {
 		return substituteContract;
 	}

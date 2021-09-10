@@ -30,9 +30,9 @@ public class Veicle {
 		this.setPriceForDay(type.getPriceForDay());
 
 	}
-	
+
 	@Override
-    public String toString() {
+	public String toString() {
 		return this.getModel() + " - " + this.getPlate();
 	}
 
@@ -65,7 +65,7 @@ public class Veicle {
 	}
 
 	public void setState(VeicleState state) {
-		this.state = state;	
+		this.state = state;
 	}
 
 	public double getKm() {
@@ -115,5 +115,5 @@ public class Veicle {
 	public void setPriceForDay(double priceForDay) {
 		this.priceForDay = priceForDay;
 	}
-	
+
 }

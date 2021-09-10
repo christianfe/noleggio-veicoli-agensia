@@ -51,15 +51,25 @@ public class FileNotificationServiceImpl implements NotificationsService {
 		this.saveList(notifications);
 	}
 
+	/*
+	 * in ogni File....Service abbiamo implementato i metodi "save list" e
+	 * "readList" che hanno rispettivamente il compito di creare il file prendendo
+	 * in input la mappa e viceversa. Questi metodi verranno poi richiamati dagli
+	 * altri metodi della classe che devono leggere i dati e/o modificarli. Il
+	 * metodo "ReadList" restituisce una mappa, ciò ci ha permesso di riutilizzare
+	 * per gli altri metodi un codice molto simile a quello utilizzato
+	 * nell'implementazione su RAM
+	 */
+
 	private void saveList(Map<Integer, Notification> notifications) throws BusinessException {
 		FileUtility fileUtility = new FileUtility();
 		List<String[]> list = new ArrayList<>();
 		for (Notification n : notifications.values()) {
 			String[] s = new String[4];
-			s[0]= n.getId().toString();
-			s[1]= n.getTitle();
-			s[2]= n.getText();
-			s[3]= n.getCustomer().getId().toString();
+			s[0] = n.getId().toString();
+			s[1] = n.getTitle();
+			s[2] = n.getText();
+			s[3] = n.getCustomer().getId().toString();
 			list.add(s);
 		}
 		fileUtility.setAllByFile(this.filename, new FileData(this.counter, list));

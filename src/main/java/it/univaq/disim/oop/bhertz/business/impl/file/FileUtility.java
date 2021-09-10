@@ -46,7 +46,7 @@ public class FileUtility {
 		return fileData;
 	}
 
-	public void setAllByFile (String fileName, FileData fileData) throws BusinessException{
+	public void setAllByFile(String fileName, FileData fileData) throws BusinessException {
 
 		try {
 			try (PrintWriter writer = new PrintWriter(new File(fileName))) {
@@ -58,9 +58,7 @@ public class FileUtility {
 			ViewDispatcher.getInstance().renderError(e);
 			throw new BusinessException(e);
 		}
-		
-		
-	}
 
+	}
 
 }

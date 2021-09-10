@@ -84,7 +84,9 @@ public class FileMaintenanceServiceImpl implements MaintenanceService {
 		Map<Integer, AssistanceTicket> tickets = this.readList();
 		for (AssistanceTicket t : tickets.values()) {
 			try {
-				if (veicle.getId() == t.getContract().getVeicle().getId() && (date.isEqual(t.getStartDate()) || date.isEqual(t.getEndDate()) || (date.isAfter(t.getStartDate()) && date.isBefore(t.getEndDate()))))
+				if (veicle.getId() == t.getContract().getVeicle().getId()
+						&& (date.isEqual(t.getStartDate()) || date.isEqual(t.getEndDate())
+								|| (date.isAfter(t.getStartDate()) && date.isBefore(t.getEndDate()))))
 					return t;
 			} catch (NullPointerException e) {
 				continue;
@@ -93,7 +95,17 @@ public class FileMaintenanceServiceImpl implements MaintenanceService {
 		return null;
 	}
 
-	private void saveList(Map<Integer, AssistanceTicket> tickets ) throws BusinessException {
+	/*
+	 * in ogni File....Service abbiamo implementato i metodi "save list" e
+	 * "readList" che hanno rispettivamente il compito di creare il file prendendo
+	 * in input la mappa e viceversa. Questi metodi verranno poi richiamati dagli
+	 * altri metodi della classe che devono leggere i dati e/o modificarli. Il
+	 * metodo "ReadList" restituisce una mappa, ciò ci ha permesso di riutilizzare
+	 * per gli altri metodi un codice molto simile a quello utilizzato
+	 * nell'implementazione su RAM
+	 */
+
+	private void saveList(Map<Integer, AssistanceTicket> tickets) throws BusinessException {
 		FileUtility f = new FileUtility();
 		List<String[]> list = new ArrayList<>();
 		for (AssistanceTicket a : tickets.values()) {
@@ -101,8 +113,10 @@ public class FileMaintenanceServiceImpl implements MaintenanceService {
 			s[0] = a.getId().toString();
 			s[1] = a.getState() + "";
 			s[2] = a.getDescription();
-			if (a.getStartDate() != null) s[3] = a.getStartDate().toString();
-			if (a.getEndDate() != null) s[4] = a.getEndDate().toString();
+			if (a.getStartDate() != null)
+				s[3] = a.getStartDate().toString();
+			if (a.getEndDate() != null)
+				s[4] = a.getEndDate().toString();
 			s[5] = a.getTimeStart();
 			s[6] = a.getTimeEnd();
 			s[7] = a.getVeicleKm() + "";
@@ -122,27 +136,32 @@ public class FileMaintenanceServiceImpl implements MaintenanceService {
 			AssistanceTicket ticket = new AssistanceTicket();
 			ticket.setId(Integer.parseInt(row[0]));
 			switch (row[1]) {
-			case "REQUIRED":
-				ticket.setState(TicketState.REQUIRED);
-				break;
-			case "WORKING":
-				ticket.setState(TicketState.WORKING);
-				break;
-			case "READY":
-				ticket.setState(TicketState.READY);
-				break;
-			case "ENDED":
-				ticket.setState(TicketState.ENDED);
-				break;
+				case "REQUIRED":
+					ticket.setState(TicketState.REQUIRED);
+					break;
+				case "WORKING":
+					ticket.setState(TicketState.WORKING);
+					break;
+				case "READY":
+					ticket.setState(TicketState.READY);
+					break;
+				case "ENDED":
+					ticket.setState(TicketState.ENDED);
+					break;
 			}
 			ticket.setDescription(row[2]);
-			if(!row[3].equals("null")) ticket.setStartDate(LocalDate.parse(row[3]));
-			if(!row[4].equals("null")) ticket.setEndDate(LocalDate.parse(row[4]));
-			if(!row[5].equals("null")) ticket.setTimeStart(row[5]);
-			if(!row[6].equals("null")) ticket.setTimeEnd(row[6]);
+			if (!row[3].equals("null"))
+				ticket.setStartDate(LocalDate.parse(row[3]));
+			if (!row[4].equals("null"))
+				ticket.setEndDate(LocalDate.parse(row[4]));
+			if (!row[5].equals("null"))
+				ticket.setTimeStart(row[5]);
+			if (!row[6].equals("null"))
+				ticket.setTimeEnd(row[6]);
 			ticket.setVeicleKm(Double.parseDouble(row[7]));
 			ticket.setContract(contractService.getContractByID(Integer.parseInt(row[8])));
-			ticket.setSubstituteContract(row[9].equals("0") ? null : contractService.getContractByID(Integer.parseInt(row[9])));
+			ticket.setSubstituteContract(
+					row[9].equals("0") ? null : contractService.getContractByID(Integer.parseInt(row[9])));
 			this.counter = (int) fileData.getCount();
 			tickets.put(ticket.getId(), ticket);
 		}

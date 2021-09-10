@@ -40,13 +40,11 @@ public class LayoutController extends ViewUtility implements Initializable, Data
 	public void initializeData(User user) {
 		userService = BhertzBusinessFactory.getInstance().getUserService();
 		this.user = user;
-		// menuBar.getChildren().add(new Separator());
+
 		for (MenuElement menu : MENU_HOME)
 			menuBar.getChildren().add(createButton(menu));
 		if (user instanceof Admin)
 			menuBar.getChildren().addAll(createButton(MENU_ADMIN));
-
-
 
 	}
 
@@ -63,7 +61,8 @@ public class LayoutController extends ViewUtility implements Initializable, Data
 			try {
 				if (button.getText().equals(MENU_HOME[4].getNome()))
 
-					dispatcher.renderView(viewItem.getVista(), new ObjectsCollector<User, User>(userService.getUsersByID(user.getId()), userService.getUsersByID(user.getId())));
+					dispatcher.renderView(viewItem.getVista(), new ObjectsCollector<User, User>(
+							userService.getUsersByID(user.getId()), userService.getUsersByID(user.getId())));
 				else
 					dispatcher.renderView(viewItem.getVista(), userService.getUsersByID(user.getId()));
 			} catch (BusinessException e) {

@@ -29,22 +29,22 @@ public class FileTypesServiceImpl implements TypesService {
 	}
 
 	@Override
-	public Type getTypeByID(int id) throws BusinessException{
+	public Type getTypeByID(int id) throws BusinessException {
 		Map<Integer, Type> types = this.readList();
 		return types.get(id);
 	}
 
 	@Override
-	public void deleteType(Integer id) throws BusinessException, TypeNotEmptyException{
+	public void deleteType(Integer id) throws BusinessException, TypeNotEmptyException {
 		Map<Integer, Type> types = this.readList();
 		VeiclesService veiclesService = BhertzBusinessFactory.getInstance().getVeiclesService();
 		Type t = types.get(id);
-		if (!veiclesService.getVeiclesByType(t).isEmpty()) throw new TypeNotEmptyException();
-		else 
+		if (!veiclesService.getVeiclesByType(t).isEmpty())
+			throw new TypeNotEmptyException();
+		else
 			types.remove(id);
 		saveList(types);
 	}
-
 
 	@Override
 	public void addType(Type type) throws BusinessException {
@@ -58,8 +58,10 @@ public class FileTypesServiceImpl implements TypesService {
 	public void setType(Integer id, String name, double priceForKm, double priceForDay) throws BusinessException {
 		Map<Integer, Type> types = this.readList();
 		Type t = types.get(id);
-		
-		if (t.getPriceForDay() != priceForDay || t.getPriceForKm() != priceForKm);{
+
+		if (t.getPriceForDay() != priceForDay || t.getPriceForKm() != priceForKm)
+			;
+		{
 			VeiclesService veiclesService = BhertzBusinessFactory.getInstance().getVeiclesService();
 			veiclesService.updatePrices(t.getPriceForDay(), t.getPriceForKm(), priceForDay, priceForKm);
 		}
@@ -70,7 +72,17 @@ public class FileTypesServiceImpl implements TypesService {
 		saveList(types);
 	}
 
-	private void saveList(Map<Integer, Type> types ) throws BusinessException {
+	/*
+	 * in ogni File....Service abbiamo implementato i metodi "save list" e
+	 * "readList" che hanno rispettivamente il compito di creare il file prendendo
+	 * in input la mappa e viceversa. Questi metodi verranno poi richiamati dagli
+	 * altri metodi della classe che devono leggere i dati e/o modificarli. Il
+	 * metodo "ReadList" restituisce una mappa, ciò ci ha permesso di riutilizzare
+	 * per gli altri metodi un codice molto simile a quello utilizzato
+	 * nell'implementazione su RAM
+	 */
+
+	private void saveList(Map<Integer, Type> types) throws BusinessException {
 		FileUtility f = new FileUtility();
 		List<String[]> list = new ArrayList<>();
 		for (Type t : types.values()) {

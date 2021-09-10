@@ -110,6 +110,16 @@ public class FileUserServiceImpl implements UserService {
 		return false;
 	}
 
+	/*
+	 * in ogni File....Service abbiamo implementato i metodi "save list" e
+	 * "readList" che hanno rispettivamente il compito di creare il file prendendo
+	 * in input la mappa e viceversa. Questi metodi verranno poi richiamati dagli
+	 * altri metodi della classe che devono leggere i dati e/o modificarli. Il
+	 * metodo "ReadList" restituisce una mappa, ciò ci ha permesso di riutilizzare
+	 * per gli altri metodi un codice molto simile a quello utilizzato
+	 * nell'implementazione su RAM
+	 */
+
 	private void saveList(Map<Integer, User> users) throws BusinessException {
 		FileUtility f = new FileUtility();
 		List<String[]> list = new ArrayList<>();
@@ -132,15 +142,15 @@ public class FileUserServiceImpl implements UserService {
 		for (String[] row : fileData.getRows()) {
 			User user = null;
 			switch (row[1]) {
-			case "0":
-				user = new Admin();
-				break;
-			case "1":
-				user = new Staff();
-				break;
-			case "2":
-				user = new Customer();
-				break;
+				case "0":
+					user = new Admin();
+					break;
+				case "1":
+					user = new Staff();
+					break;
+				case "2":
+					user = new Customer();
+					break;
 			}
 			if (user != null) {
 				user.setId(Integer.parseInt(row[0]));

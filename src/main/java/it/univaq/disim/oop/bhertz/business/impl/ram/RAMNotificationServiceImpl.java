@@ -13,7 +13,7 @@ public class RAMNotificationServiceImpl implements NotificationsService {
 
 	private Map<Integer, Notification> notifications = new HashMap<>();
 	private int counter = 1;
-	
+
 	@Override
 	public List<Notification> getAllNotifications() throws BusinessException {
 		return new ArrayList<>(notifications.values());

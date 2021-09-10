@@ -17,7 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class TypeEditController extends ViewUtility
-implements Initializable, DataInitializable<ObjectsCollector<User, Type>> {
+		implements Initializable, DataInitializable<ObjectsCollector<User, Type>> {
 
 	@FXML
 	private Label labelTitle;
@@ -47,7 +47,7 @@ implements Initializable, DataInitializable<ObjectsCollector<User, Type>> {
 		saveButton.disableProperty().bind(nameField.textProperty().isEmpty()
 				.or(priceForDayField.textProperty().isEmpty().or(priceForKmField.textProperty().isEmpty())));
 		super.addForbiddenCharCheck(nameField, priceForDayField, priceForKmField);
-		
+
 	}
 
 	@Override

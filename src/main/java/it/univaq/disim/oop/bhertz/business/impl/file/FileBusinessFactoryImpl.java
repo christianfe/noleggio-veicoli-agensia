@@ -19,7 +19,7 @@ public class FileBusinessFactoryImpl extends BhertzBusinessFactory {
 	private MaintenanceService maintenanceService;
 	private FeedbackService feedbackService;
 	private NotificationsService notificationService;
-	
+
 	private static final String REPOSITORY_BASE = "src" + File.separator + "main" + File.separator + "resources"
 			+ File.separator + "data";
 	private static final String USER_FILE_NAME = REPOSITORY_BASE + File.separator + "Users.txt";
@@ -29,7 +29,7 @@ public class FileBusinessFactoryImpl extends BhertzBusinessFactory {
 	private static final String MAINTENANCE_FILE_NAME = REPOSITORY_BASE + File.separator + "Tickets.txt";
 	private static final String CONTRACTS_FILE_NAME = REPOSITORY_BASE + File.separator + "Contracts.txt";
 	private static final String FEEDBACK_FILE_NAME = REPOSITORY_BASE + File.separator + "Feedbacks.txt";
-	
+
 	public FileBusinessFactoryImpl() {
 		this.userService = new FileUserServiceImpl(USER_FILE_NAME);
 		this.typeService = new FileTypesServiceImpl(TYPES_FILE_NAME);
@@ -39,7 +39,7 @@ public class FileBusinessFactoryImpl extends BhertzBusinessFactory {
 		this.maintenanceService = new FileMaintenanceServiceImpl(MAINTENANCE_FILE_NAME);
 		this.feedbackService = new FileFeedbackServiceImpl(FEEDBACK_FILE_NAME);
 	}
-	
+
 	@Override
 	public ContractService getContractService() {
 		return contractService;

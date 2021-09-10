@@ -19,7 +19,8 @@ public class ViewDispatcher {
 	private Stage stage;
 	private BorderPane layout;
 
-	private ViewDispatcher() {}
+	private ViewDispatcher() {
+	}
 
 	public static ViewDispatcher getInstance() {
 		return instance;
@@ -43,7 +44,6 @@ public class ViewDispatcher {
 		}
 	}
 
-
 	public <T> void renderView(String viewName, T data) {
 		try {
 			View<T> view = loadView(viewName);
@@ -60,7 +60,7 @@ public class ViewDispatcher {
 		e.printStackTrace();
 		System.exit(1);
 	}
-	
+
 	private <T> View<T> loadView(String viewName) throws ViewException {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(RESOURCE_BASE + viewName + FXML_SUFFIX));

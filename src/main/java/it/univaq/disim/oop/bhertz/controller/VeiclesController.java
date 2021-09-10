@@ -62,7 +62,6 @@ public class VeiclesController extends ViewUtility
 	private CheckBox veicleBusyCheckBox;
 	@FXML
 	private CheckBox veicleManteinanceCheckBox;
-	
 
 	private ViewDispatcher dispatcher;
 	private VeiclesService veiclesService;
@@ -72,13 +71,13 @@ public class VeiclesController extends ViewUtility
 	public VeiclesController() {
 		dispatcher = ViewDispatcher.getInstance();
 		veiclesService = BhertzBusinessFactory.getInstance().getVeiclesService();
-		
+
 		try {
 			veiclesService.refreshAllStates();
 		} catch (BusinessException e) {
 			dispatcher.renderError(e);
 		}
-		
+
 	}
 
 	@Override
@@ -103,15 +102,15 @@ public class VeiclesController extends ViewUtility
 		stateColumn.setCellValueFactory((CellDataFeatures<Veicle, String> param) -> {
 			String s = "";
 			switch (param.getValue().getState()) {
-			case FREE:
-				s = "Libero";
-				break;
-			case BUSY:
-				s = "Occupato";
-				break;
-			case MAINTENANCE:
-				s = "In Manutenzione";
-				break;
+				case FREE:
+					s = "Libero";
+					break;
+				case BUSY:
+					s = "Occupato";
+					break;
+				case MAINTENANCE:
+					s = "In Manutenzione";
+					break;
 			}
 			return new SimpleStringProperty(s);
 		});
@@ -172,18 +171,8 @@ public class VeiclesController extends ViewUtility
 			});
 
 			menuEdit.setOnAction((ActionEvent event) -> {
-<<<<<<< Updated upstream
-				if (param.getValue().getState() != VeicleState.FREE)
-					JOptionPane.showMessageDialog(null, "E' possibile modificare solo veicoli Liberi", "Errore",
-							JOptionPane.ERROR_MESSAGE);
-				else
-=======
-				//if (param.getValue().getState() != VeicleState.FREE)
-					//JOptionPane.showMessageDialog(null, "E' possibile eliminare solo veicoli Liberi", "Errore",JOptionPane.ERROR_MESSAGE);
-				//else
->>>>>>> Stashed changes
-					dispatcher.renderView("veicleEdit", new BigObjectsCollector<User, Veicle, Type>(
-							objectsCollector.getObjectA(), param.getValue(), objectsCollector.getObjectB()));
+				dispatcher.renderView("veicleEdit", new BigObjectsCollector<User, Veicle, Type>(
+						objectsCollector.getObjectA(), param.getValue(), objectsCollector.getObjectB()));
 			});
 
 			menuQuotation.setOnAction((ActionEvent event) -> {
@@ -231,12 +220,14 @@ public class VeiclesController extends ViewUtility
 		dispatcher.renderView("veicleEdit", new BigObjectsCollector<User, Veicle, Type>(objectsCollector.getObjectA(),
 				null, objectsCollector.getObjectB()));
 	}
-	
+
 	@FXML
 	public void veicleFilterAction(ActionEvent e) {
 		List<Veicle> veicleList = null;
 		try {
-			veicleList = this.veiclesService.getVeiclesByStateAndType(objectsCollector.getObjectB(), veicleFreeCheckBox.isSelected(), veicleBusyCheckBox.isSelected(), veicleManteinanceCheckBox.isSelected());
+			veicleList = this.veiclesService.getVeiclesByStateAndType(objectsCollector.getObjectB(),
+					veicleFreeCheckBox.isSelected(), veicleBusyCheckBox.isSelected(),
+					veicleManteinanceCheckBox.isSelected());
 		} catch (BusinessException e1) {
 			dispatcher.renderError(e1);
 		}

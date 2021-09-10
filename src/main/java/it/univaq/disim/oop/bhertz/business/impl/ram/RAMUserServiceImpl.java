@@ -21,14 +21,14 @@ import it.univaq.disim.oop.bhertz.domain.User;
 public class RAMUserServiceImpl implements UserService {
 
 	private Map<Integer, User> users = new HashMap<>();
-	private int counter = 1; 
+	private int counter = 1;
 
 	public RAMUserServiceImpl() {
-		User admin = new Admin(counter++,"Administrator", "admin", "admin");
+		User admin = new Admin(counter++, "Administrator", "admin", "admin");
 		users.put(admin.getId(), admin);
-		User staff = new Staff(counter++,"Operatore", "staff", "staff");
+		User staff = new Staff(counter++, "Operatore", "staff", "staff");
 		users.put(staff.getId(), staff);
-		User mrossi = new Staff(counter++,"Rossi Mario", "mrossi", "mrossi");
+		User mrossi = new Staff(counter++, "Rossi Mario", "mrossi", "mrossi");
 		users.put(mrossi.getId(), mrossi);
 		User user = new Customer(counter++, "Cliente", "user", "user");
 		users.put(user.getId(), user);
@@ -41,7 +41,7 @@ public class RAMUserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User authenticate(String username, String password) throws UserNotFoundException, BusinessException{
+	public User authenticate(String username, String password) throws UserNotFoundException, BusinessException {
 		for (User u : users.values())
 			if (u.getUsername().equalsIgnoreCase(username) && u.getPassword().equalsIgnoreCase(password))
 				return u;
@@ -63,7 +63,7 @@ public class RAMUserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void setUser(Integer id, String name, String username, String password) throws BusinessException{
+	public void setUser(Integer id, String name, String username, String password) throws BusinessException {
 		User u = this.getUsersByID(id);
 		u.setName(name);
 		u.setUsername(username);
@@ -72,13 +72,13 @@ public class RAMUserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void addUser(User user) throws BusinessException{
+	public void addUser(User user) throws BusinessException {
 		user.setId(counter++);
 		this.users.put(user.getId(), user);
 	}
 
 	@Override
-	public boolean isUsernameSet(String username) throws BusinessException{
+	public boolean isUsernameSet(String username) throws BusinessException {
 		for (User u : users.values())
 			if (u.getUsername().equals(username))
 				return true;
@@ -90,8 +90,8 @@ public class RAMUserServiceImpl implements UserService {
 		ContractService contractService = BhertzBusinessFactory.getInstance().getContractService();
 		UserService userService = BhertzBusinessFactory.getInstance().getUserService();
 		FeedbackService feedbackService = BhertzBusinessFactory.getInstance().getFeedbackService();
-		List <Contract> cc = contractService.getContractsByUser(2, userService.getUsersByID(id));
-		List <Feedback> ff = feedbackService.getFeedbackByUser(id);
+		List<Contract> cc = contractService.getContractsByUser(2, userService.getUsersByID(id));
+		List<Feedback> ff = feedbackService.getFeedbackByUser(id);
 		for (Feedback f : ff)
 			feedbackService.removeFeedback(f.getId());
 		for (Contract c : cc)
@@ -102,8 +102,10 @@ public class RAMUserServiceImpl implements UserService {
 	@Override
 	public boolean isUsernameSet(Integer currentUserId, String username) throws BusinessException {
 		for (User u : users.values()) {
-			if (u.getId() == currentUserId) continue;
-			if (u.getUsername().equals(username)) return true;
+			if (u.getId() == currentUserId)
+				continue;
+			if (u.getUsername().equals(username))
+				return true;
 		}
 		return false;
 	}
