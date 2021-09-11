@@ -16,6 +16,5 @@
   <ol>
     <li>Erasmo Alessio</li>
     <li>Felicione Christian</li>
-    <li><s>Iannetti Sascia</s><u>(Cambio Università)</u></li>
   </ol>
 </div>
