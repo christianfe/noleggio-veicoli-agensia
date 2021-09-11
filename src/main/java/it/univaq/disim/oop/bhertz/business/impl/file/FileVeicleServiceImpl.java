@@ -189,9 +189,8 @@ public class FileVeicleServiceImpl implements VeiclesService {
 				v.setState(VeicleState.BUSY);
 				c.setState(ContractState.ACTIVE);
 				contractService.setContract(c);
-			} else {
+			} else
 				v.setState(VeicleState.FREE);
-			}
 		}
 		this.saveList(veicles);
 	}

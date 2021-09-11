@@ -232,7 +232,7 @@ public class RAMVeicleServiceImpl implements VeiclesService {
 				v.setState(VeicleState.MAINTENANCE);
 				c.setState(ContractState.MAINTENANCE);
 				contractService.setContract(c);
-			} else if (c != null) {
+			} else if (c != null && c.getState() != ContractState.ENDED && c.getState() != ContractState.BOOKED) {
 				v.setState(VeicleState.BUSY);
 				c.setState(ContractState.ACTIVE);
 				contractService.setContract(c);
