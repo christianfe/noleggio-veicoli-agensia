@@ -14,7 +14,7 @@
   <h1>AGENSIA</h1>
   <h2>Noleggio Veicoli</h2>
   <ol>
-    <li>Erasmo Alessio</li>
-    <li>Felicione Christian</li>
+    <li><b>Erasmo</b> Alessio</li>
+    <li><b>Felicione</b> Christian</li>
   </ol>
 </div>
